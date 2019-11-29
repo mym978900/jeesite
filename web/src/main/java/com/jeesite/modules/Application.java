@@ -14,6 +14,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * @version 2018-10-13
  */
 @SpringBootApplication
+@ServletComponentScan
 public class Application extends SpringBootServletInitializer {
 	
 	public static void main(String[] args) {
