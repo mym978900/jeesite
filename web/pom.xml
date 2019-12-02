@@ -69,6 +69,13 @@
 			<scope>provided</scope>
 		</dependency>
 		
+		<!-- sms阿里云-->
+		<dependency>
+			<groupId>com.aliyun</groupId>
+			<artifactId>aliyun-java-sdk-core</artifactId>
+			<version>3.7.1</version>
+		</dependency>
+		
 		<!-- 自定义jar依赖包演示
 		<dependency>
 			<groupId>com.jeesite</groupId>

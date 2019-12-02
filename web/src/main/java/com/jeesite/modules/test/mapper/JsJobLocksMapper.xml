@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsJobLocksMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsJobLocksKey" >
+    <id column="SCHED_NAME" property="schedName" jdbcType="VARCHAR" />
+    <id column="LOCK_NAME" property="lockName" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsJobLocksKey" >
+    delete from js_job_LOCKS
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and LOCK_NAME = #{lockName,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsJobLocksKey" >
+    insert into js_job_LOCKS (SCHED_NAME, LOCK_NAME)
+    values (#{schedName,jdbcType=VARCHAR}, #{lockName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsJobLocksKey" >
+    insert into js_job_LOCKS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="schedName != null" >
+        SCHED_NAME,
+      </if>
+      <if test="lockName != null" >
+        LOCK_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="schedName != null" >
+        #{schedName,jdbcType=VARCHAR},
+      </if>
+      <if test="lockName != null" >
+        #{lockName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

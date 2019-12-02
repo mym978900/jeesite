@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsSysEmployeePostMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysEmployeePostKey" >
+    <id column="emp_code" property="empCode" jdbcType="VARCHAR" />
+    <id column="post_code" property="postCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysEmployeePostKey" >
+    delete from js_sys_employee_post
+    where emp_code = #{empCode,jdbcType=VARCHAR}
+      and post_code = #{postCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysEmployeePostKey" >
+    insert into js_sys_employee_post (emp_code, post_code)
+    values (#{empCode,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysEmployeePostKey" >
+    insert into js_sys_employee_post
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="empCode != null" >
+        emp_code,
+      </if>
+      <if test="postCode != null" >
+        post_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="empCode != null" >
+        #{empCode,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null" >
+        #{postCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

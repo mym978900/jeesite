@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsSysUserDataScopeMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysUserDataScopeKey" >
+    <id column="user_code" property="userCode" jdbcType="VARCHAR" />
+    <id column="ctrl_type" property="ctrlType" jdbcType="VARCHAR" />
+    <id column="ctrl_data" property="ctrlData" jdbcType="VARCHAR" />
+    <id column="ctrl_permi" property="ctrlPermi" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysUserDataScopeKey" >
+    delete from js_sys_user_data_scope
+    where user_code = #{userCode,jdbcType=VARCHAR}
+      and ctrl_type = #{ctrlType,jdbcType=VARCHAR}
+      and ctrl_data = #{ctrlData,jdbcType=VARCHAR}
+      and ctrl_permi = #{ctrlPermi,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysUserDataScopeKey" >
+    insert into js_sys_user_data_scope (user_code, ctrl_type, ctrl_data, 
+      ctrl_permi)
+    values (#{userCode,jdbcType=VARCHAR}, #{ctrlType,jdbcType=VARCHAR}, #{ctrlData,jdbcType=VARCHAR}, 
+      #{ctrlPermi,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysUserDataScopeKey" >
+    insert into js_sys_user_data_scope
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userCode != null" >
+        user_code,
+      </if>
+      <if test="ctrlType != null" >
+        ctrl_type,
+      </if>
+      <if test="ctrlData != null" >
+        ctrl_data,
+      </if>
+      <if test="ctrlPermi != null" >
+        ctrl_permi,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userCode != null" >
+        #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ctrlType != null" >
+        #{ctrlType,jdbcType=VARCHAR},
+      </if>
+      <if test="ctrlData != null" >
+        #{ctrlData,jdbcType=VARCHAR},
+      </if>
+      <if test="ctrlPermi != null" >
+        #{ctrlPermi,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsSysJobLogMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysJobLog" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="job_name" property="jobName" jdbcType="VARCHAR" />
+    <result column="job_group" property="jobGroup" jdbcType="VARCHAR" />
+    <result column="job_type" property="jobType" jdbcType="VARCHAR" />
+    <result column="job_event" property="jobEvent" jdbcType="VARCHAR" />
+    <result column="job_message" property="jobMessage" jdbcType="VARCHAR" />
+    <result column="is_exception" property="isException" jdbcType="CHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.jeesite.modules.test.entity.JsSysJobLog" extends="BaseResultMap" >
+    <result column="exception_info" property="exceptionInfo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, job_name, job_group, job_type, job_event, job_message, is_exception, create_date
+  </sql>
+  <sql id="Blob_Column_List" >
+    exception_info
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from js_sys_job_log
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from js_sys_job_log
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysJobLog" >
+    insert into js_sys_job_log (id, job_name, job_group, 
+      job_type, job_event, job_message, 
+      is_exception, create_date, exception_info
+      )
+    values (#{id,jdbcType=VARCHAR}, #{jobName,jdbcType=VARCHAR}, #{jobGroup,jdbcType=VARCHAR}, 
+      #{jobType,jdbcType=VARCHAR}, #{jobEvent,jdbcType=VARCHAR}, #{jobMessage,jdbcType=VARCHAR}, 
+      #{isException,jdbcType=CHAR}, #{createDate,jdbcType=TIMESTAMP}, #{exceptionInfo,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysJobLog" >
+    insert into js_sys_job_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="jobName != null" >
+        job_name,
+      </if>
+      <if test="jobGroup != null" >
+        job_group,
+      </if>
+      <if test="jobType != null" >
+        job_type,
+      </if>
+      <if test="jobEvent != null" >
+        job_event,
+      </if>
+      <if test="jobMessage != null" >
+        job_message,
+      </if>
+      <if test="isException != null" >
+        is_exception,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="exceptionInfo != null" >
+        exception_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="jobName != null" >
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobGroup != null" >
+        #{jobGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="jobType != null" >
+        #{jobType,jdbcType=VARCHAR},
+      </if>
+      <if test="jobEvent != null" >
+        #{jobEvent,jdbcType=VARCHAR},
+      </if>
+      <if test="jobMessage != null" >
+        #{jobMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="isException != null" >
+        #{isException,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exceptionInfo != null" >
+        #{exceptionInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.test.entity.JsSysJobLog" >
+    update js_sys_job_log
+    <set >
+      <if test="jobName != null" >
+        job_name = #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobGroup != null" >
+        job_group = #{jobGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="jobType != null" >
+        job_type = #{jobType,jdbcType=VARCHAR},
+      </if>
+      <if test="jobEvent != null" >
+        job_event = #{jobEvent,jdbcType=VARCHAR},
+      </if>
+      <if test="jobMessage != null" >
+        job_message = #{jobMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="isException != null" >
+        is_exception = #{isException,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exceptionInfo != null" >
+        exception_info = #{exceptionInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jeesite.modules.test.entity.JsSysJobLog" >
+    update js_sys_job_log
+    set job_name = #{jobName,jdbcType=VARCHAR},
+      job_group = #{jobGroup,jdbcType=VARCHAR},
+      job_type = #{jobType,jdbcType=VARCHAR},
+      job_event = #{jobEvent,jdbcType=VARCHAR},
+      job_message = #{jobMessage,jdbcType=VARCHAR},
+      is_exception = #{isException,jdbcType=CHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      exception_info = #{exceptionInfo,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysJobLog" >
+    update js_sys_job_log
+    set job_name = #{jobName,jdbcType=VARCHAR},
+      job_group = #{jobGroup,jdbcType=VARCHAR},
+      job_type = #{jobType,jdbcType=VARCHAR},
+      job_event = #{jobEvent,jdbcType=VARCHAR},
+      job_message = #{jobMessage,jdbcType=VARCHAR},
+      is_exception = #{isException,jdbcType=CHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

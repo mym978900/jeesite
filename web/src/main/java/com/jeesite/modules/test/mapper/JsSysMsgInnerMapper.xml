@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsSysMsgInnerMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysMsgInner" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="msg_title" property="msgTitle" jdbcType="VARCHAR" />
+    <result column="content_level" property="contentLevel" jdbcType="CHAR" />
+    <result column="content_type" property="contentType" jdbcType="CHAR" />
+    <result column="receive_type" property="receiveType" jdbcType="CHAR" />
+    <result column="send_user_code" property="sendUserCode" jdbcType="VARCHAR" />
+    <result column="send_user_name" property="sendUserName" jdbcType="VARCHAR" />
+    <result column="send_date" property="sendDate" jdbcType="TIMESTAMP" />
+    <result column="is_attac" property="isAttac" jdbcType="CHAR" />
+    <result column="notify_types" property="notifyTypes" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.jeesite.modules.test.entity.JsSysMsgInnerWithBLOBs" extends="BaseResultMap" >
+    <result column="msg_content" property="msgContent" jdbcType="LONGVARCHAR" />
+    <result column="receive_codes" property="receiveCodes" jdbcType="LONGVARCHAR" />
+    <result column="receive_names" property="receiveNames" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, msg_title, content_level, content_type, receive_type, send_user_code, send_user_name, 
+    send_date, is_attac, notify_types, status, create_by, create_date, update_by, update_date, 
+    remarks
+  </sql>
+  <sql id="Blob_Column_List" >
+    msg_content, receive_codes, receive_names
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from js_sys_msg_inner
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from js_sys_msg_inner
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysMsgInnerWithBLOBs" >
+    insert into js_sys_msg_inner (id, msg_title, content_level, 
+      content_type, receive_type, send_user_code, 
+      send_user_name, send_date, is_attac, 
+      notify_types, status, create_by, 
+      create_date, update_by, update_date, 
+      remarks, msg_content, receive_codes, 
+      receive_names)
+    values (#{id,jdbcType=VARCHAR}, #{msgTitle,jdbcType=VARCHAR}, #{contentLevel,jdbcType=CHAR}, 
+      #{contentType,jdbcType=CHAR}, #{receiveType,jdbcType=CHAR}, #{sendUserCode,jdbcType=VARCHAR}, 
+      #{sendUserName,jdbcType=VARCHAR}, #{sendDate,jdbcType=TIMESTAMP}, #{isAttac,jdbcType=CHAR}, 
+      #{notifyTypes,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{msgContent,jdbcType=LONGVARCHAR}, #{receiveCodes,jdbcType=LONGVARCHAR}, 
+      #{receiveNames,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysMsgInnerWithBLOBs" >
+    insert into js_sys_msg_inner
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="msgTitle != null" >
+        msg_title,
+      </if>
+      <if test="contentLevel != null" >
+        content_level,
+      </if>
+      <if test="contentType != null" >
+        content_type,
+      </if>
+      <if test="receiveType != null" >
+        receive_type,
+      </if>
+      <if test="sendUserCode != null" >
+        send_user_code,
+      </if>
+      <if test="sendUserName != null" >
+        send_user_name,
+      </if>
+      <if test="sendDate != null" >
+        send_date,
+      </if>
+      <if test="isAttac != null" >
+        is_attac,
+      </if>
+      <if test="notifyTypes != null" >
+        notify_types,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="msgContent != null" >
+        msg_content,
+      </if>
+      <if test="receiveCodes != null" >
+        receive_codes,
+      </if>
+      <if test="receiveNames != null" >
+        receive_names,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTitle != null" >
+        #{msgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="contentLevel != null" >
+        #{contentLevel,jdbcType=CHAR},
+      </if>
+      <if test="contentType != null" >
+        #{contentType,jdbcType=CHAR},
+      </if>
+      <if test="receiveType != null" >
+        #{receiveType,jdbcType=CHAR},
+      </if>
+      <if test="sendUserCode != null" >
+        #{sendUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendUserName != null" >
+        #{sendUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendDate != null" >
+        #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isAttac != null" >
+        #{isAttac,jdbcType=CHAR},
+      </if>
+      <if test="notifyTypes != null" >
+        #{notifyTypes,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="msgContent != null" >
+        #{msgContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="receiveCodes != null" >
+        #{receiveCodes,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="receiveNames != null" >
+        #{receiveNames,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.test.entity.JsSysMsgInnerWithBLOBs" >
+    update js_sys_msg_inner
+    <set >
+      <if test="msgTitle != null" >
+        msg_title = #{msgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="contentLevel != null" >
+        content_level = #{contentLevel,jdbcType=CHAR},
+      </if>
+      <if test="contentType != null" >
+        content_type = #{contentType,jdbcType=CHAR},
+      </if>
+      <if test="receiveType != null" >
+        receive_type = #{receiveType,jdbcType=CHAR},
+      </if>
+      <if test="sendUserCode != null" >
+        send_user_code = #{sendUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendUserName != null" >
+        send_user_name = #{sendUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendDate != null" >
+        send_date = #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isAttac != null" >
+        is_attac = #{isAttac,jdbcType=CHAR},
+      </if>
+      <if test="notifyTypes != null" >
+        notify_types = #{notifyTypes,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="msgContent != null" >
+        msg_content = #{msgContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="receiveCodes != null" >
+        receive_codes = #{receiveCodes,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="receiveNames != null" >
+        receive_names = #{receiveNames,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jeesite.modules.test.entity.JsSysMsgInnerWithBLOBs" >
+    update js_sys_msg_inner
+    set msg_title = #{msgTitle,jdbcType=VARCHAR},
+      content_level = #{contentLevel,jdbcType=CHAR},
+      content_type = #{contentType,jdbcType=CHAR},
+      receive_type = #{receiveType,jdbcType=CHAR},
+      send_user_code = #{sendUserCode,jdbcType=VARCHAR},
+      send_user_name = #{sendUserName,jdbcType=VARCHAR},
+      send_date = #{sendDate,jdbcType=TIMESTAMP},
+      is_attac = #{isAttac,jdbcType=CHAR},
+      notify_types = #{notifyTypes,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      msg_content = #{msgContent,jdbcType=LONGVARCHAR},
+      receive_codes = #{receiveCodes,jdbcType=LONGVARCHAR},
+      receive_names = #{receiveNames,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysMsgInner" >
+    update js_sys_msg_inner
+    set msg_title = #{msgTitle,jdbcType=VARCHAR},
+      content_level = #{contentLevel,jdbcType=CHAR},
+      content_type = #{contentType,jdbcType=CHAR},
+      receive_type = #{receiveType,jdbcType=CHAR},
+      send_user_code = #{sendUserCode,jdbcType=VARCHAR},
+      send_user_name = #{sendUserName,jdbcType=VARCHAR},
+      send_date = #{sendDate,jdbcType=TIMESTAMP},
+      is_attac = #{isAttac,jdbcType=CHAR},
+      notify_types = #{notifyTypes,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

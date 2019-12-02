@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsSysMsgPushMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysMsgPush" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="msg_type" property="msgType" jdbcType="VARCHAR" />
+    <result column="msg_title" property="msgTitle" jdbcType="VARCHAR" />
+    <result column="biz_key" property="bizKey" jdbcType="VARCHAR" />
+    <result column="biz_type" property="bizType" jdbcType="VARCHAR" />
+    <result column="receive_code" property="receiveCode" jdbcType="VARCHAR" />
+    <result column="receive_user_code" property="receiveUserCode" jdbcType="VARCHAR" />
+    <result column="receive_user_name" property="receiveUserName" jdbcType="VARCHAR" />
+    <result column="send_user_code" property="sendUserCode" jdbcType="VARCHAR" />
+    <result column="send_user_name" property="sendUserName" jdbcType="VARCHAR" />
+    <result column="send_date" property="sendDate" jdbcType="TIMESTAMP" />
+    <result column="is_merge_push" property="isMergePush" jdbcType="CHAR" />
+    <result column="plan_push_date" property="planPushDate" jdbcType="TIMESTAMP" />
+    <result column="push_number" property="pushNumber" jdbcType="INTEGER" />
+    <result column="push_return_code" property="pushReturnCode" jdbcType="VARCHAR" />
+    <result column="push_return_msg_id" property="pushReturnMsgId" jdbcType="VARCHAR" />
+    <result column="push_status" property="pushStatus" jdbcType="CHAR" />
+    <result column="push_date" property="pushDate" jdbcType="TIMESTAMP" />
+    <result column="read_status" property="readStatus" jdbcType="CHAR" />
+    <result column="read_date" property="readDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.jeesite.modules.test.entity.JsSysMsgPushWithBLOBs" extends="BaseResultMap" >
+    <result column="msg_content" property="msgContent" jdbcType="LONGVARCHAR" />
+    <result column="push_return_content" property="pushReturnContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, msg_type, msg_title, biz_key, biz_type, receive_code, receive_user_code, receive_user_name, 
+    send_user_code, send_user_name, send_date, is_merge_push, plan_push_date, push_number, 
+    push_return_code, push_return_msg_id, push_status, push_date, read_status, read_date
+  </sql>
+  <sql id="Blob_Column_List" >
+    msg_content, push_return_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from js_sys_msg_push
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from js_sys_msg_push
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysMsgPushWithBLOBs" >
+    insert into js_sys_msg_push (id, msg_type, msg_title, 
+      biz_key, biz_type, receive_code, 
+      receive_user_code, receive_user_name, send_user_code, 
+      send_user_name, send_date, is_merge_push, 
+      plan_push_date, push_number, push_return_code, 
+      push_return_msg_id, push_status, push_date, 
+      read_status, read_date, msg_content, 
+      push_return_content)
+    values (#{id,jdbcType=VARCHAR}, #{msgType,jdbcType=VARCHAR}, #{msgTitle,jdbcType=VARCHAR}, 
+      #{bizKey,jdbcType=VARCHAR}, #{bizType,jdbcType=VARCHAR}, #{receiveCode,jdbcType=VARCHAR}, 
+      #{receiveUserCode,jdbcType=VARCHAR}, #{receiveUserName,jdbcType=VARCHAR}, #{sendUserCode,jdbcType=VARCHAR}, 
+      #{sendUserName,jdbcType=VARCHAR}, #{sendDate,jdbcType=TIMESTAMP}, #{isMergePush,jdbcType=CHAR}, 
+      #{planPushDate,jdbcType=TIMESTAMP}, #{pushNumber,jdbcType=INTEGER}, #{pushReturnCode,jdbcType=VARCHAR}, 
+      #{pushReturnMsgId,jdbcType=VARCHAR}, #{pushStatus,jdbcType=CHAR}, #{pushDate,jdbcType=TIMESTAMP}, 
+      #{readStatus,jdbcType=CHAR}, #{readDate,jdbcType=TIMESTAMP}, #{msgContent,jdbcType=LONGVARCHAR}, 
+      #{pushReturnContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysMsgPushWithBLOBs" >
+    insert into js_sys_msg_push
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="msgType != null" >
+        msg_type,
+      </if>
+      <if test="msgTitle != null" >
+        msg_title,
+      </if>
+      <if test="bizKey != null" >
+        biz_key,
+      </if>
+      <if test="bizType != null" >
+        biz_type,
+      </if>
+      <if test="receiveCode != null" >
+        receive_code,
+      </if>
+      <if test="receiveUserCode != null" >
+        receive_user_code,
+      </if>
+      <if test="receiveUserName != null" >
+        receive_user_name,
+      </if>
+      <if test="sendUserCode != null" >
+        send_user_code,
+      </if>
+      <if test="sendUserName != null" >
+        send_user_name,
+      </if>
+      <if test="sendDate != null" >
+        send_date,
+      </if>
+      <if test="isMergePush != null" >
+        is_merge_push,
+      </if>
+      <if test="planPushDate != null" >
+        plan_push_date,
+      </if>
+      <if test="pushNumber != null" >
+        push_number,
+      </if>
+      <if test="pushReturnCode != null" >
+        push_return_code,
+      </if>
+      <if test="pushReturnMsgId != null" >
+        push_return_msg_id,
+      </if>
+      <if test="pushStatus != null" >
+        push_status,
+      </if>
+      <if test="pushDate != null" >
+        push_date,
+      </if>
+      <if test="readStatus != null" >
+        read_status,
+      </if>
+      <if test="readDate != null" >
+        read_date,
+      </if>
+      <if test="msgContent != null" >
+        msg_content,
+      </if>
+      <if test="pushReturnContent != null" >
+        push_return_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="msgType != null" >
+        #{msgType,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTitle != null" >
+        #{msgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="bizKey != null" >
+        #{bizKey,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null" >
+        #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveCode != null" >
+        #{receiveCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUserCode != null" >
+        #{receiveUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUserName != null" >
+        #{receiveUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendUserCode != null" >
+        #{sendUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendUserName != null" >
+        #{sendUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendDate != null" >
+        #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isMergePush != null" >
+        #{isMergePush,jdbcType=CHAR},
+      </if>
+      <if test="planPushDate != null" >
+        #{planPushDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pushNumber != null" >
+        #{pushNumber,jdbcType=INTEGER},
+      </if>
+      <if test="pushReturnCode != null" >
+        #{pushReturnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pushReturnMsgId != null" >
+        #{pushReturnMsgId,jdbcType=VARCHAR},
+      </if>
+      <if test="pushStatus != null" >
+        #{pushStatus,jdbcType=CHAR},
+      </if>
+      <if test="pushDate != null" >
+        #{pushDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="readStatus != null" >
+        #{readStatus,jdbcType=CHAR},
+      </if>
+      <if test="readDate != null" >
+        #{readDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="msgContent != null" >
+        #{msgContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="pushReturnContent != null" >
+        #{pushReturnContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.test.entity.JsSysMsgPushWithBLOBs" >
+    update js_sys_msg_push
+    <set >
+      <if test="msgType != null" >
+        msg_type = #{msgType,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTitle != null" >
+        msg_title = #{msgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="bizKey != null" >
+        biz_key = #{bizKey,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null" >
+        biz_type = #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveCode != null" >
+        receive_code = #{receiveCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUserCode != null" >
+        receive_user_code = #{receiveUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUserName != null" >
+        receive_user_name = #{receiveUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendUserCode != null" >
+        send_user_code = #{sendUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendUserName != null" >
+        send_user_name = #{sendUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendDate != null" >
+        send_date = #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isMergePush != null" >
+        is_merge_push = #{isMergePush,jdbcType=CHAR},
+      </if>
+      <if test="planPushDate != null" >
+        plan_push_date = #{planPushDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pushNumber != null" >
+        push_number = #{pushNumber,jdbcType=INTEGER},
+      </if>
+      <if test="pushReturnCode != null" >
+        push_return_code = #{pushReturnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pushReturnMsgId != null" >
+        push_return_msg_id = #{pushReturnMsgId,jdbcType=VARCHAR},
+      </if>
+      <if test="pushStatus != null" >
+        push_status = #{pushStatus,jdbcType=CHAR},
+      </if>
+      <if test="pushDate != null" >
+        push_date = #{pushDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="readStatus != null" >
+        read_status = #{readStatus,jdbcType=CHAR},
+      </if>
+      <if test="readDate != null" >
+        read_date = #{readDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="msgContent != null" >
+        msg_content = #{msgContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="pushReturnContent != null" >
+        push_return_content = #{pushReturnContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jeesite.modules.test.entity.JsSysMsgPushWithBLOBs" >
+    update js_sys_msg_push
+    set msg_type = #{msgType,jdbcType=VARCHAR},
+      msg_title = #{msgTitle,jdbcType=VARCHAR},
+      biz_key = #{bizKey,jdbcType=VARCHAR},
+      biz_type = #{bizType,jdbcType=VARCHAR},
+      receive_code = #{receiveCode,jdbcType=VARCHAR},
+      receive_user_code = #{receiveUserCode,jdbcType=VARCHAR},
+      receive_user_name = #{receiveUserName,jdbcType=VARCHAR},
+      send_user_code = #{sendUserCode,jdbcType=VARCHAR},
+      send_user_name = #{sendUserName,jdbcType=VARCHAR},
+      send_date = #{sendDate,jdbcType=TIMESTAMP},
+      is_merge_push = #{isMergePush,jdbcType=CHAR},
+      plan_push_date = #{planPushDate,jdbcType=TIMESTAMP},
+      push_number = #{pushNumber,jdbcType=INTEGER},
+      push_return_code = #{pushReturnCode,jdbcType=VARCHAR},
+      push_return_msg_id = #{pushReturnMsgId,jdbcType=VARCHAR},
+      push_status = #{pushStatus,jdbcType=CHAR},
+      push_date = #{pushDate,jdbcType=TIMESTAMP},
+      read_status = #{readStatus,jdbcType=CHAR},
+      read_date = #{readDate,jdbcType=TIMESTAMP},
+      msg_content = #{msgContent,jdbcType=LONGVARCHAR},
+      push_return_content = #{pushReturnContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysMsgPush" >
+    update js_sys_msg_push
+    set msg_type = #{msgType,jdbcType=VARCHAR},
+      msg_title = #{msgTitle,jdbcType=VARCHAR},
+      biz_key = #{bizKey,jdbcType=VARCHAR},
+      biz_type = #{bizType,jdbcType=VARCHAR},
+      receive_code = #{receiveCode,jdbcType=VARCHAR},
+      receive_user_code = #{receiveUserCode,jdbcType=VARCHAR},
+      receive_user_name = #{receiveUserName,jdbcType=VARCHAR},
+      send_user_code = #{sendUserCode,jdbcType=VARCHAR},
+      send_user_name = #{sendUserName,jdbcType=VARCHAR},
+      send_date = #{sendDate,jdbcType=TIMESTAMP},
+      is_merge_push = #{isMergePush,jdbcType=CHAR},
+      plan_push_date = #{planPushDate,jdbcType=TIMESTAMP},
+      push_number = #{pushNumber,jdbcType=INTEGER},
+      push_return_code = #{pushReturnCode,jdbcType=VARCHAR},
+      push_return_msg_id = #{pushReturnMsgId,jdbcType=VARCHAR},
+      push_status = #{pushStatus,jdbcType=CHAR},
+      push_date = #{pushDate,jdbcType=TIMESTAMP},
+      read_status = #{readStatus,jdbcType=CHAR},
+      read_date = #{readDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
