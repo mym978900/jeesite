@@ -22,7 +22,7 @@ public class Application extends SpringBootServletInitializer {
 	
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		this.setRegisterErrorPageFilter(false); // 错误页面有容器来处理，而不是SpringBoot
+		this.setRegisterErrorPageFilter(false); // 閿欒椤甸潰鏈夊鍣ㄦ潵澶勭悊锛岃�屼笉鏄疭pringBoot
 		return builder.sources(Application.class);
 	}
 	
