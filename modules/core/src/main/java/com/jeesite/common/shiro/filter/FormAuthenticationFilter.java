@@ -3,7 +3,9 @@
  */
 package com.jeesite.common.shiro.filter;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
@@ -27,6 +29,7 @@ import com.jeesite.common.codec.EncodeUtils;
 import com.jeesite.common.config.Global;
 import com.jeesite.common.lang.ObjectUtils;
 import com.jeesite.common.lang.StringUtils;
+import com.jeesite.common.mapper.JsonMapper;
 import com.jeesite.common.network.IpUtils;
 import com.jeesite.common.shiro.authc.FormToken;
 import com.jeesite.common.shiro.realm.BaseAuthorizingRealm;
@@ -68,12 +71,53 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 	 */
 	@Override
 	protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
-		String username = getUsername(request, response);	// 用户名
-		String password = getPassword(request);				// 登录密码
-		boolean rememberMe = isRememberMe(request);			// 记住我（自动登录）
-		String host = getHost(request);						// 登录主机
-		String captcha = getCaptcha(request);				// 登录验证码
-		Map<String, Object> paramMap = ServletUtils.getExtParams(request);	// 登录附加参数
+		//获取Json用户名密码 xf 2019.12.02
+		
+		HttpServletRequest hrt = (HttpServletRequest) request;
+		MyRequestWrapper requestWrapper = null;
+		try {
+			requestWrapper = new MyRequestWrapper(hrt);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(requestWrapper.getBody());
+		
+		String username = "";
+		String password = "";
+		StringBuilder sb = new StringBuilder();
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(requestWrapper.getReader());
+			char[]buff = new char[1024];
+			int len;
+			while((len = reader.read(buff)) != -1) {
+				sb.append(buff,0, len);
+			}
+		}catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		String reqInfo = sb.toString();
+		List<Map<String, Object>> info = JsonMapper.fromJsonForMapList(reqInfo);
+		if(info.size()>0) {
+			Map um = info.get(0);
+			username = (String) um.get("username");
+			password = (String) um.get("password");
+		}
+		
+		String username1 = getUsername(requestWrapper, response);	// 用户名
+		String password1 = getPassword(requestWrapper);				// 登录密码
+		boolean rememberMe = isRememberMe(requestWrapper);			// 记住我（自动登录）
+		String host = getHost(requestWrapper);						// 登录主机
+		String captcha = getCaptcha(requestWrapper);				// 登录验证码
+		Map<String, Object> paramMap = ServletUtils.getExtParams(requestWrapper);	// 登录附加参数
 		return new FormToken(username, password.toCharArray(), rememberMe, host, captcha, paramMap);
 	}
 	

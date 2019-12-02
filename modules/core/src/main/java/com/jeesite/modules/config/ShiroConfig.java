@@ -26,6 +26,7 @@ import com.jeesite.common.config.Global;
 import com.jeesite.common.shiro.cas.CasOutHandler;
 import com.jeesite.common.shiro.config.FilterChainDefinitionMap;
 import com.jeesite.common.shiro.filter.CasAuthenticationFilter;
+import com.jeesite.common.shiro.filter.ChannelFilter;
 import com.jeesite.common.shiro.filter.FormAuthenticationFilter;
 import com.jeesite.common.shiro.filter.InnerFilter;
 import com.jeesite.common.shiro.filter.LogoutFilter;
@@ -47,6 +48,19 @@ import com.jeesite.common.shiro.web.WebSecurityManager;
 @SuppressWarnings("deprecation")
 @Configuration
 public class ShiroConfig {
+	
+	
+	//注册这个过滤器的时候需要先加载到spring容器中 xf20191201
+	@Bean
+    public FilterRegistrationBean httpServletRequestReplacedRegistration() {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(new ChannelFilter());
+        registration.addUrlPatterns("/a/login");
+//        registration.addInitParameter("paramName", "paramValue");
+        registration.setName("ChannelFilter");
+        registration.setOrder(1);
+        return registration;
+	}
 	
 	/**
 	 * Apache Shiro Filter
