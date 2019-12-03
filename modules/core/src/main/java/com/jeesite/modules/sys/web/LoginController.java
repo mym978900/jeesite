@@ -3,6 +3,7 @@
  */
 package com.jeesite.modules.sys.web;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -28,7 +29,9 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.jeesite.common.codec.DesUtils;
 import com.jeesite.common.config.Global;
 import com.jeesite.common.lang.StringUtils;
+import com.jeesite.common.mapper.JsonMapper;
 import com.jeesite.common.shiro.filter.FormAuthenticationFilter;
+import com.jeesite.common.shiro.filter.MyRequestWrapper;
 import com.jeesite.common.shiro.realm.BaseAuthorizingRealm;
 import com.jeesite.common.shiro.realm.LoginInfo;
 import com.jeesite.common.web.BaseController;
@@ -130,17 +133,34 @@ public class LoginController extends BaseController{
 			return null;
 		}
 		
-		String username = WebUtils.getCleanParam(request, FormAuthenticationFilter.DEFAULT_USERNAME_PARAM);
+		
+		//获取Json用户名 xf 2019.12.02
+		HttpServletRequest hrt = (HttpServletRequest) request;
+		MyRequestWrapper requestWrapper = null;
+		try {
+			requestWrapper = new MyRequestWrapper(hrt);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String username = "";
+		List<Map<String, Object>> info = JsonMapper.fromJsonForMapList(requestWrapper.getBody());
+		if(info.size()>0) {
+			Map um = info.get(0);
+			username = (String) um.get("username");
+		}
+		
+//		String username = WebUtils.getCleanParam(request, FormAuthenticationFilter.DEFAULT_USERNAME_PARAM);
 		boolean rememberMe = WebUtils.isTrue(request, FormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM);
 		boolean rememberUserCode = WebUtils.isTrue(request, FormAuthenticationFilter.DEFAULT_REMEMBER_USERCODE_PARAM);
 		String params = WebUtils.getCleanParam(request, FormAuthenticationFilter.DEFAULT_PARAMS_PARAM);
 		String exception = (String)request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
 		String message = (String)request.getAttribute(FormAuthenticationFilter.DEFAULT_MESSAGE_PARAM);
 
-		String secretKey = Global.getProperty("shiro.loginSubmit.secretKey");
-		if (StringUtils.isNotBlank(secretKey)){
-			username = DesUtils.decode(username, secretKey);
-		}
+//		String secretKey = Global.getProperty("shiro.loginSubmit.secretKey");
+//		if (StringUtils.isNotBlank(secretKey)){
+//			username = DesUtils.decode(username, secretKey);
+//		}
 		
 		model.addAttribute(FormAuthenticationFilter.DEFAULT_USERNAME_PARAM, username);
 		model.addAttribute(FormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM, rememberMe);
