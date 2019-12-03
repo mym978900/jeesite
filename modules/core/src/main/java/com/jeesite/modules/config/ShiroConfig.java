@@ -56,7 +56,7 @@ public class ShiroConfig {
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(new ChannelFilter());
         registration.addUrlPatterns("/a/login");
-//        registration.addInitParameter("paramName", "paramValue");
+        registration.addInitParameter("paramName", "paramValue");
         registration.setName("ChannelFilter");
         registration.setOrder(1);
         return registration;

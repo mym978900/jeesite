@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsJobSimpleTriggersMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsJobSimpleTriggers" >
+    <id column="SCHED_NAME" property="schedName" jdbcType="VARCHAR" />
+    <id column="TRIGGER_NAME" property="triggerName" jdbcType="VARCHAR" />
+    <id column="TRIGGER_GROUP" property="triggerGroup" jdbcType="VARCHAR" />
+    <result column="REPEAT_COUNT" property="repeatCount" jdbcType="BIGINT" />
+    <result column="REPEAT_INTERVAL" property="repeatInterval" jdbcType="BIGINT" />
+    <result column="TIMES_TRIGGERED" property="timesTriggered" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP, REPEAT_COUNT, REPEAT_INTERVAL, TIMES_TRIGGERED
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.jeesite.modules.test.entity.JsJobSimpleTriggersKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_job_SIMPLE_TRIGGERS
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and TRIGGER_NAME = #{triggerName,jdbcType=VARCHAR}
+      and TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsJobSimpleTriggersKey" >
+    delete from js_job_SIMPLE_TRIGGERS
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and TRIGGER_NAME = #{triggerName,jdbcType=VARCHAR}
+      and TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsJobSimpleTriggers" >
+    insert into js_job_SIMPLE_TRIGGERS (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP, 
+      REPEAT_COUNT, REPEAT_INTERVAL, TIMES_TRIGGERED
+      )
+    values (#{schedName,jdbcType=VARCHAR}, #{triggerName,jdbcType=VARCHAR}, #{triggerGroup,jdbcType=VARCHAR}, 
+      #{repeatCount,jdbcType=BIGINT}, #{repeatInterval,jdbcType=BIGINT}, #{timesTriggered,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsJobSimpleTriggers" >
+    insert into js_job_SIMPLE_TRIGGERS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="schedName != null" >
+        SCHED_NAME,
+      </if>
+      <if test="triggerName != null" >
+        TRIGGER_NAME,
+      </if>
+      <if test="triggerGroup != null" >
+        TRIGGER_GROUP,
+      </if>
+      <if test="repeatCount != null" >
+        REPEAT_COUNT,
+      </if>
+      <if test="repeatInterval != null" >
+        REPEAT_INTERVAL,
+      </if>
+      <if test="timesTriggered != null" >
+        TIMES_TRIGGERED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="schedName != null" >
+        #{schedName,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerName != null" >
+        #{triggerName,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerGroup != null" >
+        #{triggerGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="repeatCount != null" >
+        #{repeatCount,jdbcType=BIGINT},
+      </if>
+      <if test="repeatInterval != null" >
+        #{repeatInterval,jdbcType=BIGINT},
+      </if>
+      <if test="timesTriggered != null" >
+        #{timesTriggered,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.test.entity.JsJobSimpleTriggers" >
+    update js_job_SIMPLE_TRIGGERS
+    <set >
+      <if test="repeatCount != null" >
+        REPEAT_COUNT = #{repeatCount,jdbcType=BIGINT},
+      </if>
+      <if test="repeatInterval != null" >
+        REPEAT_INTERVAL = #{repeatInterval,jdbcType=BIGINT},
+      </if>
+      <if test="timesTriggered != null" >
+        TIMES_TRIGGERED = #{timesTriggered,jdbcType=BIGINT},
+      </if>
+    </set>
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and TRIGGER_NAME = #{triggerName,jdbcType=VARCHAR}
+      and TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsJobSimpleTriggers" >
+    update js_job_SIMPLE_TRIGGERS
+    set REPEAT_COUNT = #{repeatCount,jdbcType=BIGINT},
+      REPEAT_INTERVAL = #{repeatInterval,jdbcType=BIGINT},
+      TIMES_TRIGGERED = #{timesTriggered,jdbcType=BIGINT}
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and TRIGGER_NAME = #{triggerName,jdbcType=VARCHAR}
+      and TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsSysCompanyOfficeMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysCompanyOfficeKey" >
+    <id column="company_code" property="companyCode" jdbcType="VARCHAR" />
+    <id column="office_code" property="officeCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysCompanyOfficeKey" >
+    delete from js_sys_company_office
+    where company_code = #{companyCode,jdbcType=VARCHAR}
+      and office_code = #{officeCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysCompanyOfficeKey" >
+    insert into js_sys_company_office (company_code, office_code)
+    values (#{companyCode,jdbcType=VARCHAR}, #{officeCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysCompanyOfficeKey" >
+    insert into js_sys_company_office
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="companyCode != null" >
+        company_code,
+      </if>
+      <if test="officeCode != null" >
+        office_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="companyCode != null" >
+        #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="officeCode != null" >
+        #{officeCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

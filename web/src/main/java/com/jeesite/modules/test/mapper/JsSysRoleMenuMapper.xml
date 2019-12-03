@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsSysRoleMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysRoleMenuKey" >
+    <id column="role_code" property="roleCode" jdbcType="VARCHAR" />
+    <id column="menu_code" property="menuCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysRoleMenuKey" >
+    delete from js_sys_role_menu
+    where role_code = #{roleCode,jdbcType=VARCHAR}
+      and menu_code = #{menuCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysRoleMenuKey" >
+    insert into js_sys_role_menu (role_code, menu_code)
+    values (#{roleCode,jdbcType=VARCHAR}, #{menuCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysRoleMenuKey" >
+    insert into js_sys_role_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleCode != null" >
+        role_code,
+      </if>
+      <if test="menuCode != null" >
+        menu_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleCode != null" >
+        #{roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="menuCode != null" >
+        #{menuCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

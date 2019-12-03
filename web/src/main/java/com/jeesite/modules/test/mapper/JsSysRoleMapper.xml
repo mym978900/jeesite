@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsSysRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysRole" >
+    <id column="role_code" property="roleCode" jdbcType="VARCHAR" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="role_type" property="roleType" jdbcType="VARCHAR" />
+    <result column="role_sort" property="roleSort" jdbcType="DECIMAL" />
+    <result column="is_sys" property="isSys" jdbcType="CHAR" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />
+    <result column="data_scope" property="dataScope" jdbcType="CHAR" />
+    <result column="biz_scope" property="bizScope" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="corp_code" property="corpCode" jdbcType="VARCHAR" />
+    <result column="corp_name" property="corpName" jdbcType="VARCHAR" />
+    <result column="extend_s1" property="extendS1" jdbcType="VARCHAR" />
+    <result column="extend_s2" property="extendS2" jdbcType="VARCHAR" />
+    <result column="extend_s3" property="extendS3" jdbcType="VARCHAR" />
+    <result column="extend_s4" property="extendS4" jdbcType="VARCHAR" />
+    <result column="extend_s5" property="extendS5" jdbcType="VARCHAR" />
+    <result column="extend_s6" property="extendS6" jdbcType="VARCHAR" />
+    <result column="extend_s7" property="extendS7" jdbcType="VARCHAR" />
+    <result column="extend_s8" property="extendS8" jdbcType="VARCHAR" />
+    <result column="extend_i1" property="extendI1" jdbcType="DECIMAL" />
+    <result column="extend_i2" property="extendI2" jdbcType="DECIMAL" />
+    <result column="extend_i3" property="extendI3" jdbcType="DECIMAL" />
+    <result column="extend_i4" property="extendI4" jdbcType="DECIMAL" />
+    <result column="extend_f1" property="extendF1" jdbcType="DECIMAL" />
+    <result column="extend_f2" property="extendF2" jdbcType="DECIMAL" />
+    <result column="extend_f3" property="extendF3" jdbcType="DECIMAL" />
+    <result column="extend_f4" property="extendF4" jdbcType="DECIMAL" />
+    <result column="extend_d1" property="extendD1" jdbcType="TIMESTAMP" />
+    <result column="extend_d2" property="extendD2" jdbcType="TIMESTAMP" />
+    <result column="extend_d3" property="extendD3" jdbcType="TIMESTAMP" />
+    <result column="extend_d4" property="extendD4" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    role_code, role_name, role_type, role_sort, is_sys, user_type, data_scope, biz_scope, 
+    status, create_by, create_date, update_by, update_date, remarks, corp_code, corp_name, 
+    extend_s1, extend_s2, extend_s3, extend_s4, extend_s5, extend_s6, extend_s7, extend_s8, 
+    extend_i1, extend_i2, extend_i3, extend_i4, extend_f1, extend_f2, extend_f3, extend_f4, 
+    extend_d1, extend_d2, extend_d3, extend_d4
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_sys_role
+    where role_code = #{roleCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from js_sys_role
+    where role_code = #{roleCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysRole" >
+    insert into js_sys_role (role_code, role_name, role_type, 
+      role_sort, is_sys, user_type, 
+      data_scope, biz_scope, status, 
+      create_by, create_date, update_by, 
+      update_date, remarks, corp_code, 
+      corp_name, extend_s1, extend_s2, 
+      extend_s3, extend_s4, extend_s5, 
+      extend_s6, extend_s7, extend_s8, 
+      extend_i1, extend_i2, extend_i3, 
+      extend_i4, extend_f1, extend_f2, 
+      extend_f3, extend_f4, extend_d1, 
+      extend_d2, extend_d3, extend_d4
+      )
+    values (#{roleCode,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{roleType,jdbcType=VARCHAR}, 
+      #{roleSort,jdbcType=DECIMAL}, #{isSys,jdbcType=CHAR}, #{userType,jdbcType=VARCHAR}, 
+      #{dataScope,jdbcType=CHAR}, #{bizScope,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{corpCode,jdbcType=VARCHAR}, 
+      #{corpName,jdbcType=VARCHAR}, #{extendS1,jdbcType=VARCHAR}, #{extendS2,jdbcType=VARCHAR}, 
+      #{extendS3,jdbcType=VARCHAR}, #{extendS4,jdbcType=VARCHAR}, #{extendS5,jdbcType=VARCHAR}, 
+      #{extendS6,jdbcType=VARCHAR}, #{extendS7,jdbcType=VARCHAR}, #{extendS8,jdbcType=VARCHAR}, 
+      #{extendI1,jdbcType=DECIMAL}, #{extendI2,jdbcType=DECIMAL}, #{extendI3,jdbcType=DECIMAL}, 
+      #{extendI4,jdbcType=DECIMAL}, #{extendF1,jdbcType=DECIMAL}, #{extendF2,jdbcType=DECIMAL}, 
+      #{extendF3,jdbcType=DECIMAL}, #{extendF4,jdbcType=DECIMAL}, #{extendD1,jdbcType=TIMESTAMP}, 
+      #{extendD2,jdbcType=TIMESTAMP}, #{extendD3,jdbcType=TIMESTAMP}, #{extendD4,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysRole" >
+    insert into js_sys_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleCode != null" >
+        role_code,
+      </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
+      <if test="roleType != null" >
+        role_type,
+      </if>
+      <if test="roleSort != null" >
+        role_sort,
+      </if>
+      <if test="isSys != null" >
+        is_sys,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="dataScope != null" >
+        data_scope,
+      </if>
+      <if test="bizScope != null" >
+        biz_scope,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="corpCode != null" >
+        corp_code,
+      </if>
+      <if test="corpName != null" >
+        corp_name,
+      </if>
+      <if test="extendS1 != null" >
+        extend_s1,
+      </if>
+      <if test="extendS2 != null" >
+        extend_s2,
+      </if>
+      <if test="extendS3 != null" >
+        extend_s3,
+      </if>
+      <if test="extendS4 != null" >
+        extend_s4,
+      </if>
+      <if test="extendS5 != null" >
+        extend_s5,
+      </if>
+      <if test="extendS6 != null" >
+        extend_s6,
+      </if>
+      <if test="extendS7 != null" >
+        extend_s7,
+      </if>
+      <if test="extendS8 != null" >
+        extend_s8,
+      </if>
+      <if test="extendI1 != null" >
+        extend_i1,
+      </if>
+      <if test="extendI2 != null" >
+        extend_i2,
+      </if>
+      <if test="extendI3 != null" >
+        extend_i3,
+      </if>
+      <if test="extendI4 != null" >
+        extend_i4,
+      </if>
+      <if test="extendF1 != null" >
+        extend_f1,
+      </if>
+      <if test="extendF2 != null" >
+        extend_f2,
+      </if>
+      <if test="extendF3 != null" >
+        extend_f3,
+      </if>
+      <if test="extendF4 != null" >
+        extend_f4,
+      </if>
+      <if test="extendD1 != null" >
+        extend_d1,
+      </if>
+      <if test="extendD2 != null" >
+        extend_d2,
+      </if>
+      <if test="extendD3 != null" >
+        extend_d3,
+      </if>
+      <if test="extendD4 != null" >
+        extend_d4,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleCode != null" >
+        #{roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleType != null" >
+        #{roleType,jdbcType=VARCHAR},
+      </if>
+      <if test="roleSort != null" >
+        #{roleSort,jdbcType=DECIMAL},
+      </if>
+      <if test="isSys != null" >
+        #{isSys,jdbcType=CHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="dataScope != null" >
+        #{dataScope,jdbcType=CHAR},
+      </if>
+      <if test="bizScope != null" >
+        #{bizScope,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="corpCode != null" >
+        #{corpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="corpName != null" >
+        #{corpName,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS1 != null" >
+        #{extendS1,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS2 != null" >
+        #{extendS2,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS3 != null" >
+        #{extendS3,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS4 != null" >
+        #{extendS4,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS5 != null" >
+        #{extendS5,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS6 != null" >
+        #{extendS6,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS7 != null" >
+        #{extendS7,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS8 != null" >
+        #{extendS8,jdbcType=VARCHAR},
+      </if>
+      <if test="extendI1 != null" >
+        #{extendI1,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI2 != null" >
+        #{extendI2,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI3 != null" >
+        #{extendI3,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI4 != null" >
+        #{extendI4,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF1 != null" >
+        #{extendF1,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF2 != null" >
+        #{extendF2,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF3 != null" >
+        #{extendF3,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF4 != null" >
+        #{extendF4,jdbcType=DECIMAL},
+      </if>
+      <if test="extendD1 != null" >
+        #{extendD1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD2 != null" >
+        #{extendD2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD3 != null" >
+        #{extendD3,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD4 != null" >
+        #{extendD4,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.test.entity.JsSysRole" >
+    update js_sys_role
+    <set >
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleType != null" >
+        role_type = #{roleType,jdbcType=VARCHAR},
+      </if>
+      <if test="roleSort != null" >
+        role_sort = #{roleSort,jdbcType=DECIMAL},
+      </if>
+      <if test="isSys != null" >
+        is_sys = #{isSys,jdbcType=CHAR},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="dataScope != null" >
+        data_scope = #{dataScope,jdbcType=CHAR},
+      </if>
+      <if test="bizScope != null" >
+        biz_scope = #{bizScope,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="corpCode != null" >
+        corp_code = #{corpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="corpName != null" >
+        corp_name = #{corpName,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS1 != null" >
+        extend_s1 = #{extendS1,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS2 != null" >
+        extend_s2 = #{extendS2,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS3 != null" >
+        extend_s3 = #{extendS3,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS4 != null" >
+        extend_s4 = #{extendS4,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS5 != null" >
+        extend_s5 = #{extendS5,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS6 != null" >
+        extend_s6 = #{extendS6,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS7 != null" >
+        extend_s7 = #{extendS7,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS8 != null" >
+        extend_s8 = #{extendS8,jdbcType=VARCHAR},
+      </if>
+      <if test="extendI1 != null" >
+        extend_i1 = #{extendI1,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI2 != null" >
+        extend_i2 = #{extendI2,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI3 != null" >
+        extend_i3 = #{extendI3,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI4 != null" >
+        extend_i4 = #{extendI4,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF1 != null" >
+        extend_f1 = #{extendF1,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF2 != null" >
+        extend_f2 = #{extendF2,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF3 != null" >
+        extend_f3 = #{extendF3,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF4 != null" >
+        extend_f4 = #{extendF4,jdbcType=DECIMAL},
+      </if>
+      <if test="extendD1 != null" >
+        extend_d1 = #{extendD1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD2 != null" >
+        extend_d2 = #{extendD2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD3 != null" >
+        extend_d3 = #{extendD3,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD4 != null" >
+        extend_d4 = #{extendD4,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where role_code = #{roleCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysRole" >
+    update js_sys_role
+    set role_name = #{roleName,jdbcType=VARCHAR},
+      role_type = #{roleType,jdbcType=VARCHAR},
+      role_sort = #{roleSort,jdbcType=DECIMAL},
+      is_sys = #{isSys,jdbcType=CHAR},
+      user_type = #{userType,jdbcType=VARCHAR},
+      data_scope = #{dataScope,jdbcType=CHAR},
+      biz_scope = #{bizScope,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      corp_code = #{corpCode,jdbcType=VARCHAR},
+      corp_name = #{corpName,jdbcType=VARCHAR},
+      extend_s1 = #{extendS1,jdbcType=VARCHAR},
+      extend_s2 = #{extendS2,jdbcType=VARCHAR},
+      extend_s3 = #{extendS3,jdbcType=VARCHAR},
+      extend_s4 = #{extendS4,jdbcType=VARCHAR},
+      extend_s5 = #{extendS5,jdbcType=VARCHAR},
+      extend_s6 = #{extendS6,jdbcType=VARCHAR},
+      extend_s7 = #{extendS7,jdbcType=VARCHAR},
+      extend_s8 = #{extendS8,jdbcType=VARCHAR},
+      extend_i1 = #{extendI1,jdbcType=DECIMAL},
+      extend_i2 = #{extendI2,jdbcType=DECIMAL},
+      extend_i3 = #{extendI3,jdbcType=DECIMAL},
+      extend_i4 = #{extendI4,jdbcType=DECIMAL},
+      extend_f1 = #{extendF1,jdbcType=DECIMAL},
+      extend_f2 = #{extendF2,jdbcType=DECIMAL},
+      extend_f3 = #{extendF3,jdbcType=DECIMAL},
+      extend_f4 = #{extendF4,jdbcType=DECIMAL},
+      extend_d1 = #{extendD1,jdbcType=TIMESTAMP},
+      extend_d2 = #{extendD2,jdbcType=TIMESTAMP},
+      extend_d3 = #{extendD3,jdbcType=TIMESTAMP},
+      extend_d4 = #{extendD4,jdbcType=TIMESTAMP}
+    where role_code = #{roleCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

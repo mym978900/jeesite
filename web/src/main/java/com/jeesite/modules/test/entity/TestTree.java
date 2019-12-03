@@ -1,69 +1,155 @@
-/**
- * Copyright (c) 2013-Now http://jeesite.com All rights reserved.
- */
 package com.jeesite.modules.test.entity;
 
-import javax.validation.constraints.NotBlank;
-import org.hibernate.validator.constraints.Length;
+import java.util.Date;
 
-import com.jeesite.common.entity.DataEntity;
-import com.jeesite.common.entity.TreeEntity;
-import com.jeesite.common.mybatis.annotation.Column;
-import com.jeesite.common.mybatis.annotation.Table;
-import com.jeesite.common.mybatis.mapper.query.QueryType;
+public class TestTree {
+    private String treeCode;
 
-/**
- * 测试树表Entity
- * @author ThinkGem
- * @version 2018-04-22
- */
-@Table(name="test_tree", alias="a", columns={
-		@Column(name="tree_code", attrName="treeCode", label="节点编码", isPK=true),
-		@Column(includeEntity=TreeEntity.class),
-		@Column(name="tree_name", attrName="treeName", label="节点名称", queryType=QueryType.LIKE, isTreeName=true),
-		@Column(includeEntity=DataEntity.class),
-	}, orderBy="a.tree_sorts, a.tree_code"
-)
-public class TestTree extends TreeEntity<TestTree> {
-	
-	private static final long serialVersionUID = 1L;
-	private String treeCode;		// 节点编码
-	private String treeName;		// 节点名称
-	
-	public TestTree() {
-		this(null);
-	}
+    private String parentCode;
 
-	public TestTree(String id){
-		super(id);
-	}
-	
-	@Override
-	public TestTree getParent() {
-		return parent;
-	}
+    private String parentCodes;
 
-	@Override
-	public void setParent(TestTree parent) {
-		this.parent = parent;
-	}
-	
-	public String getTreeCode() {
-		return treeCode;
-	}
+    private Long treeSort;
 
-	public void setTreeCode(String treeCode) {
-		this.treeCode = treeCode;
-	}
-	
-	@NotBlank(message="节点名称不能为空")
-	@Length(min=0, max=200, message="节点名称长度不能超过 200 个字符")
-	public String getTreeName() {
-		return treeName;
-	}
+    private String treeSorts;
 
-	public void setTreeName(String treeName) {
-		this.treeName = treeName;
-	}
-	
+    private String treeLeaf;
+
+    private Short treeLevel;
+
+    private String treeNames;
+
+    private String treeName;
+
+    private String status;
+
+    private String createBy;
+
+    private Date createDate;
+
+    private String updateBy;
+
+    private Date updateDate;
+
+    private String remarks;
+
+    public String getTreeCode() {
+        return treeCode;
+    }
+
+    public void setTreeCode(String treeCode) {
+        this.treeCode = treeCode == null ? null : treeCode.trim();
+    }
+
+    public String getParentCode() {
+        return parentCode;
+    }
+
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode == null ? null : parentCode.trim();
+    }
+
+    public String getParentCodes() {
+        return parentCodes;
+    }
+
+    public void setParentCodes(String parentCodes) {
+        this.parentCodes = parentCodes == null ? null : parentCodes.trim();
+    }
+
+    public Long getTreeSort() {
+        return treeSort;
+    }
+
+    public void setTreeSort(Long treeSort) {
+        this.treeSort = treeSort;
+    }
+
+    public String getTreeSorts() {
+        return treeSorts;
+    }
+
+    public void setTreeSorts(String treeSorts) {
+        this.treeSorts = treeSorts == null ? null : treeSorts.trim();
+    }
+
+    public String getTreeLeaf() {
+        return treeLeaf;
+    }
+
+    public void setTreeLeaf(String treeLeaf) {
+        this.treeLeaf = treeLeaf == null ? null : treeLeaf.trim();
+    }
+
+    public Short getTreeLevel() {
+        return treeLevel;
+    }
+
+    public void setTreeLevel(Short treeLevel) {
+        this.treeLevel = treeLevel;
+    }
+
+    public String getTreeNames() {
+        return treeNames;
+    }
+
+    public void setTreeNames(String treeNames) {
+        this.treeNames = treeNames == null ? null : treeNames.trim();
+    }
+
+    public String getTreeName() {
+        return treeName;
+    }
+
+    public void setTreeName(String treeName) {
+        this.treeName = treeName == null ? null : treeName.trim();
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy == null ? null : createBy.trim();
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy == null ? null : updateBy.trim();
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks == null ? null : remarks.trim();
+    }
 }

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsSysMsgInnerRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysMsgInnerRecord" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="msg_inner_id" property="msgInnerId" jdbcType="VARCHAR" />
+    <result column="receive_user_code" property="receiveUserCode" jdbcType="VARCHAR" />
+    <result column="receive_user_name" property="receiveUserName" jdbcType="VARCHAR" />
+    <result column="read_status" property="readStatus" jdbcType="CHAR" />
+    <result column="read_date" property="readDate" jdbcType="TIMESTAMP" />
+    <result column="is_star" property="isStar" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, msg_inner_id, receive_user_code, receive_user_name, read_status, read_date, is_star
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_sys_msg_inner_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from js_sys_msg_inner_record
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysMsgInnerRecord" >
+    insert into js_sys_msg_inner_record (id, msg_inner_id, receive_user_code, 
+      receive_user_name, read_status, read_date, 
+      is_star)
+    values (#{id,jdbcType=VARCHAR}, #{msgInnerId,jdbcType=VARCHAR}, #{receiveUserCode,jdbcType=VARCHAR}, 
+      #{receiveUserName,jdbcType=VARCHAR}, #{readStatus,jdbcType=CHAR}, #{readDate,jdbcType=TIMESTAMP}, 
+      #{isStar,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysMsgInnerRecord" >
+    insert into js_sys_msg_inner_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="msgInnerId != null" >
+        msg_inner_id,
+      </if>
+      <if test="receiveUserCode != null" >
+        receive_user_code,
+      </if>
+      <if test="receiveUserName != null" >
+        receive_user_name,
+      </if>
+      <if test="readStatus != null" >
+        read_status,
+      </if>
+      <if test="readDate != null" >
+        read_date,
+      </if>
+      <if test="isStar != null" >
+        is_star,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="msgInnerId != null" >
+        #{msgInnerId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUserCode != null" >
+        #{receiveUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUserName != null" >
+        #{receiveUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="readStatus != null" >
+        #{readStatus,jdbcType=CHAR},
+      </if>
+      <if test="readDate != null" >
+        #{readDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isStar != null" >
+        #{isStar,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.test.entity.JsSysMsgInnerRecord" >
+    update js_sys_msg_inner_record
+    <set >
+      <if test="msgInnerId != null" >
+        msg_inner_id = #{msgInnerId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUserCode != null" >
+        receive_user_code = #{receiveUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUserName != null" >
+        receive_user_name = #{receiveUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="readStatus != null" >
+        read_status = #{readStatus,jdbcType=CHAR},
+      </if>
+      <if test="readDate != null" >
+        read_date = #{readDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isStar != null" >
+        is_star = #{isStar,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysMsgInnerRecord" >
+    update js_sys_msg_inner_record
+    set msg_inner_id = #{msgInnerId,jdbcType=VARCHAR},
+      receive_user_code = #{receiveUserCode,jdbcType=VARCHAR},
+      receive_user_name = #{receiveUserName,jdbcType=VARCHAR},
+      read_status = #{readStatus,jdbcType=CHAR},
+      read_date = #{readDate,jdbcType=TIMESTAMP},
+      is_star = #{isStar,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

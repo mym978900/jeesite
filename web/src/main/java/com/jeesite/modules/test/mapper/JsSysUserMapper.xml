@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsSysUserMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysUser" >
+    <id column="user_code" property="userCode" jdbcType="VARCHAR" />
+    <result column="login_code" property="loginCode" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="CHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="sign" property="sign" jdbcType="VARCHAR" />
+    <result column="wx_openid" property="wxOpenid" jdbcType="VARCHAR" />
+    <result column="mobile_imei" property="mobileImei" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />
+    <result column="ref_code" property="refCode" jdbcType="VARCHAR" />
+    <result column="ref_name" property="refName" jdbcType="VARCHAR" />
+    <result column="mgr_type" property="mgrType" jdbcType="CHAR" />
+    <result column="pwd_security_level" property="pwdSecurityLevel" jdbcType="DECIMAL" />
+    <result column="pwd_update_date" property="pwdUpdateDate" jdbcType="TIMESTAMP" />
+    <result column="pwd_update_record" property="pwdUpdateRecord" jdbcType="VARCHAR" />
+    <result column="pwd_question" property="pwdQuestion" jdbcType="VARCHAR" />
+    <result column="pwd_question_answer" property="pwdQuestionAnswer" jdbcType="VARCHAR" />
+    <result column="pwd_question_2" property="pwdQuestion2" jdbcType="VARCHAR" />
+    <result column="pwd_question_answer_2" property="pwdQuestionAnswer2" jdbcType="VARCHAR" />
+    <result column="pwd_question_3" property="pwdQuestion3" jdbcType="VARCHAR" />
+    <result column="pwd_question_answer_3" property="pwdQuestionAnswer3" jdbcType="VARCHAR" />
+    <result column="pwd_quest_update_date" property="pwdQuestUpdateDate" jdbcType="TIMESTAMP" />
+    <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
+    <result column="last_login_date" property="lastLoginDate" jdbcType="TIMESTAMP" />
+    <result column="freeze_date" property="freezeDate" jdbcType="TIMESTAMP" />
+    <result column="freeze_cause" property="freezeCause" jdbcType="VARCHAR" />
+    <result column="user_weight" property="userWeight" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="corp_code" property="corpCode" jdbcType="VARCHAR" />
+    <result column="corp_name" property="corpName" jdbcType="VARCHAR" />
+    <result column="extend_s1" property="extendS1" jdbcType="VARCHAR" />
+    <result column="extend_s2" property="extendS2" jdbcType="VARCHAR" />
+    <result column="extend_s3" property="extendS3" jdbcType="VARCHAR" />
+    <result column="extend_s4" property="extendS4" jdbcType="VARCHAR" />
+    <result column="extend_s5" property="extendS5" jdbcType="VARCHAR" />
+    <result column="extend_s6" property="extendS6" jdbcType="VARCHAR" />
+    <result column="extend_s7" property="extendS7" jdbcType="VARCHAR" />
+    <result column="extend_s8" property="extendS8" jdbcType="VARCHAR" />
+    <result column="extend_i1" property="extendI1" jdbcType="DECIMAL" />
+    <result column="extend_i2" property="extendI2" jdbcType="DECIMAL" />
+    <result column="extend_i3" property="extendI3" jdbcType="DECIMAL" />
+    <result column="extend_i4" property="extendI4" jdbcType="DECIMAL" />
+    <result column="extend_f1" property="extendF1" jdbcType="DECIMAL" />
+    <result column="extend_f2" property="extendF2" jdbcType="DECIMAL" />
+    <result column="extend_f3" property="extendF3" jdbcType="DECIMAL" />
+    <result column="extend_f4" property="extendF4" jdbcType="DECIMAL" />
+    <result column="extend_d1" property="extendD1" jdbcType="TIMESTAMP" />
+    <result column="extend_d2" property="extendD2" jdbcType="TIMESTAMP" />
+    <result column="extend_d3" property="extendD3" jdbcType="TIMESTAMP" />
+    <result column="extend_d4" property="extendD4" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_code, login_code, user_name, password, email, mobile, phone, sex, avatar, sign, 
+    wx_openid, mobile_imei, user_type, ref_code, ref_name, mgr_type, pwd_security_level, 
+    pwd_update_date, pwd_update_record, pwd_question, pwd_question_answer, pwd_question_2, 
+    pwd_question_answer_2, pwd_question_3, pwd_question_answer_3, pwd_quest_update_date, 
+    last_login_ip, last_login_date, freeze_date, freeze_cause, user_weight, status, create_by, 
+    create_date, update_by, update_date, remarks, corp_code, corp_name, extend_s1, extend_s2, 
+    extend_s3, extend_s4, extend_s5, extend_s6, extend_s7, extend_s8, extend_i1, extend_i2, 
+    extend_i3, extend_i4, extend_f1, extend_f2, extend_f3, extend_f4, extend_d1, extend_d2, 
+    extend_d3, extend_d4
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_sys_user
+    where user_code = #{userCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from js_sys_user
+    where user_code = #{userCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysUser" >
+    insert into js_sys_user (user_code, login_code, user_name, 
+      password, email, mobile, 
+      phone, sex, avatar, sign, 
+      wx_openid, mobile_imei, user_type, 
+      ref_code, ref_name, mgr_type, 
+      pwd_security_level, pwd_update_date, pwd_update_record, 
+      pwd_question, pwd_question_answer, pwd_question_2, 
+      pwd_question_answer_2, pwd_question_3, pwd_question_answer_3, 
+      pwd_quest_update_date, last_login_ip, last_login_date, 
+      freeze_date, freeze_cause, user_weight, 
+      status, create_by, create_date, 
+      update_by, update_date, remarks, 
+      corp_code, corp_name, extend_s1, 
+      extend_s2, extend_s3, extend_s4, 
+      extend_s5, extend_s6, extend_s7, 
+      extend_s8, extend_i1, extend_i2, 
+      extend_i3, extend_i4, extend_f1, 
+      extend_f2, extend_f3, extend_f4, 
+      extend_d1, extend_d2, extend_d3, 
+      extend_d4)
+    values (#{userCode,jdbcType=VARCHAR}, #{loginCode,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{avatar,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, 
+      #{wxOpenid,jdbcType=VARCHAR}, #{mobileImei,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, 
+      #{refCode,jdbcType=VARCHAR}, #{refName,jdbcType=VARCHAR}, #{mgrType,jdbcType=CHAR}, 
+      #{pwdSecurityLevel,jdbcType=DECIMAL}, #{pwdUpdateDate,jdbcType=TIMESTAMP}, #{pwdUpdateRecord,jdbcType=VARCHAR}, 
+      #{pwdQuestion,jdbcType=VARCHAR}, #{pwdQuestionAnswer,jdbcType=VARCHAR}, #{pwdQuestion2,jdbcType=VARCHAR}, 
+      #{pwdQuestionAnswer2,jdbcType=VARCHAR}, #{pwdQuestion3,jdbcType=VARCHAR}, #{pwdQuestionAnswer3,jdbcType=VARCHAR}, 
+      #{pwdQuestUpdateDate,jdbcType=TIMESTAMP}, #{lastLoginIp,jdbcType=VARCHAR}, #{lastLoginDate,jdbcType=TIMESTAMP}, 
+      #{freezeDate,jdbcType=TIMESTAMP}, #{freezeCause,jdbcType=VARCHAR}, #{userWeight,jdbcType=DECIMAL}, 
+      #{status,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, 
+      #{corpCode,jdbcType=VARCHAR}, #{corpName,jdbcType=VARCHAR}, #{extendS1,jdbcType=VARCHAR}, 
+      #{extendS2,jdbcType=VARCHAR}, #{extendS3,jdbcType=VARCHAR}, #{extendS4,jdbcType=VARCHAR}, 
+      #{extendS5,jdbcType=VARCHAR}, #{extendS6,jdbcType=VARCHAR}, #{extendS7,jdbcType=VARCHAR}, 
+      #{extendS8,jdbcType=VARCHAR}, #{extendI1,jdbcType=DECIMAL}, #{extendI2,jdbcType=DECIMAL}, 
+      #{extendI3,jdbcType=DECIMAL}, #{extendI4,jdbcType=DECIMAL}, #{extendF1,jdbcType=DECIMAL}, 
+      #{extendF2,jdbcType=DECIMAL}, #{extendF3,jdbcType=DECIMAL}, #{extendF4,jdbcType=DECIMAL}, 
+      #{extendD1,jdbcType=TIMESTAMP}, #{extendD2,jdbcType=TIMESTAMP}, #{extendD3,jdbcType=TIMESTAMP}, 
+      #{extendD4,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysUser" >
+    insert into js_sys_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userCode != null" >
+        user_code,
+      </if>
+      <if test="loginCode != null" >
+        login_code,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="avatar != null" >
+        avatar,
+      </if>
+      <if test="sign != null" >
+        sign,
+      </if>
+      <if test="wxOpenid != null" >
+        wx_openid,
+      </if>
+      <if test="mobileImei != null" >
+        mobile_imei,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="refCode != null" >
+        ref_code,
+      </if>
+      <if test="refName != null" >
+        ref_name,
+      </if>
+      <if test="mgrType != null" >
+        mgr_type,
+      </if>
+      <if test="pwdSecurityLevel != null" >
+        pwd_security_level,
+      </if>
+      <if test="pwdUpdateDate != null" >
+        pwd_update_date,
+      </if>
+      <if test="pwdUpdateRecord != null" >
+        pwd_update_record,
+      </if>
+      <if test="pwdQuestion != null" >
+        pwd_question,
+      </if>
+      <if test="pwdQuestionAnswer != null" >
+        pwd_question_answer,
+      </if>
+      <if test="pwdQuestion2 != null" >
+        pwd_question_2,
+      </if>
+      <if test="pwdQuestionAnswer2 != null" >
+        pwd_question_answer_2,
+      </if>
+      <if test="pwdQuestion3 != null" >
+        pwd_question_3,
+      </if>
+      <if test="pwdQuestionAnswer3 != null" >
+        pwd_question_answer_3,
+      </if>
+      <if test="pwdQuestUpdateDate != null" >
+        pwd_quest_update_date,
+      </if>
+      <if test="lastLoginIp != null" >
+        last_login_ip,
+      </if>
+      <if test="lastLoginDate != null" >
+        last_login_date,
+      </if>
+      <if test="freezeDate != null" >
+        freeze_date,
+      </if>
+      <if test="freezeCause != null" >
+        freeze_cause,
+      </if>
+      <if test="userWeight != null" >
+        user_weight,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="corpCode != null" >
+        corp_code,
+      </if>
+      <if test="corpName != null" >
+        corp_name,
+      </if>
+      <if test="extendS1 != null" >
+        extend_s1,
+      </if>
+      <if test="extendS2 != null" >
+        extend_s2,
+      </if>
+      <if test="extendS3 != null" >
+        extend_s3,
+      </if>
+      <if test="extendS4 != null" >
+        extend_s4,
+      </if>
+      <if test="extendS5 != null" >
+        extend_s5,
+      </if>
+      <if test="extendS6 != null" >
+        extend_s6,
+      </if>
+      <if test="extendS7 != null" >
+        extend_s7,
+      </if>
+      <if test="extendS8 != null" >
+        extend_s8,
+      </if>
+      <if test="extendI1 != null" >
+        extend_i1,
+      </if>
+      <if test="extendI2 != null" >
+        extend_i2,
+      </if>
+      <if test="extendI3 != null" >
+        extend_i3,
+      </if>
+      <if test="extendI4 != null" >
+        extend_i4,
+      </if>
+      <if test="extendF1 != null" >
+        extend_f1,
+      </if>
+      <if test="extendF2 != null" >
+        extend_f2,
+      </if>
+      <if test="extendF3 != null" >
+        extend_f3,
+      </if>
+      <if test="extendF4 != null" >
+        extend_f4,
+      </if>
+      <if test="extendD1 != null" >
+        extend_d1,
+      </if>
+      <if test="extendD2 != null" >
+        extend_d2,
+      </if>
+      <if test="extendD3 != null" >
+        extend_d3,
+      </if>
+      <if test="extendD4 != null" >
+        extend_d4,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userCode != null" >
+        #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="loginCode != null" >
+        #{loginCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="wxOpenid != null" >
+        #{wxOpenid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileImei != null" >
+        #{mobileImei,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="refCode != null" >
+        #{refCode,jdbcType=VARCHAR},
+      </if>
+      <if test="refName != null" >
+        #{refName,jdbcType=VARCHAR},
+      </if>
+      <if test="mgrType != null" >
+        #{mgrType,jdbcType=CHAR},
+      </if>
+      <if test="pwdSecurityLevel != null" >
+        #{pwdSecurityLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="pwdUpdateDate != null" >
+        #{pwdUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pwdUpdateRecord != null" >
+        #{pwdUpdateRecord,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdQuestion != null" >
+        #{pwdQuestion,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdQuestionAnswer != null" >
+        #{pwdQuestionAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdQuestion2 != null" >
+        #{pwdQuestion2,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdQuestionAnswer2 != null" >
+        #{pwdQuestionAnswer2,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdQuestion3 != null" >
+        #{pwdQuestion3,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdQuestionAnswer3 != null" >
+        #{pwdQuestionAnswer3,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdQuestUpdateDate != null" >
+        #{pwdQuestUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginIp != null" >
+        #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginDate != null" >
+        #{lastLoginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="freezeDate != null" >
+        #{freezeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="freezeCause != null" >
+        #{freezeCause,jdbcType=VARCHAR},
+      </if>
+      <if test="userWeight != null" >
+        #{userWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="corpCode != null" >
+        #{corpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="corpName != null" >
+        #{corpName,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS1 != null" >
+        #{extendS1,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS2 != null" >
+        #{extendS2,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS3 != null" >
+        #{extendS3,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS4 != null" >
+        #{extendS4,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS5 != null" >
+        #{extendS5,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS6 != null" >
+        #{extendS6,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS7 != null" >
+        #{extendS7,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS8 != null" >
+        #{extendS8,jdbcType=VARCHAR},
+      </if>
+      <if test="extendI1 != null" >
+        #{extendI1,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI2 != null" >
+        #{extendI2,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI3 != null" >
+        #{extendI3,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI4 != null" >
+        #{extendI4,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF1 != null" >
+        #{extendF1,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF2 != null" >
+        #{extendF2,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF3 != null" >
+        #{extendF3,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF4 != null" >
+        #{extendF4,jdbcType=DECIMAL},
+      </if>
+      <if test="extendD1 != null" >
+        #{extendD1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD2 != null" >
+        #{extendD2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD3 != null" >
+        #{extendD3,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD4 != null" >
+        #{extendD4,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.test.entity.JsSysUser" >
+    update js_sys_user
+    <set >
+      <if test="loginCode != null" >
+        login_code = #{loginCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="wxOpenid != null" >
+        wx_openid = #{wxOpenid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileImei != null" >
+        mobile_imei = #{mobileImei,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="refCode != null" >
+        ref_code = #{refCode,jdbcType=VARCHAR},
+      </if>
+      <if test="refName != null" >
+        ref_name = #{refName,jdbcType=VARCHAR},
+      </if>
+      <if test="mgrType != null" >
+        mgr_type = #{mgrType,jdbcType=CHAR},
+      </if>
+      <if test="pwdSecurityLevel != null" >
+        pwd_security_level = #{pwdSecurityLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="pwdUpdateDate != null" >
+        pwd_update_date = #{pwdUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pwdUpdateRecord != null" >
+        pwd_update_record = #{pwdUpdateRecord,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdQuestion != null" >
+        pwd_question = #{pwdQuestion,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdQuestionAnswer != null" >
+        pwd_question_answer = #{pwdQuestionAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdQuestion2 != null" >
+        pwd_question_2 = #{pwdQuestion2,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdQuestionAnswer2 != null" >
+        pwd_question_answer_2 = #{pwdQuestionAnswer2,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdQuestion3 != null" >
+        pwd_question_3 = #{pwdQuestion3,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdQuestionAnswer3 != null" >
+        pwd_question_answer_3 = #{pwdQuestionAnswer3,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdQuestUpdateDate != null" >
+        pwd_quest_update_date = #{pwdQuestUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginIp != null" >
+        last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginDate != null" >
+        last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="freezeDate != null" >
+        freeze_date = #{freezeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="freezeCause != null" >
+        freeze_cause = #{freezeCause,jdbcType=VARCHAR},
+      </if>
+      <if test="userWeight != null" >
+        user_weight = #{userWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="corpCode != null" >
+        corp_code = #{corpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="corpName != null" >
+        corp_name = #{corpName,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS1 != null" >
+        extend_s1 = #{extendS1,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS2 != null" >
+        extend_s2 = #{extendS2,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS3 != null" >
+        extend_s3 = #{extendS3,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS4 != null" >
+        extend_s4 = #{extendS4,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS5 != null" >
+        extend_s5 = #{extendS5,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS6 != null" >
+        extend_s6 = #{extendS6,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS7 != null" >
+        extend_s7 = #{extendS7,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS8 != null" >
+        extend_s8 = #{extendS8,jdbcType=VARCHAR},
+      </if>
+      <if test="extendI1 != null" >
+        extend_i1 = #{extendI1,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI2 != null" >
+        extend_i2 = #{extendI2,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI3 != null" >
+        extend_i3 = #{extendI3,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI4 != null" >
+        extend_i4 = #{extendI4,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF1 != null" >
+        extend_f1 = #{extendF1,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF2 != null" >
+        extend_f2 = #{extendF2,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF3 != null" >
+        extend_f3 = #{extendF3,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF4 != null" >
+        extend_f4 = #{extendF4,jdbcType=DECIMAL},
+      </if>
+      <if test="extendD1 != null" >
+        extend_d1 = #{extendD1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD2 != null" >
+        extend_d2 = #{extendD2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD3 != null" >
+        extend_d3 = #{extendD3,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD4 != null" >
+        extend_d4 = #{extendD4,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_code = #{userCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysUser" >
+    update js_sys_user
+    set login_code = #{loginCode,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=CHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=VARCHAR},
+      wx_openid = #{wxOpenid,jdbcType=VARCHAR},
+      mobile_imei = #{mobileImei,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=VARCHAR},
+      ref_code = #{refCode,jdbcType=VARCHAR},
+      ref_name = #{refName,jdbcType=VARCHAR},
+      mgr_type = #{mgrType,jdbcType=CHAR},
+      pwd_security_level = #{pwdSecurityLevel,jdbcType=DECIMAL},
+      pwd_update_date = #{pwdUpdateDate,jdbcType=TIMESTAMP},
+      pwd_update_record = #{pwdUpdateRecord,jdbcType=VARCHAR},
+      pwd_question = #{pwdQuestion,jdbcType=VARCHAR},
+      pwd_question_answer = #{pwdQuestionAnswer,jdbcType=VARCHAR},
+      pwd_question_2 = #{pwdQuestion2,jdbcType=VARCHAR},
+      pwd_question_answer_2 = #{pwdQuestionAnswer2,jdbcType=VARCHAR},
+      pwd_question_3 = #{pwdQuestion3,jdbcType=VARCHAR},
+      pwd_question_answer_3 = #{pwdQuestionAnswer3,jdbcType=VARCHAR},
+      pwd_quest_update_date = #{pwdQuestUpdateDate,jdbcType=TIMESTAMP},
+      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
+      freeze_date = #{freezeDate,jdbcType=TIMESTAMP},
+      freeze_cause = #{freezeCause,jdbcType=VARCHAR},
+      user_weight = #{userWeight,jdbcType=DECIMAL},
+      status = #{status,jdbcType=CHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      corp_code = #{corpCode,jdbcType=VARCHAR},
+      corp_name = #{corpName,jdbcType=VARCHAR},
+      extend_s1 = #{extendS1,jdbcType=VARCHAR},
+      extend_s2 = #{extendS2,jdbcType=VARCHAR},
+      extend_s3 = #{extendS3,jdbcType=VARCHAR},
+      extend_s4 = #{extendS4,jdbcType=VARCHAR},
+      extend_s5 = #{extendS5,jdbcType=VARCHAR},
+      extend_s6 = #{extendS6,jdbcType=VARCHAR},
+      extend_s7 = #{extendS7,jdbcType=VARCHAR},
+      extend_s8 = #{extendS8,jdbcType=VARCHAR},
+      extend_i1 = #{extendI1,jdbcType=DECIMAL},
+      extend_i2 = #{extendI2,jdbcType=DECIMAL},
+      extend_i3 = #{extendI3,jdbcType=DECIMAL},
+      extend_i4 = #{extendI4,jdbcType=DECIMAL},
+      extend_f1 = #{extendF1,jdbcType=DECIMAL},
+      extend_f2 = #{extendF2,jdbcType=DECIMAL},
+      extend_f3 = #{extendF3,jdbcType=DECIMAL},
+      extend_f4 = #{extendF4,jdbcType=DECIMAL},
+      extend_d1 = #{extendD1,jdbcType=TIMESTAMP},
+      extend_d2 = #{extendD2,jdbcType=TIMESTAMP},
+      extend_d3 = #{extendD3,jdbcType=TIMESTAMP},
+      extend_d4 = #{extendD4,jdbcType=TIMESTAMP}
+    where user_code = #{userCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

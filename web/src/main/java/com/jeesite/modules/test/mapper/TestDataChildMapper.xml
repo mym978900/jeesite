@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.TestDataChildMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.TestDataChild" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="test_sort" property="testSort" jdbcType="INTEGER" />
+    <result column="test_data_id" property="testDataId" jdbcType="VARCHAR" />
+    <result column="test_input" property="testInput" jdbcType="VARCHAR" />
+    <result column="test_textarea" property="testTextarea" jdbcType="VARCHAR" />
+    <result column="test_select" property="testSelect" jdbcType="VARCHAR" />
+    <result column="test_select_multiple" property="testSelectMultiple" jdbcType="VARCHAR" />
+    <result column="test_radio" property="testRadio" jdbcType="VARCHAR" />
+    <result column="test_checkbox" property="testCheckbox" jdbcType="VARCHAR" />
+    <result column="test_date" property="testDate" jdbcType="TIMESTAMP" />
+    <result column="test_datetime" property="testDatetime" jdbcType="TIMESTAMP" />
+    <result column="test_user_code" property="testUserCode" jdbcType="VARCHAR" />
+    <result column="test_office_code" property="testOfficeCode" jdbcType="VARCHAR" />
+    <result column="test_area_code" property="testAreaCode" jdbcType="VARCHAR" />
+    <result column="test_area_name" property="testAreaName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, test_sort, test_data_id, test_input, test_textarea, test_select, test_select_multiple, 
+    test_radio, test_checkbox, test_date, test_datetime, test_user_code, test_office_code, 
+    test_area_code, test_area_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from test_data_child
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from test_data_child
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.TestDataChild" >
+    insert into test_data_child (id, test_sort, test_data_id, 
+      test_input, test_textarea, test_select, 
+      test_select_multiple, test_radio, test_checkbox, 
+      test_date, test_datetime, test_user_code, 
+      test_office_code, test_area_code, test_area_name
+      )
+    values (#{id,jdbcType=VARCHAR}, #{testSort,jdbcType=INTEGER}, #{testDataId,jdbcType=VARCHAR}, 
+      #{testInput,jdbcType=VARCHAR}, #{testTextarea,jdbcType=VARCHAR}, #{testSelect,jdbcType=VARCHAR}, 
+      #{testSelectMultiple,jdbcType=VARCHAR}, #{testRadio,jdbcType=VARCHAR}, #{testCheckbox,jdbcType=VARCHAR}, 
+      #{testDate,jdbcType=TIMESTAMP}, #{testDatetime,jdbcType=TIMESTAMP}, #{testUserCode,jdbcType=VARCHAR}, 
+      #{testOfficeCode,jdbcType=VARCHAR}, #{testAreaCode,jdbcType=VARCHAR}, #{testAreaName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.TestDataChild" >
+    insert into test_data_child
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="testSort != null" >
+        test_sort,
+      </if>
+      <if test="testDataId != null" >
+        test_data_id,
+      </if>
+      <if test="testInput != null" >
+        test_input,
+      </if>
+      <if test="testTextarea != null" >
+        test_textarea,
+      </if>
+      <if test="testSelect != null" >
+        test_select,
+      </if>
+      <if test="testSelectMultiple != null" >
+        test_select_multiple,
+      </if>
+      <if test="testRadio != null" >
+        test_radio,
+      </if>
+      <if test="testCheckbox != null" >
+        test_checkbox,
+      </if>
+      <if test="testDate != null" >
+        test_date,
+      </if>
+      <if test="testDatetime != null" >
+        test_datetime,
+      </if>
+      <if test="testUserCode != null" >
+        test_user_code,
+      </if>
+      <if test="testOfficeCode != null" >
+        test_office_code,
+      </if>
+      <if test="testAreaCode != null" >
+        test_area_code,
+      </if>
+      <if test="testAreaName != null" >
+        test_area_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="testSort != null" >
+        #{testSort,jdbcType=INTEGER},
+      </if>
+      <if test="testDataId != null" >
+        #{testDataId,jdbcType=VARCHAR},
+      </if>
+      <if test="testInput != null" >
+        #{testInput,jdbcType=VARCHAR},
+      </if>
+      <if test="testTextarea != null" >
+        #{testTextarea,jdbcType=VARCHAR},
+      </if>
+      <if test="testSelect != null" >
+        #{testSelect,jdbcType=VARCHAR},
+      </if>
+      <if test="testSelectMultiple != null" >
+        #{testSelectMultiple,jdbcType=VARCHAR},
+      </if>
+      <if test="testRadio != null" >
+        #{testRadio,jdbcType=VARCHAR},
+      </if>
+      <if test="testCheckbox != null" >
+        #{testCheckbox,jdbcType=VARCHAR},
+      </if>
+      <if test="testDate != null" >
+        #{testDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testDatetime != null" >
+        #{testDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testUserCode != null" >
+        #{testUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="testOfficeCode != null" >
+        #{testOfficeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="testAreaCode != null" >
+        #{testAreaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="testAreaName != null" >
+        #{testAreaName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.test.entity.TestDataChild" >
+    update test_data_child
+    <set >
+      <if test="testSort != null" >
+        test_sort = #{testSort,jdbcType=INTEGER},
+      </if>
+      <if test="testDataId != null" >
+        test_data_id = #{testDataId,jdbcType=VARCHAR},
+      </if>
+      <if test="testInput != null" >
+        test_input = #{testInput,jdbcType=VARCHAR},
+      </if>
+      <if test="testTextarea != null" >
+        test_textarea = #{testTextarea,jdbcType=VARCHAR},
+      </if>
+      <if test="testSelect != null" >
+        test_select = #{testSelect,jdbcType=VARCHAR},
+      </if>
+      <if test="testSelectMultiple != null" >
+        test_select_multiple = #{testSelectMultiple,jdbcType=VARCHAR},
+      </if>
+      <if test="testRadio != null" >
+        test_radio = #{testRadio,jdbcType=VARCHAR},
+      </if>
+      <if test="testCheckbox != null" >
+        test_checkbox = #{testCheckbox,jdbcType=VARCHAR},
+      </if>
+      <if test="testDate != null" >
+        test_date = #{testDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testDatetime != null" >
+        test_datetime = #{testDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testUserCode != null" >
+        test_user_code = #{testUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="testOfficeCode != null" >
+        test_office_code = #{testOfficeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="testAreaCode != null" >
+        test_area_code = #{testAreaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="testAreaName != null" >
+        test_area_name = #{testAreaName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.test.entity.TestDataChild" >
+    update test_data_child
+    set test_sort = #{testSort,jdbcType=INTEGER},
+      test_data_id = #{testDataId,jdbcType=VARCHAR},
+      test_input = #{testInput,jdbcType=VARCHAR},
+      test_textarea = #{testTextarea,jdbcType=VARCHAR},
+      test_select = #{testSelect,jdbcType=VARCHAR},
+      test_select_multiple = #{testSelectMultiple,jdbcType=VARCHAR},
+      test_radio = #{testRadio,jdbcType=VARCHAR},
+      test_checkbox = #{testCheckbox,jdbcType=VARCHAR},
+      test_date = #{testDate,jdbcType=TIMESTAMP},
+      test_datetime = #{testDatetime,jdbcType=TIMESTAMP},
+      test_user_code = #{testUserCode,jdbcType=VARCHAR},
+      test_office_code = #{testOfficeCode,jdbcType=VARCHAR},
+      test_area_code = #{testAreaCode,jdbcType=VARCHAR},
+      test_area_name = #{testAreaName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

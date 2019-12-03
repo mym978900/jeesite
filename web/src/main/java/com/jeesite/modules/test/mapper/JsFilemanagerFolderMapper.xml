@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsFilemanagerFolderMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsFilemanagerFolder" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+    <result column="parent_codes" property="parentCodes" jdbcType="VARCHAR" />
+    <result column="tree_sort" property="treeSort" jdbcType="DECIMAL" />
+    <result column="tree_sorts" property="treeSorts" jdbcType="VARCHAR" />
+    <result column="tree_leaf" property="treeLeaf" jdbcType="CHAR" />
+    <result column="tree_level" property="treeLevel" jdbcType="DECIMAL" />
+    <result column="tree_names" property="treeNames" jdbcType="VARCHAR" />
+    <result column="folder_name" property="folderName" jdbcType="VARCHAR" />
+    <result column="group_type" property="groupType" jdbcType="VARCHAR" />
+    <result column="office_code" property="officeCode" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="corp_code" property="corpCode" jdbcType="VARCHAR" />
+    <result column="corp_name" property="corpName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, parent_code, parent_codes, tree_sort, tree_sorts, tree_leaf, tree_level, tree_names, 
+    folder_name, group_type, office_code, status, create_by, create_date, update_by, 
+    update_date, remarks, corp_code, corp_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_filemanager_folder
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from js_filemanager_folder
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsFilemanagerFolder" >
+    insert into js_filemanager_folder (id, parent_code, parent_codes, 
+      tree_sort, tree_sorts, tree_leaf, 
+      tree_level, tree_names, folder_name, 
+      group_type, office_code, status, 
+      create_by, create_date, update_by, 
+      update_date, remarks, corp_code, 
+      corp_name)
+    values (#{id,jdbcType=VARCHAR}, #{parentCode,jdbcType=VARCHAR}, #{parentCodes,jdbcType=VARCHAR}, 
+      #{treeSort,jdbcType=DECIMAL}, #{treeSorts,jdbcType=VARCHAR}, #{treeLeaf,jdbcType=CHAR}, 
+      #{treeLevel,jdbcType=DECIMAL}, #{treeNames,jdbcType=VARCHAR}, #{folderName,jdbcType=VARCHAR}, 
+      #{groupType,jdbcType=VARCHAR}, #{officeCode,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{corpCode,jdbcType=VARCHAR}, 
+      #{corpName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsFilemanagerFolder" >
+    insert into js_filemanager_folder
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parentCode != null" >
+        parent_code,
+      </if>
+      <if test="parentCodes != null" >
+        parent_codes,
+      </if>
+      <if test="treeSort != null" >
+        tree_sort,
+      </if>
+      <if test="treeSorts != null" >
+        tree_sorts,
+      </if>
+      <if test="treeLeaf != null" >
+        tree_leaf,
+      </if>
+      <if test="treeLevel != null" >
+        tree_level,
+      </if>
+      <if test="treeNames != null" >
+        tree_names,
+      </if>
+      <if test="folderName != null" >
+        folder_name,
+      </if>
+      <if test="groupType != null" >
+        group_type,
+      </if>
+      <if test="officeCode != null" >
+        office_code,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="corpCode != null" >
+        corp_code,
+      </if>
+      <if test="corpName != null" >
+        corp_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCodes != null" >
+        #{parentCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="treeSort != null" >
+        #{treeSort,jdbcType=DECIMAL},
+      </if>
+      <if test="treeSorts != null" >
+        #{treeSorts,jdbcType=VARCHAR},
+      </if>
+      <if test="treeLeaf != null" >
+        #{treeLeaf,jdbcType=CHAR},
+      </if>
+      <if test="treeLevel != null" >
+        #{treeLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="treeNames != null" >
+        #{treeNames,jdbcType=VARCHAR},
+      </if>
+      <if test="folderName != null" >
+        #{folderName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupType != null" >
+        #{groupType,jdbcType=VARCHAR},
+      </if>
+      <if test="officeCode != null" >
+        #{officeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="corpCode != null" >
+        #{corpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="corpName != null" >
+        #{corpName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.test.entity.JsFilemanagerFolder" >
+    update js_filemanager_folder
+    <set >
+      <if test="parentCode != null" >
+        parent_code = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCodes != null" >
+        parent_codes = #{parentCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="treeSort != null" >
+        tree_sort = #{treeSort,jdbcType=DECIMAL},
+      </if>
+      <if test="treeSorts != null" >
+        tree_sorts = #{treeSorts,jdbcType=VARCHAR},
+      </if>
+      <if test="treeLeaf != null" >
+        tree_leaf = #{treeLeaf,jdbcType=CHAR},
+      </if>
+      <if test="treeLevel != null" >
+        tree_level = #{treeLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="treeNames != null" >
+        tree_names = #{treeNames,jdbcType=VARCHAR},
+      </if>
+      <if test="folderName != null" >
+        folder_name = #{folderName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupType != null" >
+        group_type = #{groupType,jdbcType=VARCHAR},
+      </if>
+      <if test="officeCode != null" >
+        office_code = #{officeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="corpCode != null" >
+        corp_code = #{corpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="corpName != null" >
+        corp_name = #{corpName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsFilemanagerFolder" >
+    update js_filemanager_folder
+    set parent_code = #{parentCode,jdbcType=VARCHAR},
+      parent_codes = #{parentCodes,jdbcType=VARCHAR},
+      tree_sort = #{treeSort,jdbcType=DECIMAL},
+      tree_sorts = #{treeSorts,jdbcType=VARCHAR},
+      tree_leaf = #{treeLeaf,jdbcType=CHAR},
+      tree_level = #{treeLevel,jdbcType=DECIMAL},
+      tree_names = #{treeNames,jdbcType=VARCHAR},
+      folder_name = #{folderName,jdbcType=VARCHAR},
+      group_type = #{groupType,jdbcType=VARCHAR},
+      office_code = #{officeCode,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      corp_code = #{corpCode,jdbcType=VARCHAR},
+      corp_name = #{corpName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

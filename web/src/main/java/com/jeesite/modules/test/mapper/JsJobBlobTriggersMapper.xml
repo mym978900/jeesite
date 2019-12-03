@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsJobBlobTriggersMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsJobBlobTriggers" >
+    <id column="SCHED_NAME" property="schedName" jdbcType="VARCHAR" />
+    <id column="TRIGGER_NAME" property="triggerName" jdbcType="VARCHAR" />
+    <id column="TRIGGER_GROUP" property="triggerGroup" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.jeesite.modules.test.entity.JsJobBlobTriggers" extends="BaseResultMap" >
+    <result column="BLOB_DATA" property="blobData" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP
+  </sql>
+  <sql id="Blob_Column_List" >
+    BLOB_DATA
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="com.jeesite.modules.test.entity.JsJobBlobTriggersKey" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from js_job_BLOB_TRIGGERS
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and TRIGGER_NAME = #{triggerName,jdbcType=VARCHAR}
+      and TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsJobBlobTriggersKey" >
+    delete from js_job_BLOB_TRIGGERS
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and TRIGGER_NAME = #{triggerName,jdbcType=VARCHAR}
+      and TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsJobBlobTriggers" >
+    insert into js_job_BLOB_TRIGGERS (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP, 
+      BLOB_DATA)
+    values (#{schedName,jdbcType=VARCHAR}, #{triggerName,jdbcType=VARCHAR}, #{triggerGroup,jdbcType=VARCHAR}, 
+      #{blobData,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsJobBlobTriggers" >
+    insert into js_job_BLOB_TRIGGERS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="schedName != null" >
+        SCHED_NAME,
+      </if>
+      <if test="triggerName != null" >
+        TRIGGER_NAME,
+      </if>
+      <if test="triggerGroup != null" >
+        TRIGGER_GROUP,
+      </if>
+      <if test="blobData != null" >
+        BLOB_DATA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="schedName != null" >
+        #{schedName,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerName != null" >
+        #{triggerName,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerGroup != null" >
+        #{triggerGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="blobData != null" >
+        #{blobData,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.test.entity.JsJobBlobTriggers" >
+    update js_job_BLOB_TRIGGERS
+    <set >
+      <if test="blobData != null" >
+        BLOB_DATA = #{blobData,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and TRIGGER_NAME = #{triggerName,jdbcType=VARCHAR}
+      and TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jeesite.modules.test.entity.JsJobBlobTriggers" >
+    update js_job_BLOB_TRIGGERS
+    set BLOB_DATA = #{blobData,jdbcType=LONGVARBINARY}
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and TRIGGER_NAME = #{triggerName,jdbcType=VARCHAR}
+      and TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+  </update>
+</mapper>

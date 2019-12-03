@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsSysUserRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysUserRoleKey" >
+    <id column="user_code" property="userCode" jdbcType="VARCHAR" />
+    <id column="role_code" property="roleCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysUserRoleKey" >
+    delete from js_sys_user_role
+    where user_code = #{userCode,jdbcType=VARCHAR}
+      and role_code = #{roleCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysUserRoleKey" >
+    insert into js_sys_user_role (user_code, role_code)
+    values (#{userCode,jdbcType=VARCHAR}, #{roleCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysUserRoleKey" >
+    insert into js_sys_user_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userCode != null" >
+        user_code,
+      </if>
+      <if test="roleCode != null" >
+        role_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userCode != null" >
+        #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roleCode != null" >
+        #{roleCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

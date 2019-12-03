@@ -432,10 +432,10 @@ logging:
 #mybatis:
 #
 #  # @MyBatisDao、Aliases 扫描基础包，如果多个，用“,”分隔
-#  scanBasePackage: com.jeesite.modules
+  scanBasePackage: com.jeesite.modules.test.entity
 #  
 #  # TypeHandlers 扫描基础包，如果多个，用“,”分隔
-#  scanTypeHandlersPackage: ~
+  scanTypeHandlersPackage: com.jeesite.modules.test.mapper
 #  
 #  # Mapper文件刷新线程
 #  mapper:

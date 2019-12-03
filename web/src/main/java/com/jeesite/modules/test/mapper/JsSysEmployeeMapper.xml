@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsSysEmployeeMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysEmployee" >
+    <id column="emp_code" property="empCode" jdbcType="VARCHAR" />
+    <result column="emp_name" property="empName" jdbcType="VARCHAR" />
+    <result column="emp_name_en" property="empNameEn" jdbcType="VARCHAR" />
+    <result column="office_code" property="officeCode" jdbcType="VARCHAR" />
+    <result column="office_name" property="officeName" jdbcType="VARCHAR" />
+    <result column="company_code" property="companyCode" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="corp_code" property="corpCode" jdbcType="VARCHAR" />
+    <result column="corp_name" property="corpName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    emp_code, emp_name, emp_name_en, office_code, office_name, company_code, company_name, 
+    status, create_by, create_date, update_by, update_date, remarks, corp_code, corp_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_sys_employee
+    where emp_code = #{empCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from js_sys_employee
+    where emp_code = #{empCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysEmployee" >
+    insert into js_sys_employee (emp_code, emp_name, emp_name_en, 
+      office_code, office_name, company_code, 
+      company_name, status, create_by, 
+      create_date, update_by, update_date, 
+      remarks, corp_code, corp_name
+      )
+    values (#{empCode,jdbcType=VARCHAR}, #{empName,jdbcType=VARCHAR}, #{empNameEn,jdbcType=VARCHAR}, 
+      #{officeCode,jdbcType=VARCHAR}, #{officeName,jdbcType=VARCHAR}, #{companyCode,jdbcType=VARCHAR}, 
+      #{companyName,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{corpCode,jdbcType=VARCHAR}, #{corpName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysEmployee" >
+    insert into js_sys_employee
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="empCode != null" >
+        emp_code,
+      </if>
+      <if test="empName != null" >
+        emp_name,
+      </if>
+      <if test="empNameEn != null" >
+        emp_name_en,
+      </if>
+      <if test="officeCode != null" >
+        office_code,
+      </if>
+      <if test="officeName != null" >
+        office_name,
+      </if>
+      <if test="companyCode != null" >
+        company_code,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="corpCode != null" >
+        corp_code,
+      </if>
+      <if test="corpName != null" >
+        corp_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="empCode != null" >
+        #{empCode,jdbcType=VARCHAR},
+      </if>
+      <if test="empName != null" >
+        #{empName,jdbcType=VARCHAR},
+      </if>
+      <if test="empNameEn != null" >
+        #{empNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="officeCode != null" >
+        #{officeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="officeName != null" >
+        #{officeName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCode != null" >
+        #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="corpCode != null" >
+        #{corpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="corpName != null" >
+        #{corpName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.test.entity.JsSysEmployee" >
+    update js_sys_employee
+    <set >
+      <if test="empName != null" >
+        emp_name = #{empName,jdbcType=VARCHAR},
+      </if>
+      <if test="empNameEn != null" >
+        emp_name_en = #{empNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="officeCode != null" >
+        office_code = #{officeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="officeName != null" >
+        office_name = #{officeName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCode != null" >
+        company_code = #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="corpCode != null" >
+        corp_code = #{corpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="corpName != null" >
+        corp_name = #{corpName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where emp_code = #{empCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysEmployee" >
+    update js_sys_employee
+    set emp_name = #{empName,jdbcType=VARCHAR},
+      emp_name_en = #{empNameEn,jdbcType=VARCHAR},
+      office_code = #{officeCode,jdbcType=VARCHAR},
+      office_name = #{officeName,jdbcType=VARCHAR},
+      company_code = #{companyCode,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      corp_code = #{corpCode,jdbcType=VARCHAR},
+      corp_name = #{corpName,jdbcType=VARCHAR}
+    where emp_code = #{empCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

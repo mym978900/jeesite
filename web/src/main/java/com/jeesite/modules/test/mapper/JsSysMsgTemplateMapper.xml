@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsSysMsgTemplateMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysMsgTemplate" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="module_code" property="moduleCode" jdbcType="VARCHAR" />
+    <result column="tpl_key" property="tplKey" jdbcType="VARCHAR" />
+    <result column="tpl_name" property="tplName" jdbcType="VARCHAR" />
+    <result column="tpl_type" property="tplType" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.jeesite.modules.test.entity.JsSysMsgTemplate" extends="BaseResultMap" >
+    <result column="tpl_content" property="tplContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, module_code, tpl_key, tpl_name, tpl_type, status, create_by, create_date, update_by, 
+    update_date, remarks
+  </sql>
+  <sql id="Blob_Column_List" >
+    tpl_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from js_sys_msg_template
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from js_sys_msg_template
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysMsgTemplate" >
+    insert into js_sys_msg_template (id, module_code, tpl_key, 
+      tpl_name, tpl_type, status, 
+      create_by, create_date, update_by, 
+      update_date, remarks, tpl_content
+      )
+    values (#{id,jdbcType=VARCHAR}, #{moduleCode,jdbcType=VARCHAR}, #{tplKey,jdbcType=VARCHAR}, 
+      #{tplName,jdbcType=VARCHAR}, #{tplType,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{tplContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysMsgTemplate" >
+    insert into js_sys_msg_template
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="moduleCode != null" >
+        module_code,
+      </if>
+      <if test="tplKey != null" >
+        tpl_key,
+      </if>
+      <if test="tplName != null" >
+        tpl_name,
+      </if>
+      <if test="tplType != null" >
+        tpl_type,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="tplContent != null" >
+        tpl_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleCode != null" >
+        #{moduleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tplKey != null" >
+        #{tplKey,jdbcType=VARCHAR},
+      </if>
+      <if test="tplName != null" >
+        #{tplName,jdbcType=VARCHAR},
+      </if>
+      <if test="tplType != null" >
+        #{tplType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="tplContent != null" >
+        #{tplContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.test.entity.JsSysMsgTemplate" >
+    update js_sys_msg_template
+    <set >
+      <if test="moduleCode != null" >
+        module_code = #{moduleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tplKey != null" >
+        tpl_key = #{tplKey,jdbcType=VARCHAR},
+      </if>
+      <if test="tplName != null" >
+        tpl_name = #{tplName,jdbcType=VARCHAR},
+      </if>
+      <if test="tplType != null" >
+        tpl_type = #{tplType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="tplContent != null" >
+        tpl_content = #{tplContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jeesite.modules.test.entity.JsSysMsgTemplate" >
+    update js_sys_msg_template
+    set module_code = #{moduleCode,jdbcType=VARCHAR},
+      tpl_key = #{tplKey,jdbcType=VARCHAR},
+      tpl_name = #{tplName,jdbcType=VARCHAR},
+      tpl_type = #{tplType,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      tpl_content = #{tplContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysMsgTemplate" >
+    update js_sys_msg_template
+    set module_code = #{moduleCode,jdbcType=VARCHAR},
+      tpl_key = #{tplKey,jdbcType=VARCHAR},
+      tpl_name = #{tplName,jdbcType=VARCHAR},
+      tpl_type = #{tplType,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

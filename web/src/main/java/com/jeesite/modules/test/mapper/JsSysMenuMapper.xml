@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsSysMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysMenu" >
+    <id column="menu_code" property="menuCode" jdbcType="VARCHAR" />
+    <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+    <result column="parent_codes" property="parentCodes" jdbcType="VARCHAR" />
+    <result column="tree_sort" property="treeSort" jdbcType="DECIMAL" />
+    <result column="tree_sorts" property="treeSorts" jdbcType="VARCHAR" />
+    <result column="tree_leaf" property="treeLeaf" jdbcType="CHAR" />
+    <result column="tree_level" property="treeLevel" jdbcType="DECIMAL" />
+    <result column="tree_names" property="treeNames" jdbcType="VARCHAR" />
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="menu_type" property="menuType" jdbcType="CHAR" />
+    <result column="menu_href" property="menuHref" jdbcType="VARCHAR" />
+    <result column="menu_target" property="menuTarget" jdbcType="VARCHAR" />
+    <result column="menu_icon" property="menuIcon" jdbcType="VARCHAR" />
+    <result column="menu_color" property="menuColor" jdbcType="VARCHAR" />
+    <result column="menu_title" property="menuTitle" jdbcType="VARCHAR" />
+    <result column="permission" property="permission" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="DECIMAL" />
+    <result column="is_show" property="isShow" jdbcType="CHAR" />
+    <result column="sys_code" property="sysCode" jdbcType="VARCHAR" />
+    <result column="module_codes" property="moduleCodes" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="extend_s1" property="extendS1" jdbcType="VARCHAR" />
+    <result column="extend_s2" property="extendS2" jdbcType="VARCHAR" />
+    <result column="extend_s3" property="extendS3" jdbcType="VARCHAR" />
+    <result column="extend_s4" property="extendS4" jdbcType="VARCHAR" />
+    <result column="extend_s5" property="extendS5" jdbcType="VARCHAR" />
+    <result column="extend_s6" property="extendS6" jdbcType="VARCHAR" />
+    <result column="extend_s7" property="extendS7" jdbcType="VARCHAR" />
+    <result column="extend_s8" property="extendS8" jdbcType="VARCHAR" />
+    <result column="extend_i1" property="extendI1" jdbcType="DECIMAL" />
+    <result column="extend_i2" property="extendI2" jdbcType="DECIMAL" />
+    <result column="extend_i3" property="extendI3" jdbcType="DECIMAL" />
+    <result column="extend_i4" property="extendI4" jdbcType="DECIMAL" />
+    <result column="extend_f1" property="extendF1" jdbcType="DECIMAL" />
+    <result column="extend_f2" property="extendF2" jdbcType="DECIMAL" />
+    <result column="extend_f3" property="extendF3" jdbcType="DECIMAL" />
+    <result column="extend_f4" property="extendF4" jdbcType="DECIMAL" />
+    <result column="extend_d1" property="extendD1" jdbcType="TIMESTAMP" />
+    <result column="extend_d2" property="extendD2" jdbcType="TIMESTAMP" />
+    <result column="extend_d3" property="extendD3" jdbcType="TIMESTAMP" />
+    <result column="extend_d4" property="extendD4" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    menu_code, parent_code, parent_codes, tree_sort, tree_sorts, tree_leaf, tree_level, 
+    tree_names, menu_name, menu_type, menu_href, menu_target, menu_icon, menu_color, 
+    menu_title, permission, weight, is_show, sys_code, module_codes, status, create_by, 
+    create_date, update_by, update_date, remarks, extend_s1, extend_s2, extend_s3, extend_s4, 
+    extend_s5, extend_s6, extend_s7, extend_s8, extend_i1, extend_i2, extend_i3, extend_i4, 
+    extend_f1, extend_f2, extend_f3, extend_f4, extend_d1, extend_d2, extend_d3, extend_d4
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_sys_menu
+    where menu_code = #{menuCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from js_sys_menu
+    where menu_code = #{menuCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysMenu" >
+    insert into js_sys_menu (menu_code, parent_code, parent_codes, 
+      tree_sort, tree_sorts, tree_leaf, 
+      tree_level, tree_names, menu_name, 
+      menu_type, menu_href, menu_target, 
+      menu_icon, menu_color, menu_title, 
+      permission, weight, is_show, 
+      sys_code, module_codes, status, 
+      create_by, create_date, update_by, 
+      update_date, remarks, extend_s1, 
+      extend_s2, extend_s3, extend_s4, 
+      extend_s5, extend_s6, extend_s7, 
+      extend_s8, extend_i1, extend_i2, 
+      extend_i3, extend_i4, extend_f1, 
+      extend_f2, extend_f3, extend_f4, 
+      extend_d1, extend_d2, extend_d3, 
+      extend_d4)
+    values (#{menuCode,jdbcType=VARCHAR}, #{parentCode,jdbcType=VARCHAR}, #{parentCodes,jdbcType=VARCHAR}, 
+      #{treeSort,jdbcType=DECIMAL}, #{treeSorts,jdbcType=VARCHAR}, #{treeLeaf,jdbcType=CHAR}, 
+      #{treeLevel,jdbcType=DECIMAL}, #{treeNames,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, 
+      #{menuType,jdbcType=CHAR}, #{menuHref,jdbcType=VARCHAR}, #{menuTarget,jdbcType=VARCHAR}, 
+      #{menuIcon,jdbcType=VARCHAR}, #{menuColor,jdbcType=VARCHAR}, #{menuTitle,jdbcType=VARCHAR}, 
+      #{permission,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL}, #{isShow,jdbcType=CHAR}, 
+      #{sysCode,jdbcType=VARCHAR}, #{moduleCodes,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{extendS1,jdbcType=VARCHAR}, 
+      #{extendS2,jdbcType=VARCHAR}, #{extendS3,jdbcType=VARCHAR}, #{extendS4,jdbcType=VARCHAR}, 
+      #{extendS5,jdbcType=VARCHAR}, #{extendS6,jdbcType=VARCHAR}, #{extendS7,jdbcType=VARCHAR}, 
+      #{extendS8,jdbcType=VARCHAR}, #{extendI1,jdbcType=DECIMAL}, #{extendI2,jdbcType=DECIMAL}, 
+      #{extendI3,jdbcType=DECIMAL}, #{extendI4,jdbcType=DECIMAL}, #{extendF1,jdbcType=DECIMAL}, 
+      #{extendF2,jdbcType=DECIMAL}, #{extendF3,jdbcType=DECIMAL}, #{extendF4,jdbcType=DECIMAL}, 
+      #{extendD1,jdbcType=TIMESTAMP}, #{extendD2,jdbcType=TIMESTAMP}, #{extendD3,jdbcType=TIMESTAMP}, 
+      #{extendD4,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysMenu" >
+    insert into js_sys_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuCode != null" >
+        menu_code,
+      </if>
+      <if test="parentCode != null" >
+        parent_code,
+      </if>
+      <if test="parentCodes != null" >
+        parent_codes,
+      </if>
+      <if test="treeSort != null" >
+        tree_sort,
+      </if>
+      <if test="treeSorts != null" >
+        tree_sorts,
+      </if>
+      <if test="treeLeaf != null" >
+        tree_leaf,
+      </if>
+      <if test="treeLevel != null" >
+        tree_level,
+      </if>
+      <if test="treeNames != null" >
+        tree_names,
+      </if>
+      <if test="menuName != null" >
+        menu_name,
+      </if>
+      <if test="menuType != null" >
+        menu_type,
+      </if>
+      <if test="menuHref != null" >
+        menu_href,
+      </if>
+      <if test="menuTarget != null" >
+        menu_target,
+      </if>
+      <if test="menuIcon != null" >
+        menu_icon,
+      </if>
+      <if test="menuColor != null" >
+        menu_color,
+      </if>
+      <if test="menuTitle != null" >
+        menu_title,
+      </if>
+      <if test="permission != null" >
+        permission,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="isShow != null" >
+        is_show,
+      </if>
+      <if test="sysCode != null" >
+        sys_code,
+      </if>
+      <if test="moduleCodes != null" >
+        module_codes,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="extendS1 != null" >
+        extend_s1,
+      </if>
+      <if test="extendS2 != null" >
+        extend_s2,
+      </if>
+      <if test="extendS3 != null" >
+        extend_s3,
+      </if>
+      <if test="extendS4 != null" >
+        extend_s4,
+      </if>
+      <if test="extendS5 != null" >
+        extend_s5,
+      </if>
+      <if test="extendS6 != null" >
+        extend_s6,
+      </if>
+      <if test="extendS7 != null" >
+        extend_s7,
+      </if>
+      <if test="extendS8 != null" >
+        extend_s8,
+      </if>
+      <if test="extendI1 != null" >
+        extend_i1,
+      </if>
+      <if test="extendI2 != null" >
+        extend_i2,
+      </if>
+      <if test="extendI3 != null" >
+        extend_i3,
+      </if>
+      <if test="extendI4 != null" >
+        extend_i4,
+      </if>
+      <if test="extendF1 != null" >
+        extend_f1,
+      </if>
+      <if test="extendF2 != null" >
+        extend_f2,
+      </if>
+      <if test="extendF3 != null" >
+        extend_f3,
+      </if>
+      <if test="extendF4 != null" >
+        extend_f4,
+      </if>
+      <if test="extendD1 != null" >
+        extend_d1,
+      </if>
+      <if test="extendD2 != null" >
+        extend_d2,
+      </if>
+      <if test="extendD3 != null" >
+        extend_d3,
+      </if>
+      <if test="extendD4 != null" >
+        extend_d4,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuCode != null" >
+        #{menuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCodes != null" >
+        #{parentCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="treeSort != null" >
+        #{treeSort,jdbcType=DECIMAL},
+      </if>
+      <if test="treeSorts != null" >
+        #{treeSorts,jdbcType=VARCHAR},
+      </if>
+      <if test="treeLeaf != null" >
+        #{treeLeaf,jdbcType=CHAR},
+      </if>
+      <if test="treeLevel != null" >
+        #{treeLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="treeNames != null" >
+        #{treeNames,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null" >
+        #{menuType,jdbcType=CHAR},
+      </if>
+      <if test="menuHref != null" >
+        #{menuHref,jdbcType=VARCHAR},
+      </if>
+      <if test="menuTarget != null" >
+        #{menuTarget,jdbcType=VARCHAR},
+      </if>
+      <if test="menuIcon != null" >
+        #{menuIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="menuColor != null" >
+        #{menuColor,jdbcType=VARCHAR},
+      </if>
+      <if test="menuTitle != null" >
+        #{menuTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null" >
+        #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="isShow != null" >
+        #{isShow,jdbcType=CHAR},
+      </if>
+      <if test="sysCode != null" >
+        #{sysCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleCodes != null" >
+        #{moduleCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS1 != null" >
+        #{extendS1,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS2 != null" >
+        #{extendS2,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS3 != null" >
+        #{extendS3,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS4 != null" >
+        #{extendS4,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS5 != null" >
+        #{extendS5,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS6 != null" >
+        #{extendS6,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS7 != null" >
+        #{extendS7,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS8 != null" >
+        #{extendS8,jdbcType=VARCHAR},
+      </if>
+      <if test="extendI1 != null" >
+        #{extendI1,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI2 != null" >
+        #{extendI2,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI3 != null" >
+        #{extendI3,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI4 != null" >
+        #{extendI4,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF1 != null" >
+        #{extendF1,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF2 != null" >
+        #{extendF2,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF3 != null" >
+        #{extendF3,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF4 != null" >
+        #{extendF4,jdbcType=DECIMAL},
+      </if>
+      <if test="extendD1 != null" >
+        #{extendD1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD2 != null" >
+        #{extendD2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD3 != null" >
+        #{extendD3,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD4 != null" >
+        #{extendD4,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.test.entity.JsSysMenu" >
+    update js_sys_menu
+    <set >
+      <if test="parentCode != null" >
+        parent_code = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCodes != null" >
+        parent_codes = #{parentCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="treeSort != null" >
+        tree_sort = #{treeSort,jdbcType=DECIMAL},
+      </if>
+      <if test="treeSorts != null" >
+        tree_sorts = #{treeSorts,jdbcType=VARCHAR},
+      </if>
+      <if test="treeLeaf != null" >
+        tree_leaf = #{treeLeaf,jdbcType=CHAR},
+      </if>
+      <if test="treeLevel != null" >
+        tree_level = #{treeLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="treeNames != null" >
+        tree_names = #{treeNames,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null" >
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null" >
+        menu_type = #{menuType,jdbcType=CHAR},
+      </if>
+      <if test="menuHref != null" >
+        menu_href = #{menuHref,jdbcType=VARCHAR},
+      </if>
+      <if test="menuTarget != null" >
+        menu_target = #{menuTarget,jdbcType=VARCHAR},
+      </if>
+      <if test="menuIcon != null" >
+        menu_icon = #{menuIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="menuColor != null" >
+        menu_color = #{menuColor,jdbcType=VARCHAR},
+      </if>
+      <if test="menuTitle != null" >
+        menu_title = #{menuTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null" >
+        permission = #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="isShow != null" >
+        is_show = #{isShow,jdbcType=CHAR},
+      </if>
+      <if test="sysCode != null" >
+        sys_code = #{sysCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleCodes != null" >
+        module_codes = #{moduleCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS1 != null" >
+        extend_s1 = #{extendS1,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS2 != null" >
+        extend_s2 = #{extendS2,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS3 != null" >
+        extend_s3 = #{extendS3,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS4 != null" >
+        extend_s4 = #{extendS4,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS5 != null" >
+        extend_s5 = #{extendS5,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS6 != null" >
+        extend_s6 = #{extendS6,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS7 != null" >
+        extend_s7 = #{extendS7,jdbcType=VARCHAR},
+      </if>
+      <if test="extendS8 != null" >
+        extend_s8 = #{extendS8,jdbcType=VARCHAR},
+      </if>
+      <if test="extendI1 != null" >
+        extend_i1 = #{extendI1,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI2 != null" >
+        extend_i2 = #{extendI2,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI3 != null" >
+        extend_i3 = #{extendI3,jdbcType=DECIMAL},
+      </if>
+      <if test="extendI4 != null" >
+        extend_i4 = #{extendI4,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF1 != null" >
+        extend_f1 = #{extendF1,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF2 != null" >
+        extend_f2 = #{extendF2,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF3 != null" >
+        extend_f3 = #{extendF3,jdbcType=DECIMAL},
+      </if>
+      <if test="extendF4 != null" >
+        extend_f4 = #{extendF4,jdbcType=DECIMAL},
+      </if>
+      <if test="extendD1 != null" >
+        extend_d1 = #{extendD1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD2 != null" >
+        extend_d2 = #{extendD2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD3 != null" >
+        extend_d3 = #{extendD3,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extendD4 != null" >
+        extend_d4 = #{extendD4,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where menu_code = #{menuCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysMenu" >
+    update js_sys_menu
+    set parent_code = #{parentCode,jdbcType=VARCHAR},
+      parent_codes = #{parentCodes,jdbcType=VARCHAR},
+      tree_sort = #{treeSort,jdbcType=DECIMAL},
+      tree_sorts = #{treeSorts,jdbcType=VARCHAR},
+      tree_leaf = #{treeLeaf,jdbcType=CHAR},
+      tree_level = #{treeLevel,jdbcType=DECIMAL},
+      tree_names = #{treeNames,jdbcType=VARCHAR},
+      menu_name = #{menuName,jdbcType=VARCHAR},
+      menu_type = #{menuType,jdbcType=CHAR},
+      menu_href = #{menuHref,jdbcType=VARCHAR},
+      menu_target = #{menuTarget,jdbcType=VARCHAR},
+      menu_icon = #{menuIcon,jdbcType=VARCHAR},
+      menu_color = #{menuColor,jdbcType=VARCHAR},
+      menu_title = #{menuTitle,jdbcType=VARCHAR},
+      permission = #{permission,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=DECIMAL},
+      is_show = #{isShow,jdbcType=CHAR},
+      sys_code = #{sysCode,jdbcType=VARCHAR},
+      module_codes = #{moduleCodes,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      extend_s1 = #{extendS1,jdbcType=VARCHAR},
+      extend_s2 = #{extendS2,jdbcType=VARCHAR},
+      extend_s3 = #{extendS3,jdbcType=VARCHAR},
+      extend_s4 = #{extendS4,jdbcType=VARCHAR},
+      extend_s5 = #{extendS5,jdbcType=VARCHAR},
+      extend_s6 = #{extendS6,jdbcType=VARCHAR},
+      extend_s7 = #{extendS7,jdbcType=VARCHAR},
+      extend_s8 = #{extendS8,jdbcType=VARCHAR},
+      extend_i1 = #{extendI1,jdbcType=DECIMAL},
+      extend_i2 = #{extendI2,jdbcType=DECIMAL},
+      extend_i3 = #{extendI3,jdbcType=DECIMAL},
+      extend_i4 = #{extendI4,jdbcType=DECIMAL},
+      extend_f1 = #{extendF1,jdbcType=DECIMAL},
+      extend_f2 = #{extendF2,jdbcType=DECIMAL},
+      extend_f3 = #{extendF3,jdbcType=DECIMAL},
+      extend_f4 = #{extendF4,jdbcType=DECIMAL},
+      extend_d1 = #{extendD1,jdbcType=TIMESTAMP},
+      extend_d2 = #{extendD2,jdbcType=TIMESTAMP},
+      extend_d3 = #{extendD3,jdbcType=TIMESTAMP},
+      extend_d4 = #{extendD4,jdbcType=TIMESTAMP}
+    where menu_code = #{menuCode,jdbcType=VARCHAR}
+  </update>
+</mapper>
