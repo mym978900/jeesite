@@ -76,6 +76,12 @@
 			<version>3.7.1</version>
 		</dependency>
 		
+		<!-- redis-->
+		<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-redis</artifactId>
+     </dependency>
+		
 		<!-- 自定义jar依赖包演示
 		<dependency>
 			<groupId>com.jeesite</groupId>

@@ -8,14 +8,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * Application
  * @author ThinkGem
  * @version 2018-10-13
  */
+@MapperScan(basePackages = "com.jeesite.modules.test.mapper，com.jeesite.modules.clue.mapper")
+@ComponentScan("com.jeesite")
 @SpringBootApplication
-@MapperScan(basePackages = "com.jeesite.modules.clue.mapper")
 public class Application extends SpringBootServletInitializer {
 	
 	public static void main(String[] args) {

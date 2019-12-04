@@ -1,8 +1,10 @@
 package com.jeesite.modules.test.service;
 
-import javax.servlet.http.HttpServletResponse;
+import com.jeesite.modules.test.vo.UpdatePhoneVo;
 
 public interface TestMessageService {
 
-	void toGetMessage(String phone);
+	String toGetMessage(String phone);
+
+	String toUpdatePhone(UpdatePhoneVo vo);
 }

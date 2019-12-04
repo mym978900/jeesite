@@ -563,4 +563,10 @@
       extend_d4 = #{extendD4,jdbcType=TIMESTAMP}
     where office_code = #{officeCode,jdbcType=VARCHAR}
   </update>
+  <select id="selectByUser" resultMap="BaseResultMap" parameterType="com.jeesite.modules.test.entity.JsSysUser" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_sys_office
+    where create_by = #{loginCode,jdbcType=VARCHAR}
+  </select>
 </mapper>
