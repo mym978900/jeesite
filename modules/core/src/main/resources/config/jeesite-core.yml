@@ -396,6 +396,9 @@ shiro:
     /v2/api-docs = perms[sys:swagger]
     /swagger-ui.html = perms[sys:swagger]
     /swagger-resources/** = perms[sys:swagger]
+    
+    #线索相关处理方法不用验证 xf 2019.12.04
+    ${adminPath}/clue/* = anon
     ${adminPath}/login-cas = cas
     ${adminPath}/login = authc
     ${adminPath}/logout = logout

@@ -135,22 +135,22 @@ public class LoginController extends BaseController{
 		
 		
 		//获取Json用户名 xf 2019.12.02
-		HttpServletRequest hrt = (HttpServletRequest) request;
-		MyRequestWrapper requestWrapper = null;
-		try {
-			requestWrapper = new MyRequestWrapper(hrt);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String username = "";
-		List<Map<String, Object>> info = JsonMapper.fromJsonForMapList(requestWrapper.getBody());
-		if(info.size()>0) {
-			Map um = info.get(0);
-			username = (String) um.get("username");
-		}
+//		HttpServletRequest hrt = (HttpServletRequest) request;
+//		MyRequestWrapper requestWrapper = null;
+//		try {
+//			requestWrapper = new MyRequestWrapper(hrt);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		String username = "";
+//		List<Map<String, Object>> info = JsonMapper.fromJsonForMapList(requestWrapper.getBody());
+//		if(info.size()>0) {
+//			Map um = info.get(0);
+//			username = (String) um.get("username");
+//		}
 		
-//		String username = WebUtils.getCleanParam(request, FormAuthenticationFilter.DEFAULT_USERNAME_PARAM);
+		String username = WebUtils.getCleanParam(request, FormAuthenticationFilter.DEFAULT_USERNAME_PARAM);
 		boolean rememberMe = WebUtils.isTrue(request, FormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM);
 		boolean rememberUserCode = WebUtils.isTrue(request, FormAuthenticationFilter.DEFAULT_REMEMBER_USERCODE_PARAM);
 		String params = WebUtils.getCleanParam(request, FormAuthenticationFilter.DEFAULT_PARAMS_PARAM);

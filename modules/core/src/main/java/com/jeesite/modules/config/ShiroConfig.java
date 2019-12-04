@@ -51,16 +51,16 @@ public class ShiroConfig {
 	
 	
 	//注册这个过滤器的时候需要先加载到spring容器中 xf20191201
-	@Bean
-    public FilterRegistrationBean httpServletRequestReplacedRegistration() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new ChannelFilter());
-        registration.addUrlPatterns("/a/login");
-        registration.addInitParameter("paramName", "paramValue");
-        registration.setName("ChannelFilter");
-        registration.setOrder(1);
-        return registration;
-	}
+//	@Bean
+//    public FilterRegistrationBean httpServletRequestReplacedRegistration() {
+//        FilterRegistrationBean registration = new FilterRegistrationBean();
+//        registration.setFilter(new ChannelFilter());
+//        registration.addUrlPatterns("/a/login");
+//        registration.addInitParameter("paramName", "paramValue");
+//        registration.setName("ChannelFilter");
+//        registration.setOrder(1);
+//        return registration;
+//	}
 	
 	/**
 	 * Apache Shiro Filter
@@ -245,5 +245,15 @@ public class ShiroConfig {
 //		bean.setArguments(new Object[] { securityManager });
 //		return bean;
 //	}
+	
+	/**
+     * shiro session的管理
+     */
+    @Bean
+    public MySessionManager sessionManager() {
+        MySessionManager sessionManager = new MySessionManager();
+        sessionManager.setGlobalSessionTimeout(1800000 * 2);
+        return sessionManager;
+    }
 	
 }

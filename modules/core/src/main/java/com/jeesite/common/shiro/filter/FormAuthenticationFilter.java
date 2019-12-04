@@ -72,29 +72,29 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 	@Override
 	protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
 		//获取Json用户名密码 xf 2019.12.02
-		HttpServletRequest hrt = (HttpServletRequest) request;
-		MyRequestWrapper requestWrapper = null;
-		try {
-			requestWrapper = new MyRequestWrapper(hrt);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println(requestWrapper.getBody());
+//		HttpServletRequest hrt = (HttpServletRequest) request;
+//		MyRequestWrapper requestWrapper = null;
+//		try {
+//			requestWrapper = new MyRequestWrapper(hrt);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		System.out.println(requestWrapper.getBody());
+//		
+//		String username = "";
+//		String password = "";
+//		boolean rememberMe = false;
+//		List<Map<String, Object>> info = JsonMapper.fromJsonForMapList(requestWrapper.getBody());
+//		if(info.size()>0) {
+//			Map um = info.get(0);
+//			username = (String) um.get("username");
+//			password = (String) um.get("password");
+//			rememberMe = (boolean) um.get("rememberMe");
+//		}
 		
-		String username = "";
-		String password = "";
-		boolean rememberMe = false;
-		List<Map<String, Object>> info = JsonMapper.fromJsonForMapList(requestWrapper.getBody());
-		if(info.size()>0) {
-			Map um = info.get(0);
-			username = (String) um.get("username");
-			password = (String) um.get("password");
-			rememberMe = (boolean) um.get("rememberMe");
-		}
-		
-//		String username1 = getUsername(request, response);	// 用户名
-//		String password1 = getPassword(request);				// 登录密码
-//		boolean rememberMe = isRememberMe(request);			// 记住我（自动登录）
+		String username = getUsername(request, response);	// 用户名
+		String password = getPassword(request);				// 登录密码
+		boolean rememberMe = isRememberMe(request);			// 记住我（自动登录）
 		String host = getHost(request);						// 登录主机
 		String captcha = getCaptcha(request);				// 登录验证码
 		Map<String, Object> paramMap = ServletUtils.getExtParams(request);	// 登录附加参数
@@ -189,6 +189,22 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 	@Override
 	protected void redirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
 		PermissionsAuthorizationFilter.redirectToDefaultPath(request, response);
+	}
+	
+	/**
+	 * 屏蔽OPTIONS请求 by xf 2019.12.03
+	 */
+	@Override
+	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+		boolean accessAllowed = super.isAccessAllowed(request, response, mappedValue);
+		if (!accessAllowed) {
+			// 判断请求是否是options请求
+			String method = WebUtils.toHttp(request).getMethod();
+			if (StringUtils.equalsIgnoreCase("OPTIONS", method)) {
+				return true;
+			}
+		}
+		return accessAllowed;
 	}
 
 	/**
