@@ -1,6 +1,9 @@
 package com.jeesite.modules.test.mapper;
 
+import java.util.List;
+
 import com.jeesite.modules.test.entity.JsSysOffice;
+import com.jeesite.modules.test.entity.JsSysUser;
 
 public interface JsSysOfficeMapper {
     int deleteByPrimaryKey(String officeCode);
@@ -14,4 +17,6 @@ public interface JsSysOfficeMapper {
     int updateByPrimaryKeySelective(JsSysOffice record);
 
     int updateByPrimaryKey(JsSysOffice record);
+    
+    List<JsSysOffice> selectByUser(JsSysUser user);
 }

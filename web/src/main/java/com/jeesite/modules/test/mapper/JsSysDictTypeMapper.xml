@@ -18,7 +18,7 @@
     remarks
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select   
     <include refid="Base_Column_List" />
     from js_sys_dict_type
     where id = #{id,jdbcType=VARCHAR}
