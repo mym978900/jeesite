@@ -123,6 +123,13 @@ jdbc:
 #      init: 1
 #      minIdle: 3
 #      maxActive: 20
+
+# 配置pageHelper分页插件的内容
+pagehelper:
+    helperDialect: mysql
+#    reasonable: true
+    supportMethodsArguments: true
+    params: pageNum=pageNum;pageSize=pageSize
       
 #  # JTA 分布式事务，建议启用多数据源的时候开启（v4.0.4+）
 #  jta:

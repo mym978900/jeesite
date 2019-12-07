@@ -28,7 +28,6 @@ import com.jeesite.modules.test.vo.UpdatePhoneVo;
 
 @Service
 public class TestMessageServiceImpl implements TestMessageService {
-	private HttpServletRequest req = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 	
 	@Autowired
 	private JsSysUserMapper jsSysUserMapper;
@@ -36,7 +35,7 @@ public class TestMessageServiceImpl implements TestMessageService {
 	@Override
 	public String toGetMessage(String phone) {
 		// TODO Auto-generated method stub
-		
+		HttpServletRequest req = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 		DefaultProfile profile = DefaultProfile.getProfile("default", "LTAIIxKfL09legx7", "fbsGtBZaAxDTLM1nwOSpPWDrlZJ1dm");
         IAcsClient client = new DefaultAcsClient(profile);
 
@@ -79,6 +78,7 @@ public class TestMessageServiceImpl implements TestMessageService {
 	@Override
 	public String toUpdatePhone(UpdatePhoneVo vo) {
 		// TODO Auto-generated method stub
+		HttpServletRequest req = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 		JsSysUser sysUser=(JsSysUser) req.getAttribute("loginUser");
 		if (!(SHA1Util.encode(vo.getPassword())).equals(sysUser.getPassword())) {
 			return "密码有误";

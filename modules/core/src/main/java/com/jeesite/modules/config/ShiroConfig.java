@@ -234,15 +234,4 @@ public class ShiroConfig {
 //		bean.setArguments(new Object[] { securityManager });
 //		return bean;
 //	}
-	
-	/**
-     * shiro session的管理
-     */
-    @Bean
-    public MySessionManager sessionManager() {
-        MySessionManager sessionManager = new MySessionManager();
-        sessionManager.setGlobalSessionTimeout(1800000 * 2);
-        return sessionManager;
-    }
-	
 }

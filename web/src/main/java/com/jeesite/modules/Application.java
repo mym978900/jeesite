@@ -15,7 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @author ThinkGem
  * @version 2018-10-13
  */
-@MapperScan(basePackages = "com.jeesite.modules.test.mapper，com.jeesite.modules.clue.mapper")
+@MapperScan(basePackages = "com.jeesite.modules.**.mapper")
 @ComponentScan("com.jeesite")
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {

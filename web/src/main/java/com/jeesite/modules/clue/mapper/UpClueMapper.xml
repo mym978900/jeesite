@@ -150,4 +150,27 @@
       up_clue_age = #{upClueAge,jdbcType=INTEGER}
     where up_clue_code = #{upClueCode,jdbcType=VARCHAR}
   </update>
+  
+  <select id="effectiveClue" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select 
+   	count(*)
+    from up_clue
+    where up_clue_name = #{upClueName,jdbcType=VARCHAR}
+    and up_clue_tel = #{upClueTel,jdbcType=VARCHAR}
+    and up_clue_sex = #{upClueSex,jdbcType=VARCHAR}
+  </select>
+  <select id="getUpClueList" resultMap="BaseResultMap" parameterType="com.jeesite.modules.clue.vo.ClueVo" >
+    select 
+    <include refid="Base_Column_List" />
+    from up_clue where 1=1
+    <if test="beginTime!=null and startTime!=''">
+      and up_clue_time <![CDATA[ >= ]]> #{beginTime}
+    </if>
+    <if test="endTime!=null and endTime!=''">
+      and up_clue_time <![CDATA[ <= ]]> #{endTime}
+    </if>
+    <if test="organName!=null and organName!=''">
+      and up_clue_status = #{status}
+    </if>
+  </select>
 </mapper>
