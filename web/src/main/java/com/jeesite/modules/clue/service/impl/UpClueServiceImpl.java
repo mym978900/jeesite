@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.jeesite.modules.clue.entity.UpClue;
 import com.jeesite.modules.clue.mapper.UpClueMapper;
 import com.jeesite.modules.clue.service.UpClueService;
+import com.jeesite.modules.clue.vo.ClueVo;
 
 /**
  * 线索管理Service
@@ -22,9 +23,9 @@ public class UpClueServiceImpl implements UpClueService{
 	
 	//获取线索列表数据
 	@Override
-	public List<UpClue> getUpClueList(UpClue clue) {
+	public List<UpClue> getUpClueList(ClueVo clue) {
 		
-		List<UpClue> list = upClueMapper.getUpClueList();
+		List<UpClue> list = upClueMapper.getUpClueList(clue);
 		
 		return list;
 	}
@@ -34,5 +35,12 @@ public class UpClueServiceImpl implements UpClueService{
 		if(clue != null) {
 			upClueMapper.insert(clue);
 		}
+	}
+
+	//相同的手机号线索资源 - 姓名性别验证 - 可以上传不删除上传自动去重
+	@Override
+	public int effectiveClue(UpClue clue) {
+		int count = upClueMapper.effectiveClue(clue);
+		return count;
 	}
 }

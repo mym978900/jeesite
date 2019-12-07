@@ -2,23 +2,25 @@ package com.jeesite.modules.clue.mapper;
 
 import java.util.List;
 
+
+import com.jeesite.modules.clue.base.BaseMapper;
 import com.jeesite.modules.clue.entity.UpClue;
+import com.jeesite.modules.clue.vo.ClueVo;
 
-public interface UpClueMapper {
-    int deleteByPrimaryKey(String upClueCode);
-
-    int insert(UpClue record);
-
-    int insertSelective(UpClue record);
-
-    UpClue selectByPrimaryKey(String upClueCode);
-
-    int updateByPrimaryKeySelective(UpClue record);
-
-    int updateByPrimaryKey(UpClue record);
+public interface UpClueMapper extends BaseMapper<UpClue>{    
+    /*
+          获取用户上传线索列表
+    xf
+    2019.12.03
+    */
+    List<UpClue> getUpClueList(ClueVo clue);
     
-    //获取用户上传线索列表
-    //xf
-    //2019.12.03
-    List<UpClue> getUpClueList();
+    
+    /*
+	相同的手机号线索资源 - 姓名性别验证 - 可以上传不删除上传自动去重
+	xf
+	2019.12.03
+	*/
+    int effectiveClue(UpClue record) ;
+    
 }
