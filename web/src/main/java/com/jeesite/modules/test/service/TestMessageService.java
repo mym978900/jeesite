@@ -7,4 +7,6 @@ public interface TestMessageService {
 	String toGetMessage(String phone);
 
 	String toUpdatePhone(UpdatePhoneVo vo);
+
+	String toUpdatePass(UpdatePhoneVo vo);
 }

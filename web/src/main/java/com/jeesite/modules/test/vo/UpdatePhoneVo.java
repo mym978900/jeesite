@@ -6,6 +6,7 @@ public class UpdatePhoneVo implements Serializable{
 
 	private String newphone;
 	private String password;
+	private String newpassword;
 	public String getNewphone() {
 		return newphone;
 	}
@@ -17,6 +18,12 @@ public class UpdatePhoneVo implements Serializable{
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getNewpassword() {
+		return newpassword;
+	}
+	public void setNewpassword(String newpassword) {
+		this.newpassword = newpassword;
 	}
 	
 }

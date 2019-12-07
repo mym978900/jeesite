@@ -2,6 +2,8 @@ package com.jeesite.modules.test.entity;
 
 import java.util.Date;
 
+import lombok.Data;
+@Data
 public class JsFilemanagerShared {
     private String id;
 

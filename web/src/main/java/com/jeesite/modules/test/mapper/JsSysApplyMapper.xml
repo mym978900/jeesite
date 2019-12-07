@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsSysApplyMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysApply" >
+    <id column="serial_number" property="serialNumber" jdbcType="VARCHAR" />
+    <result column="apply_phone" property="applyPhone" jdbcType="VARCHAR" />
+    <result column="apply_name" property="applyName" jdbcType="VARCHAR" />
+    <result column="follow_state" property="followState" jdbcType="CHAR" />
+    <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="follow_man" property="followMan" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="reserve_field1" property="reserveField1" jdbcType="VARCHAR" />
+    <result column="reserve_field2" property="reserveField2" jdbcType="VARCHAR" />
+    <result column="reserve_field3" property="reserveField3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    serial_number, apply_phone, apply_name, follow_state, apply_time, follow_man, update_time, 
+    remarks, reserve_field1, reserve_field2, reserve_field3
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_sys_apply
+    where serial_number = #{serialNumber,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAllApply" parameterType="com.jeesite.modules.test.vo.AccountVo" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_sys_apply where 1=1
+    <if test="startTime!=null and startTime!=''">
+      and DATE(apply_time) <![CDATA[ >= ]]> DATE(#{startTime})
+    </if>
+    <if test="endTime!=null and endTime!=''">
+      and DATE(apply_time) <![CDATA[ <= ]]> DATE(#{endTime})
+    </if>
+    <if test="followState!=null and followState!=''">
+      and follow_state = #{followState}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from js_sys_apply
+    where serial_number = #{serialNumber,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysApply" >
+    insert into js_sys_apply (serial_number, apply_phone, apply_name, 
+      follow_state, apply_time, follow_man, 
+      update_time, remarks, reserve_field1, 
+      reserve_field2, reserve_field3)
+    values (#{serialNumber,jdbcType=VARCHAR}, #{applyPhone,jdbcType=VARCHAR}, #{applyName,jdbcType=VARCHAR}, 
+      #{followState,jdbcType=CHAR}, #{applyTime,jdbcType=TIMESTAMP}, #{followMan,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{reserveField1,jdbcType=VARCHAR}, 
+      #{reserveField2,jdbcType=VARCHAR}, #{reserveField3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysApply" >
+    insert into js_sys_apply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="serialNumber != null" >
+        serial_number,
+      </if>
+      <if test="applyPhone != null" >
+        apply_phone,
+      </if>
+      <if test="applyName != null" >
+        apply_name,
+      </if>
+      <if test="followState != null" >
+        follow_state,
+      </if>
+      <if test="applyTime != null" >
+        apply_time,
+      </if>
+      <if test="followMan != null" >
+        follow_man,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="reserveField1 != null" >
+        reserve_field1,
+      </if>
+      <if test="reserveField2 != null" >
+        reserve_field2,
+      </if>
+      <if test="reserveField3 != null" >
+        reserve_field3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="serialNumber != null" >
+        #{serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="applyPhone != null" >
+        #{applyPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="applyName != null" >
+        #{applyName,jdbcType=VARCHAR},
+      </if>
+      <if test="followState != null" >
+        #{followState,jdbcType=CHAR},
+      </if>
+      <if test="applyTime != null" >
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="followMan != null" >
+        #{followMan,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="reserveField1 != null" >
+        #{reserveField1,jdbcType=VARCHAR},
+      </if>
+      <if test="reserveField2 != null" >
+        #{reserveField2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserveField3 != null" >
+        #{reserveField3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.test.entity.JsSysApply" >
+    update js_sys_apply
+    <set >
+      <if test="applyPhone != null" >
+        apply_phone = #{applyPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="applyName != null" >
+        apply_name = #{applyName,jdbcType=VARCHAR},
+      </if>
+      <if test="followState != null" >
+        follow_state = #{followState,jdbcType=CHAR},
+      </if>
+      <if test="applyTime != null" >
+        apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="followMan != null" >
+        follow_man = #{followMan,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="reserveField1 != null" >
+        reserve_field1 = #{reserveField1,jdbcType=VARCHAR},
+      </if>
+      <if test="reserveField2 != null" >
+        reserve_field2 = #{reserveField2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserveField3 != null" >
+        reserve_field3 = #{reserveField3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where serial_number = #{serialNumber,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysApply" >
+    update js_sys_apply
+    set apply_phone = #{applyPhone,jdbcType=VARCHAR},
+      apply_name = #{applyName,jdbcType=VARCHAR},
+      follow_state = #{followState,jdbcType=CHAR},
+      apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      follow_man = #{followMan,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      reserve_field1 = #{reserveField1,jdbcType=VARCHAR},
+      reserve_field2 = #{reserveField2,jdbcType=VARCHAR},
+      reserve_field3 = #{reserveField3,jdbcType=VARCHAR}
+    where serial_number = #{serialNumber,jdbcType=VARCHAR}
+  </update>
+</mapper>
