@@ -4,18 +4,19 @@ package com.jeesite.modules.clue.web;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.UUID;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.util.Streams;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,17 +28,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jeesite.common.config.Global;
-import com.jeesite.common.lang.StringUtils;
 import com.jeesite.common.shiro.realm.LoginInfo;
 import com.jeesite.common.web.BaseController;
 import com.jeesite.common.web.http.ServletUtils;
 import com.jeesite.modules.clue.entity.UpClue;
+import com.jeesite.modules.clue.entity.UpCluefile;
 import com.jeesite.modules.clue.service.UpClueService;
+import com.jeesite.modules.clue.service.UpCluefileService;
 import com.jeesite.modules.clue.utils.ClueUtils;
+import com.jeesite.modules.clue.utils.ExcelReader;
+import com.jeesite.modules.clue.utils.PropertiesListenerConfig;
+import com.jeesite.modules.clue.vo.ClueExcelVo;
 import com.jeesite.modules.clue.vo.ClueVo;
 import com.jeesite.modules.sys.entity.User;
 import com.jeesite.modules.sys.utils.UserUtils;
@@ -48,6 +54,9 @@ public class UpClueController extends BaseController{
 	
 	@Autowired
 	private UpClueService iUpClueService;
+	
+	@Autowired
+	private UpCluefileService iUpCluefileService;
 	
 	
 	//用户新增单条线索 by xf 2019.12.04
@@ -62,29 +71,6 @@ public class UpClueController extends BaseController{
 		String sex = WebUtils.getCleanParam(request,"sex");
 		String age = WebUtils.getCleanParam(request,"age");
 		String site = WebUtils.getCleanParam(request,"site");
-		
-		if(StringUtils.isBlank(name)) {
-			model.addAttribute("result", Global.FALSE);
-			model.addAttribute("resdata","用户姓名为空，保存失败！请填写后保存");
-			return ServletUtils.renderObject(response, model);
-			
-		}
-		if(StringUtils.isBlank(tel)) {
-			model.addAttribute("result", Global.FALSE);
-			return "用户电话为空，保存失败！请填写后保存";
-		}
-		if(StringUtils.isBlank(sex)) {
-			model.addAttribute("result", Global.FALSE);
-			return "用户性别为空，保存失败！请填写后保存";
-		}
-		if(StringUtils.isBlank(age)) {
-			model.addAttribute("result", Global.FALSE);
-			return "用户年龄为空，保存失败！请填写后保存";
-		}
-		if(StringUtils.isBlank(site)) {
-			model.addAttribute("result", Global.FALSE);
-			return "用户地址为空，保存失败！请填写后保存";
-		}
 		
 		//获取登录用户信息
 		LoginInfo loginInfo = UserUtils.getLoginInfo();
@@ -152,6 +138,7 @@ public class UpClueController extends BaseController{
 		}
 		cv.setPageNum(pageNum);
 		cv.setPageInfo(page);
+		cv.setResult(true);
 		return cv;
 	}
 	
@@ -159,10 +146,11 @@ public class UpClueController extends BaseController{
 	//线索模板下载
     @RequestMapping(value = "downLoadClueExcel", produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public String downLoadStuInfoExcel(HttpServletResponse response, HttpServletRequest request, Model model) {
+    public void downLoadClueExcel(HttpServletResponse response, HttpServletRequest request, Model model) {
         //线索新建excel下载模板保存地址从配置文件中读取
 //        String folderPath = ResourceBundle.getBundle("config/sysconfig").getString("clueExcelDownLoadPath") + File.separator + "clueTemplateExcel.xlsx";
     	String folderPath = "";
+    	String formFileName = "奥利格线索模板.xlsx";
 		try {
 			folderPath = ResourceUtils.getFile("classpath:clueTemplateExcel.xlsx").getPath();
 		} catch (FileNotFoundException e1) {
@@ -174,7 +162,6 @@ public class UpClueController extends BaseController{
         if (!excelFile.exists() || !excelFile.isFile()) {
 //            rt.put("status", "0");
 //            rt.put("message", "模板文件不存在");
-        	model.addAttribute("result", Global.TRUE);
         	
         }
         //文件输入流
@@ -187,9 +174,18 @@ public class UpClueController extends BaseController{
             fis.close();
         } catch (Exception e) {
             e.printStackTrace();
-//            rt.put("status", "0");
-//            rt.put("message", "模板文件读取失败");
-            // return rt.toJSONString();
+        }
+        
+        String userAgent = request.getHeader("User-Agent");
+        // 针对IE或者以IE为内核的浏览器：
+        try {
+	        if (userAgent.contains("MSIE") || userAgent.contains("Trident")) {
+	            formFileName = java.net.URLEncoder.encode(formFileName, "UTF-8");
+	        } else {
+	            // 非IE浏览器的处理：
+	            formFileName = new String(formFileName.getBytes("UTF-8"), "ISO-8859-1");
+	        }
+        }catch(Exception e) {
         }
         //设置contentType为vnd.ms-excel
         response.setContentType("application/vnd.ms-excel;charset=utf-8");
@@ -198,7 +194,7 @@ public class UpClueController extends BaseController{
         // 对文件名进行处理。防止文件名乱码，这里前台直接定义了模板文件名，所以就不再次定义了
         //String fileName = CharEncodingEdit.processFileName(request, "clueTemplateExcel.xlsx");
         // Content-disposition属性设置成以附件方式进行下载
-        response.setHeader("Content-disposition", "attachment;filename=clueTemplateExcel.xlsx");
+        response.setHeader("Content-disposition",String.format("attachment; filename=\"%s\"", formFileName));
         //调取response对象中的OutputStream对象
         OutputStream os = null;
         try {
@@ -208,12 +204,119 @@ public class UpClueController extends BaseController{
             os.close();
         } catch (IOException e) {
             e.printStackTrace();
-            model.addAttribute("","");
-//            rt.put("status", "0");
-//            rt.put("message", "模板文件下载失败");
         }
-        //return rt.toJSONString();
-        return "";
+    }
+    
+    //线索模板上传
+    @RequestMapping(value = "uploadClueExcel")
+    @ResponseBody
+    public String uploadClueExcel(@RequestParam("file") MultipartFile multipartFiles,HttpServletResponse response, HttpServletRequest request, Model model) {
+    	String filePath = PropertiesListenerConfig.getProperty("clue.excelFilePath");
+    	Date date = new Date();  
+    	String dataForm = new SimpleDateFormat("yyyyMMdd").format(date);
+    	String rootPath = filePath + "/" + dataForm;
+    	int effectCount = 0;//有效数
+    	int ineffectCount = 0;//无效数
+    	String ineffectInfo ="";//无效信息
+    	
+    	//获取登录用户信息
+		LoginInfo loginInfo = UserUtils.getLoginInfo();
+		if(loginInfo == null){
+			UserUtils.getSubject().logout();
+			model.addAttribute("result", "login");
+			model.addAttribute("data","会话超时请重新登录..");
+			return ServletUtils.renderObject(response, model);
+		}
+		// 当前用户对象信息
+		User user = UserUtils.get(loginInfo.getId());
+		if (user == null){
+			UserUtils.getSubject().logout();
+			model.addAttribute("result", "login");
+			model.addAttribute("data","会话超时请重新登录..");
+			return ServletUtils.renderObject(response, model);
+		}
+		
+    	File fileDir = new File(rootPath);
+        if (!fileDir.exists() && !fileDir.isDirectory()) {
+            fileDir.mkdirs();
+        }
+        try {
+            if (multipartFiles != null ) {
+                    try {
+                    	// 解析Excel
+                        List<ClueExcelVo> parsedResult = ExcelReader.readExcel(multipartFiles);
+                        // 数据校验相同的手机号线索资源 - 姓名验证 - 可以上传不删除上传自动去重
+                        if(parsedResult.size()>0) {
+	                        UpClue uc = new UpClue();
+	                        for(int i=0;i<parsedResult.size();i++) {
+	                        	uc.setUpClueName(parsedResult.get(i).getUsername());
+	                    		uc.setUpClueTel(parsedResult.get(i).getPhoneNumber());
+	                    		if(!ClueUtils.effectiveClue(uc)) {
+	                    			ineffectInfo += parsedResult.get(i).getPhoneNumber()+",";
+	                    			ineffectCount++;
+	                    			continue;
+	                    		}else {
+	                    			effectCount++;
+	                    			String upClueCode = UUID.randomUUID().toString().replace("-", "");
+	                    			uc.setUpClueCode(upClueCode);
+	                    			uc.setUpClueName(parsedResult.get(i).getUsername());
+	                    			uc.setUpClueTel(parsedResult.get(i).getPhoneNumber());
+	                    			uc.setUpClueSex(parsedResult.get(i).getSex());
+	                    			uc.setUpClueAge(parsedResult.get(i).getAge());
+	                    			uc.setUpClueTime(date);
+	                    			uc.setUpClueAddre(parsedResult.get(i).getAddress());
+	                    			uc.setUpClueAppraise("0");
+	                    			uc.setUpClueStatus("2");
+	                    			uc.setUpUserCode(user.getUserCode());
+	                    			iUpClueService.addUpClue(uc);
+	                    		}
+	                        }
+	                		
+	                        //保存批量线索文件记录
+	                        UpCluefile ucf = new UpCluefile();
+	                        ucf.setUpUsercode(user.getUserCode());
+	                        ucf.setUpUsername(user.getUserName());
+	                        ucf.setUpDate(date);
+	                        ucf.setUpFilename(multipartFiles.getOriginalFilename());
+	                        ucf.setUpFilepath(rootPath);
+	                        // 获取Excel后缀名
+	                        String fileType = multipartFiles.getOriginalFilename().substring(
+	                        		multipartFiles.getOriginalFilename().lastIndexOf(".") + 1, multipartFiles.getOriginalFilename().length());
+	                        ucf.setUpFiletype(fileType);
+	                        ucf.setUpDeptcode("");
+	                        ucf.setUpType("0");
+	                        ucf.setUpEffectivecount(effectCount);
+	                        ucf.setUpIneffectivecount(ineffectCount);
+	                        if(ineffectInfo!="" && ineffectInfo.length()>0 ) {
+	                        	ineffectInfo = ineffectInfo.substring(0, ineffectInfo.length()-1);
+	                        }
+	                        ucf.setUpIneffectiveinfo(ineffectInfo);
+	                        iUpCluefileService.addUpClueFile(ucf);
+	                        
+	                        //以原来的名称命名,覆盖掉旧的
+	                        String storagePath = rootPath+"/"+multipartFiles.getOriginalFilename();
+	                        logger.info("上传的文件：" + multipartFiles.getName() + "," + multipartFiles.getContentType() + "," + multipartFiles.getOriginalFilename()
+	                                +"，保存的路径为：" + storagePath);
+	                         Streams.copy(multipartFiles.getInputStream(), new FileOutputStream(storagePath), true);
+	                        //或者下面的
+	                         // Path path = Paths.get(storagePath);
+	                        //Files.write(path,multipartFiles[i].getBytes());
+                        }
+                    } catch (IOException e) {
+                    	model.addAttribute("result", false);
+                    	model.addAttribute("message", e.getMessage());
+                        return ServletUtils.renderObject(response, model);
+                    }
+            }
+
+        } catch (Exception e) {
+        	model.addAttribute("result", false);
+        	model.addAttribute("message", e.getMessage());
+            return ServletUtils.renderObject(response, model);
+        }
+        model.addAttribute("result", true);
+        model.addAttribute("message", "上传成功");
+        return ServletUtils.renderObject(response, model);
     }
 	
 }
