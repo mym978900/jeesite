@@ -2,12 +2,15 @@ package com.jeesite.modules.clue.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
 public class UpClue {
     private String upClueCode;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date upClueTime;
 
     private String upUserCode;

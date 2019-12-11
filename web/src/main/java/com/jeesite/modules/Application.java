@@ -9,6 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
+import com.jeesite.modules.clue.utils.PropertiesListener;
 
 /**
  * Application
@@ -18,10 +21,15 @@ import org.springframework.context.annotation.ComponentScan;
 @MapperScan(basePackages = "com.jeesite.modules.**.mapper")
 @ComponentScan("com.jeesite")
 @SpringBootApplication
+@EnableScheduling
 public class Application extends SpringBootServletInitializer {
 	
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication application = new SpringApplication(Application.class);
+        // 第四种方式：注册监听器
+        application.addListeners(new PropertiesListener("config/sysconfig.properties"));
+        application.run(args);
+//		SpringApplication.run(Application.class, args);
 	}
 	
 	@Override
