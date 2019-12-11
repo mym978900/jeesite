@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsSysProposalMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysProposal" >
+    <id column="serial_num" property="serialNum" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="proposal_man" property="proposalMan" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="describe" property="describe" jdbcType="VARCHAR" />
+    <result column="plan" property="plan" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    serial_num, title, proposal_man, create_time, describe, plan, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_sys_proposal
+    where serial_num = #{serialNum,jdbcType=VARCHAR}
+  </select>
+  <select id="findPpByLimit" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_sys_proposal
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from js_sys_proposal
+    where serial_num = #{serialNum,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysProposal" >
+    insert into js_sys_proposal (serial_num, title, proposal_man, 
+      create_time, describe, plan, 
+      status)
+    values (#{serialNum,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{proposalMan,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{describe,jdbcType=VARCHAR}, #{plan,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysProposal" >
+    insert into js_sys_proposal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="serialNum != null" >
+        serial_num,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="proposalMan != null" >
+        proposal_man,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="describe != null" >
+        describe,
+      </if>
+      <if test="plan != null" >
+        plan,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="serialNum != null" >
+        #{serialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="proposalMan != null" >
+        #{proposalMan,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describe != null" >
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="plan != null" >
+        #{plan,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.test.entity.JsSysProposal" >
+    update js_sys_proposal
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="proposalMan != null" >
+        proposal_man = #{proposalMan,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describe != null" >
+        describe = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="plan != null" >
+        plan = #{plan,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where serial_num = #{serialNum,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysProposal" >
+    update js_sys_proposal
+    set title = #{title,jdbcType=VARCHAR},
+      proposal_man = #{proposalMan,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      describe = #{describe,jdbcType=VARCHAR},
+      plan = #{plan,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR}
+    where serial_num = #{serialNum,jdbcType=VARCHAR}
+  </update>
+</mapper>

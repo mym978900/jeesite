@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.github.pagehelper.PageInfo;
 import com.jeesite.modules.test.entity.JsSysApply;
+import com.jeesite.modules.test.entity.JsSysProposal;
 
 public class AccountVo implements Serializable{
 
@@ -12,6 +13,7 @@ public class AccountVo implements Serializable{
 	private String followState;//跟进状态
 	private Integer pageNum;//页码
 	private PageInfo<JsSysApply> page;//page分页数据
+	private PageInfo<JsSysProposal> pagePro;
 	public String getStartTime() {
 		return startTime;
 	}
@@ -47,6 +49,25 @@ public class AccountVo implements Serializable{
 		return "AccountVo [startTime=" + startTime + ", endTime=" + endTime + ", followState=" + followState
 				+ ", pageNum=" + pageNum + ", page=" + page + "]";
 	}
+	public AccountVo(String startTime, String endTime, String followState, Integer pageNum, PageInfo<JsSysApply> page,PageInfo<JsSysProposal> pagePro) {
+		super();
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.followState = followState;
+		this.pageNum = pageNum;
+		this.page = page;
+		this.pagePro = pagePro;
+	}
+	public AccountVo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public PageInfo<JsSysProposal> getPagePro() {
+		return pagePro;
+	}
+	public void setPagePro(PageInfo<JsSysProposal> pagePro) {
+		this.pagePro = pagePro;
+	}
 	public AccountVo(String startTime, String endTime, String followState, Integer pageNum, PageInfo<JsSysApply> page) {
 		super();
 		this.startTime = startTime;
@@ -54,10 +75,6 @@ public class AccountVo implements Serializable{
 		this.followState = followState;
 		this.pageNum = pageNum;
 		this.page = page;
-	}
-	public AccountVo() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 }
