@@ -123,6 +123,7 @@ jdbc:
 #      init: 1
 #      minIdle: 3
 #      maxActive: 20
+
 # 配置pageHelper分页插件的内容
 pagehelper:
     helperDialect: mysql
