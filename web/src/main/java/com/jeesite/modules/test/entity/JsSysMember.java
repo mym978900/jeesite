@@ -1,5 +1,7 @@
 package com.jeesite.modules.test.entity;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -12,7 +14,7 @@ public class JsSysMember {
 
     private String organClass;
 
-    private String memberGrade;
+    private String memberGrade;//会员级别
 
     private String memberOvertime;
 
@@ -31,6 +33,18 @@ public class JsSysMember {
     private String reserveField1;
 
     private String reserveDield2;
+    
+    private Date matchUpdate;
+
+    private Date matchOnedate;
+
+    private Double matchLongitude;
+
+    private Double matchLatitude;
+    
+    private Integer clueCount;
+    
+    private Integer aiTimes;
 
     public String getSerialNumber() {
         return serialNumber;
@@ -142,5 +156,53 @@ public class JsSysMember {
 
     public void setReserveDield2(String reserveDield2) {
         this.reserveDield2 = reserveDield2 == null ? null : reserveDield2.trim();
+    }
+    
+    public Date getMatchUpdate() {
+        return matchUpdate;
+    }
+
+    public void setMatchUpdate(Date matchUpdate) {
+        this.matchUpdate = matchUpdate;
+    }
+
+    public Date getMatchOnedate() {
+        return matchOnedate;
+    }
+
+    public void setMatchOnedate(Date matchOnedate) {
+        this.matchOnedate = matchOnedate;
+    }
+
+    public Double getMatchLongitude() {
+        return matchLongitude;
+    }
+
+    public void setMatchLongitude(Double matchLongitude) {
+        this.matchLongitude = matchLongitude;
+    }
+
+    public Double getMatchLatitude() {
+        return matchLatitude;
+    }
+
+    public void setMatchLatitude(Double matchLatitude) {
+        this.matchLatitude = matchLatitude;
+    }
+    
+    public Integer getClueCount() {
+        return clueCount;
+    }
+
+    public void setClueCount(Integer clueCount) {
+        this.clueCount = clueCount;
+    }
+    
+    public Integer getAiTimes() {
+        return aiTimes;
+    }
+
+    public void setAiTimes(Integer aiTimes) {
+        this.aiTimes = aiTimes;
     }
 }

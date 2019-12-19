@@ -12,10 +12,22 @@
     <result column="up_clue_status" property="upClueStatus" jdbcType="CHAR" />
     <result column="up_clue_appraise" property="upClueAppraise" jdbcType="CHAR" />
     <result column="up_clue_age" property="upClueAge" jdbcType="INTEGER" />
+    <result column="up_clue_longitude" property="upClueLongitude" jdbcType="DOUBLE" />
+    <result column="up_clue_latitude" property="upClueLatitude" jdbcType="DOUBLE" />
+    <result column="up_clue_matchtime" property="upClueMatchtime" jdbcType="DATE" />
+    <result column="extra1" property="extra1" jdbcType="VARCHAR" />
+    <result column="extra2" property="extra2" jdbcType="VARCHAR" />
+    <result column="extra3" property="extra3" jdbcType="VARCHAR" />
+    <result column="extra4" property="extra4" jdbcType="VARCHAR" />
+    <result column="extra5" property="extra5" jdbcType="VARCHAR" />
+    <result column="up_clue_depttype" property="upClueDepttype" jdbcType="VARCHAR" />
+    <result column="up_clue_taskId" property="upClueTaskid" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     up_clue_code, up_clue_time, up_user_code, up_clue_name, up_clue_tel, up_clue_sex, 
-    up_clue_addre, up_clue_status, up_clue_appraise, up_clue_age
+    up_clue_addre, up_clue_status, up_clue_appraise, up_clue_age, up_clue_longitude, 
+    up_clue_latitude, up_clue_matchtime, extra1, extra2, extra3, extra4, extra5, up_clue_depttype, 
+    up_clue_taskId
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -31,11 +43,17 @@
     insert into up_clue (up_clue_code, up_clue_time, up_user_code, 
       up_clue_name, up_clue_tel, up_clue_sex, 
       up_clue_addre, up_clue_status, up_clue_appraise, 
-      up_clue_age)
+      up_clue_age, up_clue_longitude, up_clue_latitude, 
+      up_clue_matchtime, extra1, extra2, 
+      extra3, extra4, extra5, 
+      up_clue_depttype, up_clue_taskId)
     values (#{upClueCode,jdbcType=VARCHAR}, #{upClueTime,jdbcType=TIMESTAMP}, #{upUserCode,jdbcType=VARCHAR}, 
       #{upClueName,jdbcType=VARCHAR}, #{upClueTel,jdbcType=VARCHAR}, #{upClueSex,jdbcType=CHAR}, 
       #{upClueAddre,jdbcType=VARCHAR}, #{upClueStatus,jdbcType=CHAR}, #{upClueAppraise,jdbcType=CHAR}, 
-      #{upClueAge,jdbcType=INTEGER})
+      #{upClueAge,jdbcType=INTEGER}, #{upClueLongitude,jdbcType=DOUBLE}, #{upClueLatitude,jdbcType=DOUBLE}, 
+      #{upClueMatchtime,jdbcType=DATE}, #{extra1,jdbcType=VARCHAR}, #{extra2,jdbcType=VARCHAR}, 
+      #{extra3,jdbcType=VARCHAR}, #{extra4,jdbcType=VARCHAR}, #{extra5,jdbcType=VARCHAR}, 
+      #{upClueDepttype,jdbcType=VARCHAR}, #{upClueTaskid,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jeesite.modules.clue.entity.UpClue" >
     insert into up_clue
@@ -70,6 +88,36 @@
       <if test="upClueAge != null" >
         up_clue_age,
       </if>
+      <if test="upClueLongitude != null" >
+        up_clue_longitude,
+      </if>
+      <if test="upClueLatitude != null" >
+        up_clue_latitude,
+      </if>
+      <if test="upClueMatchtime != null" >
+        up_clue_matchtime,
+      </if>
+      <if test="extra1 != null" >
+        extra1,
+      </if>
+      <if test="extra2 != null" >
+        extra2,
+      </if>
+      <if test="extra3 != null" >
+        extra3,
+      </if>
+      <if test="extra4 != null" >
+        extra4,
+      </if>
+      <if test="extra5 != null" >
+        extra5,
+      </if>
+      <if test="upClueDepttype != null" >
+        up_clue_depttype,
+      </if>
+      <if test="upClueTaskid != null" >
+        up_clue_taskId,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="upClueCode != null" >
@@ -101,6 +149,36 @@
       </if>
       <if test="upClueAge != null" >
         #{upClueAge,jdbcType=INTEGER},
+      </if>
+      <if test="upClueLongitude != null" >
+        #{upClueLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="upClueLatitude != null" >
+        #{upClueLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="upClueMatchtime != null" >
+        #{upClueMatchtime,jdbcType=DATE},
+      </if>
+      <if test="extra1 != null" >
+        #{extra1,jdbcType=VARCHAR},
+      </if>
+      <if test="extra2 != null" >
+        #{extra2,jdbcType=VARCHAR},
+      </if>
+      <if test="extra3 != null" >
+        #{extra3,jdbcType=VARCHAR},
+      </if>
+      <if test="extra4 != null" >
+        #{extra4,jdbcType=VARCHAR},
+      </if>
+      <if test="extra5 != null" >
+        #{extra5,jdbcType=VARCHAR},
+      </if>
+      <if test="upClueDepttype != null" >
+        #{upClueDepttype,jdbcType=VARCHAR},
+      </if>
+      <if test="upClueTaskid != null" >
+        #{upClueTaskid,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -134,6 +212,36 @@
       <if test="upClueAge != null" >
         up_clue_age = #{upClueAge,jdbcType=INTEGER},
       </if>
+      <if test="upClueLongitude != null" >
+        up_clue_longitude = #{upClueLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="upClueLatitude != null" >
+        up_clue_latitude = #{upClueLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="upClueMatchtime != null" >
+        up_clue_matchtime = #{upClueMatchtime,jdbcType=DATE},
+      </if>
+      <if test="extra1 != null" >
+        extra1 = #{extra1,jdbcType=VARCHAR},
+      </if>
+      <if test="extra2 != null" >
+        extra2 = #{extra2,jdbcType=VARCHAR},
+      </if>
+      <if test="extra3 != null" >
+        extra3 = #{extra3,jdbcType=VARCHAR},
+      </if>
+      <if test="extra4 != null" >
+        extra4 = #{extra4,jdbcType=VARCHAR},
+      </if>
+      <if test="extra5 != null" >
+        extra5 = #{extra5,jdbcType=VARCHAR},
+      </if>
+      <if test="upClueDepttype != null" >
+        up_clue_depttype = #{upClueDepttype,jdbcType=VARCHAR},
+      </if>
+      <if test="upClueTaskid != null" >
+        up_clue_taskId = #{upClueTaskid,jdbcType=VARCHAR},
+      </if>
     </set>
     where up_clue_code = #{upClueCode,jdbcType=VARCHAR}
   </update>
@@ -147,10 +255,19 @@
       up_clue_addre = #{upClueAddre,jdbcType=VARCHAR},
       up_clue_status = #{upClueStatus,jdbcType=CHAR},
       up_clue_appraise = #{upClueAppraise,jdbcType=CHAR},
-      up_clue_age = #{upClueAge,jdbcType=INTEGER}
+      up_clue_age = #{upClueAge,jdbcType=INTEGER},
+      up_clue_longitude = #{upClueLongitude,jdbcType=DOUBLE},
+      up_clue_latitude = #{upClueLatitude,jdbcType=DOUBLE},
+      up_clue_matchtime = #{upClueMatchtime,jdbcType=DATE},
+      extra1 = #{extra1,jdbcType=VARCHAR},
+      extra2 = #{extra2,jdbcType=VARCHAR},
+      extra3 = #{extra3,jdbcType=VARCHAR},
+      extra4 = #{extra4,jdbcType=VARCHAR},
+      extra5 = #{extra5,jdbcType=VARCHAR},
+      up_clue_depttype = #{upClueDepttype,jdbcType=VARCHAR},
+      up_clue_taskId = #{upClueTaskid,jdbcType=VARCHAR}
     where up_clue_code = #{upClueCode,jdbcType=VARCHAR}
   </update>
-  
   <select id="effectiveClue" resultType="java.lang.Integer" parameterType="java.lang.String" >
     select 
    	count(*)
@@ -171,6 +288,36 @@
     <if test="status!=null and status!=''">
       and up_clue_status = #{status}
     </if>
+    <if test="userCode!=null and userCode!=''">
+      and up_user_code = #{userCode}
+    </if>
     order by up_clue_time asc
+  </select>
+  <select id="getMatchClue" resultType="java.util.HashMap" >
+  	select 
+  	t.up_clue_code as up_aicode,t.up_clue_tel as up_aiphone
+  	from up_clue t where 1=1 
+  	and DATEDIFF(
+		NOW(),
+		t.up_clue_matchtime
+	) &gt; 3
+	or up_clue_matchtime is NULL
+	and t.up_user_code <![CDATA[ <> ]]> #{userId}
+	and t.up_clue_depttype <![CDATA[ <> ]]> #{deptType}
+	and t.up_clue_longitude &gt; #{minlng}
+	and t.up_clue_longitude &lt; #{maxlng}
+	and t.up_clue_latitude &gt; #{minlat}
+	and t.up_clue_latitude &lt; #{maxlat}
+  </select>
+  <update id="updateMatchTime">
+  	update up_clue
+  	set up_clue_matchtime = #{date}
+  	where up_clue_code = #{clueCode}
+  </update>
+  <select id="getNoConfigAddress" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+    from up_clue
+    where up_clue_longitude = "" || up_clue_longitude is null
   </select>
 </mapper>

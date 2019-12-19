@@ -36,17 +36,22 @@ import com.jeesite.common.config.Global;
 import com.jeesite.common.shiro.realm.LoginInfo;
 import com.jeesite.common.web.BaseController;
 import com.jeesite.common.web.http.ServletUtils;
+import com.jeesite.modules.clue.entity.UpAiinfo;
 import com.jeesite.modules.clue.entity.UpClue;
 import com.jeesite.modules.clue.entity.UpCluefile;
+import com.jeesite.modules.clue.service.UpAiInfoService;
 import com.jeesite.modules.clue.service.UpClueService;
 import com.jeesite.modules.clue.service.UpCluefileService;
 import com.jeesite.modules.clue.utils.ClueUtils;
 import com.jeesite.modules.clue.utils.ExcelReader;
 import com.jeesite.modules.clue.utils.PropertiesListenerConfig;
+import com.jeesite.modules.clue.vo.AiInfoVo;
 import com.jeesite.modules.clue.vo.ClueExcelVo;
 import com.jeesite.modules.clue.vo.ClueVo;
 import com.jeesite.modules.sys.entity.User;
 import com.jeesite.modules.sys.utils.UserUtils;
+import com.jeesite.modules.test.entity.JsSysMember;
+import com.jeesite.modules.test.service.MemberService;
 
 @Controller
 @RequestMapping(value = "${adminPath}/clue")
@@ -57,6 +62,12 @@ public class UpClueController extends BaseController{
 	
 	@Autowired
 	private UpCluefileService iUpCluefileService;
+	
+	@Autowired
+	private MemberService iMeberService;
+	
+	@Autowired
+	private UpAiInfoService iUpAiInfoService;
 	
 	
 	//用户新增单条线索 by xf 2019.12.04
@@ -90,6 +101,10 @@ public class UpClueController extends BaseController{
 			return ServletUtils.renderObject(response, model);
 		}
 		
+		// 获取用户机构品类
+//		String deptType = iMeberService.getDeptType(user.getLoginCode());
+		JsSysMember jsm = iMeberService.getMemberByAccountCode(user.getLoginCode());
+		
 		UpClue uc = new UpClue();
 		String upClueCode = UUID.randomUUID().toString().replace("-", "");
 		uc.setUpClueCode(upClueCode);
@@ -102,6 +117,14 @@ public class UpClueController extends BaseController{
 		uc.setUpClueAppraise("0");
 		uc.setUpClueStatus("2");
 		uc.setUpUserCode(user.getUserCode());
+		uc.setUpClueDepttype(jsm.getOrganClass());
+		
+		//更新会员机构线索数量及首次上传时间
+		if(jsm.getMatchUpdate()==null) {
+			jsm.setMatchUpdate(new Date());
+			jsm.setClueCount(jsm.getClueCount()+1);
+			iMeberService.updateByPrimaryKey(jsm);
+		}
 		
 		//相同的手机号线索资源 - 姓名性别验证 - 可以上传不删除上传自动去重
 		if(!ClueUtils.effectiveClue(uc)) {
@@ -125,8 +148,14 @@ public class UpClueController extends BaseController{
 		//默认第一页	
 		pageNum = pageNum == null ? 1 : pageNum;
 		PageHelper.startPage(pageNum, 8);
-		
+		LoginInfo loginInfo = UserUtils.getLoginInfo();
+		User user = UserUtils.get(loginInfo.getId());
 		List<UpClue> list = new ArrayList<UpClue>();
+		clv.setUserCode(user.getLoginCode());
+		if(clv == null ) {
+			clv = new ClueVo();
+		}
+		clv.setUserCode(user.getLoginCode());
 		list = iUpClueService.getUpClueList(clv);
 		PageInfo<UpClue> page = new PageInfo<UpClue>(list);
 		ClueVo cv = new ClueVo();
@@ -236,6 +265,10 @@ public class UpClueController extends BaseController{
 			return ServletUtils.renderObject(response, model);
 		}
 		
+		// 获取用户机构品类
+//		String deptType = iMeberService.getDeptType(user.getLoginCode());
+		JsSysMember jsm = iMeberService.getMemberByAccountCode(user.getLoginCode());
+		
     	File fileDir = new File(rootPath);
         if (!fileDir.exists() && !fileDir.isDirectory()) {
             fileDir.mkdirs();
@@ -268,9 +301,17 @@ public class UpClueController extends BaseController{
 	                    			uc.setUpClueAppraise("0");
 	                    			uc.setUpClueStatus("2");
 	                    			uc.setUpUserCode(user.getUserCode());
+	                    			uc.setUpClueDepttype(jsm.getOrganClass());
 	                    			iUpClueService.addUpClue(uc);
 	                    		}
 	                        }
+	                        
+	                      //更新会员机构线索数量及首次上传时间
+	                		if(jsm.getMatchUpdate()==null) {
+	                			jsm.setMatchUpdate(new Date());
+	                			jsm.setClueCount(jsm.getClueCount()+parsedResult.size());
+	                			iMeberService.updateByPrimaryKey(jsm);
+	                		}
 	                		
 	                        //保存批量线索文件记录
 	                        UpCluefile ucf = new UpCluefile();
@@ -317,6 +358,40 @@ public class UpClueController extends BaseController{
         model.addAttribute("result", true);
         model.addAttribute("message", "上传成功");
         return ServletUtils.renderObject(response, model);
+    }
+    
+    //线索数据共享 by xf 2019.12.16
+    @RequestMapping(value = "shareListData", method = RequestMethod.POST)
+	@ResponseBody
+    public AiInfoVo shareListData(
+			@RequestParam(required = false, defaultValue = "1", value="pageNum") Integer pageNum,
+			@RequestBody(required = false) AiInfoVo aiv) {
+    	//默认第一页	
+		pageNum = pageNum == null ? 1 : pageNum;
+		PageHelper.startPage(pageNum, 8);
+		//获取用户最新匹配线索批次
+		LoginInfo loginInfo = UserUtils.getLoginInfo();
+		User user = UserUtils.get(loginInfo.getId());
+		JsSysMember jsm = iMeberService.getMemberByAccountCode(user.getLoginCode());
+		List<UpAiinfo> list = new ArrayList<UpAiinfo>();
+		if(aiv == null ) {
+			aiv = new AiInfoVo();
+		}
+		aiv.setTimes(jsm.getAiTimes());
+		list = iUpAiInfoService.getUpAiInfoList(aiv);
+		PageInfo<UpAiinfo> page = new PageInfo<UpAiinfo>(list);
+		AiInfoVo av = new AiInfoVo();
+		//向前台传值
+		if(aiv!= null) {
+			av.setBeginTime(aiv.getBeginTime());
+			av.setEndTime(aiv.getEndTime());
+			av.setStatus(aiv.getStatus());
+		}
+		av.setPageNum(pageNum);
+		av.setPageInfo(page);
+		av.setResult(true);
+		return av;
+    	
     }
 	
 }
