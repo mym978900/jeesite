@@ -16,11 +16,18 @@
     <result column="organ_hava" property="organHava" jdbcType="VARCHAR" />
     <result column="reserve_field1" property="reserveField1" jdbcType="VARCHAR" />
     <result column="reserve_dield2" property="reserveDield2" jdbcType="VARCHAR" />
+    <result column="match_update" property="matchUpdate" jdbcType="DATE" />
+    <result column="match_onedate" property="matchOnedate" jdbcType="DATE" />
+    <result column="match_longitude" property="matchLongitude" jdbcType="DOUBLE" />
+    <result column="match_latitude" property="matchLatitude" jdbcType="DOUBLE" />
+    <result column="clue_count" property="clueCount" jdbcType="INTEGER" />
+    <result column="ai_times" property="aiTimes" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     serial_number, account_number, organ_name, organ_class, member_grade, member_overtime, 
     organ_address, detail_address, organ_phone, organ_man, organ_manphone, organ_hava, 
-    reserve_field1, reserve_dield2
+    reserve_field1, reserve_dield2, match_update, match_onedate, match_longitude, match_latitude, 
+    clue_count, ai_times
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -54,12 +61,16 @@
       organ_class, member_grade, member_overtime, 
       organ_address, detail_address, organ_phone, 
       organ_man, organ_manphone, organ_hava, 
-      reserve_field1, reserve_dield2)
+      reserve_field1, reserve_dield2, match_update, 
+      match_onedate, match_longitude, match_latitude, 
+      clue_count, ai_times)
     values (#{serialNumber,jdbcType=VARCHAR}, #{accountNumber,jdbcType=VARCHAR}, #{organName,jdbcType=VARCHAR}, 
       #{organClass,jdbcType=VARCHAR}, #{memberGrade,jdbcType=CHAR}, #{memberOvertime,jdbcType=VARCHAR}, 
       #{organAddress,jdbcType=VARCHAR}, #{detailAddress,jdbcType=VARCHAR}, #{organPhone,jdbcType=VARCHAR}, 
       #{organMan,jdbcType=VARCHAR}, #{organManphone,jdbcType=VARCHAR}, #{organHava,jdbcType=VARCHAR}, 
-      #{reserveField1,jdbcType=VARCHAR}, #{reserveDield2,jdbcType=VARCHAR})
+      #{reserveField1,jdbcType=VARCHAR}, #{reserveDield2,jdbcType=VARCHAR}, #{matchUpdate,jdbcType=DATE}, 
+      #{matchOnedate,jdbcType=DATE}, #{matchLongitude,jdbcType=DOUBLE}, #{matchLatitude,jdbcType=DOUBLE}, 
+      #{clueCount,jdbcType=INTEGER}, #{aiTimes,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysMember" >
     insert into js_sys_member
@@ -106,6 +117,24 @@
       <if test="reserveDield2 != null" >
         reserve_dield2,
       </if>
+      <if test="matchUpdate != null" >
+        match_update,
+      </if>
+      <if test="matchOnedate != null" >
+        match_onedate,
+      </if>
+      <if test="matchLongitude != null" >
+        match_longitude,
+      </if>
+      <if test="matchLatitude != null" >
+        match_latitude,
+      </if>
+      <if test="clueCount != null" >
+        clue_count,
+      </if>
+      <if test="aiTimes != null" >
+        ai_times,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="serialNumber != null" >
@@ -149,6 +178,24 @@
       </if>
       <if test="reserveDield2 != null" >
         #{reserveDield2,jdbcType=VARCHAR},
+      </if>
+      <if test="matchUpdate != null" >
+        #{matchUpdate,jdbcType=DATE},
+      </if>
+      <if test="matchOnedate != null" >
+        #{matchOnedate,jdbcType=DATE},
+      </if>
+      <if test="matchLongitude != null" >
+        #{matchLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="matchLatitude != null" >
+        #{matchLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="clueCount != null" >
+        #{clueCount,jdbcType=INTEGER},
+      </if>
+      <if test="aiTimes != null" >
+        #{aiTimes,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -194,6 +241,24 @@
       <if test="reserveDield2 != null" >
         reserve_dield2 = #{reserveDield2,jdbcType=VARCHAR},
       </if>
+      <if test="matchUpdate != null" >
+        match_update = #{matchUpdate,jdbcType=DATE},
+      </if>
+      <if test="matchOnedate != null" >
+        match_onedate = #{matchOnedate,jdbcType=DATE},
+      </if>
+      <if test="matchLongitude != null" >
+        match_longitude = #{matchLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="matchLatitude != null" >
+        match_latitude = #{matchLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="clueCount != null" >
+        clue_count = #{clueCount,jdbcType=INTEGER},
+      </if>
+      <if test="aiTimes != null" >
+        ai_times = #{aiTimes,jdbcType=INTEGER},
+      </if>
     </set>
     where serial_number = #{serialNumber,jdbcType=VARCHAR}
   </update>
@@ -211,7 +276,44 @@
       organ_manphone = #{organManphone,jdbcType=VARCHAR},
       organ_hava = #{organHava,jdbcType=VARCHAR},
       reserve_field1 = #{reserveField1,jdbcType=VARCHAR},
-      reserve_dield2 = #{reserveDield2,jdbcType=VARCHAR}
+      reserve_dield2 = #{reserveDield2,jdbcType=VARCHAR},
+      match_update = #{matchUpdate,jdbcType=DATE},
+      match_onedate = #{matchOnedate,jdbcType=DATE},
+      match_longitude = #{matchLongitude,jdbcType=DOUBLE},
+      match_latitude = #{matchLatitude,jdbcType=DOUBLE},
+      clue_count = #{clueCount,jdbcType=INTEGER},
+      ai_times = #{aiTimes,jdbcType=INTEGER}
     where serial_number = #{serialNumber,jdbcType=VARCHAR}
   </update>
+  <select id="getClueMatchUser" resultMap="BaseResultMap" parameterType="com.jeesite.modules.test.entity.JsSysMember">
+  	select 
+  	<include refid="Base_Column_List" />
+    from js_sys_member 
+    where member_grade &gt; 0
+  </select>
+  <select id="getDeptType" resultType="java.lang.String" parameterType="java.lang.String">
+  	select organ_class from js_sys_member where  account_number = #{loginCode}
+  </select>
+  <select id="updateOnedate" >
+  	update js_sys_member
+  	set match_onedate = #{0}
+  	where account_number = #{1}
+  </select>
+  <update id="updateAiTimes" >
+  	update js_sys_member
+  	set ai_times = #{0}
+  	where account_number = #{1}
+  </update>
+  <select id="getNoConfigAddress" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+    from js_sys_member 
+    where match_longitude = "" || match_longitude is null
+  </select>
+  <select id="getMemberByAccountCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select
+  	<include refid="Base_Column_List" />
+  	from js_sys_member
+  	where account_number = #{code}
+  </select>
 </mapper>
