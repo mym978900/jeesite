@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.github.pagehelper.PageInfo;
 import com.jeesite.modules.test.entity.JsSysApply;
+import com.jeesite.modules.test.entity.JsSysProblem;
 import com.jeesite.modules.test.entity.JsSysProposal;
 
 public class AccountVo implements Serializable{
@@ -14,6 +15,7 @@ public class AccountVo implements Serializable{
 	private Integer pageNum;//页码
 	private PageInfo<JsSysApply> page;//page分页数据
 	private PageInfo<JsSysProposal> pagePro;
+	private PageInfo<JsSysProblem> pagePb;
 	public String getStartTime() {
 		return startTime;
 	}
@@ -49,7 +51,8 @@ public class AccountVo implements Serializable{
 		return "AccountVo [startTime=" + startTime + ", endTime=" + endTime + ", followState=" + followState
 				+ ", pageNum=" + pageNum + ", page=" + page + "]";
 	}
-	public AccountVo(String startTime, String endTime, String followState, Integer pageNum, PageInfo<JsSysApply> page,PageInfo<JsSysProposal> pagePro) {
+	public AccountVo(String startTime, String endTime, String followState, Integer pageNum, PageInfo<JsSysApply> page,
+			PageInfo<JsSysProposal> pagePro, PageInfo<JsSysProblem> pagePb) {
 		super();
 		this.startTime = startTime;
 		this.endTime = endTime;
@@ -57,6 +60,7 @@ public class AccountVo implements Serializable{
 		this.pageNum = pageNum;
 		this.page = page;
 		this.pagePro = pagePro;
+		this.pagePb = pagePb;
 	}
 	public AccountVo() {
 		super();
@@ -75,6 +79,12 @@ public class AccountVo implements Serializable{
 		this.followState = followState;
 		this.pageNum = pageNum;
 		this.page = page;
+	}
+	public PageInfo<JsSysProblem> getPagePb() {
+		return pagePb;
+	}
+	public void setPagePb(PageInfo<JsSysProblem> pagePb) {
+		this.pagePb = pagePb;
 	}
 	
 }

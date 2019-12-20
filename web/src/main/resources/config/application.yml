@@ -36,9 +36,9 @@ jdbc:
   # Mysql 数据库配置
   type: mysql
   driver: com.mysql.jdbc.Driver
-  url: jdbc:mysql://120.77.251.54:3306/xf_jeesite?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+  url: jdbc:mysql://101.200.85.145:8066/TESTDB?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
   username: root
-  password: zhk-000000
+  password: AOLige.123
   testSql: SELECT 1
 
 #  # Oracle 数据库配置
@@ -167,17 +167,8 @@ spring:
     
 #  # Redis 连接参数 （RedisProperties）
   redis:
-    host: 192.168.92.128
-    port: 7000
-    ssl: false
-    database: 0
-    timeout: 2000
-    lettuce:
-      pool:
-        # 最大空闲连接数
-        maxIdle: 3
-        # 最大活动连接数
-        maxActive: 20
+    cache.clusterNodes: 101.200.85.145:7000,101.200.85.145:7001,101.200.85.145:7002,101.200.85.145:7003,101.200.85.145:7004,101.200.85.145:7005
+    cache.commandTimeout: 5000
 
 #  # 缓存配置
 #  cache:
@@ -185,6 +176,9 @@ spring:
 #    isClusterMode: false
 #    # 清理全部缓存按钮所清理的缓存列表
 #    clearNames: sysCache,corpCache,userCache,cmsCache,msgPcPoolCache
+
+swagger: ##给swagger设置一个开关
+  ebable: true
 
 # 日志配置
 logging:
@@ -443,6 +437,8 @@ logging:
 #  # TypeHandlers 扫描基础包，如果多个，用“,”分隔
   scanTypeHandlersPackage: com.jeesite.modules.test.mapper
 #  
+#  #统一配置bean的别名
+  type-aliases-package: com.jeesite.modules.test.entity
 #  # Mapper文件刷新线程
 #  mapper:
 #    refresh:

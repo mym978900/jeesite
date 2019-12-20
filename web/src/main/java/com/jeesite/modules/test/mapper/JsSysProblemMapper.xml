@@ -17,6 +17,11 @@
     from js_sys_problem
     where serial_num = #{serialNum,jdbcType=VARCHAR}
   </select>
+  <select id="findProByLimit" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_sys_problem
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from js_sys_problem
     where serial_num = #{serialNum,jdbcType=VARCHAR}

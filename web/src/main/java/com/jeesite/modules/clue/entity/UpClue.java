@@ -29,5 +29,85 @@ public class UpClue {
 
     private Integer upClueAge;
 
-   
+	public String getUpClueCode() {
+		return upClueCode;
+	}
+
+	public void setUpClueCode(String upClueCode) {
+		this.upClueCode = upClueCode;
+	}
+
+	public Date getUpClueTime() {
+		return upClueTime;
+	}
+
+	public void setUpClueTime(Date upClueTime) {
+		this.upClueTime = upClueTime;
+	}
+
+	public String getUpUserCode() {
+		return upUserCode;
+	}
+
+	public void setUpUserCode(String upUserCode) {
+		this.upUserCode = upUserCode;
+	}
+
+	public String getUpClueName() {
+		return upClueName;
+	}
+
+	public void setUpClueName(String upClueName) {
+		this.upClueName = upClueName;
+	}
+
+	public String getUpClueTel() {
+		return upClueTel;
+	}
+
+	public void setUpClueTel(String upClueTel) {
+		this.upClueTel = upClueTel;
+	}
+
+	public String getUpClueSex() {
+		return upClueSex;
+	}
+
+	public void setUpClueSex(String upClueSex) {
+		this.upClueSex = upClueSex;
+	}
+
+	public String getUpClueAddre() {
+		return upClueAddre;
+	}
+
+	public void setUpClueAddre(String upClueAddre) {
+		this.upClueAddre = upClueAddre;
+	}
+
+	public String getUpClueStatus() {
+		return upClueStatus;
+	}
+
+	public void setUpClueStatus(String upClueStatus) {
+		this.upClueStatus = upClueStatus;
+	}
+
+	public String getUpClueAppraise() {
+		return upClueAppraise;
+	}
+
+	public void setUpClueAppraise(String upClueAppraise) {
+		this.upClueAppraise = upClueAppraise;
+	}
+
+	public Integer getUpClueAge() {
+		return upClueAge;
+	}
+
+	public void setUpClueAge(Integer upClueAge) {
+		this.upClueAge = upClueAge;
+	}
+
+    
 }

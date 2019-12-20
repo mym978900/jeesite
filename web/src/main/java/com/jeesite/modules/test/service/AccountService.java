@@ -2,6 +2,10 @@ package com.jeesite.modules.test.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.ui.Model;
+
 import com.jeesite.modules.test.entity.JsSysApply;
 import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.vo.AccountVo;
@@ -19,7 +23,9 @@ public interface AccountService {
 
 	Integer insertApply(JsSysApply apply);
 
-	Integer insertMember(JsSysMember member);
+	Integer insertMember(JsSysMember member,HttpServletResponse response,Model model);
+
+	JsSysMember selectMemberByNumber(String loginCode);
 
 	
 }

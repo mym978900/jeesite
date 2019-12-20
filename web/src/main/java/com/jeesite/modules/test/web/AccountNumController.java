@@ -3,10 +3,12 @@ package com.jeesite.modules.test.web;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,18 +22,20 @@ import com.jeesite.modules.test.entity.JsSysOffice;
 import com.jeesite.modules.test.entity.JsSysUser;
 import com.jeesite.modules.test.mapper.JsSysApplyMapper;
 import com.jeesite.modules.test.service.AccountService;
+import com.jeesite.modules.test.util.DailyUtil;
 import com.jeesite.modules.test.vo.AccountVo;
+import com.jeesite.modules.test.vo.GetUserVo;
 import com.jeesite.modules.test.vo.MemberVo;
 
 @Controller
-@RequestMapping(value = "${adminPath}/Account")
+@RequestMapping(value = "${adminPath}/account")
 public class AccountNumController {
 
 	@Autowired
 	private AccountService accountService;
 
 	// 分页查询申请信息
-	@RequestMapping(value = "selectApply")
+	@RequestMapping(value = "findApply")
 	@ResponseBody
 	public AccountVo getApplyByPage(
 			@RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
@@ -46,7 +50,7 @@ public class AccountNumController {
 	}
 
 	// 分页查询会员信息
-	@RequestMapping(value = "selectMember")
+	@RequestMapping(value = "findMember")
 	@ResponseBody
 	public MemberVo getMemberByPage(
 			@RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
@@ -58,6 +62,14 @@ public class AccountNumController {
 		PageInfo<JsSysMember> page = new PageInfo<JsSysMember>(memberList);
 		return new MemberVo(vo.getOrganName(), vo.getMemberGrade(), vo.getStartTime(), vo.getEndTime(), pageNum, page);
 
+	}
+
+	// 查询登录用户机构会员信息
+	@RequestMapping(value = "findMemberByCode")
+	@ResponseBody
+	public JsSysMember getMemberByPage(HttpServletResponse response, Model model) {
+		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
+		return accountService.selectMemberByNumber(userVo.getUser().getLoginCode());
 	}
 
 	// 编辑申请信息
@@ -75,7 +87,7 @@ public class AccountNumController {
 	// 编辑会员信息
 	@RequestMapping(value = "updateMember")
 	@ResponseBody
-	public Integer updateMemberByKey(@RequestBody JsSysMember member) {
+	public Integer updateMemberByKey(JsSysMember member) {
 		Integer num = accountService.updateMemberByKey(member);
 		if (num != 1) {
 			return 0;// 编辑失败
@@ -87,7 +99,7 @@ public class AccountNumController {
 	// 添加申请信息
 	@RequestMapping(value = "insertApply")
 	@ResponseBody
-	public Integer insertApply(@RequestBody JsSysApply apply) {
+	public Integer insertApply(JsSysApply apply) {
 		Integer num = accountService.insertApply(apply);
 		if (num != 1) {
 			return 0;// 添加失败
@@ -99,8 +111,8 @@ public class AccountNumController {
 	// 添加会员信息
 	@RequestMapping(value = "insertMember")
 	@ResponseBody
-	public Integer insertMember(@RequestBody JsSysMember member) {
-		Integer num = accountService.insertMember(member);
+	public Integer insertMember(@RequestBody JsSysMember member, HttpServletResponse response, Model model) {
+		Integer num = accountService.insertMember(member, response, model);
 		if (num != 1) {
 			return 0;// 添加失败
 		}

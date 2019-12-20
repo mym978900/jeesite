@@ -1,16 +1,33 @@
 package com.jeesite.modules.test.web;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.jeesite.modules.test.entity.JsSysApply;
 import com.jeesite.modules.test.entity.JsSysOffice;
+import com.jeesite.modules.test.entity.JsSysOrder;
 import com.jeesite.modules.test.entity.JsSysUser;
 import com.jeesite.modules.test.service.MemberService;
+import com.jeesite.modules.test.util.DailyUtil;
+import com.jeesite.modules.test.vo.AccountVo;
+import com.jeesite.modules.test.vo.FlowingWaterVo;
+import com.jeesite.modules.test.vo.GetUserVo;
+import com.jeesite.modules.test.vo.UpdatePhoneVo;
 
 @Controller
 @RequestMapping(value = "${adminPath}/member")
@@ -20,39 +37,49 @@ public class MemberController {
 	private MemberService memberService;
 
 	// 获取机构信息
-	@RequestMapping(value = "list")
+	@RequestMapping(value = "selectMem")
 	@ResponseBody
-	public JsSysOffice getOfficeByUser(HttpServletRequest request) {
+	public JsSysOffice getOfficeByUser(HttpServletResponse response, HttpServletRequest request, Model model) {
+		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
 
-		HttpSession session = request.getSession();
-
-		JsSysUser user1 = new JsSysUser();
-		user1.setLoginCode("system");
-		session.setAttribute("loginUser", user1);
-
-		if (session.getAttribute("loginUser") != null) {
-			JsSysUser user = (JsSysUser) session.getAttribute("loginUser");
-			return memberService.getOffice(user);
+		if (userVo.getUser() != null) {
+			return memberService.getOffice(userVo.getUser());
 		}
-
 		return null;
 	}
 
 	// 编辑机构信息
-	@RequestMapping(value = "update")
+	@RequestMapping(value = "updateMem")
 	@ResponseBody
-	public String updateOffice() {
+	public int updateOffice(@RequestBody JsSysOffice office) {
 
-		JsSysOffice office = new JsSysOffice();
-		office.setTreeNames("奥力格科技");
-		office.setAddress("新华科技大厦A2008");
-		office.setOfficeCode("SD");
 		int affectNum = memberService.updateOffice(office);
 		if (affectNum == 1) {
-			return "编辑成功";
+			return 1;
 		}
-		return "失败";
+		return 0;
 
 	}
 
+	// 订单流水的查询
+	@RequestMapping(value = "selectMeal")
+	@ResponseBody
+	public FlowingWaterVo selectMeal(@RequestParam("pageNum") Integer pageNum,
+			@RequestBody(required = false) FlowingWaterVo vo) {
+		pageNum = pageNum == null ? 1 : pageNum;
+		PageHelper.startPage(pageNum, 10);
+		// 查询全部
+		List<JsSysOrder> orderList = memberService.findOrderByLimit(vo);
+		PageInfo<JsSysOrder> page = new PageInfo<JsSysOrder>(orderList);
+		return new FlowingWaterVo(vo.getOrganName(), vo.getOrderNum(), vo.getStartTime(), vo.getEndTime(), page, null);
+
+	}
+
+	// 订单流水的查询
+	@RequestMapping(value = "selectMoney")
+	@ResponseBody
+	public FlowingWaterVo selectMoneyByTime(@RequestBody(required = false) FlowingWaterVo vo) {
+		BigDecimal decimal = memberService.selectMoneyByTime(vo);
+		return new FlowingWaterVo(null, null, vo.getStartTime(), vo.getEndTime(), null, decimal);
+	}
 }

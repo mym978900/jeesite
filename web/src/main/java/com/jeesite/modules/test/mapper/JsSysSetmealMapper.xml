@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.test.mapper.JsSysSetmealMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysSetmeal" >
+    <id column="serial_number" property="serialNumber" jdbcType="VARCHAR" />
+    <result column="set_meal_title" property="setMealTitle" jdbcType="VARCHAR" />
+    <result column="set_meal_content" property="setMealContent" jdbcType="VARCHAR" />
+    <result column="half_price" property="halfPrice" jdbcType="INTEGER" />
+    <result column="whole_price" property="wholePrice" jdbcType="INTEGER" />
+    <result column="reserve1" property="reserve1" jdbcType="VARCHAR" />
+    <result column="reserve2" property="reserve2" jdbcType="VARCHAR" />
+    <result column="reserve3" property="reserve3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    serial_number, set_meal_title, set_meal_content, half_price, whole_price, reserve1, 
+    reserve2, reserve3
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_sys_setmeal
+    where serial_number = #{serialNumber,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAllMeal" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_sys_setmeal
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from js_sys_setmeal
+    where serial_number = #{serialNumber,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysSetmeal" >
+    insert into js_sys_setmeal (serial_number, set_meal_title, set_meal_content, 
+      half_price, whole_price, reserve1, 
+      reserve2, reserve3)
+    values (#{serialNumber,jdbcType=VARCHAR}, #{setMealTitle,jdbcType=VARCHAR}, #{setMealContent,jdbcType=VARCHAR}, 
+      #{halfPrice,jdbcType=INTEGER}, #{wholePrice,jdbcType=INTEGER}, #{reserve1,jdbcType=VARCHAR}, 
+      #{reserve2,jdbcType=VARCHAR}, #{reserve3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysSetmeal" >
+    insert into js_sys_setmeal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="serialNumber != null" >
+        serial_number,
+      </if>
+      <if test="setMealTitle != null" >
+        set_meal_title,
+      </if>
+      <if test="setMealContent != null" >
+        set_meal_content,
+      </if>
+      <if test="halfPrice != null" >
+        half_price,
+      </if>
+      <if test="wholePrice != null" >
+        whole_price,
+      </if>
+      <if test="reserve1 != null" >
+        reserve1,
+      </if>
+      <if test="reserve2 != null" >
+        reserve2,
+      </if>
+      <if test="reserve3 != null" >
+        reserve3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="serialNumber != null" >
+        #{serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="setMealTitle != null" >
+        #{setMealTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="setMealContent != null" >
+        #{setMealContent,jdbcType=VARCHAR},
+      </if>
+      <if test="halfPrice != null" >
+        #{halfPrice,jdbcType=INTEGER},
+      </if>
+      <if test="wholePrice != null" >
+        #{wholePrice,jdbcType=INTEGER},
+      </if>
+      <if test="reserve1 != null" >
+        #{reserve1,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve2 != null" >
+        #{reserve2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve3 != null" >
+        #{reserve3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.test.entity.JsSysSetmeal" >
+    update js_sys_setmeal
+    <set >
+      <if test="setMealTitle != null" >
+        set_meal_title = #{setMealTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="setMealContent != null" >
+        set_meal_content = #{setMealContent,jdbcType=VARCHAR},
+      </if>
+      <if test="halfPrice != null" >
+        half_price = #{halfPrice,jdbcType=INTEGER},
+      </if>
+      <if test="wholePrice != null" >
+        whole_price = #{wholePrice,jdbcType=INTEGER},
+      </if>
+      <if test="reserve1 != null" >
+        reserve1 = #{reserve1,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve2 != null" >
+        reserve2 = #{reserve2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve3 != null" >
+        reserve3 = #{reserve3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where serial_number = #{serialNumber,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysSetmeal" >
+    update js_sys_setmeal
+    set set_meal_title = #{setMealTitle,jdbcType=VARCHAR},
+      set_meal_content = #{setMealContent,jdbcType=VARCHAR},
+      half_price = #{halfPrice,jdbcType=INTEGER},
+      whole_price = #{wholePrice,jdbcType=INTEGER},
+      reserve1 = #{reserve1,jdbcType=VARCHAR},
+      reserve2 = #{reserve2,jdbcType=VARCHAR},
+      reserve3 = #{reserve3,jdbcType=VARCHAR}
+    where serial_number = #{serialNumber,jdbcType=VARCHAR}
+  </update>
+</mapper>

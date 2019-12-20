@@ -203,7 +203,7 @@ public class AesUtils {
 	
 //	public static void main(String[] args) {
 //
-//		String s = "hello word!";
+//		String s = "s";
 //		System.out.println(s);
 //		
 //		String k = genKeyString();
@@ -211,7 +211,7 @@ public class AesUtils {
 //		String ss = encode(s, k);
 //		System.out.println(ss);
 //		String sss = decode(ss, k);
-//		System.out.println(sss);
+//	    System.out.println(sss);
 //		
 //	}
 	

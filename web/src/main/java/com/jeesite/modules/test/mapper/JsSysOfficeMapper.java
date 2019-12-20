@@ -2,6 +2,7 @@ package com.jeesite.modules.test.mapper;
 
 import java.util.List;
 
+import com.jeesite.modules.sys.entity.User;
 import com.jeesite.modules.test.entity.JsSysOffice;
 import com.jeesite.modules.test.entity.JsSysUser;
 
@@ -18,5 +19,5 @@ public interface JsSysOfficeMapper {
 
     int updateByPrimaryKey(JsSysOffice record);
     
-    List<JsSysOffice> selectByUser(JsSysUser user);
+    List<JsSysOffice> selectByUser(User user);
 }

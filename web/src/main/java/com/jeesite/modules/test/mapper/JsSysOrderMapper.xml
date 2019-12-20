@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.jeesite.modules.test.mapper.JsSysOrderMapper">
+	<resultMap id="BaseResultMap"
+		type="com.jeesite.modules.test.entity.JsSysOrder">
+		<id column="order_num" property="orderNum" jdbcType="VARCHAR" />
+		<result column="account_num" property="accountNum"
+			jdbcType="VARCHAR" />
+		<result column="organ_name" property="organName"
+			jdbcType="VARCHAR" />
+		<result column="order_title" property="orderTitle"
+			jdbcType="VARCHAR" />
+		<result column="order_type" property="orderType"
+			jdbcType="VARCHAR" />
+		<result column="order_price" property="orderPrice"
+			jdbcType="DECIMAL" />
+		<result column="payment" property="payment" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime"
+			jdbcType="TIMESTAMP" />
+		<result column="reserve1" property="reserve1"
+			jdbcType="VARCHAR" />
+		<result column="reserve2" property="reserve2"
+			jdbcType="VARCHAR" />
+		<result column="reserve3" property="reserve3"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		order_num, account_num, organ_name, order_title, order_type, order_price,
+		payment,
+		create_time, reserve1, reserve2, reserve3
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from js_sys_order
+		where order_num = #{orderNum,jdbcType=VARCHAR}
+	</select>
+	<select id="selectMoneyByTime" resultType="java.math.BigDecimal"
+		parameterType="com.jeesite.modules.test.vo.FlowingWaterVo">
+		select SUM(order_price) from js_sys_order
+		where 1=1
+		<if test="startTime!=null and startTime!=''">
+			and DATE(create_time) <![CDATA[ >= ]]>
+			DATE(#{startTime})
+		</if>
+		<if test="endTime!=null and endTime!=''">
+			and DATE(create_time) <![CDATA[ <= ]]>
+			DATE(#{endTime})
+		</if>
+	</select>
+	<select id="findOrderByLimit" resultMap="BaseResultMap"
+		parameterType="com.jeesite.modules.test.vo.FlowingWaterVo">
+		select
+		<include refid="Base_Column_List" />
+		from js_sys_order where 1=1
+		<if test="startTime!=null and startTime!=''">
+			and DATE(create_time) <![CDATA[ >= ]]>
+			DATE(#{startTime})
+		</if>
+		<if test="endTime!=null and endTime!=''">
+			and DATE(create_time) <![CDATA[ <= ]]>
+			DATE(#{endTime})
+		</if>
+		<if test="organName!=null and organName!=''">
+			and organ_name = #{organName}
+		</if>
+		<if test="orderNum!=null and orderNum!=''">
+			and order_num = #{orderNum}
+		</if>
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from js_sys_order
+		where order_num = #{orderNum,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="com.jeesite.modules.test.entity.JsSysOrder">
+		insert into js_sys_order (order_num, account_num, organ_name,
+		order_title, order_type, order_price,
+		payment, create_time, reserve1,
+		reserve2, reserve3)
+		values (#{orderNum,jdbcType=VARCHAR}, #{accountNum,jdbcType=VARCHAR},
+		#{organName,jdbcType=VARCHAR},
+		#{orderTitle,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR}, #{orderPrice,jdbcType=DECIMAL},
+		#{payment,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+		#{reserve1,jdbcType=VARCHAR},
+		#{reserve2,jdbcType=VARCHAR}, #{reserve3,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.jeesite.modules.test.entity.JsSysOrder">
+		insert into js_sys_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderNum != null">
+				order_num,
+			</if>
+			<if test="accountNum != null">
+				account_num,
+			</if>
+			<if test="organName != null">
+				organ_name,
+			</if>
+			<if test="orderTitle != null">
+				order_title,
+			</if>
+			<if test="orderType != null">
+				order_type,
+			</if>
+			<if test="orderPrice != null">
+				order_price,
+			</if>
+			<if test="payment != null">
+				payment,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="reserve1 != null">
+				reserve1,
+			</if>
+			<if test="reserve2 != null">
+				reserve2,
+			</if>
+			<if test="reserve3 != null">
+				reserve3,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderNum != null">
+				#{orderNum,jdbcType=VARCHAR},
+			</if>
+			<if test="accountNum != null">
+				#{accountNum,jdbcType=VARCHAR},
+			</if>
+			<if test="organName != null">
+				#{organName,jdbcType=VARCHAR},
+			</if>
+			<if test="orderTitle != null">
+				#{orderTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="orderType != null">
+				#{orderType,jdbcType=VARCHAR},
+			</if>
+			<if test="orderPrice != null">
+				#{orderPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="payment != null">
+				#{payment,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="reserve1 != null">
+				#{reserve1,jdbcType=VARCHAR},
+			</if>
+			<if test="reserve2 != null">
+				#{reserve2,jdbcType=VARCHAR},
+			</if>
+			<if test="reserve3 != null">
+				#{reserve3,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.jeesite.modules.test.entity.JsSysOrder">
+		update js_sys_order
+		<set>
+			<if test="accountNum != null">
+				account_num = #{accountNum,jdbcType=VARCHAR},
+			</if>
+			<if test="organName != null">
+				organ_name = #{organName,jdbcType=VARCHAR},
+			</if>
+			<if test="orderTitle != null">
+				order_title = #{orderTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="orderType != null">
+				order_type = #{orderType,jdbcType=VARCHAR},
+			</if>
+			<if test="orderPrice != null">
+				order_price = #{orderPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="payment != null">
+				payment = #{payment,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="reserve1 != null">
+				reserve1 = #{reserve1,jdbcType=VARCHAR},
+			</if>
+			<if test="reserve2 != null">
+				reserve2 = #{reserve2,jdbcType=VARCHAR},
+			</if>
+			<if test="reserve3 != null">
+				reserve3 = #{reserve3,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where order_num = #{orderNum,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.jeesite.modules.test.entity.JsSysOrder">
+		update js_sys_order
+		set account_num = #{accountNum,jdbcType=VARCHAR},
+		organ_name = #{organName,jdbcType=VARCHAR},
+		order_title = #{orderTitle,jdbcType=VARCHAR},
+		order_type = #{orderType,jdbcType=VARCHAR},
+		order_price = #{orderPrice,jdbcType=DECIMAL},
+		payment = #{payment,jdbcType=VARCHAR},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		reserve1 = #{reserve1,jdbcType=VARCHAR},
+		reserve2 = #{reserve2,jdbcType=VARCHAR},
+		reserve3 = #{reserve3,jdbcType=VARCHAR}
+		where order_num = #{orderNum,jdbcType=VARCHAR}
+	</update>
+</mapper>

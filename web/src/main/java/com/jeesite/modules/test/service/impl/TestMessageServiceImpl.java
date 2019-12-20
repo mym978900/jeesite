@@ -3,10 +3,12 @@ package com.jeesite.modules.test.service.impl;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -20,10 +22,15 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
+import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.entity.JsSysUser;
+import com.jeesite.modules.test.mapper.JsSysMemberMapper;
 import com.jeesite.modules.test.mapper.JsSysUserMapper;
 import com.jeesite.modules.test.service.TestMessageService;
+import com.jeesite.modules.test.util.DailyUtil;
+import com.jeesite.modules.test.util.PasswordUtil;
 import com.jeesite.modules.test.util.SHA1Util;
+import com.jeesite.modules.test.vo.GetUserVo;
 import com.jeesite.modules.test.vo.UpdatePhoneVo;
 
 @Service
@@ -31,11 +38,13 @@ public class TestMessageServiceImpl implements TestMessageService {
 
 	@Autowired
 	private JsSysUserMapper jsSysUserMapper;
+	@Autowired
+	private JsSysMemberMapper jsSysMemberMapper;
 
 	@Override
-	public String toGetMessage(String phone) {
+	public Integer toGetMessage(HttpServletRequest req,String phone) {
 		// TODO Auto-generated method stub
-		HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		//HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		DefaultProfile profile = DefaultProfile.getProfile("default", "LTAIIxKfL09legx7",
 				"fbsGtBZaAxDTLM1nwOSpPWDrlZJ1dm");
 		IAcsClient client = new DefaultAcsClient(profile);
@@ -64,7 +73,9 @@ public class TestMessageServiceImpl implements TestMessageService {
 				js.put("createTime", System.currentTimeMillis());
 				// 将验证码存入SESSION
 				session.setAttribute("password", js);
-				return "success";
+				JSONObject json2 = (JSONObject) req.getSession().getAttribute("password");
+				System.out.println("cccccccccccccccccccccc"+json2.getString("password"));
+				return 1;
 			}
 
 			// 失效时间
@@ -73,43 +84,50 @@ public class TestMessageServiceImpl implements TestMessageService {
 		} catch (ClientException e) {
 			e.printStackTrace();
 		}
-		return "fail";
+		return 0;
 	}
 
 	@Override
-	public String toUpdatePhone(UpdatePhoneVo vo) {
+	public Integer toUpdatePhone(HttpServletResponse response, Model model, UpdatePhoneVo vo) {
 		// TODO Auto-generated method stub
-		HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-		JsSysUser sysUser = (JsSysUser) req.getAttribute("loginUser");
-		if (!(SHA1Util.encode(vo.getPassword())).equals(sysUser.getPassword())) {
-			return "密码有误";
+		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
+		boolean boo=PasswordUtil.checkPassword(vo.getPassword(), userVo.getUser().getPassword());
+		boolean i=false;
+		if (boo==i) {
+			return 3;//密码错误
 		}
 		JsSysUser user = new JsSysUser();
-		user.setPhone(vo.getNewphone());
-		user.setUserCode(sysUser.getUserCode());
+		user.setLoginCode(vo.getNewphone());
+		user.setUserCode(userVo.getUser().getUserCode());
 		int num = jsSysUserMapper.updateByPrimaryKeySelective(user);
-		if (num != 1) {
-			return "绑定失败";
+		JsSysMember mem=new JsSysMember();
+		mem.setAccountNumber(vo.getNewphone());
+		mem.setSerialNumber(vo.getSerialNumber());
+		int now=jsSysMemberMapper.updateByPrimaryKeySelective(mem);
+		if (num != 1||now !=1) {
+			return 4;//绑定失败
 		}
-		return "success";
+		return 5;//绑定成功
 	}
 
 	@Override
-	public String toUpdatePass(UpdatePhoneVo vo) {
+	public Integer toUpdatePass(HttpServletResponse response, Model model, UpdatePhoneVo vo) {
 		// TODO Auto-generated method stub
-		HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-		JsSysUser sysUser = (JsSysUser) req.getAttribute("loginUser");
-		if (!(SHA1Util.encode(vo.getPassword())).equals(sysUser.getPassword())) {
-			return "0";// 密码输入错误
+		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
+		boolean boo=PasswordUtil.checkPassword(vo.getPassword(), userVo.getUser().getPassword());
+		boolean i=false;
+		if (boo==i) {
+			return 0;// 密码输入错误
 		}
 		JsSysUser user = new JsSysUser();
-		user.setPassword(SHA1Util.encode(vo.getNewpassword()));
-		user.setUserCode(sysUser.getUserCode());
+		String newPassword=PasswordUtil.getPassword(vo.getNewpassword());
+		user.setPassword(newPassword);
+		user.setUserCode(userVo.getUser().getUserCode());
 		int num = jsSysUserMapper.updateByPrimaryKeySelective(user);
 		if (num != 1) {
-			return "2";// 修改失败
+			return 2;// 修改失败
 		}
-		return "1";// 修改成功
+		return 1;// 修改成功
 	}
 
 }

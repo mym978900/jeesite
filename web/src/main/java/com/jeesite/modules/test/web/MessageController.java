@@ -1,9 +1,11 @@
 package com.jeesite.modules.test.web;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,7 +16,7 @@ import com.jeesite.modules.test.service.TestMessageService;
 import com.jeesite.modules.test.vo.UpdatePhoneVo;
 
 @Controller
-@RequestMapping(value = "${adminPath}/sms/tosms")
+@RequestMapping(value = "${adminPath}/tosms")
 public class MessageController {
 
 	@Autowired
@@ -23,35 +25,34 @@ public class MessageController {
 	// 发送短信验证码
 	@RequestMapping(value = "getmeg")
 	@ResponseBody
-	public String getMessage(@RequestParam("phone") String phone) {
+	public Integer getMessage(HttpServletRequest request,String phone) {
 
-		return messageService.toGetMessage(phone);
+		return messageService.toGetMessage(request,phone);
 	}
 
 	// 验证message
 	@RequestMapping(value = "checkmeg")
 	@ResponseBody
-	public Object register(HttpServletRequest request, @RequestParam("megnum") String megnum,
-			@RequestBody(required = false) UpdatePhoneVo vo) {
+	public Integer register(HttpServletRequest request, UpdatePhoneVo vo, HttpServletResponse response, Model model) {
 		JSONObject json = (JSONObject) request.getSession().getAttribute("password");
-		if (!json.getString("password").equals(megnum)) {
-			return "验证码错误";
+		if (!json.getString("password").equals(vo.getMegNum())) {
+			return 1;// 验证码错误
 		}
 		if ((System.currentTimeMillis() - json.getLong("createTime")) > 1000 * 60 * 2) {
-			return "验证码过期";
+			return 2;// 验证码超时
 		}
 		// 将用户信息存入数据库
 		// 这里省略
 
-		return messageService.toUpdatePhone(vo);
+		return messageService.toUpdatePhone(response, model, vo);
 	}
 
 	// 修改密码
 	@RequestMapping(value = "updatePass")
 	@ResponseBody
-	public String updatePass(@RequestBody UpdatePhoneVo vo) {
+	public Integer updatePass(UpdatePhoneVo vo, HttpServletResponse response, Model model) {
 
-		return messageService.toUpdatePass(vo);
+		return messageService.toUpdatePass(response, model, vo);
 	}
 
 }

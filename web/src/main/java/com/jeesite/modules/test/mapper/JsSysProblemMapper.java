@@ -1,5 +1,7 @@
 package com.jeesite.modules.test.mapper;
 
+import java.util.List;
+
 import com.jeesite.modules.test.entity.JsSysProblem;
 
 public interface JsSysProblemMapper {
@@ -14,4 +16,6 @@ public interface JsSysProblemMapper {
     int updateByPrimaryKeySelective(JsSysProblem record);
 
     int updateByPrimaryKey(JsSysProblem record);
+
+	List<JsSysProblem> findProByLimit();
 }

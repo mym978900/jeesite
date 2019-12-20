@@ -1,12 +1,17 @@
 package com.jeesite.modules.test.service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.ui.Model;
+
 import com.jeesite.modules.test.vo.UpdatePhoneVo;
 
 public interface TestMessageService {
 
-	String toGetMessage(String phone);
+	Integer toGetMessage(HttpServletRequest request,String phone);
 
-	String toUpdatePhone(UpdatePhoneVo vo);
+	Integer toUpdatePhone(HttpServletResponse response,Model model,UpdatePhoneVo vo);
 
-	String toUpdatePass(UpdatePhoneVo vo);
+	Integer toUpdatePass(HttpServletResponse response, Model model, UpdatePhoneVo vo);
 }
