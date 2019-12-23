@@ -29,4 +29,6 @@ public interface JsSysMemberMapper extends BaseMapper<JsSysMember>{
 
 	//通过登录账号获取会员信息
 	JsSysMember getMemberByAccountCode(String code);
+
+	JsSysMember selectMemberByNumber(String loginCode);
 }

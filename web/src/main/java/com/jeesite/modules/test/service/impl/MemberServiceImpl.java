@@ -1,6 +1,7 @@
 package com.jeesite.modules.test.service.impl;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import com.jeesite.modules.sys.entity.User;
 import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.entity.JsSysOffice;
 import com.jeesite.modules.test.entity.JsSysOrder;
-import com.jeesite.modules.test.entity.JsSysUser;
 import com.jeesite.modules.test.mapper.JsSysOfficeMapper;
 import com.jeesite.modules.test.mapper.JsSysOrderMapper;
 import com.jeesite.modules.test.service.MemberService;
@@ -49,6 +49,48 @@ public class MemberServiceImpl implements MemberService {
 	public BigDecimal selectMoneyByTime(FlowingWaterVo vo) {
 		// TODO Auto-generated method stub
 		return jsSysOrderMapper.selectMoneyByTime(vo);
+	}
+
+	@Override
+	public List<JsSysMember> getClueMatchUser() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDeptType(String loginCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateOnedate(Date date, String userCode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateAiTimes(String userCode, int times) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<JsSysMember> getNoConfigAddress() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateByPrimaryKey(JsSysMember jsm) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public JsSysMember getMemberByAccountCode(String code) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
