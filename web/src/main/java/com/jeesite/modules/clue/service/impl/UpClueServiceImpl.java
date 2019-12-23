@@ -1,5 +1,6 @@
 package com.jeesite.modules.clue.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +38,42 @@ public class UpClueServiceImpl implements UpClueService{
 		}
 	}
 
-	//相同的手机号线索资源 - 姓名性别验证 - 可以上传不删除上传自动去重
+	//相同的手机号线索资源 - 姓名验证 - 可以上传不删除上传自动去重
 	@Override
 	public int effectiveClue(UpClue clue) {
 		int count = upClueMapper.effectiveClue(clue);
 		return count;
+	}
+
+	//匹配线索资源
+	@Override
+	public List getMatchClue(String userId, String deptType,String minlng,String maxlng,String minlat,String maxlat) {
+		List list = upClueMapper.getMatchClue(userId,deptType,minlng,maxlng,minlat,maxlat);
+		return list;
+	}
+
+	//更新线索最新匹配时间
+	@Override
+	public void updateMatchTime(String clueCode, Date date) {
+		upClueMapper.updateMatchTime(clueCode,date);
+	}
+
+	//获取未标注经纬度的会员
+	@Override
+	public List<UpClue> getNoConfigAddress() {
+		List list = upClueMapper.getNoConfigAddress();
+		return list;
+	}
+
+	@Override
+	public void updateByPrimaryKey(UpClue upClue) {
+		upClueMapper.updateByPrimaryKey(upClue);
+	}
+
+	@Override
+	public UpClue selectByPrimaryKey(String upClueCode) {
+		UpClue uc = upClueMapper.selectByPrimaryKey(upClueCode);
+		return uc
+				;
 	}
 }

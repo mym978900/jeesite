@@ -1,24 +1,32 @@
 package com.jeesite.modules.test.mapper;
 
+import java.util.Date;
 import java.util.List;
 
+import com.jeesite.modules.base.BaseMapper;
 import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.vo.MemberVo;
 
-public interface JsSysMemberMapper {
-    int deleteByPrimaryKey(String serialNumber);
+public interface JsSysMemberMapper extends BaseMapper<JsSysMember>{
+    
+    
+    List<JsSysMember> selectAllMember(MemberVo vo);
+    
+    //获取需要匹配线索的会员
+    List<JsSysMember> getClueMatchUser();
 
-    int insert(JsSysMember record);
+    //获取机构品类
+	String getDeptType(String loginCode);
 
-    int insertSelective(JsSysMember record);
+	//更新初次匹配时间
+	void updateOnedate(Date date,String userCode);
 
-    JsSysMember selectByPrimaryKey(String serialNumber);
+	//更新用户最新匹配批次
+	void updateAiTimes(String userCode, int times);
 
-    int updateByPrimaryKeySelective(JsSysMember record);
+	//获取未标注经纬度的会员
+	List<JsSysMember> getNoConfigAddress();
 
-    int updateByPrimaryKey(JsSysMember record);
-
-	List<JsSysMember> selectAllMember(MemberVo vo);
-
-	JsSysMember selectMemberByNumber(String loginCode);
+	//通过登录账号获取会员信息
+	JsSysMember getMemberByAccountCode(String code);
 }

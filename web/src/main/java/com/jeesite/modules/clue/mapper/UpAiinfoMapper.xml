@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.clue.mapper.UpAiinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.clue.entity.UpAiinfo" >
+    <result column="up_aicode" property="upAicode" jdbcType="VARCHAR" />
+    <result column="up_aiappraise" property="upAiappraise" jdbcType="CHAR" />
+    <result column="up_aistatus" property="upAistatus" jdbcType="CHAR" />
+    <result column="up_usercode" property="upUsercode" jdbcType="VARCHAR" />
+    <result column="up_aitimes" property="upAitimes" jdbcType="INTEGER" />
+    <result column="up_aicreatetime" property="upAicreatetime" jdbcType="TIMESTAMP" />
+    <result column="up_aiexecutetime" property="upAiexecutetime" jdbcType="TIMESTAMP" />
+    <result column="up_aipersontime" property="upAipersontime" jdbcType="TIMESTAMP" />
+    <result column="up_aitaskid" property="upAitaskid" jdbcType="VARCHAR" />
+    <result column="up_aiphone" property="upAiphone" jdbcType="VARCHAR" />
+    <result column="extra1" property="extra1" jdbcType="VARCHAR" />
+    <result column="extra2" property="extra2" jdbcType="VARCHAR" />
+    <result column="extra3" property="extra3" jdbcType="VARCHAR" />
+    <result column="extra4" property="extra4" jdbcType="VARCHAR" />
+    <result column="extra5" property="extra5" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.jeesite.modules.clue.entity.UpAiinfo" >
+    insert into up_aiInfo (up_aicode, up_aiappraise, up_aistatus, 
+      up_usercode, up_aitimes, up_aicreatetime, 
+      up_aiexecutetime, up_aipersontime, up_aitaskid, 
+      up_aiphone, extra1, extra2, 
+      extra3, extra4, extra5
+      )
+    values (#{upAicode,jdbcType=VARCHAR}, #{upAiappraise,jdbcType=CHAR}, #{upAistatus,jdbcType=CHAR}, 
+      #{upUsercode,jdbcType=VARCHAR}, #{upAitimes,jdbcType=INTEGER}, #{upAicreatetime,jdbcType=TIMESTAMP}, 
+      #{upAiexecutetime,jdbcType=TIMESTAMP}, #{upAipersontime,jdbcType=TIMESTAMP}, #{upAitaskid,jdbcType=VARCHAR}, 
+      #{upAiphone,jdbcType=VARCHAR}, #{extra1,jdbcType=VARCHAR}, #{extra2,jdbcType=VARCHAR}, 
+      #{extra3,jdbcType=VARCHAR}, #{extra4,jdbcType=VARCHAR}, #{extra5,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.clue.entity.UpAiinfo" >
+    insert into up_aiInfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="upAicode != null" >
+        up_aicode,
+      </if>
+      <if test="upAiappraise != null" >
+        up_aiappraise,
+      </if>
+      <if test="upAistatus != null" >
+        up_aistatus,
+      </if>
+      <if test="upUsercode != null" >
+        up_usercode,
+      </if>
+      <if test="upAitimes != null" >
+        up_aitimes,
+      </if>
+      <if test="upAicreatetime != null" >
+        up_aicreatetime,
+      </if>
+      <if test="upAiexecutetime != null" >
+        up_aiexecutetime,
+      </if>
+      <if test="upAipersontime != null" >
+        up_aipersontime,
+      </if>
+      <if test="upAitaskid != null" >
+        up_aitaskid,
+      </if>
+      <if test="upAiphone != null" >
+        up_aiphone,
+      </if>
+      <if test="extra1 != null" >
+        extra1,
+      </if>
+      <if test="extra2 != null" >
+        extra2,
+      </if>
+      <if test="extra3 != null" >
+        extra3,
+      </if>
+      <if test="extra4 != null" >
+        extra4,
+      </if>
+      <if test="extra5 != null" >
+        extra5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="upAicode != null" >
+        #{upAicode,jdbcType=VARCHAR},
+      </if>
+      <if test="upAiappraise != null" >
+        #{upAiappraise,jdbcType=CHAR},
+      </if>
+      <if test="upAistatus != null" >
+        #{upAistatus,jdbcType=CHAR},
+      </if>
+      <if test="upUsercode != null" >
+        #{upUsercode,jdbcType=VARCHAR},
+      </if>
+      <if test="upAitimes != null" >
+        #{upAitimes,jdbcType=INTEGER},
+      </if>
+      <if test="upAicreatetime != null" >
+        #{upAicreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upAiexecutetime != null" >
+        #{upAiexecutetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upAipersontime != null" >
+        #{upAipersontime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upAitaskid != null" >
+        #{upAitaskid,jdbcType=VARCHAR},
+      </if>
+      <if test="upAiphone != null" >
+        #{upAiphone,jdbcType=VARCHAR},
+      </if>
+      <if test="extra1 != null" >
+        #{extra1,jdbcType=VARCHAR},
+      </if>
+      <if test="extra2 != null" >
+        #{extra2,jdbcType=VARCHAR},
+      </if>
+      <if test="extra3 != null" >
+        #{extra3,jdbcType=VARCHAR},
+      </if>
+      <if test="extra4 != null" >
+        #{extra4,jdbcType=VARCHAR},
+      </if>
+      <if test="extra5 != null" >
+        #{extra5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="getExistClue" resultType="java.util.HashMap">
+  	select 
+  	up_aicode,up_aiphone 
+  	from up_aiInfo 
+  	where up_usercode = #{userId} 
+  	and up_aistatus = '1'
+  </select>
+  <select id="getUpAiInfoList" resultMap="BaseResultMap" parameterType="com.jeesite.modules.clue.vo.ClueVo">
+  	select
+  	up_aicode, up_aiappraise, up_aistatus, 
+      up_usercode, up_aitimes, up_aicreatetime, 
+      up_aiexecutetime, up_aipersontime, up_aitaskid, 
+      up_aiphone, extra1, extra2, 
+      extra3, extra4, extra5
+    from up_aiInfo where 1=1
+    <if test="beginTime!=null and beginTime!=''">
+      and up_aicreatetime <![CDATA[ >= ]]> #{beginTime}
+    </if>
+    <if test="endTime!=null and endTime!=''">
+      and up_aicreatetime <![CDATA[ <= ]]> #{endTime}
+    </if>
+    <if test="status!=null and status!=''">
+      and up_aistatus = #{status}
+    </if>
+    <if test="times!=null and status!=''">
+      and up_aitimes = #{times}
+    </if>
+    <if test="userCode!=null and userCode!=''">
+      and up_usercode = #{userCode}
+    </if>
+    order by up_aitimes asc
+  </select>
+</mapper>

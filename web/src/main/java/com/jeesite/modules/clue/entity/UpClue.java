@@ -28,6 +28,9 @@ public class UpClue {
     private String upClueAppraise;
 
     private Integer upClueAge;
+    private Double upClueLongitude;
+    private String upClueDepttype;
+    private Double upClueLatitude;
 
 	public String getUpClueCode() {
 		return upClueCode;
@@ -109,5 +112,29 @@ public class UpClue {
 		this.upClueAge = upClueAge;
 	}
 
-    
+	
+
+	public Double getUpClueLatitude() {
+		return upClueLatitude;
+	}
+
+	public void setUpClueLatitude(Double upClueLatitude) {
+		this.upClueLatitude = upClueLatitude;
+	}
+
+	public Double getUpClueLongitude() {
+		return upClueLongitude;
+	}
+
+	public void setUpClueLongitude(Double upClueLongitude) {
+		this.upClueLongitude = upClueLongitude;
+	}
+
+	public String getUpClueDepttype() {
+		return upClueDepttype;
+	}
+
+	public void setUpClueDepttype(String upClueDepttype) {
+		this.upClueDepttype = upClueDepttype;
+	}
 }

@@ -2,6 +2,9 @@ package com.jeesite.modules.test.entity;
 
 import java.util.Date;
 
+import lombok.Data;
+
+@Data
 public class JsSysMember {
     private String serialNumber;
 

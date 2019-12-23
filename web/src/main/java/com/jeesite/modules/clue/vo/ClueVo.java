@@ -9,11 +9,18 @@ public class ClueVo {
 	private String beginTime;
 	private String endTime;
 	private String status;
+	private String userCode;
 	private Integer pageNum;
 	private PageInfo<UpClue> pageInfo;
 	private boolean result;
 	
 	
+	public String getUserCode() {
+		return userCode;
+	}
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
 	public boolean isResult() {
 		return result;
 	}
@@ -50,11 +57,12 @@ public class ClueVo {
 	public void setPageInfo(PageInfo<UpClue> pageInfo) {
 		this.pageInfo = pageInfo;
 	}
-	public ClueVo(String beginTime, String endTime, String status, Integer pageNum, PageInfo<UpClue> pageInfo,boolean result) {
+	public ClueVo(String beginTime, String endTime, String status, String userCode, Integer pageNum, PageInfo<UpClue> pageInfo,boolean result) {
 		super();
 		this.beginTime = beginTime;
 		this.endTime = endTime;
 		this.status = status;
+		this.userCode = userCode;
 		this.pageNum = pageNum;
 		this.pageInfo = pageInfo;
 		this.result = result;

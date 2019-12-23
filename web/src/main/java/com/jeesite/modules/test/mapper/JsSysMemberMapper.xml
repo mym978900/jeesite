@@ -291,4 +291,35 @@
       ai_times = #{aiTimes,jdbcType=INTEGER}
     where serial_number = #{serialNumber,jdbcType=VARCHAR}
   </update>
+  <select id="getClueMatchUser" resultMap="BaseResultMap" parameterType="com.jeesite.modules.test.entity.JsSysMember">
+  	select 
+  	<include refid="Base_Column_List" />
+    from js_sys_member 
+    where member_grade &gt; 0
+  </select>
+  <select id="getDeptType" resultType="java.lang.String" parameterType="java.lang.String">
+  	select organ_class from js_sys_member where  account_number = #{loginCode}
+  </select>
+  <select id="updateOnedate" >
+  	update js_sys_member
+  	set match_onedate = #{0}
+  	where account_number = #{1}
+  </select>
+  <update id="updateAiTimes" >
+  	update js_sys_member
+  	set ai_times = #{0}
+  	where account_number = #{1}
+  </update>
+  <select id="getNoConfigAddress" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+    from js_sys_member 
+    where match_longitude = "" || match_longitude is null
+  </select>
+  <select id="getMemberByAccountCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select
+  	<include refid="Base_Column_List" />
+  	from js_sys_member
+  	where account_number = #{code}
+  </select>
 </mapper>
