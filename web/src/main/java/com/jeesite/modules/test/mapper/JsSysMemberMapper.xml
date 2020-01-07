@@ -22,12 +22,13 @@
     <result column="match_latitude" property="matchLatitude" jdbcType="DOUBLE" />
     <result column="clue_count" property="clueCount" jdbcType="INTEGER" />
     <result column="ai_times" property="aiTimes" jdbcType="INTEGER" />
+    <result column="user_code" property="userCode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     serial_number, account_number, organ_name, organ_class, member_grade, member_overtime, 
     organ_address, detail_address, organ_phone, organ_man, organ_manphone, organ_hava, 
     reserve_field1, reserve_dield2, match_update, match_onedate, match_longitude, match_latitude, 
-    clue_count, ai_times
+    clue_count, ai_times, user_code
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -69,14 +70,16 @@
       organ_man, organ_manphone, organ_hava, 
       reserve_field1, reserve_dield2, match_update, 
       match_onedate, match_longitude, match_latitude, 
-      clue_count, ai_times)
+      clue_count, ai_times, user_code
+      )
     values (#{serialNumber,jdbcType=VARCHAR}, #{accountNumber,jdbcType=VARCHAR}, #{organName,jdbcType=VARCHAR}, 
       #{organClass,jdbcType=VARCHAR}, #{memberGrade,jdbcType=CHAR}, #{memberOvertime,jdbcType=VARCHAR}, 
       #{organAddress,jdbcType=VARCHAR}, #{detailAddress,jdbcType=VARCHAR}, #{organPhone,jdbcType=VARCHAR}, 
       #{organMan,jdbcType=VARCHAR}, #{organManphone,jdbcType=VARCHAR}, #{organHava,jdbcType=VARCHAR}, 
       #{reserveField1,jdbcType=VARCHAR}, #{reserveDield2,jdbcType=VARCHAR}, #{matchUpdate,jdbcType=DATE}, 
       #{matchOnedate,jdbcType=DATE}, #{matchLongitude,jdbcType=DOUBLE}, #{matchLatitude,jdbcType=DOUBLE}, 
-      #{clueCount,jdbcType=INTEGER}, #{aiTimes,jdbcType=INTEGER})
+      #{clueCount,jdbcType=INTEGER}, #{aiTimes,jdbcType=INTEGER}, #{userCode,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysMember" >
     insert into js_sys_member
@@ -141,6 +144,9 @@
       <if test="aiTimes != null" >
         ai_times,
       </if>
+      <if test="userCode != null" >
+        user_code,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="serialNumber != null" >
@@ -202,6 +208,9 @@
       </if>
       <if test="aiTimes != null" >
         #{aiTimes,jdbcType=INTEGER},
+      </if>
+      <if test="userCode != null" >
+        #{userCode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -265,6 +274,9 @@
       <if test="aiTimes != null" >
         ai_times = #{aiTimes,jdbcType=INTEGER},
       </if>
+      <if test="userCode != null" >
+        user_code = #{userCode,jdbcType=VARCHAR},
+      </if>
     </set>
     where serial_number = #{serialNumber,jdbcType=VARCHAR}
   </update>
@@ -288,7 +300,8 @@
       match_longitude = #{matchLongitude,jdbcType=DOUBLE},
       match_latitude = #{matchLatitude,jdbcType=DOUBLE},
       clue_count = #{clueCount,jdbcType=INTEGER},
-      ai_times = #{aiTimes,jdbcType=INTEGER}
+      ai_times = #{aiTimes,jdbcType=INTEGER},
+      user_code = #{userCode,jdbcType=VARCHAR}
     where serial_number = #{serialNumber,jdbcType=VARCHAR}
   </update>
   <select id="getClueMatchUser" resultMap="BaseResultMap" parameterType="com.jeesite.modules.test.entity.JsSysMember">
@@ -298,17 +311,17 @@
     where member_grade &gt; 0
   </select>
   <select id="getDeptType" resultType="java.lang.String" parameterType="java.lang.String">
-  	select organ_class from js_sys_member where  account_number = #{loginCode}
+  	select organ_class from js_sys_member where  user_code = #{loginCode}
   </select>
-  <select id="updateOnedate" >
+  <update id="updateOnedate" >
   	update js_sys_member
   	set match_onedate = #{0}
-  	where account_number = #{1}
-  </select>
+  	where user_code = #{1}
+  </update>
   <update id="updateAiTimes" >
   	update js_sys_member
   	set ai_times = #{0}
-  	where account_number = #{1}
+  	where user_code = #{1}
   </update>
   <select id="getNoConfigAddress" resultMap="BaseResultMap">
   	select
@@ -320,6 +333,6 @@
   	select
   	<include refid="Base_Column_List" />
   	from js_sys_member
-  	where account_number = #{code}
+  	where user_code = #{code}
   </select>
 </mapper>

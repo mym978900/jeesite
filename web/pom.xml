@@ -104,7 +104,12 @@
 			<artifactId>alipay-sdk-java</artifactId>
 			<version>3.4.27.ALL</version>
 		</dependency>
-		
+		<!-- ai外呼-->
+		<dependency>
+			<groupId>com.bying</groupId>
+		 	<artifactId>open-sdk-java</artifactId>
+		 	<version>1.0.0</version>
+		</dependency>
 		<!-- 自定义jar依赖包演示
 		<dependency>
 			<groupId>com.jeesite</groupId>

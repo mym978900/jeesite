@@ -41,4 +41,23 @@ public class UpAiInfoServiceImpl implements UpAiInfoService {
 		return list;
 	}
 
+	//根据用户编码和线索编码更新智能匹配线索信息
+	@Override
+	public void updateAiInfoByUserCodeUpClueCode(String upClueTaskid,String userCode, String upClueCode) {
+		upAiinfoMapper.updateAiInfoByUserCodeUpClueCode(upClueTaskid,userCode,upClueCode);
+	}
+
+	//根据用户编码和线索编码获取智能匹配线索信息
+	@Override
+	public UpAiinfo getMatchClueByUserCodeAndClueCode(String upClueCode, String userCode) {
+		UpAiinfo uai = upAiinfoMapper.getMatchClueByUserCodeAndClueCode(upClueCode,userCode);
+		return uai;
+	}
+
+	//根据用户编码和线索编码更新智能匹配线索信息
+	@Override
+	public void updateByUserCodeAndClueCode(UpAiinfo upAiInfo) {
+		upAiinfoMapper.updateByUserCodeAndClueCode(upAiInfo);
+	}
+
 }
