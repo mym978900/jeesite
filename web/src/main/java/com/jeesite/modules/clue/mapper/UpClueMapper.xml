@@ -22,12 +22,18 @@
     <result column="extra5" property="extra5" jdbcType="VARCHAR" />
     <result column="up_clue_depttype" property="upClueDepttype" jdbcType="VARCHAR" />
     <result column="up_clue_taskId" property="upClueTaskid" jdbcType="VARCHAR" />
+    <result column="up_aiexecutetime" property="upAiexecutetime" jdbcType="TIMESTAMP" />
+    <result column="up_aipersontime" property="upAipersontime" jdbcType="TIMESTAMP" />
+    <result column="up_aipersonendtime" property="upAipersonendtime" jdbcType="TIMESTAMP" />
+    <result column="up_aiendtime" property="upAiendtime" jdbcType="TIMESTAMP" />
+    <result column="up_talktime" property="upTalktime" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     up_clue_code, up_clue_time, up_user_code, up_clue_name, up_clue_tel, up_clue_sex, 
     up_clue_addre, up_clue_status, up_clue_appraise, up_clue_age, up_clue_longitude, 
     up_clue_latitude, up_clue_matchtime, extra1, extra2, extra3, extra4, extra5, up_clue_depttype, 
-    up_clue_taskId
+    up_clue_taskId, up_aiexecutetime, up_aipersontime, up_aipersonendtime, up_aiendtime, 
+    up_talktime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -46,14 +52,18 @@
       up_clue_age, up_clue_longitude, up_clue_latitude, 
       up_clue_matchtime, extra1, extra2, 
       extra3, extra4, extra5, 
-      up_clue_depttype, up_clue_taskId)
+      up_clue_depttype, up_clue_taskId, up_aiexecutetime, 
+      up_aipersontime, up_aipersonendtime, 
+      up_aiendtime, up_talktime)
     values (#{upClueCode,jdbcType=VARCHAR}, #{upClueTime,jdbcType=TIMESTAMP}, #{upUserCode,jdbcType=VARCHAR}, 
       #{upClueName,jdbcType=VARCHAR}, #{upClueTel,jdbcType=VARCHAR}, #{upClueSex,jdbcType=CHAR}, 
       #{upClueAddre,jdbcType=VARCHAR}, #{upClueStatus,jdbcType=CHAR}, #{upClueAppraise,jdbcType=CHAR}, 
       #{upClueAge,jdbcType=INTEGER}, #{upClueLongitude,jdbcType=DOUBLE}, #{upClueLatitude,jdbcType=DOUBLE}, 
       #{upClueMatchtime,jdbcType=DATE}, #{extra1,jdbcType=VARCHAR}, #{extra2,jdbcType=VARCHAR}, 
       #{extra3,jdbcType=VARCHAR}, #{extra4,jdbcType=VARCHAR}, #{extra5,jdbcType=VARCHAR}, 
-      #{upClueDepttype,jdbcType=VARCHAR}, #{upClueTaskid,jdbcType=VARCHAR})
+      #{upClueDepttype,jdbcType=VARCHAR}, #{upClueTaskid,jdbcType=VARCHAR}, #{upAiexecutetime,jdbcType=TIMESTAMP}, 
+      #{upAipersontime,jdbcType=TIMESTAMP}, #{upAipersonendtime,jdbcType=TIMESTAMP}, 
+      #{upAiendtime,jdbcType=TIMESTAMP}, #{upTalktime,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.jeesite.modules.clue.entity.UpClue" >
     insert into up_clue
@@ -118,6 +128,21 @@
       <if test="upClueTaskid != null" >
         up_clue_taskId,
       </if>
+      <if test="upAiexecutetime != null" >
+        up_aiexecutetime,
+      </if>
+      <if test="upAipersontime != null" >
+        up_aipersontime,
+      </if>
+      <if test="upAipersonendtime != null" >
+        up_aipersonendtime,
+      </if>
+      <if test="upAiendtime != null" >
+        up_aiendtime,
+      </if>
+      <if test="upTalktime != null" >
+        up_talktime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="upClueCode != null" >
@@ -179,6 +204,21 @@
       </if>
       <if test="upClueTaskid != null" >
         #{upClueTaskid,jdbcType=VARCHAR},
+      </if>
+      <if test="upAiexecutetime != null" >
+        #{upAiexecutetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upAipersontime != null" >
+        #{upAipersontime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upAipersonendtime != null" >
+        #{upAipersonendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upAiendtime != null" >
+        #{upAiendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upTalktime != null" >
+        #{upTalktime,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -242,6 +282,21 @@
       <if test="upClueTaskid != null" >
         up_clue_taskId = #{upClueTaskid,jdbcType=VARCHAR},
       </if>
+      <if test="upAiexecutetime != null" >
+        up_aiexecutetime = #{upAiexecutetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upAipersontime != null" >
+        up_aipersontime = #{upAipersontime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upAipersonendtime != null" >
+        up_aipersonendtime = #{upAipersonendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upAiendtime != null" >
+        up_aiendtime = #{upAiendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upTalktime != null" >
+        up_talktime = #{upTalktime,jdbcType=INTEGER},
+      </if>
     </set>
     where up_clue_code = #{upClueCode,jdbcType=VARCHAR}
   </update>
@@ -265,7 +320,12 @@
       extra4 = #{extra4,jdbcType=VARCHAR},
       extra5 = #{extra5,jdbcType=VARCHAR},
       up_clue_depttype = #{upClueDepttype,jdbcType=VARCHAR},
-      up_clue_taskId = #{upClueTaskid,jdbcType=VARCHAR}
+      up_clue_taskId = #{upClueTaskid,jdbcType=VARCHAR},
+      up_aiexecutetime = #{upAiexecutetime,jdbcType=TIMESTAMP},
+      up_aipersontime = #{upAipersontime,jdbcType=TIMESTAMP},
+      up_aipersonendtime = #{upAipersonendtime,jdbcType=TIMESTAMP},
+      up_aiendtime = #{upAiendtime,jdbcType=TIMESTAMP},
+      up_talktime = #{upTalktime,jdbcType=INTEGER}
     where up_clue_code = #{upClueCode,jdbcType=VARCHAR}
   </update>
   <select id="effectiveClue" resultType="java.lang.Integer" parameterType="java.lang.String" >
@@ -291,11 +351,11 @@
     <if test="userCode!=null and userCode!=''">
       and up_user_code = #{userCode}
     </if>
-    order by up_clue_time asc
+    order by up_clue_time desc
   </select>
   <select id="getMatchClue" resultType="java.util.HashMap" >
   	select 
-  	t.up_clue_code as up_aicode,t.up_clue_tel as up_aiphone
+  	t.up_clue_code as up_aicode,t.up_clue_tel as up_aiphone,t.up_clue_name as up_cluename
   	from up_clue t where 1=1 
   	and DATEDIFF(
 		NOW(),
@@ -319,5 +379,16 @@
   	<include refid="Base_Column_List" />
     from up_clue
     where up_clue_longitude = "" || up_clue_longitude is null
+  </select>
+  <select id="getIntentionClue" resultType="java.util.HashMap">
+  	select t.up_aipersontime,t.up_clue_name as up_cluename,t.up_clue_tel as up_aiphone
+  	from up_clue t where 1=1 
+  	and t.up_user_code = #{userCode} 
+  	and t.up_clue_appraise='1' 
+  	UNION 
+  	select m.up_aipersontime,m.up_cluename,m.up_aiphone 
+  	from up_matchclueinfo m 
+  	where m.up_usercode=#{userCode}
+  	and m.up_aiappraise='1'
   </select>
 </mapper>

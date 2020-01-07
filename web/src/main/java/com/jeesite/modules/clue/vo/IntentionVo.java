@@ -3,12 +3,10 @@ package com.jeesite.modules.clue.vo;
 import com.github.pagehelper.PageInfo;
 import com.jeesite.modules.clue.entity.UpClue;
 
-public class ClueVo {
+public class IntentionVo {
 
-	
 	private String beginTime;
 	private String endTime;
-	private String status;
 	private String userCode;
 	private Integer pageNum;
 	private PageInfo<UpClue> pageInfo;
@@ -39,12 +37,6 @@ public class ClueVo {
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
 	public Integer getPageNum() {
 		return pageNum;
 	}
@@ -57,21 +49,19 @@ public class ClueVo {
 	public void setPageInfo(PageInfo<UpClue> pageInfo) {
 		this.pageInfo = pageInfo;
 	}
-	public ClueVo(String beginTime, String endTime, String status, String userCode, Integer pageNum, PageInfo<UpClue> pageInfo,boolean result) {
+	
+	public IntentionVo(String beginTime, String endTime, String userCode, Integer pageNum, PageInfo<UpClue> pageInfo,
+			boolean result) {
 		super();
-		this.beginTime = beginTime+" 0:0:0";
-		this.endTime = endTime+" 24:0:0";
-		this.status = status;
+		this.beginTime = beginTime;
+		this.endTime = endTime;
 		this.userCode = userCode;
 		this.pageNum = pageNum;
 		this.pageInfo = pageInfo;
 		this.result = result;
 	}
-	public ClueVo() {
+	public IntentionVo() {
 		super();
 	}
-	
-	
-	
 	
 }

@@ -17,23 +17,29 @@
     <result column="extra3" property="extra3" jdbcType="VARCHAR" />
     <result column="extra4" property="extra4" jdbcType="VARCHAR" />
     <result column="extra5" property="extra5" jdbcType="VARCHAR" />
+    <result column="up_cluename" property="upCluename" jdbcType="VARCHAR" />
+    <result column="up_aipersonendtime" property="upAipersonendtime" jdbcType="TIMESTAMP" />
+    <result column="up_aiendtime" property="upAiendtime" jdbcType="TIMESTAMP" />
+    <result column="up_talktime" property="upTalktime" jdbcType="INTEGER" />
   </resultMap>
   <insert id="insert" parameterType="com.jeesite.modules.clue.entity.UpAiinfo" >
-    insert into up_aiInfo (up_aicode, up_aiappraise, up_aistatus, 
+    insert into up_matchclueinfo (up_aicode, up_aiappraise, up_aistatus, 
       up_usercode, up_aitimes, up_aicreatetime, 
       up_aiexecutetime, up_aipersontime, up_aitaskid, 
       up_aiphone, extra1, extra2, 
-      extra3, extra4, extra5
-      )
+      extra3, extra4, extra5, 
+      up_cluename, up_aipersonendtime, up_aiendtime, 
+      up_talktime)
     values (#{upAicode,jdbcType=VARCHAR}, #{upAiappraise,jdbcType=CHAR}, #{upAistatus,jdbcType=CHAR}, 
       #{upUsercode,jdbcType=VARCHAR}, #{upAitimes,jdbcType=INTEGER}, #{upAicreatetime,jdbcType=TIMESTAMP}, 
       #{upAiexecutetime,jdbcType=TIMESTAMP}, #{upAipersontime,jdbcType=TIMESTAMP}, #{upAitaskid,jdbcType=VARCHAR}, 
       #{upAiphone,jdbcType=VARCHAR}, #{extra1,jdbcType=VARCHAR}, #{extra2,jdbcType=VARCHAR}, 
-      #{extra3,jdbcType=VARCHAR}, #{extra4,jdbcType=VARCHAR}, #{extra5,jdbcType=VARCHAR}
-      )
+      #{extra3,jdbcType=VARCHAR}, #{extra4,jdbcType=VARCHAR}, #{extra5,jdbcType=VARCHAR}, 
+      #{upCluename,jdbcType=VARCHAR}, #{upAipersonendtime,jdbcType=TIMESTAMP}, #{upAiendtime,jdbcType=TIMESTAMP}, 
+      #{upTalktime,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.jeesite.modules.clue.entity.UpAiinfo" >
-    insert into up_aiInfo
+    insert into up_matchclueinfo
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="upAicode != null" >
         up_aicode,
@@ -79,6 +85,18 @@
       </if>
       <if test="extra5 != null" >
         extra5,
+      </if>
+      <if test="upCluename != null" >
+        up_cluename,
+      </if>
+      <if test="upAipersonendtime != null" >
+        up_aipersonendtime,
+      </if>
+      <if test="upAiendtime != null" >
+        up_aiendtime,
+      </if>
+      <if test="upTalktime != null" >
+        up_talktime,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -127,12 +145,24 @@
       <if test="extra5 != null" >
         #{extra5,jdbcType=VARCHAR},
       </if>
+      <if test="upCluename != null" >
+        #{upCluename,jdbcType=VARCHAR},
+      </if>
+      <if test="upAipersonendtime != null" >
+        #{upAipersonendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upAiendtime != null" >
+        #{upAiendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upTalktime != null" >
+        #{upTalktime,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <select id="getExistClue" resultType="java.util.HashMap">
   	select 
   	up_aicode,up_aiphone 
-  	from up_aiInfo 
+  	from up_matchclueinfo 
   	where up_usercode = #{userId} 
   	and up_aistatus = '1'
   </select>
@@ -143,7 +173,7 @@
       up_aiexecutetime, up_aipersontime, up_aitaskid, 
       up_aiphone, extra1, extra2, 
       extra3, extra4, extra5
-    from up_aiInfo where 1=1
+    from up_matchclueinfo where 1=1
     <if test="beginTime!=null and beginTime!=''">
       and up_aicreatetime <![CDATA[ >= ]]> #{beginTime}
     </if>
@@ -159,6 +189,42 @@
     <if test="userCode!=null and userCode!=''">
       and up_usercode = #{userCode}
     </if>
-    order by up_aitimes asc
+    order by up_aitimes desc
   </select>
+  <update id="updateAiInfoByUserCodeUpClueCode">
+  	update up_matchclueinfo
+  	set up_aitaskid = #{upClueTaskid}
+  	where up_usercode = #{userCode}
+  	and up_aicode = #{upClueCode}
+  </update>
+  <select id="getMatchClueByUserCodeAndClueCode" resultMap="BaseResultMap">
+  	select up_aicode, up_aiappraise, up_aistatus, 
+      up_usercode, up_aitimes, up_aicreatetime, 
+      up_aiexecutetime, up_aipersontime, up_aitaskid, 
+      up_aiphone, extra1, extra2, 
+      extra3, extra4, extra5, 
+      up_cluename
+    from up_matchclueinfo
+    where upAicode = #{upAicode}
+    and upUsercode = #{upUsercode}
+  </select>
+  <update id="updateByUserCodeAndClueCode" parameterType="com.jeesite.modules.clue.entity.UpAiinfo">
+  	update up_matchclueinfo
+  	set up_aiappraise = #{upAiappraise,jdbcType=CHAR},
+  		up_aistatus = #{upAistatus,jdbcType=CHAR},
+  		up_aitimes = #{upAitimes,jdbcType=INTEGER},
+  		up_aicreatetime = #{upAicreatetime,jdbcType=TIMESTAMP},
+  		up_aiexecutetime = #{upAiexecutetime,jdbcType=TIMESTAMP},
+  		up_aipersontime = #{upAipersontime,jdbcType=TIMESTAMP},
+  		up_aitaskid = #{upAitaskid,jdbcType=VARCHAR},
+  		up_aiphone = #{upAiphone,jdbcType=VARCHAR},
+  		extra1 = #{extra1,jdbcType=VARCHAR},
+  		extra2 = #{extra2,jdbcType=VARCHAR},
+  		extra3 = #{extra3,jdbcType=VARCHAR},
+  		extra4 = #{extra4,jdbcType=VARCHAR},
+  		extra5 = #{extra5,jdbcType=VARCHAR},
+  		up_cluename = #{upCluename,jdbcType=VARCHAR}
+  	where up_aicode = #{upAicode,jdbcType=VARCHAR}
+  	and up_usercode = #{upUsercode,jdbcType=VARCHAR}
+  </update>
 </mapper>

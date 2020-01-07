@@ -45,6 +45,8 @@ public class JsSysMember {
     private Integer clueCount;
     
     private Integer aiTimes;
+    
+    private String userCode;
 
     public String getSerialNumber() {
         return serialNumber;
@@ -204,5 +206,13 @@ public class JsSysMember {
 
     public void setAiTimes(Integer aiTimes) {
         this.aiTimes = aiTimes;
+    }
+    
+    public String getUserCode() {
+        return userCode;
+    }
+
+    public void setUserCode(String userCode) {
+        this.userCode = userCode == null ? null : userCode.trim();
     }
 }

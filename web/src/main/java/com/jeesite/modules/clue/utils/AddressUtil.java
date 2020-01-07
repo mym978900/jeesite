@@ -1,5 +1,7 @@
 package com.jeesite.modules.clue.utils;
 
+import java.net.URLEncoder;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -34,17 +36,17 @@ public class AddressUtil {
 	 *         详细的位置信息获取经纬度
 	 * @return
 	 */
-	public static Object[] AddressTolongitudea(String address) {
+	public static Object[] AddressTolongitudea(String address) throws Exception {
 
 //		address = "北京市朝阳区新华科技大厦";
-		String url = ADDRESS_TO_LONGITUDEA_URL + "&ak=" + AK + "&address="+ address;
+		String param1 = URLEncoder.encode(address, "UTF-8");
+		String url = ADDRESS_TO_LONGITUDEA_URL + "&ak=" + AK + "&address="+ param1;
 		logger.info("请求url:" + url);
 		HttpClient client = HttpClients.createDefault(); // 创建默认http连接
 		HttpPost post = new HttpPost(url);// 创建一个post请求
 		Double lng;//经度
 		Double lat;//纬度
 		Object[] obj;
-		;
 		try {
 			HttpResponse response = client.execute(post);// 用http连接去执行get请求并且获得http响应
 			HttpEntity entity = response.getEntity();// 从response中取到响实体
@@ -53,6 +55,7 @@ public class AddressUtil {
 			// JSON转对象
 			JSONObject jsonObject = JSONObject.parseObject(html);
 			String status = jsonObject.getString("status");
+			//未查到用户地址
 			if(status=="0") {
 				return null;
 			}
@@ -84,7 +87,7 @@ public class AddressUtil {
 	public static Object[] findNeighPosition(double longitude,double latitude,int n) {
 		//先计算查询点的经纬度范围
         double r = 6371;//地球半径千米
-        double dis = n*0.5;//0.5千米距离
+        double dis = n*5;//5千米距离
         double dlng =  2*Math.asin(Math.sin(dis/(2*r))/Math.cos(latitude*Math.PI/180));
         dlng = dlng*180/Math.PI;//角度转为弧度
         double dlat = dis/r;
@@ -100,9 +103,14 @@ public class AddressUtil {
 	
 //	public static void main(String[] args) {
 //		AddressUtil au = new AddressUtil();
-//		String address = "北京市朝阳区新华科技大厦";
-//		Object[] html = au.AddressTolongitudea(address);
-//		System.out.println(html[0]);
+//		String address = "北京市昌平区二拨子北京人家西区2号楼(6国道)";
+//		Object[] html;
+//		try {
+//			html = au.AddressTolongitudea(address);
+//			System.out.println(html[0]);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 //	}
 	
 //	public static void main(String[] args) {

@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
+encoding//src/main/java/com/jeesite/modules/test/util/SHA1Util.java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/main/resources/config/j2cache.properties=UTF-8
 encoding//src/main/resources/views/modules/demo/demoDataGridGroupGrid.html=UTF-8

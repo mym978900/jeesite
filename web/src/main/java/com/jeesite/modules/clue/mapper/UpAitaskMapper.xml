@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.clue.mapper.UpAitaskMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.clue.entity.UpAitask" >
+    <result column="up_taskId" property="upTaskid" jdbcType="VARCHAR" />
+    <result column="up_source" property="upSource" jdbcType="CHAR" />
+    <result column="up_createTime" property="upCreatetime" jdbcType="TIMESTAMP" />
+    <result column="up_startaitime" property="upStartaitime" jdbcType="TIMESTAMP" />
+    <result column="up_endtime" property="upEndtime" jdbcType="TIMESTAMP" />
+    <result column="up_createUserCode" property="upCreateusercode" jdbcType="VARCHAR" />
+    <result column="up_status" property="upStatus" jdbcType="VARCHAR" />
+    <result column="up_talkTime" property="upTalktime" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insert" parameterType="com.jeesite.modules.clue.entity.UpAitask" >
+    insert into up_aitask (up_taskId, up_source, up_createTime, 
+      up_startaitime, up_endtime, up_createUserCode, 
+      up_status, up_talkTime)
+    values (#{upTaskid,jdbcType=VARCHAR}, #{upSource,jdbcType=CHAR}, #{upCreatetime,jdbcType=TIMESTAMP}, 
+      #{upStartaitime,jdbcType=TIMESTAMP}, #{upEndtime,jdbcType=TIMESTAMP}, #{upCreateusercode,jdbcType=VARCHAR}, 
+      #{upStatus,jdbcType=VARCHAR}, #{upTalktime,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.clue.entity.UpAitask" >
+    insert into up_aitask
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="upTaskid != null" >
+        up_taskId,
+      </if>
+      <if test="upSource != null" >
+        up_source,
+      </if>
+      <if test="upCreatetime != null" >
+        up_createTime,
+      </if>
+      <if test="upStartaitime != null" >
+        up_startaitime,
+      </if>
+      <if test="upEndtime != null" >
+        up_endtime,
+      </if>
+      <if test="upCreateusercode != null" >
+        up_createUserCode,
+      </if>
+      <if test="upStatus != null" >
+        up_status,
+      </if>
+      <if test="upTalktime != null" >
+        up_talkTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="upTaskid != null" >
+        #{upTaskid,jdbcType=VARCHAR},
+      </if>
+      <if test="upSource != null" >
+        #{upSource,jdbcType=CHAR},
+      </if>
+      <if test="upCreatetime != null" >
+        #{upCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upStartaitime != null" >
+        #{upStartaitime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upEndtime != null" >
+        #{upEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upCreateusercode != null" >
+        #{upCreateusercode,jdbcType=VARCHAR},
+      </if>
+      <if test="upStatus != null" >
+        #{upStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="upTalktime != null" >
+        #{upTalktime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="getUpAitaskBytaskId" >
+  	select up_taskId, up_source, up_createTime, 
+      up_startaitime, up_endtime, up_createUserCode, 
+      up_status, up_talkTime
+    from up_aitask
+    where up_taskId = #{up_taskId}
+  </select>
+  <update id="updateAitask" parameterType="com.jeesite.modules.clue.entity.UpAitask" >
+  	update up_aitask
+  	set	up_source = #{upSource,jdbcType=CHAR},
+  		up_createTime = #{upCreatetime,jdbcType=TIMESTAMP},
+  		up_startaitime = #{upStartaitime,jdbcType=TIMESTAMP},
+  		up_endtime = #{upEndtime,jdbcType=TIMESTAMP},
+  		up_createUserCode = #{upCreateusercode,jdbcType=VARCHAR},
+  		up_status = #{upStatus,jdbcType=VARCHAR},
+  		up_talkTime = #{upTalktime,jdbcType=INTEGER}
+  	where up_taskId = {upTaskid,jdbcType=VARCHAR}
+  </update>
+</mapper>

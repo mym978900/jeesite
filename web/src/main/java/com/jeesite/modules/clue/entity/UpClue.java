@@ -48,5 +48,15 @@ public class UpClue {
     private String upClueDepttype;
     
     private String upClueTaskid;
+    
+    private long upAiexecutetime;
+
+    private long upAipersontime;
+    
+    private Date upAipersonendtime;
+
+    private Date upAiendtime;
+
+    private Integer upTalktime;
    
 }

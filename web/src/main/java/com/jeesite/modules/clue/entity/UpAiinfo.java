@@ -33,6 +33,14 @@ public class UpAiinfo {
 
     private String extra5;
 
+    private String upCluename;
+    
+    private Date upAipersonendtime;
+
+    private Date upAiendtime;
+
+    private Integer upTalktime;
+    
     public String getUpAicode() {
         return upAicode;
     }
@@ -152,4 +160,37 @@ public class UpAiinfo {
     public void setExtra5(String extra5) {
         this.extra5 = extra5 == null ? null : extra5.trim();
     }
+    
+    public String getUpCluename() {
+        return upCluename;
+    }
+
+    public void setUpCluename(String upCluename) {
+        this.upCluename = upCluename == null ? null : upCluename.trim();
+    }
+    
+    public Date getUpAipersonendtime() {
+        return upAipersonendtime;
+    }
+
+    public void setUpAipersonendtime(Date upAipersonendtime) {
+        this.upAipersonendtime = upAipersonendtime;
+    }
+
+    public Date getUpAiendtime() {
+        return upAiendtime;
+    }
+
+    public void setUpAiendtime(Date upAiendtime) {
+        this.upAiendtime = upAiendtime;
+    }
+
+    public Integer getUpTalktime() {
+        return upTalktime;
+    }
+
+    public void setUpTalktime(Integer upTalktime) {
+        this.upTalktime = upTalktime;
+    }
+    
 }

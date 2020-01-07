@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.jeesite.modules.clue.entity.UpClue;
 import com.jeesite.modules.clue.vo.ClueVo;
+import com.jeesite.modules.clue.vo.IntentionVo;
 
 
 /**
@@ -29,10 +30,13 @@ public interface UpClueService {
 	//更新线索最新匹配时间
 	public void updateMatchTime(String clueCode,Date date);
 
-	//获取未标注经纬度的会员
+	//获取未标注经纬度的线索
 	public List<UpClue> getNoConfigAddress();
 
 	public void updateByPrimaryKey(UpClue upClue);
 	
 	public UpClue selectByPrimaryKey(String upClueCode);
+
+	//意向用户
+	public List getIntentionClue(IntentionVo itv);
 }

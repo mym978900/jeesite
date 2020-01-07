@@ -7,11 +7,16 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +35,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.byai.client.auth.Token;
+import com.byai.client.core.BYClient;
+import com.byai.client.core.DefaultBYClient;
+import com.byai.gen.v1_0_0.api.ByaiOpenapiCalljobCreate;
+import com.byai.gen.v1_0_0.api.ByaiOpenapiCalljobCustomerImport;
+import com.byai.gen.v1_0_0.api.ByaiOpenapiCalljobExecute;
+import com.byai.gen.v1_0_0.api.ByaiOpenapiPhoneList;
+import com.byai.gen.v1_0_0.api.ByaiOpenapiRobotList;
+import com.byai.gen.v1_0_0.model.ByaiOpenapiCalljobCreateParams;
+import com.byai.gen.v1_0_0.model.ByaiOpenapiCalljobCreateResult;
+import com.byai.gen.v1_0_0.model.ByaiOpenapiCalljobCustomerImportParams;
+import com.byai.gen.v1_0_0.model.ByaiOpenapiCalljobCustomerImportResult;
+import com.byai.gen.v1_0_0.model.ByaiOpenapiCalljobExecuteParams;
+import com.byai.gen.v1_0_0.model.ByaiOpenapiCalljobExecuteResult;
+import com.byai.gen.v1_0_0.model.ByaiOpenapiPhoneListParams;
+import com.byai.gen.v1_0_0.model.ByaiOpenapiPhoneListResult;
+import com.byai.gen.v1_0_0.model.ByaiOpenapiPhoneListResult.UserPhoneNumberVO;
+import com.byai.gen.v1_0_0.model.ByaiOpenapiRobotListParams;
+import com.byai.gen.v1_0_0.model.ByaiOpenapiRobotListResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jeesite.common.config.Global;
@@ -37,17 +63,27 @@ import com.jeesite.common.shiro.realm.LoginInfo;
 import com.jeesite.common.web.BaseController;
 import com.jeesite.common.web.http.ServletUtils;
 import com.jeesite.modules.clue.entity.UpAiinfo;
+import com.jeesite.modules.clue.entity.UpAitask;
 import com.jeesite.modules.clue.entity.UpClue;
 import com.jeesite.modules.clue.entity.UpCluefile;
 import com.jeesite.modules.clue.service.UpAiInfoService;
+import com.jeesite.modules.clue.service.UpAitaskService;
 import com.jeesite.modules.clue.service.UpClueService;
 import com.jeesite.modules.clue.service.UpCluefileService;
+import com.jeesite.modules.clue.utils.AiUtil;
 import com.jeesite.modules.clue.utils.ClueUtils;
 import com.jeesite.modules.clue.utils.ExcelReader;
 import com.jeesite.modules.clue.utils.PropertiesListenerConfig;
 import com.jeesite.modules.clue.vo.AiInfoVo;
+import com.jeesite.modules.clue.vo.CallBackOutBoundVo;
+import com.jeesite.modules.clue.vo.CallBackOutBoundVo.CallInstanceVO;
+import com.jeesite.modules.clue.vo.CallBackOutBoundVo.TaskResultVO;
 import com.jeesite.modules.clue.vo.ClueExcelVo;
 import com.jeesite.modules.clue.vo.ClueVo;
+import com.jeesite.modules.clue.vo.CreateAiVo;
+import com.jeesite.modules.clue.vo.CustomerInfoExtVO;
+import com.jeesite.modules.clue.vo.IntentionVo;
+import com.jeesite.modules.clue.vo.RuleDetailVO;
 import com.jeesite.modules.sys.entity.User;
 import com.jeesite.modules.sys.utils.UserUtils;
 import com.jeesite.modules.test.entity.JsSysMember;
@@ -69,6 +105,8 @@ public class UpClueController extends BaseController{
 	@Autowired
 	private UpAiInfoService iUpAiInfoService;
 	
+	@Autowired
+	private UpAitaskService iUpAitaskService;
 	
 	//用户新增单条线索 by xf 2019.12.04
 	@RequestMapping(value="addUpClue", method = RequestMethod.POST)
@@ -102,8 +140,8 @@ public class UpClueController extends BaseController{
 		}
 		
 		// 获取用户机构品类
-//		String deptType = iMeberService.getDeptType(user.getLoginCode());
-		JsSysMember jsm = iMeberService.getMemberByAccountCode(user.getLoginCode());
+//		String deptType = iMeberService.getDeptType(user.getUserCode());
+		JsSysMember jsm = iMeberService.getMemberByAccountCode(user.getUserCode());
 		
 		UpClue uc = new UpClue();
 		String upClueCode = UUID.randomUUID().toString().replace("-", "");
@@ -122,9 +160,10 @@ public class UpClueController extends BaseController{
 		//更新会员机构线索数量及首次上传时间
 		if(jsm.getMatchUpdate()==null) {
 			jsm.setMatchUpdate(new Date());
-			jsm.setClueCount(jsm.getClueCount()+1);
-			iMeberService.updateByPrimaryKey(jsm);
 		}
+		
+		jsm.setClueCount(jsm.getClueCount()+1);
+		iMeberService.updateByPrimaryKey(jsm);
 		
 		//相同的手机号线索资源 - 姓名性别验证 - 可以上传不删除上传自动去重
 		if(!ClueUtils.effectiveClue(uc)) {
@@ -148,17 +187,46 @@ public class UpClueController extends BaseController{
 		//默认第一页	
 		pageNum = pageNum == null ? 1 : pageNum;
 		PageHelper.startPage(pageNum, 8);
+		ClueVo cv = new ClueVo();
+		//获取登录用户信息
 		LoginInfo loginInfo = UserUtils.getLoginInfo();
+		if(loginInfo == null){
+			UserUtils.getSubject().logout();
+			cv.setResult(false);
+			return cv;
+		}
+				
+		// 当前用户对象信息
 		User user = UserUtils.get(loginInfo.getId());
+		if (user == null){
+			UserUtils.getSubject().logout();
+			cv.setResult(false);
+			return cv;
+		}
 		List<UpClue> list = new ArrayList<UpClue>();
-		clv.setUserCode(user.getLoginCode());
 		if(clv == null ) {
 			clv = new ClueVo();
 		}
-		clv.setUserCode(user.getLoginCode());
+		//前台传的日期无时分秒，自动加上获取当天24小时创建的线索
+		if(clv!=null) {
+			if(clv.getBeginTime()!=  null &&clv.getEndTime() != null) {
+				clv.setBeginTime(clv.getBeginTime()+" 0:0:0");
+				clv.setEndTime(clv.getEndTime()+" 24:0:0");
+			}
+		}
+		clv.setUserCode(user.getUserCode());
 		list = iUpClueService.getUpClueList(clv);
+		
+		//数据脱敏处理
+		UpClue uc;
+		if(list != null && !list.isEmpty()) {
+			for(int i=0;i<list.size();i++) {
+				uc = list.get(i);
+				uc.setUpClueName(ClueUtils.chineseName(uc.getUpClueName()));
+				uc.setUpClueTel(ClueUtils.mobilePhone(uc.getUpClueTel()));
+			}
+		}
 		PageInfo<UpClue> page = new PageInfo<UpClue>(list);
-		ClueVo cv = new ClueVo();
 		//向前台传值
 		if(clv!= null) {
 			cv.setBeginTime(clv.getBeginTime());
@@ -266,8 +334,8 @@ public class UpClueController extends BaseController{
 		}
 		
 		// 获取用户机构品类
-//		String deptType = iMeberService.getDeptType(user.getLoginCode());
-		JsSysMember jsm = iMeberService.getMemberByAccountCode(user.getLoginCode());
+//		String deptType = iMeberService.getDeptType(user.getUserCode());
+		JsSysMember jsm = iMeberService.getMemberByAccountCode(user.getUserCode());
 		
     	File fileDir = new File(rootPath);
         if (!fileDir.exists() && !fileDir.isDirectory()) {
@@ -309,9 +377,9 @@ public class UpClueController extends BaseController{
 	                      //更新会员机构线索数量及首次上传时间
 	                		if(jsm.getMatchUpdate()==null) {
 	                			jsm.setMatchUpdate(new Date());
-	                			jsm.setClueCount(jsm.getClueCount()+parsedResult.size());
-	                			iMeberService.updateByPrimaryKey(jsm);
 	                		}
+	                		jsm.setClueCount(jsm.getClueCount()+parsedResult.size());
+                			iMeberService.updateByPrimaryKey(jsm);
 	                		
 	                        //保存批量线索文件记录
 	                        UpCluefile ucf = new UpCluefile();
@@ -370,9 +438,23 @@ public class UpClueController extends BaseController{
 		pageNum = pageNum == null ? 1 : pageNum;
 		PageHelper.startPage(pageNum, 8);
 		//获取用户最新匹配线索批次
+		AiInfoVo av = new AiInfoVo();
+		//获取登录用户信息
 		LoginInfo loginInfo = UserUtils.getLoginInfo();
+		if(loginInfo == null){
+			UserUtils.getSubject().logout();
+			aiv.setResult(false);
+			return aiv;
+		}
+				
+		// 当前用户对象信息
 		User user = UserUtils.get(loginInfo.getId());
-		JsSysMember jsm = iMeberService.getMemberByAccountCode(user.getLoginCode());
+		if (user == null){
+			UserUtils.getSubject().logout();
+			aiv.setResult(false);
+			return aiv;
+		}
+		JsSysMember jsm = iMeberService.getMemberByAccountCode(user.getUserCode());
 		List<UpAiinfo> list = new ArrayList<UpAiinfo>();
 		if(aiv == null ) {
 			aiv = new AiInfoVo();
@@ -380,7 +462,6 @@ public class UpClueController extends BaseController{
 		aiv.setTimes(jsm.getAiTimes());
 		list = iUpAiInfoService.getUpAiInfoList(aiv);
 		PageInfo<UpAiinfo> page = new PageInfo<UpAiinfo>(list);
-		AiInfoVo av = new AiInfoVo();
 		//向前台传值
 		if(aiv!= null) {
 			av.setBeginTime(aiv.getBeginTime());
@@ -393,5 +474,305 @@ public class UpClueController extends BaseController{
 		return av;
     	
     }
+    
+    //创建ai外呼任务
+    @RequestMapping(value = "createCallJob", method = RequestMethod.POST)
+	@ResponseBody
+    public CreateAiVo createCallJob(
+    		@RequestParam(required = false, value="source") Integer source,
+    		@RequestBody(required = false) CreateAiVo aiv) {
+    	//返回前端信息
+    	CreateAiVo cav = new CreateAiVo();
+    	//获取登录用户信息
+//		LoginInfo loginInfo = UserUtils.getLoginInfo();
+//		if(loginInfo == null){
+//			UserUtils.getSubject().logout();
+//			cav.setResult(false);
+//			return cav;
+//		}
+//				
+//		// 当前用户对象信息
+//		User user = UserUtils.get(loginInfo.getId());
+//		if (user == null){
+//			UserUtils.getSubject().logout();
+//			cav.setResult(false);
+//			return cav;
+//		}
+    	//线索集合
+		List<Object> list = aiv.getList();
+		//机构线索
+		UpClue uc = null;
+		//智能线索
+		UpAiinfo ua = null;
+		//前台传值
+		LinkedHashMap linkHashMap = null;
+		//线索Id
+		String upClueCode = "";
+		//创建外呼任务,获取公司
+		String accesstoken = AiUtil.getAccessToken();
+		//创建客户端请求
+		BYClient client = new DefaultBYClient(new Token(accesstoken));
+		//获得公司的机器人话术列表
+		ByaiOpenapiRobotListParams byaiOpenapiRobotListParams = new ByaiOpenapiRobotListParams();
+		byaiOpenapiRobotListParams.setCompanyId(30008L);
+		ByaiOpenapiRobotList byaiOpenapiRobotList = new ByaiOpenapiRobotList();
+		byaiOpenapiRobotList.setAPIParams(byaiOpenapiRobotListParams);
+		ByaiOpenapiRobotListResult robotResult = client.invoke(byaiOpenapiRobotList);
+		
+		//获得指定公司的所有线路的列表
+		ByaiOpenapiPhoneListParams byaiOpenapiPhoneListParams = new ByaiOpenapiPhoneListParams();
+		byaiOpenapiPhoneListParams.setCompanyId(30008L);
+		ByaiOpenapiPhoneList byaiOpenapiPhoneList = new ByaiOpenapiPhoneList();
+		byaiOpenapiPhoneList.setAPIParams(byaiOpenapiPhoneListParams);
+		ByaiOpenapiPhoneListResult phoneResult = client.invoke(byaiOpenapiPhoneList);
+		
+		//组合手机号码
+		String phonesHead = "[";
+		String phones = "";
+		String phonesFoot = "]";
+		if(phoneResult.getList()!=null && phoneResult.getList().length>0) {
+			UserPhoneNumberVO[] upv = phoneResult.getList();
+			for(int i=0;i<upv.length;i++) {
+				if(i == upv.length - 1) {
+					phones = Integer.parseInt(upv[i].getUserPhoneId().toString()) + "";
+				}else {
+					phones = Integer.parseInt(upv[i].getUserPhoneId().toString()) + ",";
+				}
+			}
+		}
+		if(phones == "") {
+			cav.setResult(false);
+			cav.setMessage("当前电话线路较忙，请稍后再试！");
+			return cav;
+		}
+		
+		//创建任务
+		ByaiOpenapiCalljobCreateParams byaiOpenapiCalljobCreateParams = new ByaiOpenapiCalljobCreateParams();
+		byaiOpenapiCalljobCreateParams.setCallJobName("培训机构推广");
+		byaiOpenapiCalljobCreateParams.setCallJobType(2L);
+		byaiOpenapiCalljobCreateParams.setCompanyId(30008L);
+		byaiOpenapiCalljobCreateParams.setRepeatCall(true);
+		JSONObject json = new JSONObject();
+		JSONArray ja = new JSONArray();
+		json.put("phoneStatus", 3);
+		json.put("times", 3);
+		json.put("interval", 5);
+		ja.add(json);
+		byaiOpenapiCalljobCreateParams.setRepeatCallRule(ja.toString());
+		byaiOpenapiCalljobCreateParams.setRobotDefId(robotResult.getList()[0].getRobotDefId());
+		byaiOpenapiCalljobCreateParams.setUserPhoneIds(phonesHead+phones+phonesFoot);
+		ByaiOpenapiCalljobCreate byaiOpenapiCalljobCreate = new ByaiOpenapiCalljobCreate();
+		byaiOpenapiCalljobCreate.setAPIParams(byaiOpenapiCalljobCreateParams);
+		ByaiOpenapiCalljobCreateResult createResult = client.invoke(byaiOpenapiCalljobCreate);
+		Long upClueTaskid = createResult.getCallJobId();
+		
+		//向任务中导入客户
+		ByaiOpenapiCalljobCustomerImportParams byaiOpenapiCalljobCustomerImportParams = new ByaiOpenapiCalljobCustomerImportParams();
+		byaiOpenapiCalljobCustomerImportParams.setCallJobId(upClueTaskid);
+		byaiOpenapiCalljobCustomerImportParams.setCompanyId(30008L);
+		JSONArray jarr = new JSONArray();
+		if(list != null && !list.isEmpty()) {
+			//机构线索
+    		if(source == 1) {
+    			for(int i=0;i<list.size();i++) {
+    				JSONObject jsonCustomer = new JSONObject();
+    				JSONObject properties = new JSONObject();
+    				linkHashMap = (LinkedHashMap) list.get(i);
+//	    			upClueCode = (String) linkHashMap.get("upClueCode");
+	    			upClueCode = "73bb1c33bbb44ead8add254c21b777d3";
+	    			uc = iUpClueService.selectByPrimaryKey(upClueCode);
+//	    			JsSysMember jsm = iMeberService.getMemberByAccountCode(user.getUserCode());
+	    			JsSysMember jsm = iMeberService.getMemberByAccountCode("system");
+	    			properties.put("机构名称", jsm.getOrganName());//机构名称
+	    			properties.put("课程名称", jsm.getOrganClass());//课程名称
+	    			properties.put("clueSource", "1");//线索来源
+	    			properties.put("clueCode", upClueCode);//线索标识
+	    			jsonCustomer.put("name", uc.getUpClueName());
+	    			jsonCustomer.put("phone", uc.getUpClueTel());
+	    			jsonCustomer.put("properties", properties);
+	    			jarr.add(jsonCustomer);
+	    			uc.setUpClueTaskid(upClueTaskid.toString());
+	    			iUpClueService.updateByPrimaryKey(uc);
+	    		}
+			}
+    		//匹配线索
+    		else {
+    			for(int i=0;i<list.size();i++) {
+    				JSONObject jsonCustomer = new JSONObject();
+    				JSONObject properties = new JSONObject();
+    				linkHashMap = (LinkedHashMap)  list.get(i);
+    				upClueCode = (String) linkHashMap.get("upAicode");
+	    			uc = iUpClueService.selectByPrimaryKey(upClueCode);
+	    			JsSysMember jsm = iMeberService.getMemberByAccountCode("system");
+	    			properties.put("机构名称", jsm.getOrganName());//机构名称
+	    			properties.put("课程名称", jsm.getOrganClass());//课程名称
+	    			properties.put("clueSource", "2");//线索来源
+	    			properties.put("clueCode", upClueCode);//线索标识
+//	    			properties.put("userCode", user.getUserCode());//用户编码
+	    			properties.put("userCode", "system");//用户编码
+	    			jsonCustomer.put("name", uc.getUpClueName());
+	    			jsonCustomer.put("phone", uc.getUpClueTel());
+	    			jsonCustomer.put("properties", properties);
+	    			jarr.add(jsonCustomer);
+	    			iUpAiInfoService.updateAiInfoByUserCodeUpClueCode(upClueTaskid.toString(),"system",upClueCode);
+	    		}
+    		}
+		}
+		
+		
+		byaiOpenapiCalljobCustomerImportParams.setCustomerInfoVOList(jarr.toString());
+		ByaiOpenapiCalljobCustomerImport byaiOpenapiCalljobCustomerImport = new ByaiOpenapiCalljobCustomerImport();
+		byaiOpenapiCalljobCustomerImport.setAPIParams(byaiOpenapiCalljobCustomerImportParams);
+		ByaiOpenapiCalljobCustomerImportResult customerResult = client.invoke(byaiOpenapiCalljobCustomerImport);
+		
+		//启动任务
+		ByaiOpenapiCalljobExecuteParams byaiOpenapiCalljobExecuteParams = new ByaiOpenapiCalljobExecuteParams();
+		byaiOpenapiCalljobExecuteParams.setCallJobId(upClueTaskid);
+		byaiOpenapiCalljobExecuteParams.setCommand(1L);
+		byaiOpenapiCalljobExecuteParams.setCompanyId(30008L);
+		ByaiOpenapiCalljobExecute byaiOpenapiCalljobExecute = new ByaiOpenapiCalljobExecute();
+		byaiOpenapiCalljobExecute.setAPIParams(byaiOpenapiCalljobExecuteParams);
+		ByaiOpenapiCalljobExecuteResult executeResult = client.invoke(byaiOpenapiCalljobExecute);
+		
+		cav.setResult(true);
+		cav.setMessage("AI外呼开启执行，确认线索意向后通知您！");
+    	return cav;
+    }
 	
+    //外呼回调
+    @RequestMapping(value = "callBackOutBound", method = RequestMethod.POST)
+	@ResponseBody
+    public String callBackOutBound(@RequestBody(required = false) CallBackOutBoundVo cbob,HttpServletResponse response) {
+    	//外呼回调
+    	System.out.println("接收到回调请求，开始处理");
+    	//意向状态
+    	TaskResultVO tv;
+    	String upClueCode;
+    	String source;
+    	String appraise;
+    	String taskId;
+    	String userCode;
+    	String callJobStatus;
+    	UpClue upClue;
+    	UpAiinfo upAiInfo;
+    	UpAitask upAitask;
+    	if("CALL_INSTANCE_RESULT".equals(cbob.getData().getCallbackType())) {
+    		CallInstanceVO cv = cbob.getData().getData().getCallInstance();
+        	taskId = cv.getCallJobId();
+			Map m = cv.getProperties();
+			source = (String) m.get("clueSource");
+			upClueCode = (String) m.get("clueCode");
+			userCode = (String) m.get("userCode");
+			TaskResultVO[] str = cbob.getData().getData().getTaskResult();
+			if(str.length > 0) {
+				if("1".equals(source)) {
+					upClue = iUpClueService.selectByPrimaryKey(upClueCode);
+					for(int i=0;i<str.length;i++) {
+						tv = str[i];
+						appraise = tv.getResultValue();
+						if("A".equals(appraise) || "B".equals(appraise)) {
+							upClue.setUpClueStatus("1");//已拨打
+							upClue.setUpClueAppraise("1");//有意向
+						}else if("C".equals(appraise) || "F".equals(appraise)){
+							upClue.setUpClueStatus("1");//已拨打
+							upClue.setUpClueAppraise("2");//无意向
+						}else if("D".equals(appraise) || "E".equals(appraise)) {
+							upClue.setUpClueStatus("1");//已拨打
+							upClue.setUpClueAppraise("3");//未接通
+						}
+						iUpClueService.updateByPrimaryKey(upClue);
+					}
+				}else {
+					upAiInfo = iUpAiInfoService.getMatchClueByUserCodeAndClueCode(upClueCode,userCode);
+					for(int i=0;i<str.length;i++) {
+						tv = str[i];
+						appraise = tv.getResultValue();
+						if("A".equals(appraise) || "B".equals(appraise)) {
+							upAiInfo.setUpAistatus("1");//已拨打
+							upAiInfo.setUpAiappraise("1");;//有意向
+						}else if("C".equals(appraise) || "F".equals(appraise)){
+							upAiInfo.setUpAistatus("1");//已拨打
+							upAiInfo.setUpAiappraise("2");//无意向
+						}else if("D".equals(appraise) || "E".equals(appraise)) {
+							upAiInfo.setUpAistatus("1");//已拨打
+							upAiInfo.setUpAiappraise("3");//未接通
+						}
+						iUpAiInfoService.updateByUserCodeAndClueCode(upAiInfo);
+					}
+				}
+			}
+			System.out.println("--------1--------");
+			return "success";
+    	}else if("JOB_INFO_RESULT".equals(cbob.getData1().getCallbackType())) {
+    		System.out.println("--------2--------");
+    		callJobStatus = cbob.getData1().getData().getCallJobStatus();
+    		taskId = cbob.getData1().getData().getCallJobId();
+    		upAitask = iUpAitaskService.getUpAitaskBytaskId(taskId);
+    		upAitask.setUpStatus(callJobStatus);
+    		iUpAitaskService.updateAitask(upAitask);
+    		return "success";
+    	}
+		return "success";
+    }
+    
+    //意向用户
+    @RequestMapping(value = "intentionClue", method = RequestMethod.POST)
+	@ResponseBody
+	public IntentionVo intentionClue(@RequestParam(required = false, defaultValue = "1", value="pageNum") Integer pageNum,
+			@RequestBody(required = false) IntentionVo itv) {
+    	//默认第一页	
+		pageNum = pageNum == null ? 1 : pageNum;
+		PageHelper.startPage(pageNum, 8);
+		IntentionVo iv = new IntentionVo();
+		//获取登录用户信息
+		LoginInfo loginInfo = UserUtils.getLoginInfo();
+		if(loginInfo == null){
+			UserUtils.getSubject().logout();
+			iv.setResult(false);
+			return iv;
+		}
+				
+		// 当前用户对象信息
+		User user = UserUtils.get(loginInfo.getId());
+		if (user == null){
+			UserUtils.getSubject().logout();
+			iv.setResult(false);
+			return iv;
+		}
+		List list = new ArrayList();
+		if(itv == null ) {
+			itv = new IntentionVo();
+		}
+		//前台传的日期无时分秒，自动加上获取当天24小时创建的线索
+		if(itv!=null) {
+			if(itv.getBeginTime()!=  null &&itv.getEndTime() != null) {
+				itv.setBeginTime(itv.getBeginTime()+" 0:0:0");
+				itv.setEndTime(itv.getEndTime()+" 24:0:0");
+			}
+		}
+		itv.setUserCode(user.getUserCode());
+		list = iUpClueService.getIntentionClue(itv);
+    	
+		//数据脱敏处理
+		HashMap m;
+		if(list != null && !list.isEmpty()) {
+			for(int i=0;i<list.size();i++) {
+				m = (HashMap) list.get(i);
+				m.put("up_cluename", ClueUtils.chineseName(m.get("up_cluename").toString()));
+				m.put("up_aiphone", ClueUtils.mobilePhone(m.get("up_aiphone").toString()));
+			}
+		}
+		PageInfo<UpClue> page = new PageInfo<UpClue>(list);
+		//向前台传值
+		if(itv!= null) {
+			iv.setBeginTime(itv.getBeginTime());
+			iv.setEndTime(itv.getEndTime());
+		}
+		iv.setPageNum(pageNum);
+		iv.setPageInfo(page);
+		iv.setResult(true);
+		
+    	return iv;
+    }
+    
 }
