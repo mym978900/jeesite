@@ -78,7 +78,6 @@ import com.jeesite.modules.clue.vo.AiInfoVo;
 import com.jeesite.modules.clue.vo.CallBackOutBoundVo;
 import com.jeesite.modules.clue.vo.CallBackOutBoundVo.CallInstanceVO;
 import com.jeesite.modules.clue.vo.CallBackOutBoundVo.TaskResultVO;
-import com.jeesite.modules.clue.vo.CallBackOutResponseVo;
 import com.jeesite.modules.clue.vo.ClueExcelVo;
 import com.jeesite.modules.clue.vo.ClueVo;
 import com.jeesite.modules.clue.vo.CreateAiVo;
