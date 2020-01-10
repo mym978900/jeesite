@@ -230,19 +230,23 @@ public class ClueMatchTask {
 				jsm = list.get(i);
 				address = jsm.getOrganAddress();
 				//调用百度地图API获取逆地理编码
-				values = AddressUtil.AddressTolongitudea(address);
-				if(values != null) {
-					longitude = (Double) values[0];
-					latitude = (Double) values[1];
-				}else {
-					longitude = 0.0;
-					latitude = 0.0;
+				try {
+					values = AddressUtil.AddressTolongitudea(address);
+					if(values != null) {
+						longitude = (Double) values[0];
+						latitude = (Double) values[1];
+					}else {
+						longitude = 0.0;
+						latitude = 0.0;
+					}
+					jsm.setMatchLongitude(longitude);
+					jsm.setMatchLatitude(latitude);
+					
+					//更新会员机构经纬度
+					Static.iMeberService.updateByPrimaryKey(jsm);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				jsm.setMatchLongitude(longitude);
-				jsm.setMatchLatitude(latitude);
-				
-				//更新会员机构经纬度
-				Static.iMeberService.updateByPrimaryKey(jsm);
 			}
 		}
 		
@@ -254,19 +258,23 @@ public class ClueMatchTask {
 				uc = listUp.get(i);
 				address = uc.getUpClueAddre();
 				//调用百度地图API获取逆地理编码
-				values = AddressUtil.AddressTolongitudea(address);
-				if(values != null) {
-					longitude = (Double) values[0];
-					latitude = (Double) values[1];
-				}else {
-					longitude = 0.0;
-					latitude = 0.0;
+				try {
+					values = AddressUtil.AddressTolongitudea(address);
+					if(values != null) {
+						longitude = (Double) values[0];
+						latitude = (Double) values[1];
+					}else {
+						longitude = 0.0;
+						latitude = 0.0;
+					}
+					uc.setUpClueLongitude(longitude);
+					uc.setUpClueLatitude(latitude);
+					
+					//更新线索经纬度
+					Static.iUpClueService.updateByPrimaryKey(uc);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				uc.setUpClueLongitude(longitude);
-				uc.setUpClueLatitude(latitude);
-				
-				//更新线索经纬度
-				Static.iUpClueService.updateByPrimaryKey(uc);
 			}
 		}
 	}

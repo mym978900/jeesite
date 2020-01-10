@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.sys.mapper.SysDictDataMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.sys.entity.SysDictData" >
+    <id column="dict_code" property="dictCode" jdbcType="VARCHAR" />
+    <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+    <result column="parent_codes" property="parentCodes" jdbcType="VARCHAR" />
+    <result column="tree_sort" property="treeSort" jdbcType="DECIMAL" />
+    <result column="tree_sorts" property="treeSorts" jdbcType="VARCHAR" />
+    <result column="tree_leaf" property="treeLeaf" jdbcType="CHAR" />
+    <result column="tree_level" property="treeLevel" jdbcType="DECIMAL" />
+    <result column="tree_names" property="treeNames" jdbcType="VARCHAR" />
+    <result column="dict_label" property="dictLabel" jdbcType="VARCHAR" />
+    <result column="dict_value" property="dictValue" jdbcType="VARCHAR" />
+    <result column="dict_type" property="dictType" jdbcType="VARCHAR" />
+    <result column="is_sys" property="isSys" jdbcType="CHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    dict_code, parent_code, parent_codes, tree_sort, tree_sorts, tree_leaf, tree_level, 
+    tree_names, dict_label, dict_value, dict_type, is_sys, description, status, create_by, 
+    create_date, update_by, update_date, remarks
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_dict_data
+    where dict_code = #{dictCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_dict_data
+    where dict_code = #{dictCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.sys.entity.SysDictData" >
+    insert into sys_dict_data (dict_code, parent_code, parent_codes, 
+      tree_sort, tree_sorts, tree_leaf, 
+      tree_level, tree_names, dict_label, 
+      dict_value, dict_type, is_sys, 
+      description, status, create_by, 
+      create_date, update_by, update_date, 
+      remarks)
+    values (#{dictCode,jdbcType=VARCHAR}, #{parentCode,jdbcType=VARCHAR}, #{parentCodes,jdbcType=VARCHAR}, 
+      #{treeSort,jdbcType=DECIMAL}, #{treeSorts,jdbcType=VARCHAR}, #{treeLeaf,jdbcType=CHAR}, 
+      #{treeLevel,jdbcType=DECIMAL}, #{treeNames,jdbcType=VARCHAR}, #{dictLabel,jdbcType=VARCHAR}, 
+      #{dictValue,jdbcType=VARCHAR}, #{dictType,jdbcType=VARCHAR}, #{isSys,jdbcType=CHAR}, 
+      #{description,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.sys.entity.SysDictData" >
+    insert into sys_dict_data
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dictCode != null" >
+        dict_code,
+      </if>
+      <if test="parentCode != null" >
+        parent_code,
+      </if>
+      <if test="parentCodes != null" >
+        parent_codes,
+      </if>
+      <if test="treeSort != null" >
+        tree_sort,
+      </if>
+      <if test="treeSorts != null" >
+        tree_sorts,
+      </if>
+      <if test="treeLeaf != null" >
+        tree_leaf,
+      </if>
+      <if test="treeLevel != null" >
+        tree_level,
+      </if>
+      <if test="treeNames != null" >
+        tree_names,
+      </if>
+      <if test="dictLabel != null" >
+        dict_label,
+      </if>
+      <if test="dictValue != null" >
+        dict_value,
+      </if>
+      <if test="dictType != null" >
+        dict_type,
+      </if>
+      <if test="isSys != null" >
+        is_sys,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dictCode != null" >
+        #{dictCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCodes != null" >
+        #{parentCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="treeSort != null" >
+        #{treeSort,jdbcType=DECIMAL},
+      </if>
+      <if test="treeSorts != null" >
+        #{treeSorts,jdbcType=VARCHAR},
+      </if>
+      <if test="treeLeaf != null" >
+        #{treeLeaf,jdbcType=CHAR},
+      </if>
+      <if test="treeLevel != null" >
+        #{treeLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="treeNames != null" >
+        #{treeNames,jdbcType=VARCHAR},
+      </if>
+      <if test="dictLabel != null" >
+        #{dictLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="dictValue != null" >
+        #{dictValue,jdbcType=VARCHAR},
+      </if>
+      <if test="dictType != null" >
+        #{dictType,jdbcType=VARCHAR},
+      </if>
+      <if test="isSys != null" >
+        #{isSys,jdbcType=CHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.sys.entity.SysDictData" >
+    update sys_dict_data
+    <set >
+      <if test="parentCode != null" >
+        parent_code = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCodes != null" >
+        parent_codes = #{parentCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="treeSort != null" >
+        tree_sort = #{treeSort,jdbcType=DECIMAL},
+      </if>
+      <if test="treeSorts != null" >
+        tree_sorts = #{treeSorts,jdbcType=VARCHAR},
+      </if>
+      <if test="treeLeaf != null" >
+        tree_leaf = #{treeLeaf,jdbcType=CHAR},
+      </if>
+      <if test="treeLevel != null" >
+        tree_level = #{treeLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="treeNames != null" >
+        tree_names = #{treeNames,jdbcType=VARCHAR},
+      </if>
+      <if test="dictLabel != null" >
+        dict_label = #{dictLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="dictValue != null" >
+        dict_value = #{dictValue,jdbcType=VARCHAR},
+      </if>
+      <if test="dictType != null" >
+        dict_type = #{dictType,jdbcType=VARCHAR},
+      </if>
+      <if test="isSys != null" >
+        is_sys = #{isSys,jdbcType=CHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dict_code = #{dictCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.sys.entity.SysDictData" >
+    update sys_dict_data
+    set parent_code = #{parentCode,jdbcType=VARCHAR},
+      parent_codes = #{parentCodes,jdbcType=VARCHAR},
+      tree_sort = #{treeSort,jdbcType=DECIMAL},
+      tree_sorts = #{treeSorts,jdbcType=VARCHAR},
+      tree_leaf = #{treeLeaf,jdbcType=CHAR},
+      tree_level = #{treeLevel,jdbcType=DECIMAL},
+      tree_names = #{treeNames,jdbcType=VARCHAR},
+      dict_label = #{dictLabel,jdbcType=VARCHAR},
+      dict_value = #{dictValue,jdbcType=VARCHAR},
+      dict_type = #{dictType,jdbcType=VARCHAR},
+      is_sys = #{isSys,jdbcType=CHAR},
+      description = #{description,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where dict_code = #{dictCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -104,6 +104,7 @@
 			<artifactId>alipay-sdk-java</artifactId>
 			<version>3.4.27.ALL</version>
 		</dependency>
+<<<<<<< HEAD
 		<dependency>
 		    <groupId>vip.52itstyle</groupId>
 		    <artifactId>alipay-trade-sdk</artifactId>
@@ -207,6 +208,14 @@
 		    <version>1.10</version>
 		</dependency>
 		
+=======
+		<!-- ai外呼-->
+		<dependency>
+			<groupId>com.bying</groupId>
+		 	<artifactId>open-sdk-java</artifactId>
+		 	<version>1.0.0</version>
+		</dependency>
+>>>>>>> refs/remotes/origin/master
 		<!-- 自定义jar依赖包演示
 		<dependency>
 			<groupId>com.jeesite</groupId>
