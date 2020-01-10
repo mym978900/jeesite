@@ -49,14 +49,16 @@ public class UpClue {
     
     private String upClueTaskid;
     
-    private long upAiexecutetime;
+    private Date upAiexecutetime;
 
-    private long upAipersontime;
+    private Date upAipersontime;
     
     private Date upAipersonendtime;
 
     private Date upAiendtime;
 
     private Integer upTalktime;
+    
+    private String upIseffective;
    
 }

@@ -29,6 +29,5 @@ public interface UpAiInfoService {
 	//根据用户编码和线索编码获取智能匹配线索信息
 	public UpAiinfo getMatchClueByUserCodeAndClueCode(String upClueCode, String userCode);
 
-	//根据用户编码和线索编码更新智能匹配线索信息
-	public void updateByUserCodeAndClueCode(UpAiinfo upAiInfo);
+	public void updateByPrimaryKey(UpAiinfo upAiInfo);
 }

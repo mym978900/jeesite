@@ -47,6 +47,8 @@ public class JsSysMember {
     private Integer aiTimes;
     
     private String userCode;
+    
+    private String upIseffective;
 
     public String getSerialNumber() {
         return serialNumber;
@@ -214,5 +216,13 @@ public class JsSysMember {
 
     public void setUserCode(String userCode) {
         this.userCode = userCode == null ? null : userCode.trim();
+    }
+    
+    public String getUpIseffective() {
+        return upIseffective;
+    }
+
+    public void setUpIseffective(String upIseffective) {
+        this.upIseffective = upIseffective == null ? null : upIseffective.trim();
     }
 }

@@ -78,6 +78,7 @@ import com.jeesite.modules.clue.vo.AiInfoVo;
 import com.jeesite.modules.clue.vo.CallBackOutBoundVo;
 import com.jeesite.modules.clue.vo.CallBackOutBoundVo.CallInstanceVO;
 import com.jeesite.modules.clue.vo.CallBackOutBoundVo.TaskResultVO;
+import com.jeesite.modules.clue.vo.CallBackOutResponseVo;
 import com.jeesite.modules.clue.vo.ClueExcelVo;
 import com.jeesite.modules.clue.vo.ClueVo;
 import com.jeesite.modules.clue.vo.CreateAiVo;
@@ -498,12 +499,16 @@ public class UpClueController extends BaseController{
 //			cav.setResult(false);
 //			return cav;
 //		}
+    	//外呼记录id
+    	String id="";
     	//线索集合
 		List<Object> list = aiv.getList();
 		//机构线索
 		UpClue uc = null;
 		//智能线索
 		UpAiinfo ua = null;
+		//外呼任务
+		UpAitask ut = new UpAitask();
 		//前台传值
 		LinkedHashMap linkHashMap = null;
 		//线索Id
@@ -571,6 +576,8 @@ public class UpClueController extends BaseController{
 		byaiOpenapiCalljobCustomerImportParams.setCallJobId(upClueTaskid);
 		byaiOpenapiCalljobCustomerImportParams.setCompanyId(30008L);
 		JSONArray jarr = new JSONArray();
+		//外呼任务创建时间
+		Date date = new Date();
 		if(list != null && !list.isEmpty()) {
 			//机构线索
     		if(source == 1) {
@@ -593,6 +600,16 @@ public class UpClueController extends BaseController{
 	    			jarr.add(jsonCustomer);
 	    			uc.setUpClueTaskid(upClueTaskid.toString());
 	    			iUpClueService.updateByPrimaryKey(uc);
+	    			//创建外呼任务记录
+	    			id = UUID.randomUUID().toString().replace("-", "");
+	    			ut.setUpId(id);
+	    			ut.setUpTaskid(upClueTaskid.toString());
+	    			ut.setUpSource("1");
+	    			ut.setUpCreatetime(date);
+	    			ut.setUpCreateusercode("system");
+	    			ut.setUpCluecode(upClueCode);
+	    			ut.setUpDeductionmark("0");
+	    			iUpAitaskService.addUpAitask(ut);
 	    		}
 			}
     		//匹配线索
@@ -615,6 +632,16 @@ public class UpClueController extends BaseController{
 	    			jsonCustomer.put("properties", properties);
 	    			jarr.add(jsonCustomer);
 	    			iUpAiInfoService.updateAiInfoByUserCodeUpClueCode(upClueTaskid.toString(),"system",upClueCode);
+	    			//创建外呼任务记录
+	    			id = UUID.randomUUID().toString().replace("-", "");
+	    			ut.setUpId(id);
+	    			ut.setUpTaskid(upClueTaskid.toString());
+	    			ut.setUpSource("2");
+	    			ut.setUpCreatetime(date);
+	    			ut.setUpCreateusercode("system");
+	    			ut.setUpCluecode(upClueCode);
+	    			ut.setUpDeductionmark("0");
+	    			iUpAitaskService.addUpAitask(ut);
 	    		}
     		}
 		}
@@ -635,14 +662,14 @@ public class UpClueController extends BaseController{
 		ByaiOpenapiCalljobExecuteResult executeResult = client.invoke(byaiOpenapiCalljobExecute);
 		
 		cav.setResult(true);
-		cav.setMessage("AI外呼开启执行，确认线索意向后通知您！");
+		cav.setMessage("AI外呼开启执行！");
     	return cav;
     }
 	
     //外呼回调
     @RequestMapping(value = "callBackOutBound", method = RequestMethod.POST)
 	@ResponseBody
-    public String callBackOutBound(@RequestBody(required = false) CallBackOutBoundVo cbob,HttpServletResponse response) {
+    public void callBackOutBound(@RequestBody(required = false) CallBackOutBoundVo cbob,HttpServletResponse response) {
     	//外呼回调
     	System.out.println("接收到回调请求，开始处理");
     	//意向状态
@@ -652,67 +679,135 @@ public class UpClueController extends BaseController{
     	String appraise;
     	String taskId;
     	String userCode;
-    	String callJobStatus;
+    	int callJobStatus;
     	UpClue upClue;
     	UpAiinfo upAiInfo;
     	UpAitask upAitask;
-    	if("CALL_INSTANCE_RESULT".equals(cbob.getData().getCallbackType())) {
-    		CallInstanceVO cv = cbob.getData().getData().getCallInstance();
-        	taskId = cv.getCallJobId();
-			Map m = cv.getProperties();
-			source = (String) m.get("clueSource");
-			upClueCode = (String) m.get("clueCode");
-			userCode = (String) m.get("userCode");
-			TaskResultVO[] str = cbob.getData().getData().getTaskResult();
-			if(str.length > 0) {
-				if("1".equals(source)) {
-					upClue = iUpClueService.selectByPrimaryKey(upClueCode);
-					for(int i=0;i<str.length;i++) {
-						tv = str[i];
-						appraise = tv.getResultValue();
-						if("A".equals(appraise) || "B".equals(appraise)) {
-							upClue.setUpClueStatus("1");//已拨打
-							upClue.setUpClueAppraise("1");//有意向
-						}else if("C".equals(appraise) || "F".equals(appraise)){
-							upClue.setUpClueStatus("1");//已拨打
-							upClue.setUpClueAppraise("2");//无意向
-						}else if("D".equals(appraise) || "E".equals(appraise)) {
-							upClue.setUpClueStatus("1");//已拨打
-							upClue.setUpClueAppraise("3");//未接通
+    	String startTime;
+    	String endTime;
+    	int duration;//通话时长
+    	int callInstanceStatus;//通话状态
+    	try {
+	    	if("CALL_INSTANCE_RESULT".equals(cbob.getData().getCallbackType())) {
+	    		System.out.println("--------1--------");
+	    		CallInstanceVO cv = cbob.getData().getData().getCallInstance();
+	    		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        	taskId = cv.getCallJobId();
+	        	startTime = cv.getStartTime();
+	        	endTime = cv.getEndTime();
+	        	duration = cv.getDuration();
+				Map m = cv.getProperties();
+				source = (String) m.get("clueSource");
+				upClueCode = (String) m.get("clueCode");
+				userCode = (String) m.get("userCode");
+				callInstanceStatus = cbob.getData().getData().getCallInstance().getCallInstanceStatus();
+				TaskResultVO[] str = cbob.getData().getData().getTaskResult();
+				if(str.length > 0) {
+					if("1".equals(source)) {
+						upClue = iUpClueService.selectByPrimaryKey(upClueCode);
+						for(int i=0;i<str.length;i++) {
+							tv = str[i];
+							appraise = tv.getResultValue();
+							if("A".equals(appraise) || "B".equals(appraise)) {
+								upClue.setUpClueStatus("1");//已拨打
+								upClue.setUpClueAppraise("1");//有意向
+							}else if("C".equals(appraise) || "F".equals(appraise)){
+								upClue.setUpClueStatus("1");//已拨打
+								upClue.setUpClueAppraise("2");//无意向
+							}else if("D".equals(appraise) || "E".equals(appraise)) {
+								upClue.setUpClueStatus("1");//已拨打
+								upClue.setUpClueAppraise("3");//未接通
+							}
+							upClue.setUpAiexecutetime(sdf.parse(startTime));
+							upClue.setUpAiendtime(sdf.parse(startTime));
+							upClue.setUpTalktime(duration);
+							iUpClueService.updateByPrimaryKey(upClue);
 						}
-						iUpClueService.updateByPrimaryKey(upClue);
-					}
-				}else {
-					upAiInfo = iUpAiInfoService.getMatchClueByUserCodeAndClueCode(upClueCode,userCode);
-					for(int i=0;i<str.length;i++) {
-						tv = str[i];
-						appraise = tv.getResultValue();
-						if("A".equals(appraise) || "B".equals(appraise)) {
-							upAiInfo.setUpAistatus("1");//已拨打
-							upAiInfo.setUpAiappraise("1");;//有意向
-						}else if("C".equals(appraise) || "F".equals(appraise)){
-							upAiInfo.setUpAistatus("1");//已拨打
-							upAiInfo.setUpAiappraise("2");//无意向
-						}else if("D".equals(appraise) || "E".equals(appraise)) {
-							upAiInfo.setUpAistatus("1");//已拨打
-							upAiInfo.setUpAiappraise("3");//未接通
+						//更新外呼任务信息
+						upAitask = iUpAitaskService.getUpAitaskByUpCodeTaskId(taskId,upClueCode);
+						if(upAitask != null) {
+							if(startTime != null) {
+								upAitask.setUpStartaitime(sdf.parse(startTime));
+							}
+							if(endTime != null) {
+								upAitask.setUpEndtime(sdf.parse(startTime));
+							}
+							upAitask.setUpStatus(callInstanceStatus+"");
+							if(callInstanceStatus == 2) {
+								if("0".equals(upAitask.getUpDeductionmark())) {
+									//------------------扣费待完成------------------
+								}
+								iUpAitaskService.updateByPrimaryKey(upAitask);
+							}
+						}else {
+							response.setCharacterEncoding("utf-8");
+							response.getWriter().write("fail");
+							return;
 						}
-						iUpAiInfoService.updateByUserCodeAndClueCode(upAiInfo);
+					}else {
+						upAiInfo = iUpAiInfoService.getMatchClueByUserCodeAndClueCode(upClueCode,userCode);
+						for(int i=0;i<str.length;i++) {
+							tv = str[i];
+							appraise = tv.getResultValue();
+							if("A".equals(appraise) || "B".equals(appraise)) {
+								upAiInfo.setUpAistatus("1");//已拨打
+								upAiInfo.setUpAiappraise("1");;//有意向
+							}else if("C".equals(appraise) || "F".equals(appraise)){
+								upAiInfo.setUpAistatus("1");//已拨打
+								upAiInfo.setUpAiappraise("2");//无意向
+							}else if("D".equals(appraise) || "E".equals(appraise)) {
+								upAiInfo.setUpAistatus("1");//已拨打
+								upAiInfo.setUpAiappraise("3");//未接通
+							}
+							upAiInfo.setUpAiexecutetime(sdf.parse(startTime));
+							upAiInfo.setUpAiendtime(sdf.parse(endTime));
+							upAiInfo.setUpTalktime(duration);
+							iUpAiInfoService.updateByPrimaryKey(upAiInfo);
+						}
+						//更新外呼任务信息
+						upAitask = iUpAitaskService.getUpAitaskByUpCodeTaskId(taskId,upClueCode);
+						if(upAitask != null) {
+							if(startTime != null) {
+								upAitask.setUpStartaitime(sdf.parse(startTime));
+							}
+							if(endTime != null) {
+								upAitask.setUpEndtime(sdf.parse(startTime));
+							}
+							upAitask.setUpStatus(callInstanceStatus+"");
+							if(callInstanceStatus == 2) {
+								if("0".equals(upAitask.getUpDeductionmark())) {
+									//------------------扣费待完成------------------
+								}
+								iUpAitaskService.updateByPrimaryKey(upAitask);
+							}
+						}else {
+							response.setCharacterEncoding("utf-8");
+							response.getWriter().write("fail");
+							return;
+						}
 					}
 				}
+				response.setCharacterEncoding("utf-8");
+				response.getWriter().write("success");
+				return;
+	    	}else if("JOB_INFO_RESULT".equals(cbob.getData().getCallbackType())) {
+	    		System.out.println("--------2--------");
+	    		callJobStatus = cbob.getData().getData().getCallJobStatus();
+	    		taskId = cbob.getData().getData().getCallJobId()+"";
+	    		response.setCharacterEncoding("utf-8");
+	    		response.getWriter().write("success");
+				return;
+	    	}
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    		try {
+    			response.setCharacterEncoding("utf-8");
+				response.getWriter().write("fail");
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
-			System.out.println("--------1--------");
-			return "success";
-    	}else if("JOB_INFO_RESULT".equals(cbob.getData1().getCallbackType())) {
-    		System.out.println("--------2--------");
-    		callJobStatus = cbob.getData1().getData().getCallJobStatus();
-    		taskId = cbob.getData1().getData().getCallJobId();
-    		upAitask = iUpAitaskService.getUpAitaskBytaskId(taskId);
-    		upAitask.setUpStatus(callJobStatus);
-    		iUpAitaskService.updateAitask(upAitask);
-    		return "success";
+			return;
     	}
-		return "success";
     }
     
     //意向用户

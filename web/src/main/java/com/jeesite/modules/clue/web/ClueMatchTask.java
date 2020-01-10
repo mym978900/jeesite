@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,6 +91,8 @@ public class ClueMatchTask {
 			UpClue uc;
 			//匹配线索对象
 			UpAiinfo uai = new UpAiinfo();
+			//外呼记录id
+	    	String id="";
 			HashMap hm = new HashMap();
 			//是否达到匹配线索天数
 			long c = 0;
@@ -130,7 +133,7 @@ public class ClueMatchTask {
 									if(matchList != null && !matchList.isEmpty() && exitsMatchList != null && !exitsMatchList.isEmpty()) {
 										matchList.removeAll(exitsMatchList);
 									}
-									if(n==20) {
+									if(n==2) {
 										break;
 									}
 								}
@@ -144,10 +147,13 @@ public class ClueMatchTask {
 								}
 								for(int j=0;j<matchListxx.size();j++) {
 									hm = (HashMap) matchListxx.get(j);
+									id = UUID.randomUUID().toString().replace("-", "");
+									uai.setUpId(id);
 									uai.setUpAicode(hm.get("up_aicode").toString());//线索编号
 									uai.setUpAiphone(hm.get("up_aiphone").toString());//线索手机号
 									uai.setUpCluename(hm.get("up_cluename").toString());//线索名称
 									uai.setUpAiappraise("0");//意向状态
+									uai.setUpAistatus("2");//未拨打
 									uai.setUpAicreatetime(date);//创建时间
 									uai.setUpUsercode(userCode);//用户编码
 									uai.setUpAitimes(1);//批次
@@ -197,9 +203,6 @@ public class ClueMatchTask {
 									if(matchList != null && !matchList.isEmpty() && exitsMatchList != null && !exitsMatchList.isEmpty()) {
 										matchList.removeAll(exitsMatchList);
 									}
-									if(n==20) {
-										break;
-									}
 								}
 								//截取匹配数的线索
 								if(matchList.size()>=matchCount) {
@@ -211,10 +214,13 @@ public class ClueMatchTask {
 								}
 								for(int j=0;j<matchListxx.size();j++) {
 									hm = (HashMap) matchListxx.get(i);
+									id = UUID.randomUUID().toString().replace("-", "");
+									uai.setUpId(id);
 									uai.setUpAicode(hm.get("up_aicode").toString());//线索编号
 									uai.setUpAiphone(hm.get("up_aiphone").toString());//线索手机号
 									uai.setUpCluename(hm.get("up_cluename").toString());//线索名称
 									uai.setUpAiappraise("0");//意向状态
+									uai.setUpAistatus("2");//未拨打
 									uai.setUpAicreatetime(date);//创建时间
 									uai.setUpUsercode(userCode);//用户编码
 									uai.setUpAitimes(times+1);//批次
@@ -274,11 +280,16 @@ public class ClueMatchTask {
 					}
 					jsm.setMatchLongitude(longitude);
 					jsm.setMatchLatitude(latitude);
+					jsm.setUpIseffective("1");
 					
 					//更新会员机构经纬度
 					Static.iMeberService.updateByPrimaryKey(jsm);
 				} catch (Exception e) {
 					e.printStackTrace();
+					//设置为无效用户，需重新录入地址
+					jsm.setUpIseffective("0");
+					Static.iMeberService.updateByPrimaryKey(jsm);
+					continue;
 				}
 			}
 		}
@@ -302,12 +313,16 @@ public class ClueMatchTask {
 					}
 					uc.setUpClueLongitude(longitude);
 					uc.setUpClueLatitude(latitude);
+					uc.setUpIseffective("1");
 					
 					//更新线索经纬度
 					Static.iUpClueService.updateByPrimaryKey(uc);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					//设置为无效线索，需重新录入地址
+					uc.setUpIseffective("0");
+					Static.iUpClueService.updateByPrimaryKey(uc);
+					continue;
 				}
 			}
 		}
