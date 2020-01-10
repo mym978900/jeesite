@@ -3,6 +3,8 @@ package com.jeesite.modules.clue.entity;
 import java.util.Date;
 
 public class UpAiinfo {
+	private String upId;
+	
     private String upAicode;
 
     private String upAiappraise;
@@ -40,6 +42,14 @@ public class UpAiinfo {
     private Date upAiendtime;
 
     private Integer upTalktime;
+    
+    public String getUpId() {
+        return upId;
+    }
+
+    public void setUpId(String upId) {
+        this.upId = upId == null ? null : upId.trim();
+    }
     
     public String getUpAicode() {
         return upAicode;

@@ -54,10 +54,9 @@ public class UpAiInfoServiceImpl implements UpAiInfoService {
 		return uai;
 	}
 
-	//根据用户编码和线索编码更新智能匹配线索信息
 	@Override
-	public void updateByUserCodeAndClueCode(UpAiinfo upAiInfo) {
-		upAiinfoMapper.updateByUserCodeAndClueCode(upAiInfo);
+	public void updateByPrimaryKey(UpAiinfo upAiInfo) {
+		upAiinfoMapper.updateByPrimaryKey(upAiInfo);
 	}
 
 }

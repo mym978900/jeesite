@@ -6,9 +6,17 @@ import com.jeesite.modules.clue.entity.UpAiinfo;
 import com.jeesite.modules.clue.vo.AiInfoVo;
 
 public interface UpAiinfoMapper {
+	int deleteByPrimaryKey(String upId);
+
     int insert(UpAiinfo record);
 
     int insertSelective(UpAiinfo record);
+
+    UpAiinfo selectByPrimaryKey(String upId);
+
+    int updateByPrimaryKeySelective(UpAiinfo record);
+
+    int updateByPrimaryKey(UpAiinfo record);
     
     //匹配过得线索资源
     public List getExistClue(String userId);
