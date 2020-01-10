@@ -5,15 +5,22 @@
     <id column="serial_number" property="serialNumber" jdbcType="VARCHAR" />
     <result column="set_meal_title" property="setMealTitle" jdbcType="VARCHAR" />
     <result column="set_meal_content" property="setMealContent" jdbcType="VARCHAR" />
-    <result column="half_price" property="halfPrice" jdbcType="INTEGER" />
-    <result column="whole_price" property="wholePrice" jdbcType="INTEGER" />
+    <result column="half_price" property="halfPrice" jdbcType="VARCHAR" />
+    <result column="whole_price" property="wholePrice" jdbcType="VARCHAR" />
+    <result column="import_function" property="importFunction" jdbcType="VARCHAR" />
+    <result column="outbound_function" property="outboundFunction" jdbcType="VARCHAR" />
+    <result column="followup_function" property="followupFunction" jdbcType="VARCHAR" />
+    <result column="artificial_function" property="artificialFunction" jdbcType="VARCHAR" />
+    <result column="result_function" property="resultFunction" jdbcType="VARCHAR" />
+    <result column="share_function" property="shareFunction" jdbcType="VARCHAR" />
     <result column="reserve1" property="reserve1" jdbcType="VARCHAR" />
     <result column="reserve2" property="reserve2" jdbcType="VARCHAR" />
     <result column="reserve3" property="reserve3" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    serial_number, set_meal_title, set_meal_content, half_price, whole_price, reserve1, 
-    reserve2, reserve3
+    serial_number, set_meal_title, set_meal_content, half_price, whole_price, import_function, 
+    outbound_function, followup_function, artificial_function, result_function, share_function, 
+    reserve1, reserve2, reserve3
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -26,16 +33,26 @@
     <include refid="Base_Column_List" />
     from js_sys_setmeal
   </select>
+  <select id="findMealByTitle" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from js_sys_setmeal
+    where set_meal_title = #{body,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from js_sys_setmeal
     where serial_number = #{serialNumber,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysSetmeal" >
     insert into js_sys_setmeal (serial_number, set_meal_title, set_meal_content, 
-      half_price, whole_price, reserve1, 
+      half_price, whole_price, import_function, 
+      outbound_function, followup_function, artificial_function, 
+      result_function, share_function, reserve1, 
       reserve2, reserve3)
     values (#{serialNumber,jdbcType=VARCHAR}, #{setMealTitle,jdbcType=VARCHAR}, #{setMealContent,jdbcType=VARCHAR}, 
-      #{halfPrice,jdbcType=INTEGER}, #{wholePrice,jdbcType=INTEGER}, #{reserve1,jdbcType=VARCHAR}, 
+      #{halfPrice,jdbcType=VARCHAR}, #{wholePrice,jdbcType=VARCHAR}, #{importFunction,jdbcType=VARCHAR}, 
+      #{outboundFunction,jdbcType=VARCHAR}, #{followupFunction,jdbcType=VARCHAR}, #{artificialFunction,jdbcType=VARCHAR}, 
+      #{resultFunction,jdbcType=VARCHAR}, #{shareFunction,jdbcType=VARCHAR}, #{reserve1,jdbcType=VARCHAR}, 
       #{reserve2,jdbcType=VARCHAR}, #{reserve3,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysSetmeal" >
@@ -55,6 +72,24 @@
       </if>
       <if test="wholePrice != null" >
         whole_price,
+      </if>
+      <if test="importFunction != null" >
+        import_function,
+      </if>
+      <if test="outboundFunction != null" >
+        outbound_function,
+      </if>
+      <if test="followupFunction != null" >
+        followup_function,
+      </if>
+      <if test="artificialFunction != null" >
+        artificial_function,
+      </if>
+      <if test="resultFunction != null" >
+        result_function,
+      </if>
+      <if test="shareFunction != null" >
+        share_function,
       </if>
       <if test="reserve1 != null" >
         reserve1,
@@ -77,10 +112,28 @@
         #{setMealContent,jdbcType=VARCHAR},
       </if>
       <if test="halfPrice != null" >
-        #{halfPrice,jdbcType=INTEGER},
+        #{halfPrice,jdbcType=VARCHAR},
       </if>
       <if test="wholePrice != null" >
-        #{wholePrice,jdbcType=INTEGER},
+        #{wholePrice,jdbcType=VARCHAR},
+      </if>
+      <if test="importFunction != null" >
+        #{importFunction,jdbcType=VARCHAR},
+      </if>
+      <if test="outboundFunction != null" >
+        #{outboundFunction,jdbcType=VARCHAR},
+      </if>
+      <if test="followupFunction != null" >
+        #{followupFunction,jdbcType=VARCHAR},
+      </if>
+      <if test="artificialFunction != null" >
+        #{artificialFunction,jdbcType=VARCHAR},
+      </if>
+      <if test="resultFunction != null" >
+        #{resultFunction,jdbcType=VARCHAR},
+      </if>
+      <if test="shareFunction != null" >
+        #{shareFunction,jdbcType=VARCHAR},
       </if>
       <if test="reserve1 != null" >
         #{reserve1,jdbcType=VARCHAR},
@@ -103,10 +156,28 @@
         set_meal_content = #{setMealContent,jdbcType=VARCHAR},
       </if>
       <if test="halfPrice != null" >
-        half_price = #{halfPrice,jdbcType=INTEGER},
+        half_price = #{halfPrice,jdbcType=VARCHAR},
       </if>
       <if test="wholePrice != null" >
-        whole_price = #{wholePrice,jdbcType=INTEGER},
+        whole_price = #{wholePrice,jdbcType=VARCHAR},
+      </if>
+      <if test="importFunction != null" >
+        import_function = #{importFunction,jdbcType=VARCHAR},
+      </if>
+      <if test="outboundFunction != null" >
+        outbound_function = #{outboundFunction,jdbcType=VARCHAR},
+      </if>
+      <if test="followupFunction != null" >
+        followup_function = #{followupFunction,jdbcType=VARCHAR},
+      </if>
+      <if test="artificialFunction != null" >
+        artificial_function = #{artificialFunction,jdbcType=VARCHAR},
+      </if>
+      <if test="resultFunction != null" >
+        result_function = #{resultFunction,jdbcType=VARCHAR},
+      </if>
+      <if test="shareFunction != null" >
+        share_function = #{shareFunction,jdbcType=VARCHAR},
       </if>
       <if test="reserve1 != null" >
         reserve1 = #{reserve1,jdbcType=VARCHAR},
@@ -124,8 +195,14 @@
     update js_sys_setmeal
     set set_meal_title = #{setMealTitle,jdbcType=VARCHAR},
       set_meal_content = #{setMealContent,jdbcType=VARCHAR},
-      half_price = #{halfPrice,jdbcType=INTEGER},
-      whole_price = #{wholePrice,jdbcType=INTEGER},
+      half_price = #{halfPrice,jdbcType=VARCHAR},
+      whole_price = #{wholePrice,jdbcType=VARCHAR},
+      import_function = #{importFunction,jdbcType=VARCHAR},
+      outbound_function = #{outboundFunction,jdbcType=VARCHAR},
+      followup_function = #{followupFunction,jdbcType=VARCHAR},
+      artificial_function = #{artificialFunction,jdbcType=VARCHAR},
+      result_function = #{resultFunction,jdbcType=VARCHAR},
+      share_function = #{shareFunction,jdbcType=VARCHAR},
       reserve1 = #{reserve1,jdbcType=VARCHAR},
       reserve2 = #{reserve2,jdbcType=VARCHAR},
       reserve3 = #{reserve3,jdbcType=VARCHAR}

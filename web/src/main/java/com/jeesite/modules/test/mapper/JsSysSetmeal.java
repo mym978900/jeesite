@@ -1,4 +1,4 @@
-package com.jeesite.modules.test.entity;
+package com.jeesite.modules.test.mapper;
 
 public class JsSysSetmeal {
     private String serialNumber;

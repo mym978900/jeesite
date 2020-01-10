@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.service.TestMessageService;
 import com.jeesite.modules.test.vo.UpdatePhoneVo;
 
@@ -54,5 +55,24 @@ public class MessageController {
 
 		return messageService.toUpdatePass(response, model, vo);
 	}
+	/**
+	 * @author 验证登录用户是否是新用户
+	 *
+	 */
+	@RequestMapping(value = "checkUser")
+	@ResponseBody
+	public Integer checkUserIsOld(HttpServletResponse response, Model model) {
 
+		return messageService.checkUserIsOld(response,model);
+	}
+	/**
+	 * @author 验证登录用户是否是新用户
+	 *
+	 */
+	@RequestMapping(value = "getMem")
+	@ResponseBody
+	public JsSysMember getMemberByLoginCode(HttpServletResponse response, Model model) {
+
+		return messageService.getMemberByLoginCode(response,model);
+	}
 }

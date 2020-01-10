@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="com.jeesite.modules.test.entity.JsSysSeat" >
     <id column="serial_number" property="serialNumber" jdbcType="VARCHAR" />
     <result column="seat_title" property="seatTitle" jdbcType="VARCHAR" />
-    <result column="seat_price" property="seatPrice" jdbcType="INTEGER" />
-    <result column="restriction" property="restriction" jdbcType="INTEGER" />
+    <result column="seat_price" property="seatPrice" jdbcType="VARCHAR" />
+    <result column="restriction" property="restriction" jdbcType="VARCHAR" />
     <result column="reserve1" property="reserve1" jdbcType="VARCHAR" />
     <result column="reserve2" property="reserve2" jdbcType="VARCHAR" />
     <result column="reserve3" property="reserve3" jdbcType="VARCHAR" />
@@ -19,11 +19,6 @@
     from js_sys_seat
     where serial_number = #{serialNumber,jdbcType=VARCHAR}
   </select>
-  <select id="selectAllMeal" resultMap="BaseResultMap" >
-    select 
-    <include refid="Base_Column_List" />
-    from js_sys_seat
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from js_sys_seat
     where serial_number = #{serialNumber,jdbcType=VARCHAR}
@@ -32,8 +27,8 @@
     insert into js_sys_seat (serial_number, seat_title, seat_price, 
       restriction, reserve1, reserve2, 
       reserve3)
-    values (#{serialNumber,jdbcType=VARCHAR}, #{seatTitle,jdbcType=VARCHAR}, #{seatPrice,jdbcType=INTEGER}, 
-      #{restriction,jdbcType=INTEGER}, #{reserve1,jdbcType=VARCHAR}, #{reserve2,jdbcType=VARCHAR}, 
+    values (#{serialNumber,jdbcType=VARCHAR}, #{seatTitle,jdbcType=VARCHAR}, #{seatPrice,jdbcType=VARCHAR}, 
+      #{restriction,jdbcType=VARCHAR}, #{reserve1,jdbcType=VARCHAR}, #{reserve2,jdbcType=VARCHAR}, 
       #{reserve3,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysSeat" >
@@ -69,10 +64,10 @@
         #{seatTitle,jdbcType=VARCHAR},
       </if>
       <if test="seatPrice != null" >
-        #{seatPrice,jdbcType=INTEGER},
+        #{seatPrice,jdbcType=VARCHAR},
       </if>
       <if test="restriction != null" >
-        #{restriction,jdbcType=INTEGER},
+        #{restriction,jdbcType=VARCHAR},
       </if>
       <if test="reserve1 != null" >
         #{reserve1,jdbcType=VARCHAR},
@@ -92,10 +87,10 @@
         seat_title = #{seatTitle,jdbcType=VARCHAR},
       </if>
       <if test="seatPrice != null" >
-        seat_price = #{seatPrice,jdbcType=INTEGER},
+        seat_price = #{seatPrice,jdbcType=VARCHAR},
       </if>
       <if test="restriction != null" >
-        restriction = #{restriction,jdbcType=INTEGER},
+        restriction = #{restriction,jdbcType=VARCHAR},
       </if>
       <if test="reserve1 != null" >
         reserve1 = #{reserve1,jdbcType=VARCHAR},
@@ -112,8 +107,8 @@
   <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.test.entity.JsSysSeat" >
     update js_sys_seat
     set seat_title = #{seatTitle,jdbcType=VARCHAR},
-      seat_price = #{seatPrice,jdbcType=INTEGER},
-      restriction = #{restriction,jdbcType=INTEGER},
+      seat_price = #{seatPrice,jdbcType=VARCHAR},
+      restriction = #{restriction,jdbcType=VARCHAR},
       reserve1 = #{reserve1,jdbcType=VARCHAR},
       reserve2 = #{reserve2,jdbcType=VARCHAR},
       reserve3 = #{reserve3,jdbcType=VARCHAR}

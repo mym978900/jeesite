@@ -26,4 +26,7 @@ public class PasswordUtil {
 			return false;
 		}
 	}
+	public static void main(String[] args) {
+		System.out.println(String.format("%.2f",(Double.valueOf("503.93")-Double.valueOf("33.60"))));
+	}
 }

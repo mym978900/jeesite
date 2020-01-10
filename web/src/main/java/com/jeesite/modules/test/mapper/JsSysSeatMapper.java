@@ -9,11 +9,10 @@ public interface JsSysSeatMapper {
 
     int insertSelective(JsSysSeat record);
 
-    JsSysSeat selectByPrimaryKey(String serialNumber);
+    JsSysSeat selectByPrimaryKey(String string);
 
     int updateByPrimaryKeySelective(JsSysSeat record);
 
     int updateByPrimaryKey(JsSysSeat record);
-
-	JsSysSeat selectAllSeat();
+    
 }

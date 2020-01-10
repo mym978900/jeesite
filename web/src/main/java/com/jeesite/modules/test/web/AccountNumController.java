@@ -22,6 +22,7 @@ import com.jeesite.modules.test.entity.JsSysOffice;
 import com.jeesite.modules.test.entity.JsSysUser;
 import com.jeesite.modules.test.mapper.JsSysApplyMapper;
 import com.jeesite.modules.test.service.AccountService;
+import com.jeesite.modules.test.service.TestMessageService;
 import com.jeesite.modules.test.util.DailyUtil;
 import com.jeesite.modules.test.vo.AccountVo;
 import com.jeesite.modules.test.vo.GetUserVo;
@@ -33,6 +34,8 @@ public class AccountNumController {
 
 	@Autowired
 	private AccountService accountService;
+	@Autowired
+	private TestMessageService messageService;
 
 	// 分页查询申请信息
 	@RequestMapping(value = "findApply")
@@ -99,11 +102,12 @@ public class AccountNumController {
 	// 添加申请信息
 	@RequestMapping(value = "insertApply")
 	@ResponseBody
-	public Integer insertApply(JsSysApply apply) {
+	public Integer insertApply(HttpServletRequest request,JsSysApply apply) {
 		Integer num = accountService.insertApply(apply);
 		if (num != 1) {
 			return 0;// 添加失败
 		}
+		messageService.toGetMessage(request, "17633603265");
 		return 1;// 成功
 
 	}

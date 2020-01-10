@@ -10,6 +10,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.jeesite.modules.clue.utils.PropertiesListener;
 
@@ -22,6 +23,7 @@ import com.jeesite.modules.clue.utils.PropertiesListener;
 @ComponentScan("com.jeesite")
 @SpringBootApplication
 @EnableScheduling
+@EnableTransactionManagement
 public class Application extends SpringBootServletInitializer {
 	
 	public static void main(String[] args) {

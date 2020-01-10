@@ -101,7 +101,7 @@ public class HelpServiceImpl implements HelpService {
 	@Override
 	public SeatAndMealVo selectSeatAndMeal() {
 		// TODO Auto-generated method stub
-		JsSysSeat seat = jsSysSeatMapper.selectAllSeat();
+		JsSysSeat seat = jsSysSeatMapper.selectByPrimaryKey("1");
 		List<JsSysSetmeal> mealList = jsSysSetmealMapper.selectAllMeal();
 		return new SeatAndMealVo(seat, mealList);
 	}

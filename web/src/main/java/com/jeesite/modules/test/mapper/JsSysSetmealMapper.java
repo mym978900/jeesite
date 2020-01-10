@@ -16,6 +16,8 @@ public interface JsSysSetmealMapper {
     int updateByPrimaryKeySelective(JsSysSetmeal record);
 
     int updateByPrimaryKey(JsSysSetmeal record);
+    
+    List<JsSysSetmeal> selectAllMeal();
 
-	List<JsSysSetmeal> selectAllMeal();
+	JsSysSetmeal findMealByTitle(String body);
 }

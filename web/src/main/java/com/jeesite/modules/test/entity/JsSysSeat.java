@@ -5,9 +5,9 @@ public class JsSysSeat {
 
     private String seatTitle;
 
-    private Integer seatPrice;
+    private String seatPrice;
 
-    private Integer restriction;
+    private String restriction;
 
     private String reserve1;
 
@@ -31,20 +31,20 @@ public class JsSysSeat {
         this.seatTitle = seatTitle == null ? null : seatTitle.trim();
     }
 
-    public Integer getSeatPrice() {
+    public String getSeatPrice() {
         return seatPrice;
     }
 
-    public void setSeatPrice(Integer seatPrice) {
-        this.seatPrice = seatPrice;
+    public void setSeatPrice(String seatPrice) {
+        this.seatPrice = seatPrice == null ? null : seatPrice.trim();
     }
 
-    public Integer getRestriction() {
+    public String getRestriction() {
         return restriction;
     }
 
-    public void setRestriction(Integer restriction) {
-        this.restriction = restriction;
+    public void setRestriction(String restriction) {
+        this.restriction = restriction == null ? null : restriction.trim();
     }
 
     public String getReserve1() {
