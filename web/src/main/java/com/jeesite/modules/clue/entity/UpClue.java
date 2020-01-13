@@ -28,113 +28,37 @@ public class UpClue {
     private String upClueAppraise;
 
     private Integer upClueAge;
+
     private Double upClueLongitude;
-    private String upClueDepttype;
+
     private Double upClueLatitude;
 
-	public String getUpClueCode() {
-		return upClueCode;
-	}
+    private Date upClueMatchtime;
 
-	public void setUpClueCode(String upClueCode) {
-		this.upClueCode = upClueCode;
-	}
+    private String extra1;
 
-	public Date getUpClueTime() {
-		return upClueTime;
-	}
+    private String extra2;
 
-	public void setUpClueTime(Date upClueTime) {
-		this.upClueTime = upClueTime;
-	}
+    private String extra3;
 
-	public String getUpUserCode() {
-		return upUserCode;
-	}
+    private String extra4;
 
-	public void setUpUserCode(String upUserCode) {
-		this.upUserCode = upUserCode;
-	}
+    private String extra5;
+    
+    private String upClueDepttype;
+    
+    private String upClueTaskid;
+    
+    private Date upAiexecutetime;
 
-	public String getUpClueName() {
-		return upClueName;
-	}
+    private Date upAipersontime;
+    
+    private Date upAipersonendtime;
 
-	public void setUpClueName(String upClueName) {
-		this.upClueName = upClueName;
-	}
+    private Date upAiendtime;
 
-	public String getUpClueTel() {
-		return upClueTel;
-	}
-
-	public void setUpClueTel(String upClueTel) {
-		this.upClueTel = upClueTel;
-	}
-
-	public String getUpClueSex() {
-		return upClueSex;
-	}
-
-	public void setUpClueSex(String upClueSex) {
-		this.upClueSex = upClueSex;
-	}
-
-	public String getUpClueAddre() {
-		return upClueAddre;
-	}
-
-	public void setUpClueAddre(String upClueAddre) {
-		this.upClueAddre = upClueAddre;
-	}
-
-	public String getUpClueStatus() {
-		return upClueStatus;
-	}
-
-	public void setUpClueStatus(String upClueStatus) {
-		this.upClueStatus = upClueStatus;
-	}
-
-	public String getUpClueAppraise() {
-		return upClueAppraise;
-	}
-
-	public void setUpClueAppraise(String upClueAppraise) {
-		this.upClueAppraise = upClueAppraise;
-	}
-
-	public Integer getUpClueAge() {
-		return upClueAge;
-	}
-
-	public void setUpClueAge(Integer upClueAge) {
-		this.upClueAge = upClueAge;
-	}
-
-	
-
-	public Double getUpClueLatitude() {
-		return upClueLatitude;
-	}
-
-	public void setUpClueLatitude(Double upClueLatitude) {
-		this.upClueLatitude = upClueLatitude;
-	}
-
-	public Double getUpClueLongitude() {
-		return upClueLongitude;
-	}
-
-	public void setUpClueLongitude(Double upClueLongitude) {
-		this.upClueLongitude = upClueLongitude;
-	}
-
-	public String getUpClueDepttype() {
-		return upClueDepttype;
-	}
-
-	public void setUpClueDepttype(String upClueDepttype) {
-		this.upClueDepttype = upClueDepttype;
-	}
+    private Integer upTalktime;
+    
+    private String upIseffective;
+   
 }
