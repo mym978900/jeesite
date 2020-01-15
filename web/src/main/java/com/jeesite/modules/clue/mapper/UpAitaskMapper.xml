@@ -16,11 +16,14 @@
     <result column="up_aipersonendtime" property="upAipersonendtime" jdbcType="TIMESTAMP" />
     <result column="up_deductionMark" property="upDeductionmark" jdbcType="CHAR" />
     <result column="up_deductionPrice" property="upDeductionprice" jdbcType="DOUBLE" />
+    <result column="up_callInstanceStatus" property="upCallinstancestatus" jdbcType="CHAR" />
+    <result column="up_finishStatus" property="upFinishstatus" jdbcType="CHAR" />
+    <result column="up_aiappraise" property="upAiappraise" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     up_id, up_taskId, up_source, up_createTime, up_startaitime, up_endtime, up_createUserCode, 
     up_status, up_talkTime, up_cluecode, up_aipersontime, up_aipersonendtime, up_deductionMark, 
-    up_deductionPrice
+    up_deductionPrice, up_callInstanceStatus, up_finishStatus, up_aiappraise
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -37,12 +40,14 @@
       up_createTime, up_startaitime, up_endtime, 
       up_createUserCode, up_status, up_talkTime, 
       up_cluecode, up_aipersontime, up_aipersonendtime, 
-      up_deductionMark, up_deductionPrice)
+      up_deductionMark, up_deductionPrice, up_callInstanceStatus, 
+      up_finishStatus, up_aiappraise)
     values (#{upId,jdbcType=VARCHAR}, #{upTaskid,jdbcType=VARCHAR}, #{upSource,jdbcType=CHAR}, 
       #{upCreatetime,jdbcType=TIMESTAMP}, #{upStartaitime,jdbcType=TIMESTAMP}, #{upEndtime,jdbcType=TIMESTAMP}, 
       #{upCreateusercode,jdbcType=VARCHAR}, #{upStatus,jdbcType=VARCHAR}, #{upTalktime,jdbcType=INTEGER}, 
       #{upCluecode,jdbcType=VARCHAR}, #{upAipersontime,jdbcType=TIMESTAMP}, #{upAipersonendtime,jdbcType=TIMESTAMP}, 
-      #{upDeductionmark,jdbcType=CHAR}, #{upDeductionprice,jdbcType=DOUBLE})
+      #{upDeductionmark,jdbcType=CHAR}, #{upDeductionprice,jdbcType=DOUBLE}, #{upCallinstancestatus,jdbcType=CHAR}, 
+      #{upFinishstatus,jdbcType=CHAR}, #{upAiappraise,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jeesite.modules.clue.entity.UpAitask" >
     insert into up_aitask
@@ -89,6 +94,15 @@
       <if test="upDeductionprice != null" >
         up_deductionPrice,
       </if>
+      <if test="upCallinstancestatus != null" >
+        up_callInstanceStatus,
+      </if>
+      <if test="upFinishstatus != null" >
+        up_finishStatus,
+      </if>
+      <if test="upAiappraise != null" >
+        up_aiappraise,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="upId != null" >
@@ -132,6 +146,15 @@
       </if>
       <if test="upDeductionprice != null" >
         #{upDeductionprice,jdbcType=DOUBLE},
+      </if>
+      <if test="upCallinstancestatus != null" >
+        #{upCallinstancestatus,jdbcType=CHAR},
+      </if>
+      <if test="upFinishstatus != null" >
+        #{upFinishstatus,jdbcType=CHAR},
+      </if>
+      <if test="upAiappraise != null" >
+        #{upAiappraise,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -177,6 +200,15 @@
       <if test="upDeductionprice != null" >
         up_deductionPrice = #{upDeductionprice,jdbcType=DOUBLE},
       </if>
+      <if test="upCallinstancestatus != null" >
+        up_callInstanceStatus = #{upCallinstancestatus,jdbcType=CHAR},
+      </if>
+      <if test="upFinishstatus != null" >
+        up_finishStatus = #{upFinishstatus,jdbcType=CHAR},
+      </if>
+      <if test="upAiappraise != null" >
+        up_aiappraise = #{upAiappraise,jdbcType=CHAR},
+      </if>
     </set>
     where up_id = #{upId,jdbcType=VARCHAR}
   </update>
@@ -194,7 +226,10 @@
       up_aipersontime = #{upAipersontime,jdbcType=TIMESTAMP},
       up_aipersonendtime = #{upAipersonendtime,jdbcType=TIMESTAMP},
       up_deductionMark = #{upDeductionmark,jdbcType=CHAR},
-      up_deductionPrice = #{upDeductionprice,jdbcType=DOUBLE}
+      up_deductionPrice = #{upDeductionprice,jdbcType=DOUBLE},
+      up_callInstanceStatus = #{upCallinstancestatus,jdbcType=CHAR},
+      up_finishStatus = #{upFinishstatus,jdbcType=CHAR},
+      up_aiappraise = #{upAiappraise,jdbcType=CHAR}
     where up_id = #{upId,jdbcType=VARCHAR}
   </update>
   <select id="getUpAitaskByUpCodeTaskId" resultMap="BaseResultMap">

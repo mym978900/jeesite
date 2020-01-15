@@ -30,6 +30,12 @@ public class UpAitask {
     private Double upDeductionprice;
     
     private String upId;
+    
+    private String upCallinstancestatus;
+
+    private String upFinishstatus;
+    
+    private String upAiappraise;
 
     public String getUpTaskid() {
         return upTaskid;
@@ -141,5 +147,29 @@ public class UpAitask {
 
     public void setUpId(String upId) {
         this.upId = upId == null ? null : upId.trim();
+    }
+    
+    public String getUpCallinstancestatus() {
+        return upCallinstancestatus;
+    }
+
+    public void setUpCallinstancestatus(String upCallinstancestatus) {
+        this.upCallinstancestatus = upCallinstancestatus == null ? null : upCallinstancestatus.trim();
+    }
+
+    public String getUpFinishstatus() {
+        return upFinishstatus;
+    }
+
+    public void setUpFinishstatus(String upFinishstatus) {
+        this.upFinishstatus = upFinishstatus == null ? null : upFinishstatus.trim();
+    }
+    
+    public String getUpAiappraise() {
+        return upAiappraise;
+    }
+
+    public void setUpAiappraise(String upAiappraise) {
+        this.upAiappraise = upAiappraise == null ? null : upAiappraise.trim();
     }
 }

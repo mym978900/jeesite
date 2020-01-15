@@ -395,13 +395,13 @@
     where up_clue_longitude = "" || up_clue_longitude is null
   </select>
   <select id="getIntentionClue" resultType="java.util.HashMap">
-  	select t.up_aipersontime,t.up_clue_name as up_cluename,t.up_clue_tel as up_aiphone
+  	select t.up_aipersontime,t.up_clue_name as up_cluename,t.up_clue_tel as up_aiphone,'1' as source
   	from up_clue t where 1=1 
   	and t.up_user_code = #{userCode} 
   	and t.up_clue_appraise='1' 
   	UNION 
-  	select m.up_aipersontime,m.up_cluename,m.up_aiphone 
-  	from up_aiInfo m 
+  	select m.up_aipersontime,m.up_cluename,m.up_aiphone , '2' as source	
+  	from up_aiinfo m 
   	where m.up_usercode=#{userCode}
   	and m.up_aiappraise='1'
   	and m.up_aipersonendtime is not null
@@ -410,8 +410,8 @@
 		m.up_aipersonendtime
 	) &lt; 14
 	UNION
-	select m.up_aipersontime,m.up_cluename,m.up_aiphone 
-  	from up_aiInfo m 
+	select m.up_aipersontime,m.up_cluename,m.up_aiphone ,'2' as source
+  	from up_aiinfo m 
   	where m.up_usercode=#{userCode}
   	and m.up_aiappraise='1'
   	and m.up_aipersonendtime is null
