@@ -675,17 +675,18 @@ public class UpClueController extends BaseController{
     	TaskResultVO tv;
     	String upClueCode;
     	String source;
-    	String appraise;
+    	String appraise = null;
     	String taskId;
     	String userCode;
     	int callJobStatus;
-    	UpClue upClue;
-    	UpAiinfo upAiInfo;
+    	UpClue upClue = null;
+    	UpAiinfo upAiInfo = null;
     	UpAitask upAitask;
     	String startTime;
     	String endTime;
     	int duration;//通话时长
     	int callInstanceStatus;//通话状态
+    	int upFinishstatus;//最终状态
     	try {
 	    	if("CALL_INSTANCE_RESULT".equals(cbob.getData().getCallbackType())) {
 	    		System.out.println("--------1--------");
@@ -699,7 +700,8 @@ public class UpClueController extends BaseController{
 				source = (String) m.get("clueSource");
 				upClueCode = (String) m.get("clueCode");
 				userCode = (String) m.get("userCode");
-				callInstanceStatus = cbob.getData().getData().getCallInstance().getCallInstanceStatus();
+				callInstanceStatus = cv.getCallInstanceStatus();
+				upFinishstatus = cv.getFinishStatus();
 				TaskResultVO[] str = cbob.getData().getData().getTaskResult();
 				if(str.length > 0) {
 					if("1".equals(source)) {
@@ -710,38 +712,20 @@ public class UpClueController extends BaseController{
 							if("A".equals(appraise) || "B".equals(appraise)) {
 								upClue.setUpClueStatus("1");//已拨打
 								upClue.setUpClueAppraise("1");//有意向
-							}else if("C".equals(appraise) || "F".equals(appraise)){
+							}else if("C".equals(appraise)){
 								upClue.setUpClueStatus("1");//已拨打
 								upClue.setUpClueAppraise("2");//无意向
-							}else if("D".equals(appraise) || "E".equals(appraise)) {
-								upClue.setUpClueStatus("1");//已拨打
-								upClue.setUpClueAppraise("3");//未接通
+							}else if("D".equals(appraise)) {
+								upClue.setUpClueStatus("3");//未接通
+							}else if("E".equals(appraise)) {
+								upClue.setUpClueStatus("4");//拨打失败
+							}else if("F".equals(appraise)) {
+								upClue.setUpClueStatus("5");//无效客户
 							}
 							upClue.setUpAiexecutetime(sdf.parse(startTime));
 							upClue.setUpAiendtime(sdf.parse(startTime));
 							upClue.setUpTalktime(duration);
 							iUpClueService.updateByPrimaryKey(upClue);
-						}
-						//更新外呼任务信息
-						upAitask = iUpAitaskService.getUpAitaskByUpCodeTaskId(taskId,upClueCode);
-						if(upAitask != null) {
-							if(startTime != null) {
-								upAitask.setUpStartaitime(sdf.parse(startTime));
-							}
-							if(endTime != null) {
-								upAitask.setUpEndtime(sdf.parse(startTime));
-							}
-							upAitask.setUpStatus(callInstanceStatus+"");
-							if(callInstanceStatus == 2) {
-								if("0".equals(upAitask.getUpDeductionmark())) {
-									//------------------扣费待完成------------------
-								}
-								iUpAitaskService.updateByPrimaryKey(upAitask);
-							}
-						}else {
-							response.setCharacterEncoding("utf-8");
-							response.getWriter().write("fail");
-							return;
 						}
 					}else {
 						upAiInfo = iUpAiInfoService.getMatchClueByUserCodeAndClueCode(upClueCode,userCode);
@@ -750,41 +734,72 @@ public class UpClueController extends BaseController{
 							appraise = tv.getResultValue();
 							if("A".equals(appraise) || "B".equals(appraise)) {
 								upAiInfo.setUpAistatus("1");//已拨打
-								upAiInfo.setUpAiappraise("1");;//有意向
-							}else if("C".equals(appraise) || "F".equals(appraise)){
+								upAiInfo.setUpAiappraise("1");//有意向
+							}else if("C".equals(appraise)){
 								upAiInfo.setUpAistatus("1");//已拨打
 								upAiInfo.setUpAiappraise("2");//无意向
-							}else if("D".equals(appraise) || "E".equals(appraise)) {
-								upAiInfo.setUpAistatus("1");//已拨打
-								upAiInfo.setUpAiappraise("3");//未接通
+							}else if("D".equals(appraise)) {
+								upAiInfo.setUpAistatus("3");//未接通
+							}else if("E".equals(appraise)) {
+								upAiInfo.setUpAistatus("4");//拨打失败
+							}else if("F".equals(appraise)) {
+								upAiInfo.setUpAistatus("5");//无效客户
 							}
 							upAiInfo.setUpAiexecutetime(sdf.parse(startTime));
 							upAiInfo.setUpAiendtime(sdf.parse(endTime));
 							upAiInfo.setUpTalktime(duration);
 							iUpAiInfoService.updateByPrimaryKey(upAiInfo);
 						}
-						//更新外呼任务信息
-						upAitask = iUpAitaskService.getUpAitaskByUpCodeTaskId(taskId,upClueCode);
-						if(upAitask != null) {
-							if(startTime != null) {
-								upAitask.setUpStartaitime(sdf.parse(startTime));
-							}
-							if(endTime != null) {
-								upAitask.setUpEndtime(sdf.parse(startTime));
-							}
-							upAitask.setUpStatus(callInstanceStatus+"");
-							if(callInstanceStatus == 2) {
-								if("0".equals(upAitask.getUpDeductionmark())) {
-									//------------------扣费待完成------------------
-								}
-								iUpAitaskService.updateByPrimaryKey(upAitask);
-							}
-						}else {
-							response.setCharacterEncoding("utf-8");
-							response.getWriter().write("fail");
-							return;
-						}
 					}
+					
+					//更新外呼任务信息
+					upAitask = iUpAitaskService.getUpAitaskByUpCodeTaskId(taskId,upClueCode);
+					if(upAitask != null) {
+						if(startTime != null) {
+							upAitask.setUpStartaitime(sdf.parse(startTime));
+						}
+						if(endTime != null) {
+							upAitask.setUpEndtime(sdf.parse(startTime));
+						}
+						upAitask.setUpCallinstancestatus(callInstanceStatus+"");
+						upAitask.setUpFinishstatus(upFinishstatus+"");
+						if("1".equals(source)) {
+							if(upClue != null) {
+								if("A".equals(appraise) || "B".equals(appraise) ) {
+									upAitask.setUpAiappraise("1");
+								}else if("C".equals(appraise)) {
+									upAitask.setUpAiappraise("2");
+								}else {
+									upAitask.setUpAiappraise("0");
+								}
+							}else {
+								upAitask.setUpAiappraise("0");
+							}
+						}else if("2".equals(source)){
+							if(upAiInfo!=null) {
+								if("A".equals(appraise) || "B".equals(appraise) ) {
+									upAitask.setUpAiappraise("1");
+								}else if("C".equals(appraise)) {
+									upAitask.setUpAiappraise("2");
+								}else {
+									upAitask.setUpAiappraise("0");
+								}
+							}else {
+								upAitask.setUpAiappraise("0");
+							}
+						}
+						if(callInstanceStatus == 2) {
+							if("0".equals(upAitask.getUpDeductionmark())) {
+								//------------------扣费待完成------------------
+							}
+							iUpAitaskService.updateByPrimaryKey(upAitask);
+						}
+					}else {
+						response.setCharacterEncoding("utf-8");
+						response.getWriter().write("fail");
+						return;
+					}
+					
 				}
 				response.setCharacterEncoding("utf-8");
 				response.getWriter().write("success");
@@ -853,7 +868,6 @@ public class UpClueController extends BaseController{
 			for(int i=0;i<list.size();i++) {
 				m = (HashMap) list.get(i);
 				m.put("up_cluename", ClueUtils.chineseName(m.get("up_cluename").toString()));
-				m.put("up_aiphone", ClueUtils.mobilePhone(m.get("up_aiphone").toString()));
 			}
 		}
 		PageInfo<UpClue> page = new PageInfo<UpClue>(list);
