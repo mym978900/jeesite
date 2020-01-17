@@ -37,5 +37,9 @@ public interface UpClueService {
 	
 	public UpClue selectByPrimaryKey(String upClueCode);
 
+<<<<<<< HEAD
+=======
+	//意向用户
+>>>>>>> refs/heads/xufeng
 	public List getIntentionClue(IntentionVo itv);
 }

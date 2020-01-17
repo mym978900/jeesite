@@ -143,12 +143,12 @@ public class ExcelReader {
     private static List<ClueExcelVo> parseExcel(Workbook workbook) {
        List<ClueExcelVo> resultDataList = new ArrayList<>();
         // 解析sheet
-        for (int sheetNum = 0; sheetNum < workbook.getNumberOfSheets(); sheetNum++) {
-            Sheet sheet = workbook.getSheetAt(sheetNum);
+//        for (int sheetNum = 0; sheetNum < workbook.getNumberOfSheets(); sheetNum++) {
+            Sheet sheet = workbook.getSheetAt(0);
 
             // 校验sheet是否合法
             if (sheet == null) {
-                continue;
+//                continue;
             }
 
             // 获取第一行数据
@@ -175,7 +175,7 @@ public class ExcelReader {
                 }
                 resultDataList.add(resultData);
             }
-        }
+//        }
 
         return resultDataList;
     }

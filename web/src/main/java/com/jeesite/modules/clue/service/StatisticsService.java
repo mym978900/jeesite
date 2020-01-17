@@ -29,6 +29,6 @@ public interface StatisticsService {
 	public int loginOrganAnswerdCount(String userCode, int day);
 
 	//统计登录机构通话话费
-	public double loginOrganUsingPhoneBill(String userCode);
+	public double loginOrganUsingPhoneBill(String userCode, int day);
 
 }

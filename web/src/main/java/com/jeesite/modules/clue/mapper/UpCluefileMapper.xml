@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jeesite.modules.clue.mapper.UpCluefileMapper" >
   <resultMap id="BaseResultMap" type="com.jeesite.modules.clue.entity.UpCluefile" >
+    <id column="up_id" property="upId" jdbcType="VARCHAR" />
     <result column="up_usercode" property="upUsercode" jdbcType="VARCHAR" />
     <result column="up_username" property="upUsername" jdbcType="VARCHAR" />
     <result column="up_date" property="upDate" jdbcType="TIMESTAMP" />
@@ -19,23 +20,41 @@
     <result column="up_ineffectiveCount" property="upIneffectivecount" jdbcType="INTEGER" />
     <result column="up_ineffectiveInfo" property="upIneffectiveinfo" jdbcType="VARCHAR" />
   </resultMap>
+  <sql id="Base_Column_List" >
+    up_id, up_usercode, up_username, up_date, up_filename, up_filepath, up_fileType, 
+    up_deptcode, up_type, extra1, extra2, extra3, extra4, extra5, up_effectiveCount, 
+    up_ineffectiveCount, up_ineffectiveInfo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from up_cluefile
+    where up_id = #{upId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from up_cluefile
+    where up_id = #{upId,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.jeesite.modules.clue.entity.UpCluefile" >
-    insert into up_cluefile (up_usercode, up_username, up_date, 
-      up_filename, up_filepath, up_fileType, 
-      up_deptcode, up_type, extra1, 
-      extra2, extra3, extra4, 
-      extra5, up_effectiveCount, up_ineffectiveCount, 
-      up_ineffectiveInfo)
-    values (#{upUsercode,jdbcType=VARCHAR}, #{upUsername,jdbcType=VARCHAR}, #{upDate,jdbcType=TIMESTAMP}, 
-      #{upFilename,jdbcType=VARCHAR}, #{upFilepath,jdbcType=VARCHAR}, #{upFiletype,jdbcType=VARCHAR}, 
-      #{upDeptcode,jdbcType=VARCHAR}, #{upType,jdbcType=VARCHAR}, #{extra1,jdbcType=VARCHAR}, 
-      #{extra2,jdbcType=VARCHAR}, #{extra3,jdbcType=VARCHAR}, #{extra4,jdbcType=VARCHAR}, 
-      #{extra5,jdbcType=VARCHAR}, #{upEffectivecount,jdbcType=INTEGER}, #{upIneffectivecount,jdbcType=INTEGER}, 
-      #{upIneffectiveinfo,jdbcType=VARCHAR})
+    insert into up_cluefile (up_id, up_usercode, up_username, 
+      up_date, up_filename, up_filepath, 
+      up_fileType, up_deptcode, up_type, 
+      extra1, extra2, extra3, 
+      extra4, extra5, up_effectiveCount, 
+      up_ineffectiveCount, up_ineffectiveInfo)
+    values (#{upId,jdbcType=VARCHAR}, #{upUsercode,jdbcType=VARCHAR}, #{upUsername,jdbcType=VARCHAR}, 
+      #{upDate,jdbcType=TIMESTAMP}, #{upFilename,jdbcType=VARCHAR}, #{upFilepath,jdbcType=VARCHAR}, 
+      #{upFiletype,jdbcType=VARCHAR}, #{upDeptcode,jdbcType=VARCHAR}, #{upType,jdbcType=VARCHAR}, 
+      #{extra1,jdbcType=VARCHAR}, #{extra2,jdbcType=VARCHAR}, #{extra3,jdbcType=VARCHAR}, 
+      #{extra4,jdbcType=VARCHAR}, #{extra5,jdbcType=VARCHAR}, #{upEffectivecount,jdbcType=INTEGER}, 
+      #{upIneffectivecount,jdbcType=INTEGER}, #{upIneffectiveinfo,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jeesite.modules.clue.entity.UpCluefile" >
     insert into up_cluefile
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="upId != null" >
+        up_id,
+      </if>
       <if test="upUsercode != null" >
         up_usercode,
       </if>
@@ -86,6 +105,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="upId != null" >
+        #{upId,jdbcType=VARCHAR},
+      </if>
       <if test="upUsercode != null" >
         #{upUsercode,jdbcType=VARCHAR},
       </if>
@@ -136,4 +158,78 @@
       </if>
     </trim>
   </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.clue.entity.UpCluefile" >
+    update up_cluefile
+    <set >
+      <if test="upUsercode != null" >
+        up_usercode = #{upUsercode,jdbcType=VARCHAR},
+      </if>
+      <if test="upUsername != null" >
+        up_username = #{upUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="upDate != null" >
+        up_date = #{upDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upFilename != null" >
+        up_filename = #{upFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="upFilepath != null" >
+        up_filepath = #{upFilepath,jdbcType=VARCHAR},
+      </if>
+      <if test="upFiletype != null" >
+        up_fileType = #{upFiletype,jdbcType=VARCHAR},
+      </if>
+      <if test="upDeptcode != null" >
+        up_deptcode = #{upDeptcode,jdbcType=VARCHAR},
+      </if>
+      <if test="upType != null" >
+        up_type = #{upType,jdbcType=VARCHAR},
+      </if>
+      <if test="extra1 != null" >
+        extra1 = #{extra1,jdbcType=VARCHAR},
+      </if>
+      <if test="extra2 != null" >
+        extra2 = #{extra2,jdbcType=VARCHAR},
+      </if>
+      <if test="extra3 != null" >
+        extra3 = #{extra3,jdbcType=VARCHAR},
+      </if>
+      <if test="extra4 != null" >
+        extra4 = #{extra4,jdbcType=VARCHAR},
+      </if>
+      <if test="extra5 != null" >
+        extra5 = #{extra5,jdbcType=VARCHAR},
+      </if>
+      <if test="upEffectivecount != null" >
+        up_effectiveCount = #{upEffectivecount,jdbcType=INTEGER},
+      </if>
+      <if test="upIneffectivecount != null" >
+        up_ineffectiveCount = #{upIneffectivecount,jdbcType=INTEGER},
+      </if>
+      <if test="upIneffectiveinfo != null" >
+        up_ineffectiveInfo = #{upIneffectiveinfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where up_id = #{upId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.clue.entity.UpCluefile" >
+    update up_cluefile
+    set up_usercode = #{upUsercode,jdbcType=VARCHAR},
+      up_username = #{upUsername,jdbcType=VARCHAR},
+      up_date = #{upDate,jdbcType=TIMESTAMP},
+      up_filename = #{upFilename,jdbcType=VARCHAR},
+      up_filepath = #{upFilepath,jdbcType=VARCHAR},
+      up_fileType = #{upFiletype,jdbcType=VARCHAR},
+      up_deptcode = #{upDeptcode,jdbcType=VARCHAR},
+      up_type = #{upType,jdbcType=VARCHAR},
+      extra1 = #{extra1,jdbcType=VARCHAR},
+      extra2 = #{extra2,jdbcType=VARCHAR},
+      extra3 = #{extra3,jdbcType=VARCHAR},
+      extra4 = #{extra4,jdbcType=VARCHAR},
+      extra5 = #{extra5,jdbcType=VARCHAR},
+      up_effectiveCount = #{upEffectivecount,jdbcType=INTEGER},
+      up_ineffectiveCount = #{upIneffectivecount,jdbcType=INTEGER},
+      up_ineffectiveInfo = #{upIneffectiveinfo,jdbcType=VARCHAR}
+    where up_id = #{upId,jdbcType=VARCHAR}
+  </update>
 </mapper>

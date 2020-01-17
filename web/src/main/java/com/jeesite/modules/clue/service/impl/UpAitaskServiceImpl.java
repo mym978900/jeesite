@@ -35,5 +35,11 @@ public class UpAitaskServiceImpl implements UpAitaskService {
 		upAitaskMapper.updateByPrimaryKey(upAitask);
 	}
 
+	//更新任务状态
+	@Override
+	public void updateByTaskId(String status,String taskId) {
+		upAitaskMapper.updateByTaskId(status,taskId);
+	}
+
 
 }

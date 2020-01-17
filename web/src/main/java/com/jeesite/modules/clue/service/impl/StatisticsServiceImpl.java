@@ -70,9 +70,9 @@ public class StatisticsServiceImpl implements StatisticsService {
 
 	//统计登录机构通话话费
 	@Override
-	public double loginOrganUsingPhoneBill(String userCode) {
+	public double loginOrganUsingPhoneBill(String userCode, int day) {
 		double count;
-		count = iStatisticsMapper.loginOrganUsingPhoneBill(userCode);
+		count = iStatisticsMapper.loginOrganUsingPhoneBill(userCode,day);
 		return count;
 	}
 

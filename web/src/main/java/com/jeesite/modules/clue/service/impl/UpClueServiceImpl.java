@@ -74,8 +74,13 @@ public class UpClueServiceImpl implements UpClueService{
 	@Override
 	public UpClue selectByPrimaryKey(String upClueCode) {
 		UpClue uc = upClueMapper.selectByPrimaryKey(upClueCode);
-		return uc
-				;
+		return uc;
+	}
+	 //意向用户
+	@Override
+	public List getIntentionClue(IntentionVo itv) {
+		List list = upClueMapper.getIntentionClue(itv);
+		return list;
 	}
 
 	@Override

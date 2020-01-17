@@ -56,7 +56,7 @@ public class AddressUtil {
 			JSONObject jsonObject = JSONObject.parseObject(html);
 			String status = jsonObject.getString("status");
 			//未查到用户地址
-			if(status=="0") {
+			if("1".equals(status)) {
 				return null;
 			}
 			String result = jsonObject.getString("result");
@@ -103,7 +103,7 @@ public class AddressUtil {
 	
 //	public static void main(String[] args) {
 //		AddressUtil au = new AddressUtil();
-//		String address = "北京市昌平区二拨子北京人家西区2号楼(6国道)";
+//		String address = "京旺南街与京旺东路交叉口";
 //		Object[] html;
 //		try {
 //			html = au.AddressTolongitudea(address);
