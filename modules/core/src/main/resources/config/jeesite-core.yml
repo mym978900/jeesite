@@ -404,6 +404,8 @@ shiro:
     ${adminPath}/clue/* = anon
     ${adminPath}/account/* = anon
     ${adminPath}/tosms/* = anon
+    #统计概括处理方法不用验证
+    ${adminPath}/statistics/* = anon
     ${adminPath}/login-cas = cas
     ${adminPath}/login = authc
     ${adminPath}/logout = logout

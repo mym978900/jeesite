@@ -9,19 +9,8 @@ public class CallBackOutBoundVo {
 	
 	private ResultDataVO data;
 	
-	private TaskDataVO data1;
-	
 	private String resultMsg;
 	
-	
-	public TaskDataVO getData1() {
-		return data1;
-	}
-
-	public void setData1(TaskDataVO data1) {
-		this.data1 = data1;
-	}
-
 	public Long getCode() {
 		return code;
 	}
@@ -51,6 +40,32 @@ public class CallBackOutBoundVo {
 		private String callbackType;
 		
 		private CallbackPushDetailVO data;
+		
+		public String getCallbackType() {
+			return callbackType;
+		}
+
+		public void setCallbackType(String callbackType) {
+			this.callbackType = callbackType;
+		}
+
+		public CallbackPushDetailVO getData() {
+			return data;
+		}
+
+		public void setData(CallbackPushDetailVO data) {
+			this.data = data;
+		}
+		
+	}
+	
+	public static class CallbackPushDetailVO {
+		
+		private CallInstanceVO callInstance;
+		
+		private PhoneLogVO[] phoneLogs;
+		
+		private TaskResultVO[] taskResult;
 		
 		//任务状态回调
 		private String jobName;
@@ -92,100 +107,6 @@ public class CallBackOutBoundVo {
 		public void setCallJobId(int callJobId) {
 			this.callJobId = callJobId;
 		}
-
-		public String getCallbackType() {
-			return callbackType;
-		}
-
-		public void setCallbackType(String callbackType) {
-			this.callbackType = callbackType;
-		}
-
-		public CallbackPushDetailVO getData() {
-			return data;
-		}
-
-		public void setData(CallbackPushDetailVO data) {
-			this.data = data;
-		}
-		
-	}
-	
-	public static class TaskDataVO {
-		
-		private String callbackType;
-		
-		private TaskDetailVO data;
-
-		public String getCallbackType() {
-			return callbackType;
-		}
-
-		public void setCallbackType(String callbackType) {
-			this.callbackType = callbackType;
-		}
-
-		public TaskDetailVO getData() {
-			return data;
-		}
-
-		public void setData(TaskDetailVO data) {
-			this.data = data;
-		}
-		
-	}
-	
-	public static class TaskDetailVO {
-		
-		private String callJobId;
-		
-		private String callJobStatus;
-		
-		private String companyId;
-		
-		private String jobName;
-
-		public String getCallJobId() {
-			return callJobId;
-		}
-
-		public void setCallJobId(String callJobId) {
-			this.callJobId = callJobId;
-		}
-
-		public String getCallJobStatus() {
-			return callJobStatus;
-		}
-
-		public void setCallJobStatus(String callJobStatus) {
-			this.callJobStatus = callJobStatus;
-		}
-
-		public String getCompanyId() {
-			return companyId;
-		}
-
-		public void setCompanyId(String companyId) {
-			this.companyId = companyId;
-		}
-
-		public String getJobName() {
-			return jobName;
-		}
-
-		public void setJobName(String jobName) {
-			this.jobName = jobName;
-		}
-		
-	}
-	
-	public static class CallbackPushDetailVO {
-		
-		private CallInstanceVO callInstance;
-		
-		private PhoneLogVO[] phoneLogs;
-		
-		private TaskResultVO[] taskResult;
 
 		public CallInstanceVO getCallInstance() {
 			return callInstance;

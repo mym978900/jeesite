@@ -2,6 +2,9 @@ package com.jeesite.modules.test.entity;
 
 import java.util.Date;
 
+import lombok.Data;
+
+@Data
 public class JsSysMember {
     private String serialNumber;
 
@@ -12,8 +15,6 @@ public class JsSysMember {
     private String organClass;
 
     private String memberGrade;
-
-    private Date memberCreatetime;
 
     private String memberOvertime;
 
@@ -44,9 +45,9 @@ public class JsSysMember {
     private Integer clueCount;
 
     private Integer aiTimes;
-
+    
     private String userCode;
-
+    
     private String upIseffective;
 
     public String getSerialNumber() {
@@ -87,14 +88,6 @@ public class JsSysMember {
 
     public void setMemberGrade(String memberGrade) {
         this.memberGrade = memberGrade == null ? null : memberGrade.trim();
-    }
-
-    public Date getMemberCreatetime() {
-        return memberCreatetime;
-    }
-
-    public void setMemberCreatetime(Date memberCreatetime) {
-        this.memberCreatetime = memberCreatetime;
     }
 
     public String getMemberOvertime() {
@@ -216,7 +209,7 @@ public class JsSysMember {
     public void setAiTimes(Integer aiTimes) {
         this.aiTimes = aiTimes;
     }
-
+    
     public String getUserCode() {
         return userCode;
     }
@@ -225,6 +218,30 @@ public class JsSysMember {
         this.userCode = userCode == null ? null : userCode.trim();
     }
 
+    public String getUpIseffective() {
+        return upIseffective;
+    }
+
+    public void setUpIseffective(String upIseffective) {
+        this.upIseffective = upIseffective == null ? null : upIseffective.trim();
+    }
+    
+    public String getUpIseffective() {
+        return upIseffective;
+    }
+
+    public void setUpIseffective(String upIseffective) {
+        this.upIseffective = upIseffective == null ? null : upIseffective.trim();
+    }
+    
+    public String getUpIseffective() {
+        return upIseffective;
+    }
+
+    public void setUpIseffective(String upIseffective) {
+        this.upIseffective = upIseffective == null ? null : upIseffective.trim();
+    }
+    
     public String getUpIseffective() {
         return upIseffective;
     }

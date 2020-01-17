@@ -18,6 +18,24 @@ public class UpAitask {
     private String upStatus;
 
     private Integer upTalktime;
+    
+    private String upCluecode;
+
+    private Date upAipersontime;
+
+    private Date upAipersonendtime;
+
+    private String upDeductionmark;
+
+    private Double upDeductionprice;
+    
+    private String upId;
+    
+    private String upCallinstancestatus;
+
+    private String upFinishstatus;
+    
+    private String upAiappraise;
 
     public String getUpTaskid() {
         return upTaskid;
@@ -81,5 +99,77 @@ public class UpAitask {
 
     public void setUpTalktime(Integer upTalktime) {
         this.upTalktime = upTalktime;
+    }
+    
+    public String getUpCluecode() {
+        return upCluecode;
+    }
+
+    public void setUpCluecode(String upCluecode) {
+        this.upCluecode = upCluecode == null ? null : upCluecode.trim();
+    }
+
+    public Date getUpAipersontime() {
+        return upAipersontime;
+    }
+
+    public void setUpAipersontime(Date upAipersontime) {
+        this.upAipersontime = upAipersontime;
+    }
+
+    public Date getUpAipersonendtime() {
+        return upAipersonendtime;
+    }
+
+    public void setUpAipersonendtime(Date upAipersonendtime) {
+        this.upAipersonendtime = upAipersonendtime;
+    }
+
+    public String getUpDeductionmark() {
+        return upDeductionmark;
+    }
+
+    public void setUpDeductionmark(String upDeductionmark) {
+        this.upDeductionmark = upDeductionmark == null ? null : upDeductionmark.trim();
+    }
+
+    public Double getUpDeductionprice() {
+        return upDeductionprice;
+    }
+
+    public void setUpDeductionprice(Double upDeductionprice) {
+        this.upDeductionprice = upDeductionprice;
+    }
+    
+    public String getUpId() {
+        return upId;
+    }
+
+    public void setUpId(String upId) {
+        this.upId = upId == null ? null : upId.trim();
+    }
+    
+    public String getUpCallinstancestatus() {
+        return upCallinstancestatus;
+    }
+
+    public void setUpCallinstancestatus(String upCallinstancestatus) {
+        this.upCallinstancestatus = upCallinstancestatus == null ? null : upCallinstancestatus.trim();
+    }
+
+    public String getUpFinishstatus() {
+        return upFinishstatus;
+    }
+
+    public void setUpFinishstatus(String upFinishstatus) {
+        this.upFinishstatus = upFinishstatus == null ? null : upFinishstatus.trim();
+    }
+    
+    public String getUpAiappraise() {
+        return upAiappraise;
+    }
+
+    public void setUpAiappraise(String upAiappraise) {
+        this.upAiappraise = upAiappraise == null ? null : upAiappraise.trim();
     }
 }

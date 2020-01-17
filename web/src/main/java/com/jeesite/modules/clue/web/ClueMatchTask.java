@@ -1,10 +1,12 @@
 package com.jeesite.modules.clue.web;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,10 @@ import com.jeesite.modules.clue.entity.UpClue;
 import com.jeesite.modules.clue.service.UpAiInfoService;
 import com.jeesite.modules.clue.service.UpClueService;
 import com.jeesite.modules.clue.utils.AddressUtil;
+import com.jeesite.modules.clue.utils.AiUtil;
+import com.jeesite.modules.clue.utils.PropertiesListenerConfig;
+import com.jeesite.modules.sys.entity.SysDictData;
+import com.jeesite.modules.sys.service.SysDictDataService;
 import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.service.MemberService;
 
@@ -35,12 +41,14 @@ public class ClueMatchTask {
 		private static UpClueService iUpClueService = SpringUtils.getBean(UpClueService.class);
 		//匹配信息处理
 		private static UpAiInfoService iUpAiInfoService = SpringUtils.getBean(UpAiInfoService.class);
+		//AI外呼信息处理
+		private static SysDictDataService iSysDictDataService = SpringUtils.getBean(SysDictDataService.class);
 	}
 	
 	
 	//定时处理智能线索匹配
 	@SuppressWarnings("deprecation")
-	@Scheduled(cron="30 02 18 * * ?")
+	@Scheduled(cron="10 50 14 * * ?")
 	public void clueMatch() {
 		logger.info("数据共享-----开启匹配线索数据筛选任务");
 		//会员等级2、3级支持匹配
@@ -83,7 +91,11 @@ public class ClueMatchTask {
 			UpClue uc;
 			//匹配线索对象
 			UpAiinfo uai = new UpAiinfo();
-			HashMap hm;
+			//外呼记录id
+	    	String id="";
+			HashMap hm = new HashMap();
+			//是否达到匹配线索天数
+			long c = 0;
 			
 			if(list !=null && !list.isEmpty()) {
 				for(int i=0;i<list.size();i++) {
@@ -121,23 +133,33 @@ public class ClueMatchTask {
 									if(matchList != null && !matchList.isEmpty() && exitsMatchList != null && !exitsMatchList.isEmpty()) {
 										matchList.removeAll(exitsMatchList);
 									}
-									if(n==20) {
+									if(n==2) {
 										break;
 									}
 								}
-								//截取匹配数的线索
-								matchListxx = matchList.subList(0, matchCount);
+								//截取匹配数的线索-----------------------报错为空的话怎么办
+								if(matchList.size()>=matchCount) {
+									matchListxx = matchList.subList(0, matchCount);
+								}else if(matchList.size() < matchCount && matchList.size() != 0 ) {
+									matchListxx = matchList;
+								}else if(matchList.size()==0) {
+									continue;
+								}
 								for(int j=0;j<matchListxx.size();j++) {
-									hm = (HashMap) matchListxx.get(i);
-									uai.setUpAicode(hm.get("up_clue_code").toString());//线索编号
-									uai.setUpAiphone(hm.get("up_clue_tel").toString());//线索手机号
+									hm = (HashMap) matchListxx.get(j);
+									id = UUID.randomUUID().toString().replace("-", "");
+									uai.setUpId(id);
+									uai.setUpAicode(hm.get("up_aicode").toString());//线索编号
+									uai.setUpAiphone(hm.get("up_aiphone").toString());//线索手机号
+									uai.setUpCluename(hm.get("up_cluename").toString());//线索名称
 									uai.setUpAiappraise("0");//意向状态
+									uai.setUpAistatus("2");//未拨打
 									uai.setUpAicreatetime(date);//创建时间
 									uai.setUpUsercode(userCode);//用户编码
 									uai.setUpAitimes(1);//批次
 									
 									//更新线索最新匹配时间
-									Static.iUpClueService.updateMatchTime(hm.get("up_clue_code").toString(), date);
+									Static.iUpClueService.updateMatchTime(hm.get("up_aicode").toString(), date);
 									
 									//新增匹配线索
 									Static.iUpAiInfoService.addUpAiInfo(uai);
@@ -153,7 +175,17 @@ public class ClueMatchTask {
 						}
 						//不是初次匹配
 						else {
-							if(date.getDay()==onedate.getDay()) {
+							//系统时间与上传时间差
+							try {
+								Date d1 = df.parse(sysdate);
+								String firstMatchDate = df.format(onedate);
+								Date d2 = df.parse(firstMatchDate);
+								long days = (d1.getTime()-d2.getTime()+1000000)/(60*60*24*1000);
+								c = days % 30;
+							} catch (ParseException e) {
+								e.printStackTrace();
+							}
+							if( c == 0) {
 								if(grade.equals("2")) {
 									//会员等级2 匹配数等于上传总数
 									matchCount = count;
@@ -171,23 +203,30 @@ public class ClueMatchTask {
 									if(matchList != null && !matchList.isEmpty() && exitsMatchList != null && !exitsMatchList.isEmpty()) {
 										matchList.removeAll(exitsMatchList);
 									}
-									if(n==20) {
-										break;
-									}
 								}
 								//截取匹配数的线索
-								matchListxx = matchList.subList(0, matchCount);
+								if(matchList.size()>=matchCount) {
+									matchListxx = matchList.subList(0, matchCount);
+								}else if(matchList.size() < matchCount && matchList.size() != 0 ) {
+									matchListxx = matchList;
+								}else if(matchList.size()==0) {
+									continue;
+								}
 								for(int j=0;j<matchListxx.size();j++) {
 									hm = (HashMap) matchListxx.get(i);
+									id = UUID.randomUUID().toString().replace("-", "");
+									uai.setUpId(id);
 									uai.setUpAicode(hm.get("up_aicode").toString());//线索编号
 									uai.setUpAiphone(hm.get("up_aiphone").toString());//线索手机号
+									uai.setUpCluename(hm.get("up_cluename").toString());//线索名称
 									uai.setUpAiappraise("0");//意向状态
+									uai.setUpAistatus("2");//未拨打
 									uai.setUpAicreatetime(date);//创建时间
 									uai.setUpUsercode(userCode);//用户编码
 									uai.setUpAitimes(times+1);//批次
 									
 									//更新线索最新匹配时间
-									Static.iUpClueService.updateMatchTime(hm.get("up_clue_code").toString(), date);
+									Static.iUpClueService.updateMatchTime(hm.get("up_aicode").toString(), date);
 									
 									//新增匹配线索
 									Static.iUpAiInfoService.addUpAiInfo(uai);
@@ -241,11 +280,16 @@ public class ClueMatchTask {
 					}
 					jsm.setMatchLongitude(longitude);
 					jsm.setMatchLatitude(latitude);
+					jsm.setUpIseffective("1");
 					
 					//更新会员机构经纬度
 					Static.iMeberService.updateByPrimaryKey(jsm);
 				} catch (Exception e) {
 					e.printStackTrace();
+					//设置为无效用户，需重新录入地址
+					jsm.setUpIseffective("0");
+					Static.iMeberService.updateByPrimaryKey(jsm);
+					continue;
 				}
 			}
 		}
@@ -269,13 +313,41 @@ public class ClueMatchTask {
 					}
 					uc.setUpClueLongitude(longitude);
 					uc.setUpClueLatitude(latitude);
+					uc.setUpIseffective("1");
 					
 					//更新线索经纬度
 					Static.iUpClueService.updateByPrimaryKey(uc);
 				} catch (Exception e) {
 					e.printStackTrace();
+					//设置为无效线索，需重新录入地址
+					uc.setUpIseffective("0");
+					Static.iUpClueService.updateByPrimaryKey(uc);
+					continue;
 				}
 			}
+		}
+	}
+	
+	//获取AI外呼公钥
+	@SuppressWarnings("deprecation")
+	@Scheduled(cron="40 30 17 * * ?")
+	public void getAIToken() {
+		
+		logger.info("获取新的外呼公钥开始！");
+		
+		String token = AiUtil.getAccessToken();
+		if(token != null && !"".equals(token)) {
+			SysDictData sdd = Static.iSysDictDataService.getDictDataById("1");
+			if(sdd !=null) {
+				logger.info("当前token:"+sdd.getDictValue());
+				sdd.setDictValue(token);
+				logger.info("新token:"+sdd.getDictValue());
+			}
+			Static.iSysDictDataService.updateByPrimaryKey(sdd);
+			
+			logger.info("获取新的外呼公钥成功！");
+		}else {
+			logger.info("获取新的外呼公钥失败！未获取到公钥");
 		}
 	}
 }

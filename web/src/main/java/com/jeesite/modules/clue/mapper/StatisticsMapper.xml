@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.clue.mapper.StatisticsMapper" >
+	<select id="loginOrganDialStatistics" resultType="java.lang.Integer" parameterType="java.lang.String" >
+	  select count(*) from up_aitask t
+		WHERE t.up_status = '1'
+		and t.up_createUserCode = #{userCode} 
+		<if test="callInstanceStatus!=null and callInstanceStatus!=''">
+			and t.up_callInstanceStatus = #{callInstanceStatus}
+		</if>
+	</select>
+	<select id="loginOrganRecivedCount" resultType="java.lang.Integer" parameterType="java.lang.String" >
+	  select count(*) from up_aitask t 
+		where t.up_finishStatus = '0'
+		and t.up_createUserCode = #{userCode} 
+	</select>
+	<select id="loginOrganConnectRate"  resultType="java.lang.Integer" parameterType="java.lang.String" >
+	  select count(*) from up_aitask t
+		where t.up_status = '2'
+		and t.up_callInstanceStatus = '2'
+		and t.up_createUserCode = #{userCode}
+		<if test="finishStatus!=null and finishStatus!=''">
+			and t.up_finishStatus = #{finishStatus}
+		</if>
+	</select>
+	<select id="loginOrganTotalCallTime"  resultType="java.lang.Integer" parameterType="java.lang.String">
+	  select sum(t.up_talkTime) from up_aitask t
+		where t.up_createUserCode = #{userCode}
+		<if test="day gt 0">
+	  		and date(up_createTime) = date_sub(curdate(),interval #{day} day) 
+	  	</if>
+	</select>
+	<select id="loginOrganAICallCustomCount" resultType="java.lang.Integer" >
+	  select count(*) from up_aitask t where
+	  	t.up_createUserCode = #{userCode}
+	  	and t.up_status='2' 
+	  	<if test="day gt -1">
+	  		and date(up_createTime) = date_sub(curdate(),interval #{day} day) 
+	  	</if>
+	</select>
+	<select id="loginOrganTotalIntentionCount" resultType="java.lang.Integer">
+	  select count(*) from up_aitask t where
+	  	t.up_createUserCode = #{userCode}
+	  	and t.up_aiappraise ='2'
+	  	<if test="day gt -1">
+	  		and date(up_createTime) = date_sub(curdate(),interval #{day} day) 
+	  	</if>
+	</select>
+	<select id="loginOrganAnswerdCount" resultType="java.lang.Integer">
+	  select count(*) from up_aitask t where
+	  	t.up_createUserCode = #{userCode}
+	  	and t.up_finishStatus ='0'
+	  	<if test="day gt 0">
+	  		and date(up_createTime) = date_sub(curdate(),interval #{day} day) 
+	  	</if>
+	</select>
+</mapper>
