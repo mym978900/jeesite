@@ -15,6 +15,8 @@ public class JsSysMember {
     private String organClass;
 
     private String memberGrade;
+    
+    private Date memberCreatetime;
 
     private String memberOvertime;
 
@@ -89,6 +91,14 @@ public class JsSysMember {
     public void setMemberGrade(String memberGrade) {
         this.memberGrade = memberGrade == null ? null : memberGrade.trim();
     }
+    
+	public Date getMemberCreatetime() {
+		return memberCreatetime;
+	}
+
+	public void setMemberCreatetime(Date memberCreatetime) {
+		this.memberCreatetime = memberCreatetime;
+	}
 
     public String getMemberOvertime() {
         return memberOvertime;
@@ -225,14 +235,8 @@ public class JsSysMember {
     public void setUpIseffective(String upIseffective) {
         this.upIseffective = upIseffective == null ? null : upIseffective.trim();
     }
-    private Date memberCreatetime;
 
-	public Date getMemberCreatetime() {
-		return memberCreatetime;
-	}
 
-	public void setMemberCreatetime(Date memberCreatetime) {
-		this.memberCreatetime = memberCreatetime;
-	}
+
     
 }
