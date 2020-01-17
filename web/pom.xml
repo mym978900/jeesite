@@ -216,11 +216,11 @@
 		</dependency>
 
 		<!-- ai外呼-->
-		<!-- <dependency>
+		<dependency>
 			<groupId>com.bying</groupId>
 		 	<artifactId>open-sdk-java</artifactId>
 		 	<version>1.0.0</version>
-		</dependency> -->
+		</dependency>
 
 		<!-- 自定义jar依赖包演示
 		<dependency>
