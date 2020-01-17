@@ -225,28 +225,14 @@ public class JsSysMember {
     public void setUpIseffective(String upIseffective) {
         this.upIseffective = upIseffective == null ? null : upIseffective.trim();
     }
-    
-    public String getUpIseffective() {
-        return upIseffective;
-    }
+    private Date memberCreatetime;
 
-    public void setUpIseffective(String upIseffective) {
-        this.upIseffective = upIseffective == null ? null : upIseffective.trim();
-    }
-    
-    public String getUpIseffective() {
-        return upIseffective;
-    }
+	public Date getMemberCreatetime() {
+		return memberCreatetime;
+	}
 
-    public void setUpIseffective(String upIseffective) {
-        this.upIseffective = upIseffective == null ? null : upIseffective.trim();
-    }
+	public void setMemberCreatetime(Date memberCreatetime) {
+		this.memberCreatetime = memberCreatetime;
+	}
     
-    public String getUpIseffective() {
-        return upIseffective;
-    }
-
-    public void setUpIseffective(String upIseffective) {
-        this.upIseffective = upIseffective == null ? null : upIseffective.trim();
-    }
 }
