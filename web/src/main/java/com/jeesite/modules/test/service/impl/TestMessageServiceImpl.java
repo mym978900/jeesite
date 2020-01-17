@@ -66,7 +66,6 @@ public class TestMessageServiceImpl implements TestMessageService {
 		try {
 			CommonResponse response = client.getCommonResponse(request);
 			System.out.println(response.getData());
-<<<<<<< HEAD
 			if (response != null && response.getHttpStatus() == 200) {
 				HttpSession session = req.getSession();
 				// 使用fastJson从放
@@ -79,7 +78,6 @@ public class TestMessageServiceImpl implements TestMessageService {
 				System.out.println("cccccccccccccccccccccc" + json2.getString(phone));
 				return 1;
 			}
-=======
 //			if (response != null && response.getHttpStatus() == 200) {
 //				HttpSession session = req.getSession();
 //				// 使用fastJson从放
@@ -92,7 +90,6 @@ public class TestMessageServiceImpl implements TestMessageService {
 //				System.out.println("cccccccccccccccccccccc"+json2.getString("password"));
 //				return 1;
 //			}
->>>>>>> refs/heads/xufeng
 
 			// 失效时间
 		} catch (ServerException e) {

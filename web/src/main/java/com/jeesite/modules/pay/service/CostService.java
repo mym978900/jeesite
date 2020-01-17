@@ -47,6 +47,4 @@ public interface CostService {
 	
 	String updateBalanceByCallTime(String userCode,Integer duration);
 
-	String updateBalanceByCallTime(String userCode, Integer duration);
-
 }

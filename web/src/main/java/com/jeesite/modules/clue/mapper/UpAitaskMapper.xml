@@ -513,5 +513,4 @@
   	update up_aitask set up_status = #{status}
   	where up_taskId = #{taskId}
   </update>
->>>>>>> refs/heads/xufeng
 </mapper>

@@ -27,6 +27,7 @@ import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.entity.JsSysOffice;
 import com.jeesite.modules.test.entity.JsSysOrder;
 import com.jeesite.modules.test.entity.JsSysUser;
+import com.jeesite.modules.test.mapper.JsSysMemberMapper;
 import com.jeesite.modules.test.mapper.JsSysOfficeMapper;
 import com.jeesite.modules.test.mapper.JsSysOrderMapper;
 import com.jeesite.modules.test.mapper.JsSysUserMapper;
@@ -43,6 +44,8 @@ public class MemberServiceImpl implements MemberService {
 	private JsSysOrderMapper jsSysOrderMapper;
 	@Autowired
 	private JsSysUserMapper jsSysUserMapper;
+	@Autowired
+	private JsSysMemberMapper jsSysMemberMapper;
 
 	@Override
 	public JsSysOffice getOffice(User user) {
@@ -71,46 +74,54 @@ public class MemberServiceImpl implements MemberService {
 		return jsSysOrderMapper.selectMoneyByTime(vo);
 	}
 
+	//获取需要匹配线索的会员
 	@Override
 	public List<JsSysMember> getClueMatchUser() {
-		// TODO Auto-generated method stub
+		List<JsSysMember> list = jsSysMemberMapper.getClueMatchUser();
+		if(list !=null && !list.isEmpty()) {
+			return list;
+		}
 		return null;
 	}
 
+	//获取机构品类
 	@Override
 	public String getDeptType(String loginCode) {
-		// TODO Auto-generated method stub
-		return null;
+		String deptType = jsSysMemberMapper.getDeptType(loginCode);
+		return deptType;
 	}
 
+	//更新初次匹配时间
 	@Override
-	public void updateOnedate(Date date, String userCode) {
-		// TODO Auto-generated method stub
-
+	public void updateOnedate(Date date,String userCode) {
+		jsSysMemberMapper.updateOnedate(date,userCode);
 	}
 
+	//更新用户最新匹配批次
 	@Override
 	public void updateAiTimes(String userCode, int times) {
-		// TODO Auto-generated method stub
-
+		jsSysMemberMapper.updateAiTimes(userCode,times);
 	}
 
+	//获取未标注经纬度的会员
 	@Override
 	public List<JsSysMember> getNoConfigAddress() {
-		// TODO Auto-generated method stub
+		List<JsSysMember> list = jsSysMemberMapper.getNoConfigAddress();
+		if(list !=null && !list.isEmpty()) {
+			return list;
+		}
 		return null;
 	}
 
 	@Override
 	public void updateByPrimaryKey(JsSysMember jsm) {
-		// TODO Auto-generated method stub
-
+		jsSysMemberMapper.updateByPrimaryKey(jsm);
 	}
 
 	@Override
 	public JsSysMember getMemberByAccountCode(String code) {
-		// TODO Auto-generated method stub
-		return null;
+		JsSysMember jsm = jsSysMemberMapper.getMemberByAccountCode(code);
+		return jsm;
 	}
 
 	@Override

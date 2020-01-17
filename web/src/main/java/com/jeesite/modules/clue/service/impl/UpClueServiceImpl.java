@@ -83,9 +83,4 @@ public class UpClueServiceImpl implements UpClueService{
 		return list;
 	}
 
-	@Override
-	public List getIntentionClue(IntentionVo itv) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
