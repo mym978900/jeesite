@@ -42,9 +42,10 @@ public class TestMessageServiceImpl implements TestMessageService {
 	private JsSysMemberMapper jsSysMemberMapper;
 
 	@Override
-	public Integer toGetMessage(HttpServletRequest req,String phone) {
+	public Integer toGetMessage(HttpServletRequest req, String phone) {
 		// TODO Auto-generated method stub
-		//HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		// HttpServletRequest req = ((ServletRequestAttributes)
+		// RequestContextHolder.getRequestAttributes()).getRequest();
 		DefaultProfile profile = DefaultProfile.getProfile("default", "LTAIIxKfL09legx7",
 				"fbsGtBZaAxDTLM1nwOSpPWDrlZJ1dm");
 		IAcsClient client = new DefaultAcsClient(profile);
@@ -69,12 +70,12 @@ public class TestMessageServiceImpl implements TestMessageService {
 				HttpSession session = req.getSession();
 				// 使用fastJson从放
 				js = new JSONObject();
-				js.put("password", password);
+				js.put(phone, password);
 				js.put("createTime", System.currentTimeMillis());
 				// 将验证码存入SESSION
-				session.setAttribute("password", js);
-				JSONObject json2 = (JSONObject) req.getSession().getAttribute("password");
-				System.out.println("cccccccccccccccccccccc"+json2.getString("password"));
+				session.setAttribute(phone, js);
+				JSONObject json2 = (JSONObject) req.getSession().getAttribute(phone);
+				System.out.println("cccccccccccccccccccccc" + json2.getString(phone));
 				return 1;
 			}
 
@@ -91,36 +92,36 @@ public class TestMessageServiceImpl implements TestMessageService {
 	public Integer toUpdatePhone(HttpServletResponse response, Model model, UpdatePhoneVo vo) {
 		// TODO Auto-generated method stub
 		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
-		boolean boo=PasswordUtil.checkPassword(vo.getPassword(), userVo.getUser().getPassword());
-		boolean i=false;
-		if (boo==i) {
-			return 3;//密码错误
+		boolean boo = PasswordUtil.checkPassword(vo.getPassword(), userVo.getUser().getPassword());
+		boolean i = false;
+		if (boo == i) {
+			return 3;// 密码错误
 		}
 		JsSysUser user = new JsSysUser();
 		user.setLoginCode(vo.getNewphone());
 		user.setUserCode(userVo.getUser().getUserCode());
 		int num = jsSysUserMapper.updateByPrimaryKeySelective(user);
-		JsSysMember mem=new JsSysMember();
+		JsSysMember mem = new JsSysMember();
 		mem.setAccountNumber(vo.getNewphone());
 		mem.setSerialNumber(vo.getSerialNumber());
-		int now=jsSysMemberMapper.updateByPrimaryKeySelective(mem);
-		if (num != 1||now !=1) {
-			return 4;//绑定失败
+		int now = jsSysMemberMapper.updateByPrimaryKeySelective(mem);
+		if (num != 1 || now != 1) {
+			return 4;// 绑定失败
 		}
-		return 5;//绑定成功
+		return 5;// 绑定成功
 	}
 
 	@Override
 	public Integer toUpdatePass(HttpServletResponse response, Model model, UpdatePhoneVo vo) {
 		// TODO Auto-generated method stub
 		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
-		boolean boo=PasswordUtil.checkPassword(vo.getPassword(), userVo.getUser().getPassword());
-		boolean i=false;
-		if (boo==i) {
+		boolean boo = PasswordUtil.checkPassword(vo.getPassword(), userVo.getUser().getPassword());
+		boolean i = false;
+		if (boo == i) {
 			return 0;// 密码输入错误
 		}
 		JsSysUser user = new JsSysUser();
-		String newPassword=PasswordUtil.getPassword(vo.getNewpassword());
+		String newPassword = PasswordUtil.getPassword(vo.getNewpassword());
 		user.setPassword(newPassword);
 		user.setUserCode(userVo.getUser().getUserCode());
 		int num = jsSysUserMapper.updateByPrimaryKeySelective(user);
@@ -134,8 +135,8 @@ public class TestMessageServiceImpl implements TestMessageService {
 	public Integer checkUserIsOld(HttpServletResponse response, Model model) {
 		// TODO Auto-generated method stub
 		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
-		JsSysMember member=jsSysMemberMapper.selectMemberByNumber(userVo.getUser().getLoginCode());
-		if (member==null) {
+		JsSysMember member = jsSysMemberMapper.selectMemberByNumber(userVo.getUser().getLoginCode());
+		if (member == null) {
 			return 0;
 		}
 		return 1;
@@ -145,8 +146,60 @@ public class TestMessageServiceImpl implements TestMessageService {
 	public JsSysMember getMemberByLoginCode(HttpServletResponse response, Model model) {
 		// TODO Auto-generated method stub
 		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
-		JsSysMember member=jsSysMemberMapper.selectMemberByNumber(userVo.getUser().getLoginCode());
+		JsSysMember member = jsSysMemberMapper.selectMemberByNumber(userVo.getUser().getLoginCode());
 		return member;
+	}
+
+	@Override
+	public Integer toUpdatePassByLogin(GetUserVo userVo, UpdatePhoneVo vo) {
+		// TODO Auto-generated method stub
+		boolean boo = PasswordUtil.checkPassword(vo.getPassword(), userVo.getUser().getPassword());
+		boolean i = false;
+		if (boo == i) {
+			return 3;// 密码输入错误
+		}
+		JsSysUser user = new JsSysUser();
+		String newPassword = PasswordUtil.getPassword(vo.getNewpassword());
+		user.setPassword(newPassword);
+		user.setUserCode(userVo.getUser().getUserCode());
+		int num = jsSysUserMapper.updateByPrimaryKeySelective(user);
+		if (num != 1) {
+			return 4;// 修改失败
+		}
+		return 5;// 修改成功
+	}
+
+	@Override
+	public void toGetMessageByApply(HttpServletRequest req, String phone) {
+		// TODO Auto-generated method stub
+		// HttpServletRequest req = ((ServletRequestAttributes)
+		// RequestContextHolder.getRequestAttributes()).getRequest();
+		DefaultProfile profile = DefaultProfile.getProfile("default", "LTAIIxKfL09legx7",
+				"fbsGtBZaAxDTLM1nwOSpPWDrlZJ1dm");
+		IAcsClient client = new DefaultAcsClient(profile);
+
+		String password = new Random().nextInt(899999) + 100000 + "";
+		CommonRequest request = new CommonRequest();
+		request.setMethod(MethodType.POST);
+		request.setDomain("dysmsapi.aliyuncs.com");
+		request.setVersion("2017-05-25");
+		request.setAction("SendSms");
+		request.putQueryParameter("RegionId", "default");
+		request.putQueryParameter("PhoneNumbers", phone);
+		request.putQueryParameter("SignName", "\u4fee\u914d\u8fde");
+		request.putQueryParameter("TemplateCode", "SMS_172884080");
+		request.putQueryParameter("TemplateParam", "{\"num\":\"" + password + "\"}");
+		String json = JSONUtils.toJSONString(password);
+		try {
+			CommonResponse response = client.getCommonResponse(request);
+			System.out.println(response.getData());
+			
+			// 失效时间
+		} catch (ServerException e) {
+			e.printStackTrace();
+		} catch (ClientException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

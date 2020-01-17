@@ -728,4 +728,10 @@
       extend_d4 = #{extendD4,jdbcType=TIMESTAMP}
     where user_code = #{userCode,jdbcType=VARCHAR}
   </update>
+  <select id="selectByLoginCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_sys_user
+    where login_code = #{loginCode,jdbcType=VARCHAR}
+  </select>
 </mapper>

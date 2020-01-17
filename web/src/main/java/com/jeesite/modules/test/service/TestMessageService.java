@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.ui.Model;
 
 import com.jeesite.modules.test.entity.JsSysMember;
+import com.jeesite.modules.test.vo.GetUserVo;
 import com.jeesite.modules.test.vo.UpdatePhoneVo;
 
 public interface TestMessageService {
@@ -19,4 +20,8 @@ public interface TestMessageService {
 	Integer checkUserIsOld(HttpServletResponse response, Model model);
 
 	JsSysMember getMemberByLoginCode(HttpServletResponse response, Model model);
+
+	Integer toUpdatePassByLogin(GetUserVo vo, UpdatePhoneVo vo2);
+
+	void toGetMessageByApply(HttpServletRequest request, String string);
 }

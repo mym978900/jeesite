@@ -28,7 +28,16 @@ public interface JsSysMemberMapper extends BaseMapper<JsSysMember>{
 	List<JsSysMember> getNoConfigAddress();
 
 	//通过登录账号获取会员信息
-	JsSysMember getMemberByAccountCode(String code);
+	JsSysMember getMemberByAccountCode(String userCode);
 
 	JsSysMember selectMemberByNumber(String loginCode);
+
+	Integer findMemberNum();
+
+	Integer findMemberNumByMonth();
+
+	Integer findClueNum();
+
+	Integer findClueNumByMonth();
+
 }

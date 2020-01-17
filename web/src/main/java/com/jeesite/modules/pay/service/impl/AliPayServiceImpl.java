@@ -274,9 +274,9 @@ public class AliPayServiceImpl implements IAliPayService {
 		
 		logger.info("支付宝PC支付下单");
 		AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
-		String returnUrl = "http://93a46a3b.ngrok.io/js/a/alipay/frontRcvResponse";
+		String returnUrl = "http://283f836h51.zicp.vip:19868/js/a/alipay/frontRcvResponse";
 		alipayRequest.setReturnUrl(returnUrl);// 前台通知
-		alipayRequest.setNotifyUrl("http://93a46a3b.ngrok.io/js/a/alipay/pay");// 后台回调
+		alipayRequest.setNotifyUrl("http://283f836h51.zicp.vip:19868/js/a/alipay/pay");// 后台回调
 		JSONObject bizContent = new JSONObject();
 		String outTradeNo=CommonUtils.generateUUID();
 		bizContent.put("out_trade_no", outTradeNo);

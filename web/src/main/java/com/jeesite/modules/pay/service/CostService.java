@@ -13,6 +13,7 @@ import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.entity.JsSysSeat;
 import com.jeesite.modules.test.entity.JsSysSetmeal;
 import com.jeesite.modules.test.entity.VideoOrder;
+import com.jeesite.modules.test.vo.AitaskVo;
 import com.jeesite.modules.test.vo.CostVo;
 
 public interface CostService {
@@ -30,6 +31,20 @@ public interface CostService {
 
 	Integer toBalancePayment(Product product, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException;
 
-	String getUpGradeMoney(Product product, HttpServletResponse response, Model model) throws ParseException;
+	Product getUpGradeMoney(Product product, HttpServletResponse response, Model model) throws ParseException;
+
+	List<AitaskVo> getDateStatistics();
+
+	List<AitaskVo> getMonthStatistics();
+
+	Integer findMemberNum();
+
+	Integer findMemberNumByMonth();
+
+	Integer findClueNum();
+
+	Integer findClueNumByMonth();
+	
+	String updateBalanceByCallTime(String userCode,Integer duration);
 
 }

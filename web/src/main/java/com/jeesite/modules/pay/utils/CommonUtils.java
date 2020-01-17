@@ -15,7 +15,7 @@ public class CommonUtils {
      */
     public static String generateUUID(){
         String uuid = UUID.randomUUID().toString().
-                replaceAll("-","").substring(0,32);
+                replaceAll("-","").substring(0,16);
 
         return uuid;
     }

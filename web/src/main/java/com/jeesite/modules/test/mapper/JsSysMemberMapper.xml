@@ -7,6 +7,7 @@
     <result column="organ_name" property="organName" jdbcType="VARCHAR" />
     <result column="organ_class" property="organClass" jdbcType="VARCHAR" />
     <result column="member_grade" property="memberGrade" jdbcType="CHAR" />
+    <result column="member_createtime" property="memberCreatetime" jdbcType="TIMESTAMP" />
     <result column="member_overtime" property="memberOvertime" jdbcType="VARCHAR" />
     <result column="organ_address" property="organAddress" jdbcType="VARCHAR" />
     <result column="detail_address" property="detailAddress" jdbcType="VARCHAR" />
@@ -23,12 +24,13 @@
     <result column="clue_count" property="clueCount" jdbcType="INTEGER" />
     <result column="ai_times" property="aiTimes" jdbcType="INTEGER" />
     <result column="user_code" property="userCode" jdbcType="VARCHAR" />
+    <result column="up_isEffective" property="upIseffective" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    serial_number, account_number, organ_name, organ_class, member_grade, member_overtime, 
-    organ_address, detail_address, organ_phone, organ_man, organ_manphone, organ_hava, 
-    reserve_field1, reserve_dield2, match_update, match_onedate, match_longitude, match_latitude, 
-    clue_count, ai_times, user_code
+    serial_number, account_number, organ_name, organ_class, member_grade, member_createtime, 
+    member_overtime, organ_address, detail_address, organ_phone, organ_man, organ_manphone, 
+    organ_hava, reserve_field1, reserve_dield2, match_update, match_onedate, match_longitude, 
+    match_latitude, clue_count, ai_times, user_code, up_isEffective
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -36,50 +38,27 @@
     from js_sys_member
     where serial_number = #{serialNumber,jdbcType=VARCHAR}
   </select>
-  <select id="selectAllMember" resultMap="BaseResultMap" parameterType="com.jeesite.modules.test.vo.MemberVo" >
-    select 
-    <include refid="Base_Column_List" />
-    from js_sys_member where 1=1
-    <if test="startTime!=null and startTime!=''">
-      and DATE(member_overtime) <![CDATA[ >= ]]> DATE(#{startTime})
-    </if>
-    <if test="endTime!=null and endTime!=''">
-      and DATE(member_overtime) <![CDATA[ <= ]]> DATE(#{endTime})
-    </if>
-    <if test="organName!=null and organName!=''">
-      and organ_name like '%${organName}%'
-    </if>
-    <if test="memberGrade!=null and memberGrade!=''">
-      and member_grade = #{memberGrade}
-    </if>
-  </select>
-  <select id="selectMemberByNumber" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from js_sys_member
-    where account_number = #{accountNumber,jdbcType=VARCHAR}
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from js_sys_member
     where serial_number = #{serialNumber,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysMember" >
     insert into js_sys_member (serial_number, account_number, organ_name, 
-      organ_class, member_grade, member_overtime, 
-      organ_address, detail_address, organ_phone, 
-      organ_man, organ_manphone, organ_hava, 
-      reserve_field1, reserve_dield2, match_update, 
-      match_onedate, match_longitude, match_latitude, 
-      clue_count, ai_times, user_code
-      )
+      organ_class, member_grade, member_createtime, 
+      member_overtime, organ_address, detail_address, 
+      organ_phone, organ_man, organ_manphone, 
+      organ_hava, reserve_field1, reserve_dield2, 
+      match_update, match_onedate, match_longitude, 
+      match_latitude, clue_count, ai_times, 
+      user_code, up_isEffective)
     values (#{serialNumber,jdbcType=VARCHAR}, #{accountNumber,jdbcType=VARCHAR}, #{organName,jdbcType=VARCHAR}, 
-      #{organClass,jdbcType=VARCHAR}, #{memberGrade,jdbcType=CHAR}, #{memberOvertime,jdbcType=VARCHAR}, 
-      #{organAddress,jdbcType=VARCHAR}, #{detailAddress,jdbcType=VARCHAR}, #{organPhone,jdbcType=VARCHAR}, 
-      #{organMan,jdbcType=VARCHAR}, #{organManphone,jdbcType=VARCHAR}, #{organHava,jdbcType=VARCHAR}, 
-      #{reserveField1,jdbcType=VARCHAR}, #{reserveDield2,jdbcType=VARCHAR}, #{matchUpdate,jdbcType=DATE}, 
-      #{matchOnedate,jdbcType=DATE}, #{matchLongitude,jdbcType=DOUBLE}, #{matchLatitude,jdbcType=DOUBLE}, 
-      #{clueCount,jdbcType=INTEGER}, #{aiTimes,jdbcType=INTEGER}, #{userCode,jdbcType=VARCHAR}
-      )
+      #{organClass,jdbcType=VARCHAR}, #{memberGrade,jdbcType=CHAR}, #{memberCreatetime,jdbcType=TIMESTAMP}, 
+      #{memberOvertime,jdbcType=VARCHAR}, #{organAddress,jdbcType=VARCHAR}, #{detailAddress,jdbcType=VARCHAR}, 
+      #{organPhone,jdbcType=VARCHAR}, #{organMan,jdbcType=VARCHAR}, #{organManphone,jdbcType=VARCHAR}, 
+      #{organHava,jdbcType=VARCHAR}, #{reserveField1,jdbcType=VARCHAR}, #{reserveDield2,jdbcType=VARCHAR}, 
+      #{matchUpdate,jdbcType=DATE}, #{matchOnedate,jdbcType=DATE}, #{matchLongitude,jdbcType=DOUBLE}, 
+      #{matchLatitude,jdbcType=DOUBLE}, #{clueCount,jdbcType=INTEGER}, #{aiTimes,jdbcType=INTEGER}, 
+      #{userCode,jdbcType=VARCHAR}, #{upIseffective,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysMember" >
     insert into js_sys_member
@@ -98,6 +77,9 @@
       </if>
       <if test="memberGrade != null" >
         member_grade,
+      </if>
+      <if test="memberCreatetime != null" >
+        member_createtime,
       </if>
       <if test="memberOvertime != null" >
         member_overtime,
@@ -147,6 +129,9 @@
       <if test="userCode != null" >
         user_code,
       </if>
+      <if test="upIseffective != null" >
+        up_isEffective,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="serialNumber != null" >
@@ -163,6 +148,9 @@
       </if>
       <if test="memberGrade != null" >
         #{memberGrade,jdbcType=CHAR},
+      </if>
+      <if test="memberCreatetime != null" >
+        #{memberCreatetime,jdbcType=TIMESTAMP},
       </if>
       <if test="memberOvertime != null" >
         #{memberOvertime,jdbcType=VARCHAR},
@@ -212,6 +200,9 @@
       <if test="userCode != null" >
         #{userCode,jdbcType=VARCHAR},
       </if>
+      <if test="upIseffective != null" >
+        #{upIseffective,jdbcType=CHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.test.entity.JsSysMember" >
@@ -228,6 +219,9 @@
       </if>
       <if test="memberGrade != null" >
         member_grade = #{memberGrade,jdbcType=CHAR},
+      </if>
+      <if test="memberCreatetime != null" >
+        member_createtime = #{memberCreatetime,jdbcType=TIMESTAMP},
       </if>
       <if test="memberOvertime != null" >
         member_overtime = #{memberOvertime,jdbcType=VARCHAR},
@@ -277,6 +271,9 @@
       <if test="userCode != null" >
         user_code = #{userCode,jdbcType=VARCHAR},
       </if>
+      <if test="upIseffective != null" >
+        up_isEffective = #{upIseffective,jdbcType=CHAR},
+      </if>
     </set>
     where serial_number = #{serialNumber,jdbcType=VARCHAR}
   </update>
@@ -286,6 +283,7 @@
       organ_name = #{organName,jdbcType=VARCHAR},
       organ_class = #{organClass,jdbcType=VARCHAR},
       member_grade = #{memberGrade,jdbcType=CHAR},
+      member_createtime = #{memberCreatetime,jdbcType=TIMESTAMP},
       member_overtime = #{memberOvertime,jdbcType=VARCHAR},
       organ_address = #{organAddress,jdbcType=VARCHAR},
       detail_address = #{detailAddress,jdbcType=VARCHAR},
@@ -301,9 +299,33 @@
       match_latitude = #{matchLatitude,jdbcType=DOUBLE},
       clue_count = #{clueCount,jdbcType=INTEGER},
       ai_times = #{aiTimes,jdbcType=INTEGER},
-      user_code = #{userCode,jdbcType=VARCHAR}
+      user_code = #{userCode,jdbcType=VARCHAR},
+      up_isEffective = #{upIseffective,jdbcType=CHAR}
     where serial_number = #{serialNumber,jdbcType=VARCHAR}
   </update>
+  <select id="selectAllMember" resultMap="BaseResultMap" parameterType="com.jeesite.modules.test.vo.MemberVo" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_sys_member where 1=1
+    <if test="startTime!=null and startTime!=''">
+      and DATE(member_overtime) <![CDATA[ >= ]]> DATE(#{startTime})
+    </if>
+    <if test="endTime!=null and endTime!=''">
+      and DATE(member_overtime) <![CDATA[ <= ]]> DATE(#{endTime})
+    </if>
+    <if test="organName!=null and organName!=''">
+      and organ_name like '%${organName}%'
+    </if>
+    <if test="memberGrade!=null and memberGrade!=''">
+      and member_grade = #{memberGrade}
+    </if>
+  </select>
+  <select id="selectMemberByNumber" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from js_sys_member
+    where account_number = #{accountNumber,jdbcType=VARCHAR}
+  </select>
   <select id="getClueMatchUser" resultMap="BaseResultMap" parameterType="com.jeesite.modules.test.entity.JsSysMember">
   	select 
   	<include refid="Base_Column_List" />
@@ -333,6 +355,19 @@
   	select
   	<include refid="Base_Column_List" />
   	from js_sys_member
-  	where user_code = #{code}
+  	where user_code = #{userCode}
   </select>
+  <select id="findMemberNum" resultType="java.lang.Integer">
+  	SELECT COUNT(*) from js_sys_member;
+  </select>
+  <select id="findClueNum" resultType="java.lang.Integer">
+    SELECT SUM(clue_count) from js_sys_member;
+  </select>
+  <select id="findMemberNumByMonth" resultType="java.lang.Integer">
+    SELECT COUNT(*) from js_sys_member where DATE_FORMAT(member_createtime, '%Y-%m')=DATE_FORMAT(NOW(), '%Y-%m');
+  </select>
+  <select id="findClueNumByMonth" resultType="java.lang.Integer">
+    SELECT COUNT(*) from up_clue where DATE_FORMAT(up_clue_time, '%Y-%m')=DATE_FORMAT(NOW(), '%Y-%m');
+  </select>
+ 
 </mapper>

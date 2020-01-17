@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.jeesite.modules.clue.mapper.UpAitaskMapper;
 import com.jeesite.modules.pay.model.Product;
 import com.jeesite.modules.pay.service.CostService;
 import com.jeesite.modules.pay.service.IAliPayService;
@@ -30,6 +31,7 @@ import com.jeesite.modules.test.mapper.JsSysSetmealMapper;
 import com.jeesite.modules.test.mapper.VideoOrderMapper;
 import com.jeesite.modules.test.util.DailyUtil;
 import com.jeesite.modules.test.util.PasswordUtil;
+import com.jeesite.modules.test.vo.AitaskVo;
 import com.jeesite.modules.test.vo.CostVo;
 import com.jeesite.modules.test.vo.GetUserVo;
 
@@ -43,6 +45,8 @@ public class CostServiceImpl implements CostService {
 	private JsSysSeatMapper jsSysSeatMapper;
 	@Autowired
 	private VideoOrderMapper videoOrderMapper;
+	@Autowired
+	private UpAitaskMapper upAitaskMapper;
 
 	@Override
 	public List<JsSysSetmeal> findAllMeal() {
@@ -208,7 +212,7 @@ public class CostServiceImpl implements CostService {
 	}
 
 	@Override
-	public String getUpGradeMoney(Product product, HttpServletResponse response, Model model) throws ParseException {
+	public Product getUpGradeMoney(Product product, HttpServletResponse response, Model model) throws ParseException {
 		// TODO Auto-generated method stub
 		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
 		// 升级的套餐
@@ -244,6 +248,76 @@ public class CostServiceImpl implements CostService {
 		DecimalFormat df = new DecimalFormat("0.00");// 格式化小数
 		String s = df.format(num);// 返回的是String类型
 		System.out.println(s);
-		return Math.round(Double.valueOf(s) * betweenDays) + ".00";
+		Long l=Math.round(Double.valueOf(s) * betweenDays);
+		System.out.println(l);
+		String str=String.format("%.2f",(Double.valueOf(l)));
+		Product prod=new Product();
+		prod.setTotalFee(str);
+		return prod;
+	}
+
+	@Override
+	public List<AitaskVo> getDateStatistics() {
+		// TODO Auto-generated method stub
+		List<AitaskVo> aitaskVos=upAitaskMapper.getDateStatisticsByDay();
+		return aitaskVos;
+	}
+
+	@Override
+	public List<AitaskVo> getMonthStatistics() {
+		// TODO Auto-generated method stub
+		List<AitaskVo> aitaskVos=upAitaskMapper.getDateStatisticsByMonth();
+		return aitaskVos;
+	}
+
+	@Override
+	public Integer findMemberNum() {
+		// TODO Auto-generated method stub
+		return jsSysMemberMapper.findMemberNum();
+	}
+
+	@Override
+	public Integer findMemberNumByMonth() {
+		// TODO Auto-generated method stub
+		return jsSysMemberMapper.findMemberNumByMonth();
+	}
+
+	@Override
+	public Integer findClueNum() {
+		// TODO Auto-generated method stub
+		return jsSysMemberMapper.findClueNum();
+	}
+
+	@Override
+	public Integer findClueNumByMonth() {
+		// TODO Auto-generated method stub
+		return jsSysMemberMapper.findClueNumByMonth();
+	}
+
+	@Override
+	public String updateBalanceByCallTime(String userCode, Integer duration) {
+		// TODO Auto-generated method stub
+		//获取用户会员信息
+		JsSysMember member=jsSysMemberMapper.getMemberByAccountCode(userCode);
+		//分钟数
+		int temp=duration/60;
+		if (duration % 60!=0) {
+			temp=temp+1;
+		}
+		//应扣金额
+		Double reduceMondy=0.15 * temp;
+		//比较
+		if (reduceMondy <= Double.valueOf(member.getReserveField1())+10) {
+			//修改余额
+			String balanceMoney=String.format("%.2f",(Double.valueOf(member.getReserveField1())-reduceMondy));
+			JsSysMember mem=new JsSysMember();
+			mem.setSerialNumber(member.getSerialNumber());
+			mem.setReserveField1(balanceMoney);
+			int num=jsSysMemberMapper.updateByPrimaryKeySelective(mem);
+			if (num==1) {
+				return reduceMondy+"";
+			}
+		}
+		return "0";
 	}
 }

@@ -1,6 +1,7 @@
 package com.jeesite.modules.test.util;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
@@ -53,5 +54,21 @@ public class DailyUtil {
 		}
 		return newDate + result;
 	}
-	
+
+	public static String getDayAgo(int day) {
+		Calendar calendar1 = Calendar.getInstance();
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+		calendar1.add(Calendar.DATE, -day);
+		String three_days_ago = sdf1.format(calendar1.getTime());
+		return three_days_ago;
+	}
+
+	public static String getMonthAgo(int i) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		c.add(Calendar.MONTH, -i);
+		Date m = c.getTime();
+		return sdf.format(m);
+	}
 }

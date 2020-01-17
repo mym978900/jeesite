@@ -593,4 +593,23 @@ public class JsSysUser {
     public void setExtendD4(Date extendD4) {
         this.extendD4 = extendD4;
     }
+
+	public JsSysUser(String userCode, String loginCode, String userName, String password, String mgrType, String status,
+			String createBy, Date createDate) {
+		super();
+		this.userCode = userCode;
+		this.loginCode = loginCode;
+		this.userName = userName;
+		this.password = password;
+		this.mgrType = mgrType;
+		this.status = status;
+		this.createBy = createBy;
+		this.createDate = createDate;
+	}
+
+	public JsSysUser() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+    
 }

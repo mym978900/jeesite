@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.jeesite.modules.sys.entity.User;
 import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.entity.JsSysOffice;
@@ -48,4 +50,6 @@ public interface MemberService {
 	List<JsSysOrder> findOrderByLimit(FlowingWaterVo vo);
 
 	BigDecimal selectMoneyByTime(FlowingWaterVo vo);
+
+	Integer toGetMessage(HttpServletRequest request, String phone);
 }

@@ -8,27 +8,28 @@ import java.util.Date;
 
 import org.springframework.util.ClassUtils;
 
+import com.jeesite.common.codec.EncodeUtils;
+import com.jeesite.common.codec.Sha1Utils;
+
 public class Test {
+	public static final String HASH_ALGORITHM = "SHA-1";
+	public static final int HASH_INTERATIONS = 1024;
+	public static final int SALT_SIZE = 8;
 	public static final String SF_FILE_SEPARATOR = System.getProperty("file.separator");
 
-	public static void main(String[] args) throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date date = sdf.parse("2020-02-30 10:10:10");
-		// 获取相差的天数
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(new Date());
-		long timeInMillis1 = calendar.getTimeInMillis();
-		calendar.setTime(date);
-		long timeInMillis2 = calendar.getTimeInMillis();
+	public static void main(String[] args) {
+		Double a=10.9;
+		//Double b=10;
+		System.out.println(0.15*100);
+		System.out.println(getPassword("qweqwe"));
+		
+	}
 
-		long betweenDays = (timeInMillis2 - timeInMillis1) / (1000L * 3600L * 24L);
-		float num= (float)(5003-1034)/4;   
-		DecimalFormat df = new DecimalFormat("0.00");//格式化小数   
-		String s = df.format(num);//返回的是String类型
-		System.out.println(s);
-		long l=Math.round(Double.valueOf(s)*33);
-		System.out.println(Double.valueOf(s));
-	    System.out.println(Math.round(Double.valueOf(s)*33)+".00");
-	    
+	// 获取用户密文密码
+	public static String getPassword(String plaintext) {
+		String plain = EncodeUtils.decodeHtml(plaintext);
+		byte[] salt = Sha1Utils.genSalt(SALT_SIZE);
+		byte[] hashPassword = Sha1Utils.sha1(plain.getBytes(), salt, HASH_INTERATIONS);
+		return EncodeUtils.encodeHex(salt) + EncodeUtils.encodeHex(hashPassword);
 	}
 }

@@ -18,6 +18,7 @@ import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.entity.JsSysUser;
 import com.jeesite.modules.test.mapper.JsSysApplyMapper;
 import com.jeesite.modules.test.mapper.JsSysMemberMapper;
+import com.jeesite.modules.test.mapper.JsSysUserMapper;
 import com.jeesite.modules.test.service.AccountService;
 import com.jeesite.modules.test.util.DailyUtil;
 import com.jeesite.modules.test.vo.AccountVo;
@@ -31,6 +32,8 @@ public class AccountServiceImpl implements AccountService {
 	private JsSysApplyMapper jsSysApplyMapper;
 	@Autowired
 	private JsSysMemberMapper jsSysMemberMapper;
+	@Autowired
+	private JsSysUserMapper jsSysUserMapper;
 
 	@Override
 	public List<JsSysApply> findApplyByLimit(AccountVo vo) {
@@ -76,7 +79,12 @@ public class AccountServiceImpl implements AccountService {
 		member.setAccountNumber(userVo.getUser().getLoginCode());
 		member.setSerialNumber(DailyUtil.getUuid());
 		member.setMemberGrade("0");
-		member.setMemberOvertime("-");
+		member.setReserveField1("0");
+		member.setReserveDield2("0");
+		member.setMemberCreatetime(new Date());
+		member.setMemberOvertime("今日");
+		JsSysUser user = jsSysUserMapper.selectByLoginCode(userVo.getUser().getLoginCode());
+		member.setUserCode(user.getUserCode());
 		return jsSysMemberMapper.insertSelective(member);
 	}
 

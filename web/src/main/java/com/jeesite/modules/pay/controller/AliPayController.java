@@ -247,7 +247,7 @@ public class AliPayController {
 			// 处理异常信息
 		}
 		// 支付成功、跳转到成功页面
-		return "alipay/pay";
+		return "pay/testTreeList";
 	}
 
 }

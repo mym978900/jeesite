@@ -107,7 +107,7 @@ public class AccountNumController {
 		if (num != 1) {
 			return 0;// 添加失败
 		}
-		messageService.toGetMessage(request, "17633603265");
+		messageService.toGetMessageByApply(request, "17633603265");
 		return 1;// 成功
 
 	}
@@ -115,7 +115,7 @@ public class AccountNumController {
 	// 添加会员信息
 	@RequestMapping(value = "insertMember")
 	@ResponseBody
-	public Integer insertMember(@RequestBody JsSysMember member, HttpServletResponse response, Model model) {
+	public Integer insertMember(JsSysMember member, HttpServletResponse response, Model model) {
 		Integer num = accountService.insertMember(member, response, model);
 		if (num != 1) {
 			return 0;// 添加失败

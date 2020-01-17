@@ -14,4 +14,6 @@ public interface JsSysUserMapper {
     int updateByPrimaryKeySelective(JsSysUser record);
 
     int updateByPrimaryKey(JsSysUser record);
+
+	JsSysUser selectByLoginCode(String loginCode);
 }

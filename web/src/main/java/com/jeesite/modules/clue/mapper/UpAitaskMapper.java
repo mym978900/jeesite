@@ -1,6 +1,9 @@
 package com.jeesite.modules.clue.mapper;
 
+import java.util.List;
+
 import com.jeesite.modules.clue.entity.UpAitask;
+import com.jeesite.modules.test.vo.AitaskVo;
 
 public interface UpAitaskMapper {
     int insert(UpAitask record);
@@ -12,4 +15,8 @@ public interface UpAitaskMapper {
 
 	//通过任务id更新任务对象
 	void updateAitask(UpAitask upAitask);
+
+	List<AitaskVo> getDateStatisticsByDay();
+
+	List<AitaskVo> getDateStatisticsByMonth();
 }

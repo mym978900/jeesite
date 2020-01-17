@@ -82,4 +82,12 @@ public class MemberController {
 		BigDecimal decimal = memberService.selectMoneyByTime(vo);
 		return new FlowingWaterVo(null, null, vo.getStartTime(), vo.getEndTime(), null, decimal);
 	}
+
+	// 申请通过后添加登录用户信息
+	@RequestMapping(value = "toInuser")
+	@ResponseBody
+	public Integer getMessage(HttpServletRequest request, String phone) {
+
+		return memberService.toGetMessage(request, phone);
+	}
 }
