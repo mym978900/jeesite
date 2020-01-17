@@ -242,4 +242,8 @@
     where up_taskId = #{taskId}
     and up_cluecode = #{upClueCode}
   </select>
+  <update id="updateByTaskId" parameterType="java.lang.String">
+  	update up_aitask set up_status = #{status}
+  	where up_taskId = #{taskId}
+  </update>
 </mapper>

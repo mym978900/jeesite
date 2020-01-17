@@ -16,6 +16,6 @@ public interface StatisticsMapper {
 
 	public int loginOrganAnswerdCount(String userCode, int day);
 
-	public double loginOrganUsingPhoneBill(String userCode);
+	public double loginOrganUsingPhoneBill(String userCode, int day);
 
 }

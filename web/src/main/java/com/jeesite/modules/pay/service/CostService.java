@@ -32,4 +32,6 @@ public interface CostService {
 
 	String getUpGradeMoney(Product product, HttpServletResponse response, Model model) throws ParseException;
 
+	String updateBalanceByCallTime(String userCode, Integer duration);
+
 }

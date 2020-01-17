@@ -10,6 +10,7 @@ import com.jeesite.modules.clue.entity.UpClue;
 import com.jeesite.modules.clue.mapper.UpClueMapper;
 import com.jeesite.modules.clue.service.UpClueService;
 import com.jeesite.modules.clue.vo.ClueVo;
+import com.jeesite.modules.clue.vo.IntentionVo;
 
 /**
  * 线索管理Service
@@ -73,7 +74,12 @@ public class UpClueServiceImpl implements UpClueService{
 	@Override
 	public UpClue selectByPrimaryKey(String upClueCode) {
 		UpClue uc = upClueMapper.selectByPrimaryKey(upClueCode);
-		return uc
-				;
+		return uc;
+	}
+	 //意向用户
+	@Override
+	public List getIntentionClue(IntentionVo itv) {
+		List list = upClueMapper.getIntentionClue(itv);
+		return list;
 	}
 }

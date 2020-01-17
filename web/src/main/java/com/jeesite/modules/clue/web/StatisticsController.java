@@ -17,12 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.jeesite.common.shiro.realm.LoginInfo;
 import com.jeesite.common.web.BaseController;
 import com.jeesite.common.web.http.ServletUtils;
 import com.jeesite.modules.clue.service.StatisticsService;
 import com.jeesite.modules.sys.entity.User;
 import com.jeesite.modules.sys.utils.UserUtils;
+import com.jeesite.modules.test.entity.JsSysMember;
+import com.jeesite.modules.test.service.MemberService;
 
 @Controller
 @RequestMapping(value = "${adminPath}/statistics")
@@ -30,6 +34,9 @@ public class StatisticsController extends BaseController{
 	
 	@Autowired
 	private StatisticsService iStatisticsService;
+	
+	@Autowired
+	private MemberService iMemberService;
 	
 	//AI外呼统计
 	@RequestMapping(value="loginOrganDialStatistics", method = RequestMethod.POST)
@@ -59,13 +66,13 @@ public class StatisticsController extends BaseController{
 		int ywcCount = iStatisticsService.loginOrganDialStatistics(user.getUserCode(),"2");
 		
 		//已完成/所有通话
-		model.addAttribute("ai.ywcall",ywcCount+"/"+allCount);
+		model.addAttribute("aiywcall",ywcCount+"/"+allCount);
 		
 		//接听总量
 		int jtCount = iStatisticsService.loginOrganRecivedCount(user.getUserCode());
 		
 		//统计登陆机构接听总量
-		model.addAttribute("ai.jtcount",jtCount);
+		model.addAttribute("aijtcount",jtCount);
 		
 		//已完成接通数量
 		double ywcjtCount = iStatisticsService.loginOrganConnectRate(user.getUserCode(),"0");
@@ -75,19 +82,21 @@ public class StatisticsController extends BaseController{
 		
 		String jtl="";
 		
+		String reserveField1 = "";
+		
 		//统计登陆机构接通率
-		if(ywcCount != 0 ) {
-			DecimalFormat decimalFormat=new DecimalFormat("0.00");//构造方法的字符格式这里如果小数不足2位,会以0补足.
+		if(ywcjtCount != 0 ) {
+			DecimalFormat decimalFormat=new DecimalFormat("0.0");//构造方法的字符格式这里如果小数不足2位,会以0补足.
 			jtl = decimalFormat.format(Double.valueOf(ywcjtCount/ywcallCount)*100);
-			model.addAttribute("ai.jtl",jtl+"%");
+			model.addAttribute("aijtl",jtl+"%");
 		}else {
-			model.addAttribute("ai.jtl","0.0%");
+			model.addAttribute("aijtl","0.0%");
 		}
 		
 		//通话总时长
 		double totalTime = iStatisticsService.loginOrganTotalCallTime(user.getUserCode(),0);
 		
-		model.addAttribute("ai.totaltime",totalTime);
+		model.addAttribute("aitotaltime",totalTime);
 		
 		//通话总时长
 		String averTime = "";
@@ -97,7 +106,13 @@ public class StatisticsController extends BaseController{
 			DecimalFormat decimalFormat=new DecimalFormat("0.00");//构造方法的字符格式这里如果小数不足2位,会以0补足.
 			averTime = decimalFormat.format(totalTime/ywcjtCount);
 		}
-		model.addAttribute("ai.averTime",averTime);
+		
+		model.addAttribute("aiaverTime",averTime);
+		
+		JsSysMember member = iMemberService.getMemberByAccountCode(user.getUserCode());
+		reserveField1 = member.getReserveField1();
+		model.addAttribute("reserveField1", reserveField1);
+		
 		model.addAttribute("result",true);
 		
 		return ServletUtils.renderObject(response, model);
@@ -129,7 +144,7 @@ public class StatisticsController extends BaseController{
 		
 		int customCount = 0;
 		String source = request.getParameter("source");
-		
+		StatisticsVo sv;
 		//昨日
 		if("1".equals(source)) {
 			customCount = iStatisticsService.loginOrganAICallCustomCount(user.getUserCode(),1);
@@ -138,7 +153,7 @@ public class StatisticsController extends BaseController{
 			customCount = iStatisticsService.loginOrganAICallCustomCount(user.getUserCode(),-1);
 		}
 		
-		model.addAttribute("gk.customCount",customCount);
+		model.addAttribute("gkcustomCount",customCount);
 		
 		//统计登陆机构昨日、累计用户意向用户总量
 		int intentionCount = 0;
@@ -149,7 +164,7 @@ public class StatisticsController extends BaseController{
 			intentionCount = iStatisticsService.loginOrganTotalIntentionCount(user.getUserCode(),-1);
 		}
 		
-		model.addAttribute("gk.intentionCount",intentionCount);
+		model.addAttribute("gkintentionCount",intentionCount);
 		
 		//统计登录机构昨日、累计客户接听数量
 		int yjtcount = 0;
@@ -160,29 +175,30 @@ public class StatisticsController extends BaseController{
 			yjtcount = iStatisticsService.loginOrganAnswerdCount(user.getUserCode(),0);
 		}
 		
-		model.addAttribute("gk.yjtcount",yjtcount);
+		model.addAttribute("gkyjtcount",yjtcount);
 		
 		//统计登录机构通话总时长、话费和剩余话费
 		double usingPhoneBill = 0.00;
 		double residualPhoneBill = 0.00;
+		String reserveField1 = "";
 		int totalTime = 0;
 		
-		if("1".equals(source)) {
-			iStatisticsService.loginOrganTotalCallTime(user.getUserCode(),0);
-			usingPhoneBill = iStatisticsService.loginOrganUsingPhoneBill(user.getUserCode());
-		}else {
-			
-		}
+		totalTime = iStatisticsService.loginOrganTotalCallTime(user.getUserCode(),0);
+		usingPhoneBill = iStatisticsService.loginOrganUsingPhoneBill(user.getUserCode(),0);
 		
-		model.addAttribute("gk.totalTime",totalTime);
-		model.addAttribute("gk.usingPhoneBill",usingPhoneBill);
+		JsSysMember member = iMemberService.getMemberByAccountCode(user.getUserCode());
+		reserveField1 = member.getReserveField1();
+		
+		model.addAttribute("gktotalTime",totalTime);
+		model.addAttribute("gkusingPhoneBill",usingPhoneBill);
+		model.addAttribute("gkreserveField1", reserveField1);
 		
 		//统计登陆机构转化率：意向用户数量/AI外呼总数量
 		double customCountChange = 0;
 		double intentionCountChange = 0;
 		String conversionRate = "";
-		List<String[]> list = new ArrayList<String[]>();
-		String[] str = null;
+		List list = new ArrayList();
+		JSONObject js;
 
 		Calendar cal= null;
 		SimpleDateFormat sp=new SimpleDateFormat("yyyy-MM-dd");
@@ -190,7 +206,7 @@ public class StatisticsController extends BaseController{
 		String dayOfMonth;
 		DecimalFormat decimalFormat=new DecimalFormat("0.0");//构造方法的字符格式这里如果小数不足2位,会以0补足.
 		for(int i = 6;i>-1;i--) {
-			str = new String[2];
+			sv = new StatisticsVo();
 			cal = Calendar.getInstance();
 			customCountChange = iStatisticsService.loginOrganAICallCustomCount(user.getUserCode(),i);
 			intentionCountChange = iStatisticsService.loginOrganTotalIntentionCount(user.getUserCode(),i);
@@ -199,23 +215,44 @@ public class StatisticsController extends BaseController{
 	        Date d=cal.getTime();
 	        
 	        day=sp.format(d);//获取几号
-	        dayOfMonth = day.substring(8);
+//	        dayOfMonth = day.substring(8);
 			
 	        if(customCountChange != 0) {
-				conversionRate = decimalFormat.format(Double.valueOf(intentionCountChange/customCountChange)*100);;
-				str[0] = dayOfMonth;
-				str[1] = conversionRate+"%";
-				list.add(str);
+				conversionRate = decimalFormat.format(Double.valueOf(intentionCountChange/customCountChange));;
+				sv.setDate(day);
+				sv.setConversionRate(conversionRate);
+				list.add(sv);
 	        }else {
-	        	str[0] = dayOfMonth;
-	        	str[1] = "0.0"+"%";
-	        	list.add(str);
+	        	sv.setDate(day);
+				sv.setConversionRate("0.0");
+	        	list.add(sv);
 	        }
 		}
-		model.addAttribute("gk.conversionRate",list);
+		model.addAttribute("gkconversionRate",list);
 		
 		model.addAttribute("result",true);
 		
 		return ServletUtils.renderObject(response, model);
 	}
+	
+	
+	public static class StatisticsVo{
+		private String date;
+		private String conversionRate;
+		
+		public String getDate() {
+			return date;
+		}
+		public void setDate(String date) {
+			this.date = date;
+		}
+		public String getConversionRate() {
+			return conversionRate;
+		}
+		public void setConversionRate(String conversionRate) {
+			this.conversionRate = conversionRate;
+		}
+	}
+	
+	
 }

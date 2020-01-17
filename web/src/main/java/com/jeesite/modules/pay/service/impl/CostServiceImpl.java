@@ -246,4 +246,31 @@ public class CostServiceImpl implements CostService {
 		System.out.println(s);
 		return Math.round(Double.valueOf(s) * betweenDays) + ".00";
 	}
+	
+	@Override
+	 public String updateBalanceByCallTime(String userCode, Integer duration) {
+	  // TODO Auto-generated method stub
+	  //获取用户会员信息
+	  JsSysMember member=jsSysMemberMapper.getMemberByAccountCode(userCode);
+	  //分钟数
+	  int temp=duration/60;
+	  if (duration % 60!=0) {
+	   temp=temp+1;
+	  }
+	  //应扣金额
+	  Double reduceMondy=0.15 * temp;
+	  //比较
+	  if (reduceMondy <= Double.valueOf(member.getReserveField1())+10) {
+	   //修改余额
+	   String balanceMoney=String.format("%.2f",(Double.valueOf(member.getReserveField1())-reduceMondy));
+	   JsSysMember mem=new JsSysMember();
+	   mem.setSerialNumber(member.getSerialNumber());
+	   mem.setReserveField1(balanceMoney);
+	   int num=jsSysMemberMapper.updateByPrimaryKeySelective(mem);
+	   if (num==1) {
+	    return reduceMondy+"";
+	   }
+	  }
+	  return "0";
+	 }
 }

@@ -84,10 +84,13 @@ import com.jeesite.modules.clue.vo.CreateAiVo;
 import com.jeesite.modules.clue.vo.CustomerInfoExtVO;
 import com.jeesite.modules.clue.vo.IntentionVo;
 import com.jeesite.modules.clue.vo.RuleDetailVO;
+import com.jeesite.modules.pay.service.CostService;
 import com.jeesite.modules.sys.entity.User;
 import com.jeesite.modules.sys.utils.UserUtils;
 import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.service.MemberService;
+
+import jline.internal.Log;
 
 @Controller
 @RequestMapping(value = "${adminPath}/clue")
@@ -107,6 +110,9 @@ public class UpClueController extends BaseController{
 	
 	@Autowired
 	private UpAitaskService iUpAitaskService;
+	
+	@Autowired
+	private CostService iCostService;
 	
 	//用户新增单条线索 by xf 2019.12.04
 	@RequestMapping(value="addUpClue", method = RequestMethod.POST)
@@ -315,6 +321,9 @@ public class UpClueController extends BaseController{
     	int effectCount = 0;//有效数
     	int ineffectCount = 0;//无效数
     	String ineffectInfo ="";//无效信息
+    	String phone = "";
+    	String address = "";
+    	boolean p = true;
     	
     	//获取登录用户信息
 		LoginInfo loginInfo = UserUtils.getLoginInfo();
@@ -348,8 +357,8 @@ public class UpClueController extends BaseController{
                         List<ClueExcelVo> parsedResult = ExcelReader.readExcel(multipartFiles);
                         // 数据校验相同的手机号线索资源 - 姓名验证 - 可以上传不删除上传自动去重
                         if(parsedResult.size()>0) {
-	                        UpClue uc = new UpClue();
 	                        for(int i=0;i<parsedResult.size();i++) {
+	                        	UpClue uc = new UpClue();
 	                        	uc.setUpClueName(parsedResult.get(i).getUsername());
 	                    		uc.setUpClueTel(parsedResult.get(i).getPhoneNumber());
 	                    		if(!ClueUtils.effectiveClue(uc)) {
@@ -359,13 +368,36 @@ public class UpClueController extends BaseController{
 	                    		}else {
 	                    			effectCount++;
 	                    			String upClueCode = UUID.randomUUID().toString().replace("-", "");
+	                    			phone = parsedResult.get(i).getPhoneNumber();
 	                    			uc.setUpClueCode(upClueCode);
-	                    			uc.setUpClueName(parsedResult.get(i).getUsername());
-	                    			uc.setUpClueTel(parsedResult.get(i).getPhoneNumber());
+	                    			if("".equals(parsedResult.get(i).getUsername())) {
+	                    				uc.setUpIseffective("0");
+	                    			}else {
+	                    				uc.setUpClueName(parsedResult.get(i).getUsername());
+	                    			}
+	                    			//手机格式是否正确
+	                    			if(!"".equals(phone)) {
+	                    				p = ClueUtils.isPhoneLegal(phone);
+	                    				if(p) {
+	                    					uc.setUpClueTel(phone);
+	                    				}else {
+	                    					uc.setUpClueTel(phone);
+	                    					uc.setUpIseffective("0");
+	                    				}
+	                    			}else {
+	                    				uc.setUpIseffective("0");
+	                    			}
 	                    			uc.setUpClueSex(parsedResult.get(i).getSex());
 	                    			uc.setUpClueAge(parsedResult.get(i).getAge());
 	                    			uc.setUpClueTime(date);
-	                    			uc.setUpClueAddre(parsedResult.get(i).getAddress());
+	                    			address = parsedResult.get(i).getAddress();
+	                    			//地址是否为空
+	                    			if("".equals(address)) {
+	                    				uc.setUpClueAddre(address);
+	                    				uc.setUpIseffective("0");
+	                    			}else {
+	                    				uc.setUpClueAddre(address);
+	                    			}
 	                    			uc.setUpClueAppraise("0");
 	                    			uc.setUpClueStatus("2");
 	                    			uc.setUpUserCode(user.getUserCode());
@@ -383,6 +415,8 @@ public class UpClueController extends BaseController{
 	                		
 	                        //保存批量线索文件记录
 	                        UpCluefile ucf = new UpCluefile();
+	                        String ucfId = UUID.randomUUID().toString().replace("-", "");
+	                        ucf.setUpId(ucfId);
 	                        ucf.setUpUsercode(user.getUserCode());
 	                        ucf.setUpUsername(user.getUserName());
 	                        ucf.setUpDate(date);
@@ -484,20 +518,28 @@ public class UpClueController extends BaseController{
     	//返回前端信息
     	CreateAiVo cav = new CreateAiVo();
     	//获取登录用户信息
-//		LoginInfo loginInfo = UserUtils.getLoginInfo();
-//		if(loginInfo == null){
-//			UserUtils.getSubject().logout();
-//			cav.setResult(false);
-//			return cav;
-//		}
-//				
-//		// 当前用户对象信息
-//		User user = UserUtils.get(loginInfo.getId());
-//		if (user == null){
-//			UserUtils.getSubject().logout();
-//			cav.setResult(false);
-//			return cav;
-//		}
+		LoginInfo loginInfo = UserUtils.getLoginInfo();
+		if(loginInfo == null){
+			UserUtils.getSubject().logout();
+			cav.setResult(false);
+			return cav;
+		}
+				
+		// 当前用户对象信息
+		User user = UserUtils.get(loginInfo.getId());
+		if (user == null){
+			UserUtils.getSubject().logout();
+			cav.setResult(false);
+			return cav;
+		}
+    	
+    	JsSysMember member = iMeberService.getMemberByAccountCode(user.getUserCode());
+    	if(Integer.parseInt(member.getReserveField1()) < 100) {
+    		cav.setResult(false);
+    		cav.setMessage("您的余额当前不足100元，请充值后使用AI外呼");
+    		return cav;
+    	}
+    	
     	//外呼记录id
     	String id="";
     	//线索集合
@@ -528,7 +570,14 @@ public class UpClueController extends BaseController{
 		byaiOpenapiPhoneListParams.setCompanyId(30008L);
 		ByaiOpenapiPhoneList byaiOpenapiPhoneList = new ByaiOpenapiPhoneList();
 		byaiOpenapiPhoneList.setAPIParams(byaiOpenapiPhoneListParams);
-		ByaiOpenapiPhoneListResult phoneResult = client.invoke(byaiOpenapiPhoneList);
+		ByaiOpenapiPhoneListResult phoneResult = new ByaiOpenapiPhoneListResult();
+		try {
+			phoneResult = client.invoke(byaiOpenapiPhoneList);
+		}catch(Exception e){
+			if("当前任务绑定的线路已欠费,不能启动任务".equals(e.getMessage())) {
+				Log.info("您在AI外呼预留的话费余额不足，请前往充值");
+			}
+		}
 		
 		//组合手机号码
 		String phonesHead = "[";
@@ -584,11 +633,14 @@ public class UpClueController extends BaseController{
     				JSONObject jsonCustomer = new JSONObject();
     				JSONObject properties = new JSONObject();
     				linkHashMap = (LinkedHashMap) list.get(i);
-//	    			upClueCode = (String) linkHashMap.get("upClueCode");
-	    			upClueCode = "73bb1c33bbb44ead8add254c21b777d3";
+	    			upClueCode = (String) linkHashMap.get("upClueCode");
+//	    			upClueCode = "73bb1c33bbb44ead8add254c21b777d3";
 	    			uc = iUpClueService.selectByPrimaryKey(upClueCode);
-//	    			JsSysMember jsm = iMeberService.getMemberByAccountCode(user.getUserCode());
-	    			JsSysMember jsm = iMeberService.getMemberByAccountCode("system");
+	    			if("中".equals(uc.getUpClueSex())) {
+	    				continue;
+	    			}
+	    			JsSysMember jsm = iMeberService.getMemberByAccountCode(user.getUserCode());
+//	    			JsSysMember jsm = iMeberService.getMemberByAccountCode("system");
 	    			properties.put("机构名称", jsm.getOrganName());//机构名称
 	    			properties.put("课程名称", jsm.getOrganClass());//课程名称
 	    			properties.put("clueSource", "1");//线索来源
@@ -605,7 +657,7 @@ public class UpClueController extends BaseController{
 	    			ut.setUpTaskid(upClueTaskid.toString());
 	    			ut.setUpSource("1");
 	    			ut.setUpCreatetime(date);
-	    			ut.setUpCreateusercode("system");
+	    			ut.setUpCreateusercode(user.getUserCode());
 	    			ut.setUpCluecode(upClueCode);
 	    			ut.setUpDeductionmark("0");
 	    			iUpAitaskService.addUpAitask(ut);
@@ -619,25 +671,28 @@ public class UpClueController extends BaseController{
     				linkHashMap = (LinkedHashMap)  list.get(i);
     				upClueCode = (String) linkHashMap.get("upAicode");
 	    			uc = iUpClueService.selectByPrimaryKey(upClueCode);
-	    			JsSysMember jsm = iMeberService.getMemberByAccountCode("system");
+	    			if("中".equals(uc.getUpClueSex())) {
+	    				continue;
+	    			}
+	    			JsSysMember jsm = iMeberService.getMemberByAccountCode(user.getUserCode());
 	    			properties.put("机构名称", jsm.getOrganName());//机构名称
 	    			properties.put("课程名称", jsm.getOrganClass());//课程名称
 	    			properties.put("clueSource", "2");//线索来源
 	    			properties.put("clueCode", upClueCode);//线索标识
 //	    			properties.put("userCode", user.getUserCode());//用户编码
-	    			properties.put("userCode", "system");//用户编码
+	    			properties.put("userCode", user.getUserCode());//用户编码
 	    			jsonCustomer.put("name", uc.getUpClueName());
 	    			jsonCustomer.put("phone", uc.getUpClueTel());
 	    			jsonCustomer.put("properties", properties);
 	    			jarr.add(jsonCustomer);
-	    			iUpAiInfoService.updateAiInfoByUserCodeUpClueCode(upClueTaskid.toString(),"system",upClueCode);
+	    			iUpAiInfoService.updateAiInfoByUserCodeUpClueCode(upClueTaskid.toString(),user.getUserCode(),upClueCode);
 	    			//创建外呼任务记录
 	    			id = UUID.randomUUID().toString().replace("-", "");
 	    			ut.setUpId(id);
 	    			ut.setUpTaskid(upClueTaskid.toString());
 	    			ut.setUpSource("2");
 	    			ut.setUpCreatetime(date);
-	    			ut.setUpCreateusercode("system");
+	    			ut.setUpCreateusercode(user.getUserCode());
 	    			ut.setUpCluecode(upClueCode);
 	    			ut.setUpDeductionmark("0");
 	    			iUpAitaskService.addUpAitask(ut);
@@ -676,7 +731,7 @@ public class UpClueController extends BaseController{
     	String upClueCode;
     	String source;
     	String appraise = null;
-    	String taskId;
+    	String taskId = "";
     	String userCode;
     	int callJobStatus;
     	UpClue upClue = null;
@@ -687,6 +742,9 @@ public class UpClueController extends BaseController{
     	int duration;//通话时长
     	int callInstanceStatus;//通话状态
     	int upFinishstatus;//最终状态
+    	String costPrice;//扣费金额
+    	//创建外呼任务,获取公司
+    	String accesstoken = AiUtil.getAccessToken();
     	try {
 	    	if("CALL_INSTANCE_RESULT".equals(cbob.getData().getCallbackType())) {
 	    		System.out.println("--------1--------");
@@ -790,11 +848,42 @@ public class UpClueController extends BaseController{
 						}
 						if(callInstanceStatus == 2) {
 							if("0".equals(upAitask.getUpDeductionmark())) {
-								//------------------扣费待完成------------------
+								//到账户扣费
+								costPrice = iCostService.updateBalanceByCallTime(userCode,duration);
+								if(!"".equals(costPrice) && !"0".equals(costPrice)) {
+									upAitask.setUpDeductionprice(Double.parseDouble(costPrice));
+									upAitask.setUpDeductionmark("1");
+								}
 							}
 							iUpAitaskService.updateByPrimaryKey(upAitask);
 						}
+						
+						//查询账户余额如果不够负十元停掉当前任务
+						JsSysMember member = iMeberService.getMemberByAccountCode(userCode);
+						if(Integer.parseInt(member.getReserveField1())<=-10) {
+							BYClient client = new DefaultBYClient(new Token(accesstoken));
+							ByaiOpenapiCalljobExecuteParams byaiOpenapiCalljobExecuteParams = new ByaiOpenapiCalljobExecuteParams();
+
+							byaiOpenapiCalljobExecuteParams.setCallJobId(Long.parseLong(taskId));
+							byaiOpenapiCalljobExecuteParams.setCommand(3L);
+							byaiOpenapiCalljobExecuteParams.setCompanyId(30008L);
+
+							ByaiOpenapiCalljobExecute byaiOpenapiCalljobExecute = new ByaiOpenapiCalljobExecute();
+							byaiOpenapiCalljobExecute.setAPIParams(byaiOpenapiCalljobExecuteParams);
+							ByaiOpenapiCalljobExecuteResult result = client.invoke(byaiOpenapiCalljobExecute);
+						}
+						
 					}else {
+						BYClient client = new DefaultBYClient(new Token(accesstoken));
+						ByaiOpenapiCalljobExecuteParams byaiOpenapiCalljobExecuteParams = new ByaiOpenapiCalljobExecuteParams();
+
+						byaiOpenapiCalljobExecuteParams.setCallJobId(Long.parseLong(taskId));
+						byaiOpenapiCalljobExecuteParams.setCommand(3L);
+						byaiOpenapiCalljobExecuteParams.setCompanyId(30008L);
+
+						ByaiOpenapiCalljobExecute byaiOpenapiCalljobExecute = new ByaiOpenapiCalljobExecute();
+						byaiOpenapiCalljobExecute.setAPIParams(byaiOpenapiCalljobExecuteParams);
+						ByaiOpenapiCalljobExecuteResult result = client.invoke(byaiOpenapiCalljobExecute);
 						response.setCharacterEncoding("utf-8");
 						response.getWriter().write("fail");
 						return;
@@ -808,6 +897,7 @@ public class UpClueController extends BaseController{
 	    		System.out.println("--------2--------");
 	    		callJobStatus = cbob.getData().getData().getCallJobStatus();
 	    		taskId = cbob.getData().getData().getCallJobId()+"";
+	    		iUpAitaskService.updateByTaskId(callJobStatus+"",taskId);
 	    		response.setCharacterEncoding("utf-8");
 	    		response.getWriter().write("success");
 				return;
@@ -815,6 +905,18 @@ public class UpClueController extends BaseController{
     	}catch(Exception e) {
     		e.printStackTrace();
     		try {
+    			if(!"".equals(taskId)) {
+	    			BYClient client = new DefaultBYClient(new Token(accesstoken));
+					ByaiOpenapiCalljobExecuteParams byaiOpenapiCalljobExecuteParams = new ByaiOpenapiCalljobExecuteParams();
+	
+					byaiOpenapiCalljobExecuteParams.setCallJobId(Long.parseLong(taskId));
+					byaiOpenapiCalljobExecuteParams.setCommand(3L);
+					byaiOpenapiCalljobExecuteParams.setCompanyId(30008L);
+	
+					ByaiOpenapiCalljobExecute byaiOpenapiCalljobExecute = new ByaiOpenapiCalljobExecute();
+					byaiOpenapiCalljobExecute.setAPIParams(byaiOpenapiCalljobExecuteParams);
+					ByaiOpenapiCalljobExecuteResult result = client.invoke(byaiOpenapiCalljobExecute);
+    			}
     			response.setCharacterEncoding("utf-8");
 				response.getWriter().write("fail");
 			} catch (IOException e1) {
@@ -863,13 +965,13 @@ public class UpClueController extends BaseController{
 		list = iUpClueService.getIntentionClue(itv);
     	
 		//数据脱敏处理
-		HashMap m;
-		if(list != null && !list.isEmpty()) {
-			for(int i=0;i<list.size();i++) {
-				m = (HashMap) list.get(i);
-				m.put("up_cluename", ClueUtils.chineseName(m.get("up_cluename").toString()));
-			}
-		}
+//		HashMap m;
+//		if(list != null && !list.isEmpty()) {
+//			for(int i=0;i<list.size();i++) {
+//				m = (HashMap) list.get(i);
+//				m.put("up_cluename", ClueUtils.chineseName(m.get("up_cluename").toString()));
+//			}
+//		}
 		PageInfo<UpClue> page = new PageInfo<UpClue>(list);
 		//向前台传值
 		if(itv!= null) {

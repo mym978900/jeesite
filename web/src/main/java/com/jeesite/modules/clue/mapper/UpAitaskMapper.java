@@ -19,4 +19,7 @@ public interface UpAitaskMapper {
 
 	//获取外呼任务记录通过任务id，线索id
 	UpAitask getUpAitaskByUpCodeTaskId(String taskId, String upClueCode);
+
+	//更新任务状态
+	void updateByTaskId(String status,String taskId);
 }

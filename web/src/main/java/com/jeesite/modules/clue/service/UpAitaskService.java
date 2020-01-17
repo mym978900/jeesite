@@ -15,4 +15,7 @@ public interface UpAitaskService {
 
 	void updateByPrimaryKey(UpAitask upAitask);
 
+	//更新任务状态
+	void updateByTaskId(String status, String taskId);
+
 }

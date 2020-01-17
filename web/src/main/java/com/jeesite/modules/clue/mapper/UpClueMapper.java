@@ -7,6 +7,7 @@ import java.util.List;
 import com.jeesite.modules.clue.base.BaseMapper;
 import com.jeesite.modules.clue.entity.UpClue;
 import com.jeesite.modules.clue.vo.ClueVo;
+import com.jeesite.modules.clue.vo.IntentionVo;
 
 public interface UpClueMapper extends BaseMapper<UpClue>{    
     /*
@@ -46,5 +47,8 @@ public interface UpClueMapper extends BaseMapper<UpClue>{
 		2019.12.16
 	 */
 	List<UpClue> getNoConfigAddress();
+
+	
+	List getIntentionClue(IntentionVo itv);
     
 }

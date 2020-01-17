@@ -3,6 +3,8 @@ package com.jeesite.modules.clue.entity;
 import java.util.Date;
 
 public class UpCluefile {
+	private String upId;
+	
     private String upUsercode;
 
     private String upUsername;
@@ -34,6 +36,14 @@ public class UpCluefile {
     private Integer upIneffectivecount;
 
     private String upIneffectiveinfo;
+    
+    public String getUpId() {
+        return upId;
+    }
+
+    public void setUpId(String upId) {
+        this.upId = upId == null ? null : upId.trim();
+    }
 
     public String getUpUsercode() {
         return upUsercode;

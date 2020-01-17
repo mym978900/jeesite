@@ -113,8 +113,8 @@ public class ClueMatchTask {
 					if(count>0) {
 						//初次匹配
 						if(onedate==null) {
-							//首次14天匹配
-							updateStr = df.format(update.getTime()+14 * 24 * 60 * 60 * 1000);
+							//首次30天匹配
+							updateStr = df.format(update.getTime()+30 * 24 * 60 * 60 * 1000);
 							if(sysdate.equals(updateStr)) {
 								if(grade.equals("2")) {
 									//会员等级2 匹配数等于上传总数
@@ -247,7 +247,7 @@ public class ClueMatchTask {
 	
 	//为会员和线索标注经纬度
 	@SuppressWarnings("deprecation")
-	@Scheduled(cron="20 56 11 * * ?")
+	@Scheduled(cron="20 16 15 * * ?")
 	public void autoConfigAddress() {
 		
 		//设置会员经纬度
@@ -274,13 +274,12 @@ public class ClueMatchTask {
 					if(values != null) {
 						longitude = (Double) values[0];
 						latitude = (Double) values[1];
+						jsm.setMatchLongitude(longitude);
+						jsm.setMatchLatitude(latitude);
+						jsm.setUpIseffective("1");
 					}else {
-						longitude = 0.0;
-						latitude = 0.0;
+						jsm.setUpIseffective("0");
 					}
-					jsm.setMatchLongitude(longitude);
-					jsm.setMatchLatitude(latitude);
-					jsm.setUpIseffective("1");
 					
 					//更新会员机构经纬度
 					Static.iMeberService.updateByPrimaryKey(jsm);
@@ -307,13 +306,13 @@ public class ClueMatchTask {
 					if(values != null) {
 						longitude = (Double) values[0];
 						latitude = (Double) values[1];
+						uc.setUpClueLongitude(longitude);
+						uc.setUpClueLatitude(latitude);
+						uc.setUpIseffective("1");
 					}else {
-						longitude = 0.0;
-						latitude = 0.0;
+						uc.setUpIseffective("0");
 					}
-					uc.setUpClueLongitude(longitude);
-					uc.setUpClueLatitude(latitude);
-					uc.setUpIseffective("1");
+					
 					
 					//更新线索经纬度
 					Static.iUpClueService.updateByPrimaryKey(uc);

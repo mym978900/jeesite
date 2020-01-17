@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.jeesite.modules.clue.entity.UpClue;
 import com.jeesite.modules.clue.vo.ClueVo;
+import com.jeesite.modules.clue.vo.IntentionVo;
 
 
 /**
@@ -35,4 +36,7 @@ public interface UpClueService {
 	public void updateByPrimaryKey(UpClue upClue);
 	
 	public UpClue selectByPrimaryKey(String upClueCode);
+
+	//意向用户
+	public List getIntentionClue(IntentionVo itv);
 }
