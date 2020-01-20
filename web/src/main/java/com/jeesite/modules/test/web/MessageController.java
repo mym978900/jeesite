@@ -79,6 +79,27 @@ public class MessageController {
 		return messageService.toUpdatePassByLogin(userVo, vo);
 	}
 
+	// 忘记密码
+	@RequestMapping(value = "forgetp")
+	@ResponseBody
+	public Integer forgetPass(HttpServletRequest request, UpdatePhoneVo vo, HttpServletResponse response, Model model) {
+		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
+		if (!vo.getNewphone().equals(userVo.getUser().getLoginCode())) {
+			return 0;// 手机号（账号）错误
+		}
+		JSONObject json = (JSONObject) request.getSession().getAttribute(vo.getNewphone());
+		if (!json.getString(vo.getNewphone()).equals(vo.getMegNum())) {
+			return 1;// 验证码错误
+		}
+		if ((System.currentTimeMillis() - json.getLong("createTime")) > 1000 * 60 * 2) {
+			return 2;// 验证码超时
+		}
+		// 将用户信息存入数据库
+		// 这里省略
+
+		return messageService.toUpdatePassByForget(userVo, vo);
+	}
+
 	/**
 	 * @author 验证登录用户是否是新用户
 	 *
