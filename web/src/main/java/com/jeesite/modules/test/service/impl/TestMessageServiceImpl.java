@@ -123,6 +123,7 @@ public class TestMessageServiceImpl implements TestMessageService {
 		if (num != 1 || now != 1) {
 			return 4;// 绑定失败
 		}
+		UserUtils.clearCache(userVo.getUser());
 		return 5;// 绑定成功
 	}
 
@@ -143,6 +144,7 @@ public class TestMessageServiceImpl implements TestMessageService {
 		if (num != 1) {
 			return 2;// 修改失败
 		}
+		UserUtils.clearCache(userVo.getUser());
 		return 1;// 修改成功
 	}
 
@@ -181,6 +183,7 @@ public class TestMessageServiceImpl implements TestMessageService {
 		if (num != 1) {
 			return 4;// 修改失败
 		}
+		UserUtils.clearCache(userVo.getUser());
 		return 5;// 修改成功
 	}
 
