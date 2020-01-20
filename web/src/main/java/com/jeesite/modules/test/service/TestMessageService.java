@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 
 import com.jeesite.modules.test.entity.JsSysApply;
 import com.jeesite.modules.test.entity.JsSysMember;
+import com.jeesite.modules.test.entity.JsSysUser;
 import com.jeesite.modules.test.vo.GetUserVo;
 import com.jeesite.modules.test.vo.UpdatePhoneVo;
 
@@ -27,4 +28,6 @@ public interface TestMessageService {
 	void toGetMessageByApply(HttpServletRequest request, JsSysApply apply, String string);
 
 	Integer toUpdatePassByForget(GetUserVo userVo, UpdatePhoneVo vo);
+
+	JsSysUser findUserByLoginCode(String newphone);
 }

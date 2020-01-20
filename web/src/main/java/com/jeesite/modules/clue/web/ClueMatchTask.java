@@ -17,6 +17,7 @@ import com.jeesite.common.utils.SpringUtils;
 import com.jeesite.modules.clue.entity.UpAiinfo;
 import com.jeesite.modules.clue.entity.UpClue;
 import com.jeesite.modules.clue.service.UpAiInfoService;
+import com.jeesite.modules.clue.service.UpAitaskService;
 import com.jeesite.modules.clue.service.UpClueService;
 import com.jeesite.modules.clue.utils.AddressUtil;
 import com.jeesite.modules.clue.utils.AiUtil;
@@ -41,6 +42,8 @@ public class ClueMatchTask {
 		private static UpClueService iUpClueService = SpringUtils.getBean(UpClueService.class);
 		//匹配信息处理
 		private static UpAiInfoService iUpAiInfoService = SpringUtils.getBean(UpAiInfoService.class);
+		//外呼记录信息
+		private static UpAitaskService iUpAitaskService = SpringUtils.getBean(UpAitaskService.class);
 		//AI外呼信息处理
 		private static SysDictDataService iSysDictDataService = SpringUtils.getBean(SysDictDataService.class);
 	}
@@ -352,6 +355,26 @@ public class ClueMatchTask {
 			logger.info("获取新的外呼公钥成功！");
 		}else {
 			logger.info("获取新的外呼公钥失败！未获取到公钥");
+		}
+	}
+	
+	//获取AI外呼公钥
+	@SuppressWarnings("deprecation")
+	@Scheduled(cron="0 0 16 * * ?")
+	public void getSentMessage() {
+		logger.info("短信提醒开始执行！");
+		List list = Static.iUpAitaskService.getTodayAitask();
+		HashMap hm;
+		String tel="";
+		String num="";
+		AiUtil au = new AiUtil();
+		if(list!=null && !list.isEmpty()) {
+			for(int i=0;i<list.size();i++) {
+				hm = (HashMap) list.get(i);
+				tel = (String) hm.get("tel");
+				num = (String) hm.get("num");
+				au.sentMessage(tel, num);
+			} 
 		}
 	}
 }

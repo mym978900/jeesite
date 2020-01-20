@@ -594,6 +594,7 @@ public class UpClueController extends BaseController{
 			av.setEndTime(atv.getEndTime());
 		}
 		av.setMemberGrade(member.getMemberGrade());
+		av.setSeat(member.getReserveDield2());
 		av.setPageNum(pageNum);
 		av.setPageInfo(page);
 		av.setResult(true);
@@ -738,6 +739,7 @@ public class UpClueController extends BaseController{
 	    			properties.put("clueSource", "1");//线索来源
 	    			properties.put("clueCode", upClueCode);//线索标识
 	    			properties.put("userCode", user.getUserCode());//用户编码
+	    			properties.put("phone", uc.getUpClueTel());
 	    			jsonCustomer.put("name", uc.getUpClueName());
 	    			jsonCustomer.put("phone", uc.getUpClueTel());
 	    			jsonCustomer.put("properties", properties);
@@ -776,6 +778,7 @@ public class UpClueController extends BaseController{
 	    			properties.put("clueCode", upClueCode);//线索标识
 //	    			properties.put("userCode", user.getUserCode());//用户编码
 	    			properties.put("userCode", user.getUserCode());//用户编码
+	    			properties.put("phone", uc.getUpClueTel());
 	    			jsonCustomer.put("name", uc.getUpClueName());
 	    			jsonCustomer.put("phone", uc.getUpClueTel());
 	    			jsonCustomer.put("properties", properties);
@@ -830,6 +833,7 @@ public class UpClueController extends BaseController{
     	String appraise = null;
     	String taskId = "";
     	String userCode;
+    	String phone;
     	int callJobStatus;
     	UpClue upClue = null;
     	UpAiinfo upAiInfo = null;
@@ -855,6 +859,7 @@ public class UpClueController extends BaseController{
 				source = (String) m.get("clueSource");
 				upClueCode = (String) m.get("clueCode");
 				userCode = (String) m.get("userCode");
+				phone = (String) m.get("phone");
 				callInstanceStatus = cv.getCallInstanceStatus();
 				upFinishstatus = cv.getFinishStatus();
 				TaskResultVO[] str = cbob.getData().getData().getTaskResult();
@@ -918,6 +923,8 @@ public class UpClueController extends BaseController{
 						}
 						upAitask.setUpCallinstancestatus(callInstanceStatus+"");
 						upAitask.setUpFinishstatus(upFinishstatus+"");
+						upAitask.setUpTalktime(duration);
+						upAitask.setUpCluetel(phone);
 						if("1".equals(source)) {
 							if(upClue != null) {
 								if("A".equals(appraise) || "B".equals(appraise) ) {
@@ -995,14 +1002,6 @@ public class UpClueController extends BaseController{
 	    		callJobStatus = cbob.getData().getData().getCallJobStatus();
 	    		taskId = cbob.getData().getData().getCallJobId()+"";
 	    		iUpAitaskService.updateByTaskId(callJobStatus+"",taskId);
-	    		if("2".equals(callJobStatus)) {
-	    			String usercode = iUpAitaskService.getAiTaskBytaskId(taskId);
-//	    			String number = iUpAitaskService.getAiTaskBytastCount(taskId);
-//	    			JsSysMember member = iMeberService.getMemberByAccountCode(userCode);
-//	    			member.get
-//		    		AiUtil au = new AiUtil();
-//		    		au.sentMessage(phone, number);
-	    		}
 	    		response.setCharacterEncoding("utf-8");
 	    		response.getWriter().write("success");
 				return;

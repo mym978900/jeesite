@@ -230,8 +230,14 @@ public class TestMessageServiceImpl implements TestMessageService {
 		if (num != 1) {
 			return 3;// 修改失败
 		}
-		UserUtils.clearCache(userVo.getUser());
+//		UserUtils.clearCache(userVo.getUser());
 		return 4;// 修改成功
+	}
+
+	@Override
+	public JsSysUser findUserByLoginCode(String newphone) {
+		// TODO Auto-generated method stub
+		return jsSysUserMapper.selectByLoginCode(newphone);
 	}
 
 }

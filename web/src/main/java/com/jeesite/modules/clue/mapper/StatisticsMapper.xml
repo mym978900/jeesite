@@ -41,7 +41,7 @@
 	<select id="loginOrganTotalIntentionCount" resultType="java.lang.Integer">
 	  select IFNULL(count(*),0) from up_aitask t where
 	  	t.up_createUserCode = #{userCode}
-	  	and t.up_aiappraise ='2'
+	  	and t.up_aiappraise ='1'
 	  	<if test="day gt -1">
 	  		and date(up_createTime) = date_sub(curdate(),interval #{day} day) 
 	  	</if>

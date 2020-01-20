@@ -42,4 +42,6 @@ public interface UpAitaskMapper {
 	List<UpAitask> getAitaskList(String userCode);
 
 	List<UpAitask> getAiTaskBytaskId(String taskId);
+
+	List getTodayAitask();
 }

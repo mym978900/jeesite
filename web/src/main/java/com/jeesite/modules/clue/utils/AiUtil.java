@@ -89,7 +89,7 @@ public class AiUtil {
 		return "";
 	}
 	
-	public static void sentMessage(String phone,int number) {
+	public static void sentMessage(String phone,String number) {
 		DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI4FwvuFWVLTCdpgirTHD2",
 		    "4bvT0wNF90llCp4ArRlWPRyYIE6f1Z");
 		IAcsClient client = new DefaultAcsClient(profile);
@@ -103,7 +103,7 @@ public class AiUtil {
 	        request.putQueryParameter("PhoneNumbers", phone);
 	        request.putQueryParameter("SignName", "奥力格科技");
 	        request.putQueryParameter("TemplateCode", "SMS_182682624");
-	        request.putQueryParameter("TemplateParam", "{\"number\":\""+number+"\"}");
+	        request.putQueryParameter("TemplateParam", "{\"number\":\""+Integer.parseInt(number)+"\"}");
 		try {
 		   CommonResponse response = client.getCommonResponse(request);
 		   System.out.println(response.getData());

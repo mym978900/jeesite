@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jeesite.modules.sys.entity.User;
 import com.jeesite.modules.test.entity.JsSysMember;
+import com.jeesite.modules.test.entity.JsSysUser;
 import com.jeesite.modules.test.service.TestMessageService;
 import com.jeesite.modules.test.util.DailyUtil;
 import com.jeesite.modules.test.vo.GetUserVo;
@@ -83,10 +85,13 @@ public class MessageController {
 	@RequestMapping(value = "forgetp")
 	@ResponseBody
 	public Integer forgetPass(HttpServletRequest request, UpdatePhoneVo vo, HttpServletResponse response, Model model) {
-		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
-		if (!vo.getNewphone().equals(userVo.getUser().getLoginCode())) {
-			return 0;// 手机号（账号）错误
-		}
+		JsSysUser jsSysUser=messageService.findUserByLoginCode(vo.getNewphone());
+		    if (jsSysUser==null||"".equals(jsSysUser)) {
+		    	return 0;// 手机号（账号）错误
+		    }
+		    User user=new User();
+		    user.setUserCode(jsSysUser.getUserCode());
+		    GetUserVo userVo = new GetUserVo(null, user);
 		JSONObject json = (JSONObject) request.getSession().getAttribute(vo.getNewphone());
 		if (!json.getString(vo.getNewphone()).equals(vo.getMegNum())) {
 			return 1;// 验证码错误

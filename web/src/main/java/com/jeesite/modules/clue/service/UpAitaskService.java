@@ -28,4 +28,7 @@ public interface UpAitaskService {
 	//根据任务Id查看用户userCode
 	String getAiTaskBytaskId(String taskId);
 
+	//获取当天拨打的用户手机号和数量
+	List getTodayAitask();
+
 }

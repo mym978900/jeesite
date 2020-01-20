@@ -203,12 +203,27 @@ public class StatisticsController extends BaseController{
 		String reserveField1 = "";
 		int totalTime = 0;
 		
-		totalTime = iStatisticsService.loginOrganTotalCallTime(user.getUserCode(),0);
+		int talkTime;
+		int minutes = 0;
+		int remainder;
+		List<UpAitask> list = iUpAitaskService.getAitaskList(user.getUserCode());
+		if(list != null) {
+			for(int i=0;i<list.size();i++) {
+				talkTime = list.get(i).getUpTalktime();
+				minutes = talkTime / 60 + minutes;
+				remainder = talkTime % 60;
+				if(remainder>0) {
+					minutes++;
+				}
+			}
+			model.addAttribute("gktotalTime",minutes);
+		}else {
+			model.addAttribute("gktotalTime",minutes);
+		}
 		usingPhoneBill = iStatisticsService.loginOrganUsingPhoneBill(user.getUserCode(),0);
 		JsSysMember member = iMemberService.getMemberByAccountCode(user.getUserCode());
 		reserveField1 = member.getReserveField1();
 		
-		model.addAttribute("gktotalTime",totalTime);
 		model.addAttribute("gkusingPhoneBill",usingPhoneBill);
 		model.addAttribute("gkreserveField1", reserveField1);
 		
@@ -216,7 +231,7 @@ public class StatisticsController extends BaseController{
 		double customCountChange = 0;
 		double intentionCountChange = 0;
 		String conversionRate = "";
-		List list = new ArrayList();
+		List list1 = new ArrayList();
 		JSONObject js;
 
 		Calendar cal= null;
@@ -240,14 +255,14 @@ public class StatisticsController extends BaseController{
 				conversionRate = decimalFormat.format(Double.valueOf(intentionCountChange/customCountChange));;
 				sv.setDate(day);
 				sv.setConversionRate(conversionRate);
-				list.add(sv);
+				list1.add(sv);
 	        }else {
 	        	sv.setDate(day);
 				sv.setConversionRate("0.0");
-	        	list.add(sv);
+	        	list1.add(sv);
 	        }
 		}
-		model.addAttribute("gkconversionRate",list);
+		model.addAttribute("gkconversionRate",list1);
 		
 		model.addAttribute("result",true);
 		

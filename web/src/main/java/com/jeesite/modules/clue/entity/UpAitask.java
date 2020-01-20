@@ -17,7 +17,7 @@ public class UpAitask {
 
     private String upStatus;
 
-    private Integer upTalktime;
+    private int upTalktime;
     
     private String upCluecode;
 
@@ -97,11 +97,11 @@ public class UpAitask {
         this.upStatus = upStatus == null ? null : upStatus.trim();
     }
 
-    public Integer getUpTalktime() {
+    public int getUpTalktime() {
         return upTalktime;
     }
 
-    public void setUpTalktime(Integer upTalktime) {
+    public void setUpTalktime(int upTalktime) {
         this.upTalktime = upTalktime;
     }
     

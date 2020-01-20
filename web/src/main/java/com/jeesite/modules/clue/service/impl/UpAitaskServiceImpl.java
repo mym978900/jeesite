@@ -68,5 +68,11 @@ public class UpAitaskServiceImpl implements UpAitaskService {
 		return userCode;
 	}
 
+	//获取当天拨打的用户手机号和数量
+	@Override
+	public List getTodayAitask() {
+		List list = upAitaskMapper.getTodayAitask();
+		return list;
+	}
 
 }

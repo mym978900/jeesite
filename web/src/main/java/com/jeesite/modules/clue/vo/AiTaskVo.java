@@ -10,8 +10,17 @@ public class AiTaskVo {
 	private String userCode;
 	private Integer pageNum;
 	private String memberGrade;
+	private String seat;
 	private PageInfo<UpAitask> pageInfo;
 	private boolean result;
+	
+	
+	public String getSeat() {
+		return seat;
+	}
+	public void setSeat(String seat) {
+		this.seat = seat;
+	}
 	public String getBeginTime() {
 		return beginTime;
 	}

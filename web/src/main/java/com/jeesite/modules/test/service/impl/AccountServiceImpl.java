@@ -80,7 +80,7 @@ public class AccountServiceImpl implements AccountService {
 		member.setSerialNumber(DailyUtil.getUuid());
 		member.setMemberGrade("0");
 		member.setReserveField1("0");
-		member.setReserveDield2("0");
+		member.setReserveDield2("1");
 		member.setMemberCreatetime(new Date());
 		member.setMemberOvertime("今日");
 		JsSysUser user = jsSysUserMapper.selectByLoginCode(userVo.getUser().getLoginCode());
