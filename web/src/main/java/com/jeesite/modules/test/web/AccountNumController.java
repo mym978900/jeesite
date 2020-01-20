@@ -107,7 +107,7 @@ public class AccountNumController {
 		if (num != 1) {
 			return 0;// 添加失败
 		}
-		messageService.toGetMessageByApply(request, "17633603265");
+		messageService.toGetMessageByApply(request, apply,"17633603265");
 		return 1;// 成功
 
 	}
