@@ -90,10 +90,11 @@ public class CostServiceImpl implements CostService {
 			order.setCreateTime(new Date());
 			order.setTotalFee(product.getTotalFee());
 			order.setNickname("余额支付");
-			order.setHeadImg(userVo.getUser().getLoginCode());
+			order.setHeadImg(userVo.getUser().getUserCode());
 			order.setVideoTitle("消费");
 			order.setIp(IpUtils.getIpAddr(request));
 			order.setDel(0);
+			order.setVideoImg(userVo.getUser().getLoginCode());
 			int num = videoOrderMapper.insertSelective(order);
 			if (num != 1) {
 				return "0";
@@ -123,7 +124,7 @@ public class CostServiceImpl implements CostService {
 			 * 会员表编辑
 			 */
 			// 查询会员信息
-			JsSysMember member = jsSysMemberMapper.selectMemberByNumber(VideoOrder.getHeadImg());
+			JsSysMember member = jsSysMemberMapper.selectMemberByNumber(VideoOrder.getVideoImg());
 			// 标题
 			String title = VideoOrder.getOutTradeNo();
 			// 会员等级

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.jeesite.modules.clue.entity.UpAitask;
+import com.jeesite.modules.clue.entity.UpClue;
+import com.jeesite.modules.clue.vo.AiTaskVo;
 
 public interface UpAitaskService {
 
@@ -17,5 +19,13 @@ public interface UpAitaskService {
 
 	//更新任务状态
 	void updateByTaskId(String status, String taskId);
+
+	//查询ai外呼和上传机构已拨打数据
+	List<UpAitask> getAiTask(AiTaskVo atv);
+
+	List getAitaskList(String userCode);
+
+	//根据任务Id查看用户userCode
+	String getAiTaskBytaskId(String taskId);
 
 }

@@ -10,11 +10,18 @@ public class ClueVo {
 	private String endTime;
 	private String status;
 	private String userCode;
+	private String memberGrade;
 	private Integer pageNum;
 	private PageInfo<UpClue> pageInfo;
 	private boolean result;
 	
 	
+	public String getMemberGrade() {
+		return memberGrade;
+	}
+	public void setMemberGrade(String memberGrade) {
+		this.memberGrade = memberGrade;
+	}
 	public String getUserCode() {
 		return userCode;
 	}

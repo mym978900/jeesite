@@ -22,7 +22,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.jeesite.common.shiro.realm.LoginInfo;
 import com.jeesite.common.web.BaseController;
 import com.jeesite.common.web.http.ServletUtils;
+import com.jeesite.modules.clue.entity.UpAitask;
 import com.jeesite.modules.clue.service.StatisticsService;
+import com.jeesite.modules.clue.service.UpAitaskService;
 import com.jeesite.modules.sys.entity.User;
 import com.jeesite.modules.sys.utils.UserUtils;
 import com.jeesite.modules.test.entity.JsSysMember;
@@ -37,6 +39,9 @@ public class StatisticsController extends BaseController{
 	
 	@Autowired
 	private MemberService iMemberService;
+	
+	@Autowired
+	private UpAitaskService iUpAitaskService;
 	
 	//AI外呼统计
 	@RequestMapping(value="loginOrganDialStatistics", method = RequestMethod.POST)
@@ -94,9 +99,24 @@ public class StatisticsController extends BaseController{
 		}
 		
 		//通话总时长
-		double totalTime = iStatisticsService.loginOrganTotalCallTime(user.getUserCode(),0);
-		
-		model.addAttribute("aitotaltime",totalTime);
+//		double totalTime = iStatisticsService.loginOrganTotalCallTime(user.getUserCode(),0);
+		int talkTime;
+		int minutes = 0;
+		int remainder;
+		List<UpAitask> list = iUpAitaskService.getAitaskList(user.getUserCode());
+		if(list != null) {
+			for(int i=0;i<list.size();i++) {
+				talkTime = list.get(i).getUpTalktime();
+				minutes = talkTime / 60 + minutes;
+				remainder = talkTime % 60;
+				if(remainder>0) {
+					minutes++;
+				}
+			}
+			model.addAttribute("aitotaltime",minutes);
+		}else {
+			model.addAttribute("aitotaltime",minutes);
+		}
 		
 		//通话总时长
 		String averTime = "";
@@ -104,7 +124,7 @@ public class StatisticsController extends BaseController{
 		//平均通话时长
 		if(ywcjtCount!=0) {
 			DecimalFormat decimalFormat=new DecimalFormat("0.00");//构造方法的字符格式这里如果小数不足2位,会以0补足.
-			averTime = decimalFormat.format(totalTime/ywcjtCount);
+			averTime = decimalFormat.format(minutes/ywcjtCount);
 		}
 		
 		model.addAttribute("aiaverTime",averTime);
@@ -185,7 +205,6 @@ public class StatisticsController extends BaseController{
 		
 		totalTime = iStatisticsService.loginOrganTotalCallTime(user.getUserCode(),0);
 		usingPhoneBill = iStatisticsService.loginOrganUsingPhoneBill(user.getUserCode(),0);
-		
 		JsSysMember member = iMemberService.getMemberByAccountCode(user.getUserCode());
 		reserveField1 = member.getReserveField1();
 		

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.jeesite.modules.clue.entity.UpClue;
+import com.jeesite.modules.clue.vo.AiTaskVo;
 import com.jeesite.modules.clue.vo.ClueVo;
 import com.jeesite.modules.clue.vo.IntentionVo;
 
@@ -39,4 +40,5 @@ public interface UpClueService {
 
 	//意向用户
 	public List getIntentionClue(IntentionVo itv);
+
 }

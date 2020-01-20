@@ -57,9 +57,10 @@ public class VideoOrderServiceImpl implements VideoOrderService {
 		order.setCreateTime(new Date());
 		order.setTotalFee(product.getTotalFee());
 		order.setNickname("微信");
-		order.setHeadImg(userVo.getUser().getLoginCode());
+		order.setHeadImg(userVo.getUser().getUserCode());
 		order.setIp(IpUtils.getIpAddr(request));
 		order.setDel(0);
+		order.setVideoImg(userVo.getUser().getLoginCode());
 		
 		videoOrderMapper.insertSelective(order);
 

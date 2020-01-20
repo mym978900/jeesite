@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.jeesite.modules.clue.entity.UpClue;
 import com.jeesite.modules.clue.mapper.UpClueMapper;
 import com.jeesite.modules.clue.service.UpClueService;
+import com.jeesite.modules.clue.vo.AiTaskVo;
 import com.jeesite.modules.clue.vo.ClueVo;
 import com.jeesite.modules.clue.vo.IntentionVo;
 

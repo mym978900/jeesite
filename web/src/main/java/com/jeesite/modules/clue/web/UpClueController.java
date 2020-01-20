@@ -75,6 +75,7 @@ import com.jeesite.modules.clue.utils.ClueUtils;
 import com.jeesite.modules.clue.utils.ExcelReader;
 import com.jeesite.modules.clue.utils.PropertiesListenerConfig;
 import com.jeesite.modules.clue.vo.AiInfoVo;
+import com.jeesite.modules.clue.vo.AiTaskVo;
 import com.jeesite.modules.clue.vo.CallBackOutBoundVo;
 import com.jeesite.modules.clue.vo.CallBackOutBoundVo.CallInstanceVO;
 import com.jeesite.modules.clue.vo.CallBackOutBoundVo.TaskResultVO;
@@ -157,7 +158,11 @@ public class UpClueController extends BaseController{
 		uc.setUpClueSex(sex);
 		uc.setUpClueAge(Integer.parseInt(age));
 		uc.setUpClueTime(new Date());
-		uc.setUpClueAddre(site);
+		if(site.contains("北京市")) {
+			uc.setUpClueAddre(site);
+		}else {
+			uc.setUpClueAddre("北京市"+site);
+		}
 		uc.setUpClueAppraise("0");
 		uc.setUpClueStatus("2");
 		uc.setUpUserCode(user.getUserCode());
@@ -220,6 +225,9 @@ public class UpClueController extends BaseController{
 				clv.setEndTime(clv.getEndTime()+" 24:0:0");
 			}
 		}
+		//查看会员级别
+		JsSysMember member = iMeberService.getMemberByAccountCode(user.getUserCode());
+		
 		clv.setUserCode(user.getUserCode());
 		list = iUpClueService.getUpClueList(clv);
 		
@@ -239,6 +247,7 @@ public class UpClueController extends BaseController{
 			cv.setEndTime(clv.getEndTime());
 			cv.setStatus(clv.getStatus());
 		}
+		cv.setMemberGrade(member.getMemberGrade());
 		cv.setPageNum(pageNum);
 		cv.setPageInfo(page);
 		cv.setResult(true);
@@ -396,7 +405,11 @@ public class UpClueController extends BaseController{
 	                    				uc.setUpClueAddre(address);
 	                    				uc.setUpIseffective("0");
 	                    			}else {
-	                    				uc.setUpClueAddre(address);
+	                    				if(!address.contains("北京市")) {
+	                    					uc.setUpClueAddre(address);
+	                    				}else {
+	                    					uc.setUpClueAddre("北京市"+address);
+	                    				}
 	                    			}
 	                    			uc.setUpClueAppraise("0");
 	                    			uc.setUpClueStatus("2");
@@ -410,7 +423,11 @@ public class UpClueController extends BaseController{
 	                		if(jsm.getMatchUpdate()==null) {
 	                			jsm.setMatchUpdate(new Date());
 	                		}
-	                		jsm.setClueCount(jsm.getClueCount()+parsedResult.size());
+	                		if(jsm.getClueCount() != null) {
+	                			jsm.setClueCount(jsm.getClueCount()+parsedResult.size());
+	                		}else {
+	                			jsm.setClueCount(parsedResult.size());
+	                		}
                 			iMeberService.updateByPrimaryKey(jsm);
 	                		
 	                        //保存批量线索文件记录
@@ -495,6 +512,15 @@ public class UpClueController extends BaseController{
 		}
 		aiv.setTimes(jsm.getAiTimes());
 		list = iUpAiInfoService.getUpAiInfoList(aiv);
+		
+		//手机号脱敏
+		UpAiinfo ua;
+		if(list != null && !list.isEmpty()) {
+			for(int i=0;i<list.size();i++) {
+				ua = list.get(i);
+				ua.setUpAiphone(ClueUtils.mobilePhone(ua.getUpAiphone()));
+			}
+		}
 		PageInfo<UpAiinfo> page = new PageInfo<UpAiinfo>(list);
 		//向前台传值
 		if(aiv!= null) {
@@ -502,6 +528,72 @@ public class UpClueController extends BaseController{
 			av.setEndTime(aiv.getEndTime());
 			av.setStatus(aiv.getStatus());
 		}
+		av.setMemberGrade(jsm.getMemberGrade());
+		av.setPageNum(pageNum);
+		av.setPageInfo(page);
+		av.setResult(true);
+		return av;
+    	
+    }
+    
+    //查询ai外呼和上传机构已拨打数据
+    @RequestMapping(value = "getAiTask", method = RequestMethod.POST)
+	@ResponseBody
+    public AiTaskVo getAiTask(
+    		@RequestParam(required = false, defaultValue = "1", value="pageNum") Integer pageNum,
+			@RequestBody(required = false) AiTaskVo atv) {
+    	AiTaskVo av = new AiTaskVo();
+    	//获取登录用户信息
+    	LoginInfo loginInfo = UserUtils.getLoginInfo();
+    	if(loginInfo == null){
+    		UserUtils.getSubject().logout();
+    		av.setResult(false);
+    		return av;
+    	}
+    	
+    	// 当前用户对象信息
+    	User user = UserUtils.get(loginInfo.getId());
+    	if (user == null){
+    		UserUtils.getSubject().logout();
+    		av.setResult(false);
+    		return av;
+    	}
+    	//查看会员级别
+    	JsSysMember member = iMeberService.getMemberByAccountCode(user.getUserCode());
+		//默认第一页	
+		pageNum = pageNum == null ? 1 : pageNum;
+		PageHelper.startPage(pageNum, 8);
+		List<UpAitask> list = new ArrayList<UpAitask>();
+		if(atv == null ) {
+			atv = new AiTaskVo();
+		}
+		//前台传的日期无时分秒，自动加上获取当天24小时创建的线索
+		if(atv!=null) {
+			if(atv.getBeginTime()!=  null &&atv.getEndTime() != null) {
+				atv.setBeginTime(atv.getBeginTime()+" 0:0:0");
+				atv.setEndTime(atv.getEndTime()+" 24:0:0");
+			}
+		}
+		
+		atv.setUserCode(user.getUserCode());
+		list = iUpAitaskService.getAiTask(atv);
+		
+		//数据脱敏处理
+		UpAitask uat;
+		if(list != null && !list.isEmpty()) {
+			for(int i=0;i<list.size();i++) {
+				uat = list.get(i);
+				uat.setUpCluename(ClueUtils.chineseName(uat.getUpCluename()));
+				uat.setUpCluetel(ClueUtils.mobilePhone(uat.getUpCluetel()));
+			}
+		}
+		PageInfo<UpAitask> page = new PageInfo<UpAitask>(list);
+		//向前台传值
+		if(atv!= null) {
+			av.setBeginTime(atv.getBeginTime());
+			av.setEndTime(atv.getEndTime());
+		}
+		av.setMemberGrade(member.getMemberGrade());
 		av.setPageNum(pageNum);
 		av.setPageInfo(page);
 		av.setResult(true);
@@ -534,7 +626,7 @@ public class UpClueController extends BaseController{
 		}
     	
     	JsSysMember member = iMeberService.getMemberByAccountCode(user.getUserCode());
-    	if(Integer.parseInt(member.getReserveField1()) < 100) {
+    	if(Double.parseDouble(member.getReserveField1()) < 100) {
     		cav.setResult(false);
     		cav.setMessage("您的余额当前不足100元，请充值后使用AI外呼");
     		return cav;
@@ -645,6 +737,7 @@ public class UpClueController extends BaseController{
 	    			properties.put("课程名称", jsm.getOrganClass());//课程名称
 	    			properties.put("clueSource", "1");//线索来源
 	    			properties.put("clueCode", upClueCode);//线索标识
+	    			properties.put("userCode", user.getUserCode());//用户编码
 	    			jsonCustomer.put("name", uc.getUpClueName());
 	    			jsonCustomer.put("phone", uc.getUpClueTel());
 	    			jsonCustomer.put("properties", properties);
@@ -659,7 +752,9 @@ public class UpClueController extends BaseController{
 	    			ut.setUpCreatetime(date);
 	    			ut.setUpCreateusercode(user.getUserCode());
 	    			ut.setUpCluecode(upClueCode);
+	    			ut.setUpCluename(uc.getUpClueName());
 	    			ut.setUpDeductionmark("0");
+	    			ut.setUpCluetel(uc.getUpClueTel());
 	    			iUpAitaskService.addUpAitask(ut);
 	    		}
 			}
@@ -694,6 +789,8 @@ public class UpClueController extends BaseController{
 	    			ut.setUpCreatetime(date);
 	    			ut.setUpCreateusercode(user.getUserCode());
 	    			ut.setUpCluecode(upClueCode);
+	    			ut.setUpCluename(uc.getUpClueName());
+	    			ut.setUpCluetel(uc.getUpClueTel());
 	    			ut.setUpDeductionmark("0");
 	    			iUpAitaskService.addUpAitask(ut);
 	    		}
@@ -860,7 +957,7 @@ public class UpClueController extends BaseController{
 						
 						//查询账户余额如果不够负十元停掉当前任务
 						JsSysMember member = iMeberService.getMemberByAccountCode(userCode);
-						if(Integer.parseInt(member.getReserveField1())<=-10) {
+						if(Double.parseDouble(member.getReserveField1())<=-10) {
 							BYClient client = new DefaultBYClient(new Token(accesstoken));
 							ByaiOpenapiCalljobExecuteParams byaiOpenapiCalljobExecuteParams = new ByaiOpenapiCalljobExecuteParams();
 
@@ -898,6 +995,14 @@ public class UpClueController extends BaseController{
 	    		callJobStatus = cbob.getData().getData().getCallJobStatus();
 	    		taskId = cbob.getData().getData().getCallJobId()+"";
 	    		iUpAitaskService.updateByTaskId(callJobStatus+"",taskId);
+	    		if("2".equals(callJobStatus)) {
+	    			String usercode = iUpAitaskService.getAiTaskBytaskId(taskId);
+//	    			String number = iUpAitaskService.getAiTaskBytastCount(taskId);
+//	    			JsSysMember member = iMeberService.getMemberByAccountCode(userCode);
+//	    			member.get
+//		    		AiUtil au = new AiUtil();
+//		    		au.sentMessage(phone, number);
+	    		}
 	    		response.setCharacterEncoding("utf-8");
 	    		response.getWriter().write("success");
 				return;
@@ -965,14 +1070,17 @@ public class UpClueController extends BaseController{
 		list = iUpClueService.getIntentionClue(itv);
     	
 		//数据脱敏处理
-//		HashMap m;
-//		if(list != null && !list.isEmpty()) {
-//			for(int i=0;i<list.size();i++) {
-//				m = (HashMap) list.get(i);
-//				m.put("up_cluename", ClueUtils.chineseName(m.get("up_cluename").toString()));
-//			}
-//		}
-		PageInfo<UpClue> page = new PageInfo<UpClue>(list);
+		HashMap m;
+		if(list != null && !list.isEmpty()) {
+			for(int i=0;i<list.size();i++) {
+				m = (HashMap) list.get(i);
+				SimpleDateFormat sdf=  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				if(m.get("upAiendtime")!= null ) {
+					m.put("upAiendtime", sdf.format(m.get("upAiendtime")));
+				}
+			}
+		}
+		PageInfo<UpAiinfo> page = new PageInfo<UpAiinfo>(list);
 		//向前台传值
 		if(itv!= null) {
 			iv.setBeginTime(itv.getBeginTime());

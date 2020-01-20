@@ -36,6 +36,10 @@ public class UpAitask {
     private String upFinishstatus;
     
     private String upAiappraise;
+    
+    private String upCluename;
+    
+    private String upCluetel;
 
     public String getUpTaskid() {
         return upTaskid;
@@ -171,5 +175,21 @@ public class UpAitask {
 
     public void setUpAiappraise(String upAiappraise) {
         this.upAiappraise = upAiappraise == null ? null : upAiappraise.trim();
+    }
+    
+    public String getUpCluename() {
+        return upCluename;
+    }
+
+    public void setUpCluename(String upCluename) {
+        this.upCluename = upCluename == null ? null : upCluename.trim();
+    }
+    
+    public String getUpCluetel() {
+        return upCluetel;
+    }
+
+    public void setUpCluetel(String upCluetel) {
+        this.upCluetel = upCluetel == null ? null : upCluetel.trim();
     }
 }

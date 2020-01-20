@@ -155,7 +155,7 @@ public class WxPayController {
 					//查询订单
 					VideoOrder order = aliPayService.findOrderByTradeNo(outTradeNo);
 					//查询会员信息
-					JsSysMember member = aliPayService.findMemberByLoginCode(order.getHeadImg());
+					JsSysMember member = aliPayService.findMemberByLoginCode(order.getVideoImg());
 					// 标题
 					String title = order.getOutTradeNo();
 					// 会员等级

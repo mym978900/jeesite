@@ -22,6 +22,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
+import com.jeesite.modules.sys.utils.UserUtils;
 import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.entity.JsSysUser;
 import com.jeesite.modules.test.mapper.JsSysMemberMapper;
@@ -140,6 +141,7 @@ public class TestMessageServiceImpl implements TestMessageService {
 		if (num != 1) {
 			return 2;// 修改失败
 		}
+		UserUtils.clearCache(userVo.getUser());
 		return 1;// 修改成功
 	}
 
@@ -178,6 +180,7 @@ public class TestMessageServiceImpl implements TestMessageService {
 		if (num != 1) {
 			return 4;// 修改失败
 		}
+		UserUtils.clearCache(userVo.getUser());
 		return 5;// 修改成功
 	}
 

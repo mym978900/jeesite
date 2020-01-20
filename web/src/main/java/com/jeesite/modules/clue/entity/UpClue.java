@@ -49,6 +49,7 @@ public class UpClue {
     
     private String upClueTaskid;
     
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date upAiexecutetime;
 
     private Date upAipersontime;

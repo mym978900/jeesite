@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jeesite.modules.clue.entity.UpAitask;
+import com.jeesite.modules.clue.entity.UpClue;
 import com.jeesite.modules.clue.mapper.UpAitaskMapper;
 import com.jeesite.modules.clue.service.UpAitaskService;
 import com.jeesite.modules.clue.vo.AiInfoVo;
+import com.jeesite.modules.clue.vo.AiTaskVo;
 
 @Service
 public class UpAitaskServiceImpl implements UpAitaskService {
@@ -39,6 +41,31 @@ public class UpAitaskServiceImpl implements UpAitaskService {
 	@Override
 	public void updateByTaskId(String status,String taskId) {
 		upAitaskMapper.updateByTaskId(status,taskId);
+	}
+
+	//查询ai外呼和上传机构已拨打数据
+	@Override
+	public List<UpAitask> getAiTask(AiTaskVo atv) {
+		List list = upAitaskMapper.getAiTask(atv);
+		return list;
+	}
+
+	//获取数据集
+	@Override
+	public List<UpAitask> getAitaskList(String userCode) {
+		List<UpAitask> list = upAitaskMapper.getAitaskList(userCode);
+		return list;
+	}
+
+	//根据任务Id查看用户userCode
+	@Override
+	public String getAiTaskBytaskId(String taskId) {
+		List<UpAitask> list = upAitaskMapper.getAiTaskBytaskId(taskId);
+		String userCode ="";
+		if(list != null) {
+			userCode = list.get(0).getUpCreateusercode();
+		}
+		return userCode;
 	}
 
 

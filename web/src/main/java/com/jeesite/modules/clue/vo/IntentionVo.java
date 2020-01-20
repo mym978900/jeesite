@@ -1,7 +1,7 @@
 package com.jeesite.modules.clue.vo;
 
 import com.github.pagehelper.PageInfo;
-import com.jeesite.modules.clue.entity.UpClue;
+import com.jeesite.modules.clue.entity.UpAiinfo;
 
 public class IntentionVo {
 
@@ -9,7 +9,7 @@ public class IntentionVo {
 	private String endTime;
 	private String userCode;
 	private Integer pageNum;
-	private PageInfo<UpClue> pageInfo;
+	private PageInfo<UpAiinfo> pageInfo;
 	private boolean result;
 	
 	
@@ -43,14 +43,14 @@ public class IntentionVo {
 	public void setPageNum(Integer pageNum) {
 		this.pageNum = pageNum;
 	}
-	public PageInfo<UpClue> getPageInfo() {
+	public PageInfo<UpAiinfo> getPageInfo() {
 		return pageInfo;
 	}
-	public void setPageInfo(PageInfo<UpClue> pageInfo) {
+	public void setPageInfo(PageInfo<UpAiinfo> pageInfo) {
 		this.pageInfo = pageInfo;
 	}
 	
-	public IntentionVo(String beginTime, String endTime, String userCode, Integer pageNum, PageInfo<UpClue> pageInfo,
+	public IntentionVo(String beginTime, String endTime, String userCode, Integer pageNum, PageInfo<UpAiinfo> pageInfo,
 			boolean result) {
 		super();
 		this.beginTime = beginTime;

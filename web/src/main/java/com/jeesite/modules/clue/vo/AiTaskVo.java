@@ -1,33 +1,17 @@
 package com.jeesite.modules.clue.vo;
 
 import com.github.pagehelper.PageInfo;
-import com.jeesite.modules.clue.entity.UpAiinfo;
+import com.jeesite.modules.clue.entity.UpAitask;
 
-public class AiInfoVo {
+public class AiTaskVo {
 
 	private String beginTime;
 	private String endTime;
-	private String status;
-	private Integer times;
 	private String userCode;
 	private Integer pageNum;
 	private String memberGrade;
-	private PageInfo<UpAiinfo> pageInfo;
+	private PageInfo<UpAitask> pageInfo;
 	private boolean result;
-	
-	
-	public String getMemberGrade() {
-		return memberGrade;
-	}
-	public void setMemberGrade(String memberGrade) {
-		this.memberGrade = memberGrade;
-	}
-	public String getUserCode() {
-		return userCode;
-	}
-	public void setUserCode(String userCode) {
-		this.userCode = userCode;
-	}
 	public String getBeginTime() {
 		return beginTime;
 	}
@@ -40,17 +24,11 @@ public class AiInfoVo {
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	public String getStatus() {
-		return status;
+	public String getUserCode() {
+		return userCode;
 	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	public Integer getTimes() {
-		return times;
-	}
-	public void setTimes(Integer times) {
-		this.times = times;
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
 	}
 	public Integer getPageNum() {
 		return pageNum;
@@ -58,10 +36,16 @@ public class AiInfoVo {
 	public void setPageNum(Integer pageNum) {
 		this.pageNum = pageNum;
 	}
-	public PageInfo<UpAiinfo> getPageInfo() {
+	public String getMemberGrade() {
+		return memberGrade;
+	}
+	public void setMemberGrade(String memberGrade) {
+		this.memberGrade = memberGrade;
+	}
+	public PageInfo<UpAitask> getPageInfo() {
 		return pageInfo;
 	}
-	public void setPageInfo(PageInfo<UpAiinfo> pageInfo) {
+	public void setPageInfo(PageInfo<UpAitask> pageInfo) {
 		this.pageInfo = pageInfo;
 	}
 	public boolean isResult() {
@@ -70,22 +54,21 @@ public class AiInfoVo {
 	public void setResult(boolean result) {
 		this.result = result;
 	}
-	
-	public AiInfoVo(String beginTime, String endTime, String status, int times, String userCode, Integer pageNum, PageInfo<UpAiinfo> pageInfo,
-			boolean result) {
+	public AiTaskVo(String beginTime, String endTime, String userCode, Integer pageNum, String memberGrade,
+			PageInfo<UpAitask> pageInfo, boolean result) {
 		super();
 		this.beginTime = beginTime;
 		this.endTime = endTime;
-		this.status = status;
-		this.times = times;
 		this.userCode = userCode;
 		this.pageNum = pageNum;
+		this.memberGrade = memberGrade;
 		this.pageInfo = pageInfo;
 		this.result = result;
 	}
-	
-	public AiInfoVo() {
+	public AiTaskVo() {
 		super();
 	}
+	
+	
 	
 }

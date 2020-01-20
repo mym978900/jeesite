@@ -101,7 +101,7 @@ public class AddressUtil {
         return values;
 	}
 	
-//	public static void main(String[] args) {
+	public static void main(String[] args) {
 //		AddressUtil au = new AddressUtil();
 //		String address = "京旺南街与京旺东路交叉口";
 //		Object[] html;
@@ -111,7 +111,9 @@ public class AddressUtil {
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
-//	}
+		long scpp = 30 * 24 * 60 * 60;
+		System.out.println(scpp+"000");
+	}
 	
 //	public static void main(String[] args) {
 //		String s = "{\"status\":0,\"result\":{\"location\":{\"lng\":116.87243317374606,\"lat\":38.32036671947827},\"precise\":0,\"confidence\":20,\"comprehension\":57,\"level\":\"区县\"}}";

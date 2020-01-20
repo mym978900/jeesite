@@ -2,6 +2,8 @@ package com.jeesite.modules.clue.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class UpAiinfo {
 	private String upId;
 	
@@ -15,6 +17,7 @@ public class UpAiinfo {
 
     private Integer upAitimes;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date upAicreatetime;
 
     private Date upAiexecutetime;
@@ -39,6 +42,7 @@ public class UpAiinfo {
     
     private Date upAipersonendtime;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date upAiendtime;
 
     private Integer upTalktime;

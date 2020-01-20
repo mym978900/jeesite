@@ -16,6 +16,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
+import com.aliyuncs.CommonRequest;
+import com.aliyuncs.CommonResponse;
+import com.aliyuncs.DefaultAcsClient;
+import com.aliyuncs.IAcsClient;
+import com.aliyuncs.exceptions.ClientException;
+import com.aliyuncs.exceptions.ServerException;
+import com.aliyuncs.http.MethodType;
+import com.aliyuncs.profile.DefaultProfile;
 import com.byai.client.auth.Token;
 import com.byai.client.core.BYClient;
 import com.byai.client.core.DefaultBYClient;
@@ -81,8 +89,30 @@ public class AiUtil {
 		return "";
 	}
 	
+	public static void sentMessage(String phone,int number) {
+		DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI4FwvuFWVLTCdpgirTHD2",
+		    "4bvT0wNF90llCp4ArRlWPRyYIE6f1Z");
+		IAcsClient client = new DefaultAcsClient(profile);
 	
-	
+		CommonRequest request = new CommonRequest();
+		request.setMethod(MethodType.POST);
+	        request.setDomain("dysmsapi.aliyuncs.com");
+	        request.setVersion("2017-05-25");
+	        request.setAction("SendSms");
+	        request.putQueryParameter("RegionId", "cn-hangzhou");
+	        request.putQueryParameter("PhoneNumbers", phone);
+	        request.putQueryParameter("SignName", "奥力格科技");
+	        request.putQueryParameter("TemplateCode", "SMS_182682624");
+	        request.putQueryParameter("TemplateParam", "{\"number\":\""+number+"\"}");
+		try {
+		   CommonResponse response = client.getCommonResponse(request);
+		   System.out.println(response.getData());
+		} catch (ServerException e) {
+		   e.printStackTrace();
+		} catch (ClientException e) {
+		   e.printStackTrace();
+		}
+	}
 	
 	public static void main(String[] args) {
 		AiUtil ai = new AiUtil();

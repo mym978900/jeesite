@@ -393,15 +393,14 @@
   	<include refid="Base_Column_List" />
     from up_clue
     where up_clue_longitude = "" || up_clue_longitude is null
-    and up_isEffective <![CDATA[ <> ]]> '0'
   </select>
   <select id="getIntentionClue" resultType="java.util.HashMap">
-  	select t.up_aipersontime,t.up_clue_tel as up_aiphone,'1' as source
+  	select t.up_aiendtime as upAiendtime ,t.up_aipersontime,t.up_clue_tel as up_aiphone,'1' as source
   	from up_clue t where 1=1 
   	and t.up_user_code = #{userCode} 
   	and t.up_clue_appraise='1' 
   	UNION 
-  	select m.up_aipersontime,m.up_aiphone , '2' as source	
+  	select m.up_aiendtime as upAiendtime,m.up_aipersontime,m.up_aiphone , '2' as source	
   	from up_aiinfo m 
   	where m.up_usercode=#{userCode}
   	and m.up_aiappraise='1'
@@ -411,7 +410,7 @@
 		m.up_aipersonendtime
 	) &lt; 14
 	UNION
-	select m.up_aipersontime,m.up_aiphone ,'2' as source
+	select m.up_aiendtime as upAiendtime,m.up_aipersontime,m.up_aiphone ,'2' as source
   	from up_aiinfo m 
   	where m.up_usercode=#{userCode}
   	and m.up_aiappraise='1'

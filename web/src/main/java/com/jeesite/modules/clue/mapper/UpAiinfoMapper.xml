@@ -593,14 +593,14 @@
   	and up_aicode = #{upClueCode}
   </update>
   <select id="getMatchClueByUserCodeAndClueCode" resultMap="BaseResultMap">
-  	select up_aicode, up_aiappraise, up_aistatus, 
+  	select up_id, up_aicode, up_aiappraise, up_aistatus, 
       up_usercode, up_aitimes, up_aicreatetime, 
       up_aiexecutetime, up_aipersontime, up_aitaskid, 
       up_aiphone, extra1, extra2, 
       extra3, extra4, extra5, 
       up_cluename
     from up_aiinfo
-    where upAicode = #{upAicode}
-    and upUsercode = #{upUsercode}
+    where up_aicode = #{upClueCode}
+    and up_usercode = #{userCode}
   </select>
 </mapper>

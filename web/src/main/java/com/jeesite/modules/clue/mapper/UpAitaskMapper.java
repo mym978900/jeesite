@@ -7,6 +7,7 @@ import java.util.Map;
 
 
 import com.jeesite.modules.clue.entity.UpAitask;
+import com.jeesite.modules.clue.vo.AiTaskVo;
 import com.jeesite.modules.test.vo.AitaskVo;
 
 public interface UpAitaskMapper {
@@ -35,4 +36,10 @@ public interface UpAitaskMapper {
 
 	//更新外呼状态
 	void updateByTaskId(String status, String taskId);
+
+	List<UpAitask> getAiTask(AiTaskVo atv);
+
+	List<UpAitask> getAitaskList(String userCode);
+
+	List<UpAitask> getAiTaskBytaskId(String taskId);
 }

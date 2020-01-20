@@ -48,7 +48,7 @@ public class ClueMatchTask {
 	
 	//定时处理智能线索匹配
 	@SuppressWarnings("deprecation")
-	@Scheduled(cron="10 50 14 * * ?")
+	@Scheduled(cron="20 35 19 * * ?")
 	public void clueMatch() {
 		logger.info("数据共享-----开启匹配线索数据筛选任务");
 		//会员等级2、3级支持匹配
@@ -96,6 +96,8 @@ public class ClueMatchTask {
 			HashMap hm = new HashMap();
 			//是否达到匹配线索天数
 			long c = 0;
+			//30天日期
+			String scpp = 30 * 24 * 60 * 60 +"000";
 			
 			if(list !=null && !list.isEmpty()) {
 				for(int i=0;i<list.size();i++) {
@@ -106,7 +108,7 @@ public class ClueMatchTask {
 					count = jsm.getClueCount();
 					longitude = jsm.getMatchLongitude();
 					latitude = jsm.getMatchLatitude();
-					userCode = jsm.getAccountNumber();
+					userCode = jsm.getUserCode();
 					times = jsm.getAiTimes();
 					
 					//已经上传线索数据
@@ -114,7 +116,7 @@ public class ClueMatchTask {
 						//初次匹配
 						if(onedate==null) {
 							//首次30天匹配
-							updateStr = df.format(update.getTime()+30 * 24 * 60 * 60 * 1000);
+							updateStr = df.format(update.getTime()+Long.parseLong(scpp));
 							if(sysdate.equals(updateStr)) {
 								if(grade.equals("2")) {
 									//会员等级2 匹配数等于上传总数
@@ -133,7 +135,7 @@ public class ClueMatchTask {
 									if(matchList != null && !matchList.isEmpty() && exitsMatchList != null && !exitsMatchList.isEmpty()) {
 										matchList.removeAll(exitsMatchList);
 									}
-									if(n==2) {
+									if(n==3) {
 										break;
 									}
 								}
@@ -203,6 +205,9 @@ public class ClueMatchTask {
 									if(matchList != null && !matchList.isEmpty() && exitsMatchList != null && !exitsMatchList.isEmpty()) {
 										matchList.removeAll(exitsMatchList);
 									}
+									if(n==3) {
+										break;
+									}
 								}
 								//截取匹配数的线索
 								if(matchList.size()>=matchCount) {
@@ -247,7 +252,7 @@ public class ClueMatchTask {
 	
 	//为会员和线索标注经纬度
 	@SuppressWarnings("deprecation")
-	@Scheduled(cron="20 16 15 * * ?")
+	@Scheduled(cron="30 41 18 * * ?")
 	public void autoConfigAddress() {
 		
 		//设置会员经纬度
