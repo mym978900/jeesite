@@ -225,8 +225,6 @@ public class UpClueController extends BaseController{
 				clv.setEndTime(clv.getEndTime()+" 24:0:0");
 			}
 		}
-		//查看会员级别
-		JsSysMember member = iMeberService.getMemberByAccountCode(user.getUserCode());
 		
 		clv.setUserCode(user.getUserCode());
 		list = iUpClueService.getUpClueList(clv);
@@ -247,6 +245,8 @@ public class UpClueController extends BaseController{
 			cv.setEndTime(clv.getEndTime());
 			cv.setStatus(clv.getStatus());
 		}
+		//查看会员级别
+		JsSysMember member = iMeberService.getMemberByAccountCode(user.getUserCode());
 		cv.setMemberGrade(member.getMemberGrade());
 		cv.setPageNum(pageNum);
 		cv.setPageInfo(page);
@@ -1008,24 +1008,6 @@ public class UpClueController extends BaseController{
 	    	}
     	}catch(Exception e) {
     		e.printStackTrace();
-    		try {
-    			if(!"".equals(taskId)) {
-	    			BYClient client = new DefaultBYClient(new Token(accesstoken));
-					ByaiOpenapiCalljobExecuteParams byaiOpenapiCalljobExecuteParams = new ByaiOpenapiCalljobExecuteParams();
-	
-					byaiOpenapiCalljobExecuteParams.setCallJobId(Long.parseLong(taskId));
-					byaiOpenapiCalljobExecuteParams.setCommand(3L);
-					byaiOpenapiCalljobExecuteParams.setCompanyId(30008L);
-	
-					ByaiOpenapiCalljobExecute byaiOpenapiCalljobExecute = new ByaiOpenapiCalljobExecute();
-					byaiOpenapiCalljobExecute.setAPIParams(byaiOpenapiCalljobExecuteParams);
-					ByaiOpenapiCalljobExecuteResult result = client.invoke(byaiOpenapiCalljobExecute);
-    			}
-    			response.setCharacterEncoding("utf-8");
-				response.getWriter().write("fail");
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
 			return;
     	}
     }

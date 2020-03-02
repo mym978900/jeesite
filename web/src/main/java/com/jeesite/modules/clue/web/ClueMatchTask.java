@@ -138,36 +138,38 @@ public class ClueMatchTask {
 									if(matchList != null && !matchList.isEmpty() && exitsMatchList != null && !exitsMatchList.isEmpty()) {
 										matchList.removeAll(exitsMatchList);
 									}
-									if(n==3) {
+									if(n==10) {
 										break;
 									}
 								}
 								//截取匹配数的线索-----------------------报错为空的话怎么办
-								if(matchList.size()>=matchCount) {
-									matchListxx = matchList.subList(0, matchCount);
-								}else if(matchList.size() < matchCount && matchList.size() != 0 ) {
-									matchListxx = matchList;
-								}else if(matchList.size()==0) {
-									continue;
-								}
-								for(int j=0;j<matchListxx.size();j++) {
-									hm = (HashMap) matchListxx.get(j);
-									id = UUID.randomUUID().toString().replace("-", "");
-									uai.setUpId(id);
-									uai.setUpAicode(hm.get("up_aicode").toString());//线索编号
-									uai.setUpAiphone(hm.get("up_aiphone").toString());//线索手机号
-									uai.setUpCluename(hm.get("up_cluename").toString());//线索名称
-									uai.setUpAiappraise("0");//意向状态
-									uai.setUpAistatus("2");//未拨打
-									uai.setUpAicreatetime(date);//创建时间
-									uai.setUpUsercode(userCode);//用户编码
-									uai.setUpAitimes(1);//批次
-									
-									//更新线索最新匹配时间
-									Static.iUpClueService.updateMatchTime(hm.get("up_aicode").toString(), date);
-									
-									//新增匹配线索
-									Static.iUpAiInfoService.addUpAiInfo(uai);
+								if(!matchList.isEmpty()) {
+									if(matchList.size()>=matchCount) {
+										matchListxx = matchList.subList(0, matchCount);
+									}else if(matchList.size() < matchCount && matchList.size() != 0 ) {
+										matchListxx = matchList;
+									}else if(matchList.size()==0) {
+										continue;
+									}
+									for(int j=0;j<matchListxx.size();j++) {
+										hm = (HashMap) matchListxx.get(j);
+										id = UUID.randomUUID().toString().replace("-", "");
+										uai.setUpId(id);
+										uai.setUpAicode(hm.get("up_aicode").toString());//线索编号
+										uai.setUpAiphone(hm.get("up_aiphone").toString());//线索手机号
+										uai.setUpCluename(hm.get("up_cluename").toString());//线索名称
+										uai.setUpAiappraise("0");//意向状态
+										uai.setUpAistatus("2");//未拨打
+										uai.setUpAicreatetime(date);//创建时间
+										uai.setUpUsercode(userCode);//用户编码
+										uai.setUpAitimes(1);//批次
+										
+										//更新线索最新匹配时间
+										Static.iUpClueService.updateMatchTime(hm.get("up_aicode").toString(), date);
+										
+										//新增匹配线索
+										Static.iUpAiInfoService.addUpAiInfo(uai);
+									}
 								}
 								
 								//更新用户表首次匹配时间，最新批次
@@ -208,36 +210,38 @@ public class ClueMatchTask {
 									if(matchList != null && !matchList.isEmpty() && exitsMatchList != null && !exitsMatchList.isEmpty()) {
 										matchList.removeAll(exitsMatchList);
 									}
-									if(n==3) {
+									if(n==10) {
 										break;
 									}
 								}
 								//截取匹配数的线索
-								if(matchList.size()>=matchCount) {
-									matchListxx = matchList.subList(0, matchCount);
-								}else if(matchList.size() < matchCount && matchList.size() != 0 ) {
-									matchListxx = matchList;
-								}else if(matchList.size()==0) {
-									continue;
-								}
-								for(int j=0;j<matchListxx.size();j++) {
-									hm = (HashMap) matchListxx.get(i);
-									id = UUID.randomUUID().toString().replace("-", "");
-									uai.setUpId(id);
-									uai.setUpAicode(hm.get("up_aicode").toString());//线索编号
-									uai.setUpAiphone(hm.get("up_aiphone").toString());//线索手机号
-									uai.setUpCluename(hm.get("up_cluename").toString());//线索名称
-									uai.setUpAiappraise("0");//意向状态
-									uai.setUpAistatus("2");//未拨打
-									uai.setUpAicreatetime(date);//创建时间
-									uai.setUpUsercode(userCode);//用户编码
-									uai.setUpAitimes(times+1);//批次
-									
-									//更新线索最新匹配时间
-									Static.iUpClueService.updateMatchTime(hm.get("up_aicode").toString(), date);
-									
-									//新增匹配线索
-									Static.iUpAiInfoService.addUpAiInfo(uai);
+								if(!matchList.isEmpty()) {
+									if(matchList.size()>=matchCount) {
+										matchListxx = matchList.subList(0, matchCount);
+									}else if(matchList.size() < matchCount && matchList.size() != 0 ) {
+										matchListxx = matchList;
+									}else if(matchList.size()==0) {
+										continue;
+									}
+									for(int j=0;j<matchListxx.size();j++) {
+										hm = (HashMap) matchListxx.get(i);
+										id = UUID.randomUUID().toString().replace("-", "");
+										uai.setUpId(id);
+										uai.setUpAicode(hm.get("up_aicode").toString());//线索编号
+										uai.setUpAiphone(hm.get("up_aiphone").toString());//线索手机号
+										uai.setUpCluename(hm.get("up_cluename").toString());//线索名称
+										uai.setUpAiappraise("0");//意向状态
+										uai.setUpAistatus("2");//未拨打
+										uai.setUpAicreatetime(date);//创建时间
+										uai.setUpUsercode(userCode);//用户编码
+										uai.setUpAitimes(times+1);//批次
+										
+										//更新线索最新匹配时间
+										Static.iUpClueService.updateMatchTime(hm.get("up_aicode").toString(), date);
+										
+										//新增匹配线索
+										Static.iUpAiInfoService.addUpAiInfo(uai);
+									}
 								}
 								
 								//更新用户表最新批次
