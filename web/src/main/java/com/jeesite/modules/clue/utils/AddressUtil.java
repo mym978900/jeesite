@@ -22,7 +22,7 @@ public class AddressUtil {
 	 * http://lbsyun.baidu.com/apiconsole/key
 	 * <百度开发者>用户申请注册的key，自v2开始参数修改为“ak”，之前版本参数为“key” 申请ak
 	 */
-	final static String AK = "yqpEOQoKwc64x5fSmAiIRoEjcF2gssOx";
+	final static String AK = "";
 
 
 	/**
@@ -48,7 +48,7 @@ public class AddressUtil {
 		Double lat;//纬度
 		Object[] obj;
 		try {
-			HttpResponse response = client.execute(post);// 用http连接去执行get请求并且获得http响应
+			HttpResponse response = client.execute(post);// 用http连接去执行post请求并且获得http响应
 			HttpEntity entity = response.getEntity();// 从response中取到响实体
 			String html = EntityUtils.toString(entity);// 把响应实体转成文本
 			logger.info("返回信息：" + html);
@@ -102,17 +102,17 @@ public class AddressUtil {
 	}
 	
 	public static void main(String[] args) {
-//		AddressUtil au = new AddressUtil();
-//		String address = "京旺南街与京旺东路交叉口";
-//		Object[] html;
-//		try {
-//			html = au.AddressTolongitudea(address);
-//			System.out.println(html[0]);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-		long scpp = 30 * 24 * 60 * 60;
-		System.out.println(scpp+"000");
+		AddressUtil au = new AddressUtil();
+		String address = "北京市海淀区石景山";
+		Object[] html;
+		try {
+			html = au.AddressTolongitudea(address);
+			System.out.println(html[0]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+//		long scpp = 30 * 24 * 60 * 60;
+//		System.out.println(scpp+"000");
 	}
 	
 //	public static void main(String[] args) {

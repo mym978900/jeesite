@@ -35,27 +35,24 @@ public class ClueMatchTask {
 	
 	private static Logger logger = LoggerFactory.getLogger(ClueMatchTask.class);
 	
-	private static final class Static {
-		//会员信息处理
-		private static MemberService iMeberService = SpringUtils.getBean(MemberService.class);
-		//线索信息处理
-		private static UpClueService iUpClueService = SpringUtils.getBean(UpClueService.class);
-		//匹配信息处理
-		private static UpAiInfoService iUpAiInfoService = SpringUtils.getBean(UpAiInfoService.class);
-		//外呼记录信息
-		private static UpAitaskService iUpAitaskService = SpringUtils.getBean(UpAitaskService.class);
-		//AI外呼信息处理
-		private static SysDictDataService iSysDictDataService = SpringUtils.getBean(SysDictDataService.class);
-	}
-	
+	//会员信息处理
+	private static MemberService iMeberService = SpringUtils.getBean(MemberService.class);
+	//线索信息处理
+	private static UpClueService iUpClueService = SpringUtils.getBean(UpClueService.class);
+	//匹配信息处理
+	private static UpAiInfoService iUpAiInfoService = SpringUtils.getBean(UpAiInfoService.class);
+	//外呼记录信息
+	private static UpAitaskService iUpAitaskService = SpringUtils.getBean(UpAitaskService.class);
+	//AI外呼信息处理
+	private static SysDictDataService iSysDictDataService = SpringUtils.getBean(SysDictDataService.class);
 	
 	//定时处理智能线索匹配
 	@SuppressWarnings("deprecation")
-	@Scheduled(cron="20 35 19 * * ?")
+	@Scheduled(cron="0 42 13 * * ?")
 	public void clueMatch() {
 		logger.info("数据共享-----开启匹配线索数据筛选任务");
 		//会员等级2、3级支持匹配
-		List<JsSysMember> list = Static.iMeberService.getClueMatchUser();
+		List<JsSysMember> list = iMeberService.getClueMatchUser();
 		if(list != null && !list.isEmpty()) {
 			Date date = new Date();
 			SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
@@ -65,6 +62,8 @@ public class ClueMatchTask {
 			Date update = new Date();
 			//首次匹配线索时间
 			Date onedate = new Date();
+			//会员地址是否有效
+			String isEffective ="";
 			//会员等级
 			String grade = "";
 			//会员匹配数量
@@ -105,19 +104,30 @@ public class ClueMatchTask {
 			if(list !=null && !list.isEmpty()) {
 				for(int i=0;i<list.size();i++) {
 					JsSysMember jsm = list.get(i);
+					isEffective = jsm.getUpIseffective();
 					grade = jsm.getMemberGrade();
+					userCode = jsm.getUserCode();
+					//用户不是会员并且无效直接退出线索匹配
+					if("0".contentEquals(grade)) {
+						logger.info("用户["+userCode+"]不是会员，不需要获取线索,进行下一轮匹配");
+						continue;
+					}else if("0".equals(isEffective)) {
+						logger.info("用户["+userCode+"]填写的地址无效，无法获取线索,进行下一轮匹配");
+						continue;
+					}
+					
 					update = jsm.getMatchUpdate();
 					onedate = jsm.getMatchOnedate();
 					count = jsm.getClueCount();
 					longitude = jsm.getMatchLongitude();
 					latitude = jsm.getMatchLatitude();
-					userCode = jsm.getUserCode();
 					times = jsm.getAiTimes();
 					
 					//已经上传线索数据
 					if(count>0) {
 						//初次匹配
 						if(onedate==null) {
+							logger.info("用户["+userCode+"]线索匹配开始");
 							//首次30天匹配
 							updateStr = df.format(update.getTime()+Long.parseLong(scpp));
 							if(sysdate.equals(updateStr)) {
@@ -129,11 +139,11 @@ public class ClueMatchTask {
 									matchCount = 3*count;
 								}
 								//当前用户匹配的线索
-								exitsMatchList = Static.iUpAiInfoService.getExistClue(userCode);
+								exitsMatchList = iUpAiInfoService.getExistClue(userCode);
 								while(matchList.size()<matchCount) {
 									n+=1;
 									values = AddressUtil.findNeighPosition(longitude, latitude, n);
-									matchList = Static.iUpClueService.getMatchClue(jsm.getAccountNumber(),jsm.getOrganClass(),values[0].toString(),values[1].toString(),values[2].toString(),values[3].toString());
+									matchList = iUpClueService.getMatchClue(jsm.getAccountNumber(),jsm.getOrganClass(),values[0].toString(),values[1].toString(),values[2].toString(),values[3].toString());
 									//去掉匹配过得线索
 									if(matchList != null && !matchList.isEmpty() && exitsMatchList != null && !exitsMatchList.isEmpty()) {
 										matchList.removeAll(exitsMatchList);
@@ -143,7 +153,7 @@ public class ClueMatchTask {
 									}
 								}
 								//截取匹配数的线索-----------------------报错为空的话怎么办
-								if(!matchList.isEmpty()) {
+								if(matchList != null && !matchList.isEmpty()) {
 									if(matchList.size()>=matchCount) {
 										matchListxx = matchList.subList(0, matchCount);
 									}else if(matchList.size() < matchCount && matchList.size() != 0 ) {
@@ -165,19 +175,23 @@ public class ClueMatchTask {
 										uai.setUpAitimes(1);//批次
 										
 										//更新线索最新匹配时间
-										Static.iUpClueService.updateMatchTime(hm.get("up_aicode").toString(), date);
+										iUpClueService.updateMatchTime(hm.get("up_aicode").toString(), date);
 										
 										//新增匹配线索
-										Static.iUpAiInfoService.addUpAiInfo(uai);
+										iUpAiInfoService.addUpAiInfo(uai);
 									}
+									logger.info("用户["+userCode+"]线索匹配完成,为用户匹配["+matchListxx.size()+"]条新线索！");
+								}else {
+									logger.info("用户["+userCode+"]线索匹配失败,未找到满足条件线索");
 								}
 								
 								//更新用户表首次匹配时间，最新批次
 								jsm.setMatchOnedate(date);
 								jsm.setAiTimes(1);
-								Static.iMeberService.updateByPrimaryKey(jsm);
+								iMeberService.updateByPrimaryKey(jsm);
 								
-								logger.info("用户["+userCode+"]线索匹配完成");
+							}else {
+								logger.info("用户["+userCode+"]首次匹配时间未到,进行下一轮匹配");
 							}
 						}
 						//不是初次匹配
@@ -193,6 +207,7 @@ public class ClueMatchTask {
 								e.printStackTrace();
 							}
 							if( c == 0) {
+								logger.info("用户["+userCode+"]线索匹配开始");
 								if(grade.equals("2")) {
 									//会员等级2 匹配数等于上传总数
 									matchCount = count;
@@ -201,11 +216,11 @@ public class ClueMatchTask {
 									matchCount = 3*count;
 								}
 								//当前用户匹配的线索
-								exitsMatchList = Static.iUpAiInfoService.getExistClue(userCode);
+								exitsMatchList = iUpAiInfoService.getExistClue(userCode);
 								while(matchList.size()<matchCount) {
 									n+=1;
 									values = AddressUtil.findNeighPosition(longitude, latitude, n);
-									matchList = Static.iUpClueService.getMatchClue(jsm.getAccountNumber(),jsm.getOrganClass(),values[0].toString(),values[1].toString(),values[2].toString(),values[3].toString());
+									matchList = iUpClueService.getMatchClue(jsm.getAccountNumber(),jsm.getOrganClass(),values[0].toString(),values[1].toString(),values[2].toString(),values[3].toString());
 									//去掉匹配过得线索
 									if(matchList != null && !matchList.isEmpty() && exitsMatchList != null && !exitsMatchList.isEmpty()) {
 										matchList.removeAll(exitsMatchList);
@@ -215,7 +230,7 @@ public class ClueMatchTask {
 									}
 								}
 								//截取匹配数的线索
-								if(!matchList.isEmpty()) {
+								if(matchList !=null && !matchList.isEmpty()) {
 									if(matchList.size()>=matchCount) {
 										matchListxx = matchList.subList(0, matchCount);
 									}else if(matchList.size() < matchCount && matchList.size() != 0 ) {
@@ -224,7 +239,7 @@ public class ClueMatchTask {
 										continue;
 									}
 									for(int j=0;j<matchListxx.size();j++) {
-										hm = (HashMap) matchListxx.get(i);
+										hm = (HashMap) matchListxx.get(j);
 										id = UUID.randomUUID().toString().replace("-", "");
 										uai.setUpId(id);
 										uai.setUpAicode(hm.get("up_aicode").toString());//线索编号
@@ -237,18 +252,22 @@ public class ClueMatchTask {
 										uai.setUpAitimes(times+1);//批次
 										
 										//更新线索最新匹配时间
-										Static.iUpClueService.updateMatchTime(hm.get("up_aicode").toString(), date);
+										iUpClueService.updateMatchTime(hm.get("up_aicode").toString(), date);
 										
 										//新增匹配线索
-										Static.iUpAiInfoService.addUpAiInfo(uai);
+										iUpAiInfoService.addUpAiInfo(uai);
 									}
+									logger.info("用户["+userCode+"]线索匹配完成,为用户匹配["+matchList.size()+"]条新线索！");
+								}else {
+									logger.info("用户["+userCode+"]线索匹配失败,未找到满足条件线索");
 								}
 								
 								//更新用户表最新批次
 								jsm.setAiTimes(times+1);
-								Static.iMeberService.updateByPrimaryKey(jsm);
+								iMeberService.updateByPrimaryKey(jsm);
 								
-								logger.info("用户["+userCode+"]线索匹配完成");
+							}else {
+								logger.info("用户["+userCode+"]首次匹配时间未到,进行下一轮匹配");
 							}
 						}
 					}
@@ -259,11 +278,11 @@ public class ClueMatchTask {
 	
 	//为会员和线索标注经纬度
 	@SuppressWarnings("deprecation")
-	@Scheduled(cron="30 41 18 * * ?")
+	@Scheduled(cron="0 0 22 * * ?")
 	public void autoConfigAddress() {
-		
+		logger.info("会员地理逆编码开始");
 		//设置会员经纬度
-		List<JsSysMember> list = Static.iMeberService.getNoConfigAddress();
+		List<JsSysMember> list = iMeberService.getNoConfigAddress();
 		//会员信息
 		JsSysMember jsm = null;
 		//线索信息
@@ -294,20 +313,20 @@ public class ClueMatchTask {
 					}
 					
 					//更新会员机构经纬度
-					Static.iMeberService.updateByPrimaryKey(jsm);
+					iMeberService.updateByPrimaryKey(jsm);
 				} catch (Exception e) {
 					e.printStackTrace();
 					//设置为无效用户，需重新录入地址
 					jsm.setUpIseffective("0");
-					Static.iMeberService.updateByPrimaryKey(jsm);
+					iMeberService.updateByPrimaryKey(jsm);
 					continue;
 				}
 			}
 		}
-		
-		
+		logger.info("会员地理逆编码结束");
+		logger.info("线索地理逆编码开始");
 		//设置线索经纬度
-		List<UpClue> listUp = Static.iUpClueService.getNoConfigAddress();
+		List<UpClue> listUp = iUpClueService.getNoConfigAddress();
 		if(listUp != null && !listUp.isEmpty()) {
 			for(int i=0;i<listUp.size();i++) {
 				uc = listUp.get(i);
@@ -327,34 +346,35 @@ public class ClueMatchTask {
 					
 					
 					//更新线索经纬度
-					Static.iUpClueService.updateByPrimaryKey(uc);
+					iUpClueService.updateByPrimaryKey(uc);
 				} catch (Exception e) {
 					e.printStackTrace();
 					//设置为无效线索，需重新录入地址
 					uc.setUpIseffective("0");
-					Static.iUpClueService.updateByPrimaryKey(uc);
+					iUpClueService.updateByPrimaryKey(uc);
 					continue;
 				}
 			}
 		}
+		logger.info("线索地理逆编码结束");
 	}
 	
 	//获取AI外呼公钥
 	@SuppressWarnings("deprecation")
-	@Scheduled(cron="40 30 17 * * ?")
+	@Scheduled(cron="0 30 21 * * ?")
 	public void getAIToken() {
 		
 		logger.info("获取新的外呼公钥开始！");
 		
 		String token = AiUtil.getAccessToken();
 		if(token != null && !"".equals(token)) {
-			SysDictData sdd = Static.iSysDictDataService.getDictDataById("1");
+			SysDictData sdd = iSysDictDataService.getDictDataById("1");
 			if(sdd !=null) {
 				logger.info("当前token:"+sdd.getDictValue());
 				sdd.setDictValue(token);
 				logger.info("新token:"+sdd.getDictValue());
 			}
-			Static.iSysDictDataService.updateByPrimaryKey(sdd);
+			iSysDictDataService.updateByPrimaryKey(sdd);
 			
 			logger.info("获取新的外呼公钥成功！");
 		}else {
@@ -363,22 +383,22 @@ public class ClueMatchTask {
 	}
 	
 	//获取AI外呼公钥
-	@SuppressWarnings("deprecation")
-	@Scheduled(cron="0 0 16 * * ?")
-	public void getSentMessage() {
-		logger.info("短信提醒开始执行！");
-		List list = Static.iUpAitaskService.getTodayAitask();
-		HashMap hm;
-		String tel="";
-		String num="";
-		AiUtil au = new AiUtil();
-		if(list!=null && !list.isEmpty()) {
-			for(int i=0;i<list.size();i++) {
-				hm = (HashMap) list.get(i);
-				tel = (String) hm.get("tel");
-				num = (String) hm.get("num");
-				au.sentMessage(tel, num);
-			} 
-		}
-	}
+//	@SuppressWarnings("deprecation")
+//	@Scheduled(cron="0 0 16 * * ?")
+//	public void getSentMessage() {
+//		logger.info("短信提醒开始执行！");
+//		List list = iUpAitaskService.getTodayAitask();
+//		HashMap hm;
+//		String tel="";
+//		String num="";
+//		AiUtil au = new AiUtil();
+//		if(list!=null && !list.isEmpty()) {
+//			for(int i=0;i<list.size();i++) {
+//				hm = (HashMap) list.get(i);
+//				tel = (String) hm.get("tel");
+//				num = (String) hm.get("num");
+//				au.sentMessage(tel, num);
+//			} 
+//		}
+//	}
 }

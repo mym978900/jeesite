@@ -550,16 +550,10 @@
     <if test="endTime!=null and endTime!=''">
       and up_aicreatetime <![CDATA[ <= ]]> #{endTime}
     </if>
-    <if test="status!=null and status!=''">
-      and up_aistatus = #{status}
-    </if>
-    <if test="times!=null and status!=''">
-      and up_aitimes = #{times}
-    </if>
     <if test="userCode!=null and userCode!=''">
       and up_usercode = #{userCode}
     </if>
-    and up_aiappraise <![CDATA[ <> ]]> '2'
+    and up_aistatus = '2'
     UNION
     select
     <include refid="Base_Column_List" />
@@ -570,21 +564,14 @@
     <if test="endTime!=null and endTime!=''">
       and up_aicreatetime <![CDATA[ <= ]]> #{endTime}
     </if>
-    <if test="status!=null and status!=''">
-      and up_aistatus = #{status}
-    </if>
-    <if test="times!=null and status!=''">
-      and up_aitimes = #{times}
-    </if>
     <if test="userCode!=null and userCode!=''">
       and up_usercode = #{userCode}
     </if>
-    and up_aiappraise = '2'
+    and up_aistatus <![CDATA[ <> ]]> '2'
     and DATEDIFF(
 		NOW(),
 		up_aicreatetime
-	) &lt; 3
-    order by up_aitimes desc
+	) &lt; 14
   </select>
   <update id="updateAiInfoByUserCodeUpClueCode">
   	update up_aiinfo

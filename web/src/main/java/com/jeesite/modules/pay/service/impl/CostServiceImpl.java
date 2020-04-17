@@ -236,7 +236,7 @@ public class CostServiceImpl implements CostService {
 		long betweenDays = (timeInMillis2 - timeInMillis1) / (1000L * 3600L * 24L);
 		
 		// 应付金额
-		if (betweenDays > 182) {
+		if (betweenDays > 184) {
 			numa = (int) Math.floor(Double.valueOf(meal1.getWholePrice()));
 			numb = (int) Math.floor(Double.valueOf(meal2.getWholePrice()));
 			ints=365;

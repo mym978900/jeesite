@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jeesite.modules.clue.mapper.StatisticsMapper" >
-	<select id="loginOrganDialStatistics" resultType="java.lang.Integer" parameterType="java.lang.String" >
-	  select IFNULL(count(*),0) from up_aitask t
-		WHERE t.up_status = '1'
+	<select id="loginOrganDialStatistics" resultType="java.util.LinkedHashMap" parameterType="java.lang.String" >
+	  select IFNULL(count(*),0) as count ,MAX(t.up_taskId) as max from up_aitask t
+		WHERE 1=1
 		and t.up_createUserCode = #{userCode} 
+		<if test="status!=null and status!=''">
+			and t.up_status = #{status}
+		</if>
 		<if test="callInstanceStatus!=null and callInstanceStatus!=''">
 			and t.up_callInstanceStatus = #{callInstanceStatus}
 		</if>
+		GROUP BY t.up_taskId DESC
 	</select>
 	<select id="loginOrganRecivedCount" resultType="java.lang.Integer" parameterType="java.lang.String" >
 	  select IFNULL(count(*),0) from up_aitask t 
@@ -33,7 +37,7 @@
 	<select id="loginOrganAICallCustomCount" resultType="java.lang.Integer" >
 	  select IFNULL(count(*),0) from up_aitask t where
 	  	t.up_createUserCode = #{userCode}
-	  	and t.up_status='2' 
+	  	and t.up_callInstanceStatus='2' 
 	  	<if test="day gt -1">
 	  		and date(up_createTime) = date_sub(curdate(),interval #{day} day) 
 	  	</if>
@@ -55,7 +59,7 @@
 	  	</if>
 	</select>
 	<select id="loginOrganUsingPhoneBill" resultType="java.lang.Double">
-	  select IFNULL(sum(t.up_deductionPrice),0) from up_aitask t 
+	  select IFNULL(ROUND(sum(t.up_deductionPrice),2),0) from up_aitask t 
 	    where t.up_createUserCode = #{userCode}
 	    <if test="day gt 0">
 			and date(up_createTime) = date_sub(curdate(),interval #{day} day)

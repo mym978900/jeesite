@@ -1,5 +1,6 @@
 package com.jeesite.modules.test.web;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,21 +31,31 @@ public class MessageController {
 	// 发送短信验证码
 	@RequestMapping(value = "getmeg")
 	@ResponseBody
-	public Integer getMessage(HttpServletRequest request, String phone) {
+	public Integer getMessage(HttpServletRequest request, HttpServletResponse response,String phone) {
 
-		return messageService.toGetMessage(request, phone);
+		return messageService.toGetMessage(request,response, phone);
 	}
 
 	// 验证message
 	@RequestMapping(value = "checkmeg")
 	@ResponseBody
 	public Integer register(HttpServletRequest request, UpdatePhoneVo vo, HttpServletResponse response, Model model) {
-		JSONObject json = (JSONObject) request.getSession().getAttribute(vo.getNewphone());
-		if (!json.getString(vo.getNewphone()).equals(vo.getMegNum())) {
-			return 1;// 验证码错误
-		}
-		if ((System.currentTimeMillis() - json.getLong("createTime")) > 1000 * 60 * 2) {
-			return 2;// 验证码超时
+		Cookie[] cookies = request.getCookies();
+		if(cookies != null && cookies.length>0) {
+			for(Cookie cookie : cookies) {
+				if("dxpassword".equals(cookie.getName())) {
+					if(!cookie.getValue().equals(vo.getMegNum())){
+						return 1;//验证码错误
+					}
+				}
+				if("createTime".equals(cookie.getName())) {
+					if ((System.currentTimeMillis() - Long.parseLong(cookie.getValue())) > 1000 * 60 * 2) {
+						return 2;// 验证码超时
+					}
+				}
+			}
+		}else {
+			return 1;//验证码错误
 		}
 		// 将用户信息存入数据库
 		// 这里省略
@@ -68,12 +79,22 @@ public class MessageController {
 		if (!vo.getNewphone().equals(userVo.getUser().getLoginCode())) {
 			return 0;// 手机号（账号）错误
 		}
-		JSONObject json = (JSONObject) request.getSession().getAttribute(vo.getNewphone());
-		if (!json.getString(vo.getNewphone()).equals(vo.getMegNum())) {
-			return 1;// 验证码错误
-		}
-		if ((System.currentTimeMillis() - json.getLong("createTime")) > 1000 * 60 * 2) {
-			return 2;// 验证码超时
+		Cookie[] cookies = request.getCookies();
+		if(cookies != null) {
+			for(Cookie cookie : cookies) {
+				if("dxpassword".equals(cookie.getName())) {
+					if(!cookie.getValue().equals(vo.getMegNum())){
+						return 1;//验证码错误
+					}
+				}
+				if("createTime".equals(cookie.getName())) {
+					if ((System.currentTimeMillis() - Long.parseLong(cookie.getValue())) > 1000 * 60 * 2) {
+						return 2;// 验证码超时
+					}
+				}
+			}
+		}else {
+			return 1;//验证码错误
 		}
 		// 将用户信息存入数据库
 		// 这里省略
@@ -92,13 +113,29 @@ public class MessageController {
 		    User user=new User();
 		    user.setUserCode(jsSysUser.getUserCode());
 		    GetUserVo userVo = new GetUserVo(null, user);
-		JSONObject json = (JSONObject) request.getSession().getAttribute(vo.getNewphone());
-		if (!json.getString(vo.getNewphone()).equals(vo.getMegNum())) {
-			return 1;// 验证码错误
+//		JSONObject json = (JSONObject) request.getSession().getAttribute(vo.getNewphone());
+//		if (!json.getString(vo.getNewphone()).equals(vo.getMegNum())) {
+//			return 1;// 验证码错误
+//		}
+		
+		Cookie[] cookies = request.getCookies();
+		if(cookies != null) {
+			for(Cookie cookie : cookies) {
+				if("dxpassword".equals(cookie.getName())) {
+					if(!cookie.getValue().equals(vo.getMegNum())){
+						return 1;//验证码错误
+					}
+				}
+				if("createTime".equals(cookie.getName())) {
+					if ((System.currentTimeMillis() - Long.parseLong(cookie.getValue())) > 1000 * 60 * 2) {
+						return 2;// 验证码超时
+					}
+				}
+			}
+		}else {
+			return 1;//验证码错误
 		}
-		if ((System.currentTimeMillis() - json.getLong("createTime")) > 1000 * 60 * 2) {
-			return 2;// 验证码超时
-		}
+		
 		// 将用户信息存入数据库
 		// 这里省略
 

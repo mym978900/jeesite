@@ -1,5 +1,7 @@
 package com.jeesite.modules.clue.service;
 
+import java.util.List;
+
 /**
  * 统计管理Service
  * @author xf
@@ -8,7 +10,7 @@ package com.jeesite.modules.clue.service;
 public interface StatisticsService {
 	
 	//统计登陆机构拨打进度
-	public int loginOrganDialStatistics(String userCode,String callInstanceStatus);
+	public List loginOrganDialStatistics(String userCode,String status,String callInstanceStatus);
 
 	//统计登陆机构接听总量
 	public int loginOrganRecivedCount(String userCode);

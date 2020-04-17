@@ -62,9 +62,6 @@ public class AiUtil {
 			post.addHeader("Content-type", "application/x-www-form-urlencoded; charset=utf-8");
 			
 			List<NameValuePair> nameValuePairs = new ArrayList();
-			nameValuePairs.add(new BasicNameValuePair("company_id","30008"));
-			nameValuePairs.add(new BasicNameValuePair("client_id","K21lwqndzohAtVKC"));
-			nameValuePairs.add(new BasicNameValuePair("client_secret","lhHM5faKbhl5kMqjySehZ8dOzl5M6j"));
 			
 			post.setEntity( new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
 			
@@ -87,31 +84,6 @@ public class AiUtil {
 			logger.error("获取公钥[异常],", e);
 		}
 		return "";
-	}
-	
-	public static void sentMessage(String phone,String number) {
-		DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI4FwvuFWVLTCdpgirTHD2",
-		    "4bvT0wNF90llCp4ArRlWPRyYIE6f1Z");
-		IAcsClient client = new DefaultAcsClient(profile);
-	
-		CommonRequest request = new CommonRequest();
-		request.setMethod(MethodType.POST);
-	        request.setDomain("dysmsapi.aliyuncs.com");
-	        request.setVersion("2017-05-25");
-	        request.setAction("SendSms");
-	        request.putQueryParameter("RegionId", "cn-hangzhou");
-	        request.putQueryParameter("PhoneNumbers", phone);
-	        request.putQueryParameter("SignName", "奥力格科技");
-	        request.putQueryParameter("TemplateCode", "SMS_182682624");
-	        request.putQueryParameter("TemplateParam", "{\"number\":\""+Integer.parseInt(number)+"\"}");
-		try {
-		   CommonResponse response = client.getCommonResponse(request);
-		   System.out.println(response.getData());
-		} catch (ServerException e) {
-		   e.printStackTrace();
-		} catch (ClientException e) {
-		   e.printStackTrace();
-		}
 	}
 	
 	public static void main(String[] args) {

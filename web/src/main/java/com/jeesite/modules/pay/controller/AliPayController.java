@@ -216,7 +216,7 @@ public class AliPayController {
 	// 支付宝支付PC端前台回调
 	@ResponseBody
 	@RequestMapping("/frontRcvResponse")
-	public String frontRcvResponse(HttpServletRequest request) {
+	public String frontRcvResponse(HttpServletRequest request,HttpServletResponse response) {
 		try {
 			// 获取支付宝GET过来反馈信息
 			Map<String, String> params = new HashMap<String, String>();
@@ -242,12 +242,14 @@ public class AliPayController {
 			} else {
 				logger.info("订单号" + orderNo + "验证签名结果[失败].");
 			}
+			//重定向到费用中心页面
+			response.sendRedirect("http://www.aolige.cn/#/Expense");
 		} catch (Exception e) {
 			e.printStackTrace();
 			// 处理异常信息
 		}
 		// 支付成功、跳转到成功页面
-		return "pay/testTreeList";
+		return "abc";
 	}
 
 }

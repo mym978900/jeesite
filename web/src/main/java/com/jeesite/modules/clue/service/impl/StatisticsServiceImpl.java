@@ -1,5 +1,7 @@
 package com.jeesite.modules.clue.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +16,9 @@ public class StatisticsServiceImpl implements StatisticsService {
 	
 	//统计登陆机构拨打进度
 	@Override
-	public int loginOrganDialStatistics(String userCode,String callInstanceStatus) {
-		int count = 0;
-		count = iStatisticsMapper.loginOrganDialStatistics(userCode,callInstanceStatus);
-		return count;
+	public List loginOrganDialStatistics(String userCode,String status,String callInstanceStatus) {
+		List list =  iStatisticsMapper.loginOrganDialStatistics(userCode,status,callInstanceStatus);
+		return list;
 	}
 
 	//统计登陆机构接听总量

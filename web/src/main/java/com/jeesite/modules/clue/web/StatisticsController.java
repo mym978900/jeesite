@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,13 +67,38 @@ public class StatisticsController extends BaseController{
 			model.addAttribute("data","会话超时请重新登录..");
 			return ServletUtils.renderObject(response, model);
 		}
-		//所有通话
-		int allCount = iStatisticsService.loginOrganDialStatistics(user.getUserCode(),"");
+		LinkedHashMap hm = new LinkedHashMap();
+		//所有通话1代表进行中，空代表所有
+		int allCount = 0;
+		List list1 = new ArrayList();
+		list1 = iStatisticsService.loginOrganDialStatistics(user.getUserCode(),"3","");
+		if(list1!=null && !list1.isEmpty()) {
+			hm = (LinkedHashMap) list1.get(0);
+			allCount = Integer.valueOf(hm.get("count").toString());
+		}
 		//2代表已完成的通话
-		int ywcCount = iStatisticsService.loginOrganDialStatistics(user.getUserCode(),"2");
+		int ywcCount = 0;
+		List list2 = new ArrayList();
+		list2 = iStatisticsService.loginOrganDialStatistics(user.getUserCode(),"3","2");
+		if(list2!=null && !list2.isEmpty()) {
+			hm = (LinkedHashMap) list2.get(0);
+			ywcCount = Integer.valueOf(hm.get("count").toString());
+		}
 		
-		//已完成/所有通话
-		model.addAttribute("aiywcall",ywcCount+"/"+allCount);
+		if(allCount == 0) {
+			//最近一次已完成通话进度2代表已完成
+			int zjywcCount = 0;
+			List list3 = new ArrayList();
+			list3 = iStatisticsService.loginOrganDialStatistics(user.getUserCode(),"2","");
+			if(list3!=null && !list3.isEmpty()) {
+				hm = (LinkedHashMap) list3.get(0);
+				zjywcCount = Integer.valueOf(hm.get("count").toString());
+			}
+			model.addAttribute("aiywcall",zjywcCount+"/"+zjywcCount);
+		}else {
+			//已完成/所有通话
+			model.addAttribute("aiywcall",ywcCount+"/"+allCount);
+		}
 		
 		//接听总量
 		int jtCount = iStatisticsService.loginOrganRecivedCount(user.getUserCode());

@@ -1,8 +1,10 @@
 package com.jeesite.modules.clue.mapper;
 
+import java.util.List;
+
 public interface StatisticsMapper {
 
-	public int loginOrganDialStatistics(String userCode,String callInstanceStatus);
+	public List loginOrganDialStatistics(String userCode,String status,String callInstanceStatus);
 
 	public int loginOrganRecivedCount(String userCode);
 

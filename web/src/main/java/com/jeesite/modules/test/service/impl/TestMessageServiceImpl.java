@@ -2,6 +2,7 @@ package com.jeesite.modules.test.service.impl;
 
 import java.util.Random;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -44,7 +45,7 @@ public class TestMessageServiceImpl implements TestMessageService {
 	private JsSysMemberMapper jsSysMemberMapper;
 
 	@Override
-	public Integer toGetMessage(HttpServletRequest req, String phone) {
+	public Integer toGetMessage(HttpServletRequest req, HttpServletResponse rep,String phone) {
 		// TODO Auto-generated method stub
 		// HttpServletRequest req = ((ServletRequestAttributes)
 		// RequestContextHolder.getRequestAttributes()).getRequest();
@@ -70,31 +71,25 @@ public class TestMessageServiceImpl implements TestMessageService {
 			CommonResponse response = client.getCommonResponse(request);
             System.out.println(response.getData());
 			if (response != null && response.getHttpStatus() == 200) {
-				HttpSession session = req.getSession();
-				// 使用fastJson从放
-				js = new JSONObject();
-				js.put(phone, password);
-				js.put("createTime", System.currentTimeMillis());
-				// 将验证码存入SESSION
-				session.setAttribute(phone, js);
-				JSONObject json2 = (JSONObject) req.getSession().getAttribute(phone);
-				System.out.println("cccccccccccccccccccccc" + json2.getString(phone));
-				return 1;
-			}
-//			if (response != null && response.getHttpStatus() == 200) {
 //				HttpSession session = req.getSession();
-//				// 使用fastJson从放
+				// 使用fastJson从放
 //				js = new JSONObject();
-//				js.put("password", password);
+//				js.put(phone, password);
 //				js.put("createTime", System.currentTimeMillis());
 //				// 将验证码存入SESSION
-//				session.setAttribute("password", js);
-//				JSONObject json2 = (JSONObject) req.getSession().getAttribute("password");
-//				System.out.println("cccccccccccccccccccccc"+json2.getString("password"));
-//				return 1;
-//			}
-
-			// 失效时间
+//				session.setAttribute(phone, js);
+//				JSONObject json2 = (JSONObject) req.getSession().getAttribute(phone);
+				System.out.println("cccccccccccccccccccccc" + password);
+				String createTime  = System.currentTimeMillis()+"";
+				Cookie cookie = new Cookie("createTime",createTime);//保存账号数据
+				Cookie cookie2 = new Cookie("dxpassword",password);//保存账号数据
+				cookie.setMaxAge(300);//cookie存在本地的有效时长（单位为妙）默认为-1 表示页面关闭 cookie就失效
+				rep.addCookie(cookie);//添加到response中
+				rep.addCookie(cookie2);
+				
+				return 1;
+			}
+//			 失效时间
 		} catch (ServerException e) {
 			e.printStackTrace();
 		} catch (ClientException e) {

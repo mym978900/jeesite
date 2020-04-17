@@ -13,7 +13,7 @@ import com.jeesite.modules.test.vo.UpdatePhoneVo;
 
 public interface TestMessageService {
 
-	Integer toGetMessage(HttpServletRequest request,String phone);
+	Integer toGetMessage(HttpServletRequest request,HttpServletResponse response,String phone);
 
 	Integer toUpdatePhone(HttpServletResponse response,Model model,UpdatePhoneVo vo);
 

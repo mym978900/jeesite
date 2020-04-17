@@ -352,7 +352,8 @@
   	select
   	<include refid="Base_Column_List" />
     from js_sys_member 
-    where match_longitude = "" || match_longitude is null
+    where  match_longitude is null
+    and up_isEffective is null
   </select>
   <select id="getMemberByAccountCode" resultMap="BaseResultMap" parameterType="java.lang.String">
   	select

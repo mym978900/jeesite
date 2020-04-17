@@ -276,7 +276,14 @@
     	<if test="userCode!=null and userCode!=''">
     		and t.up_createUserCode=#{userCode}
     	</if>
+    	<if test="beginTime!=null and beginTime!=''">
+    		and up_startaitime <![CDATA[ >= ]]> #{beginTime}
+    	</if>
+    	<if test="endTime!=null and endTime!=''">
+	      and up_startaitime <![CDATA[ <= ]]> #{endTime}
+	    </if>
     	and t.up_status='2'
+    	order by up_startaitime desc
   </select>
   <select id="getAitaskList" resultMap="BaseResultMap" parameterType="java.lang.String">
   	select <include refid="Base_Column_List" />
