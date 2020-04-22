@@ -26,7 +26,7 @@ public interface UpClueService {
 	public int effectiveClue(UpClue clue);
 	
 	//匹配线索资源
-	public List getMatchClue(String userId, String deptType,String minlng,String maxlng,String minlat,String maxlat);
+	public List getMatchClue(String userId, String deptType,String addressCity,String minlng,String maxlng,String minlat,String maxlat);
 	
 	//更新线索最新匹配时间
 	public void updateMatchTime(String clueCode,Date date);

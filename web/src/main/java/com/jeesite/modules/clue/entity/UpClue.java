@@ -44,230 +44,249 @@ public class UpClue {
     private String extra4;
 
     private String extra5;
-    
+
     private String upClueDepttype;
-    
+
     private String upClueTaskid;
-    
+
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date upAiexecutetime;
 
     private Date upAipersontime;
-    
+
     private Date upAipersonendtime;
 
     private Date upAiendtime;
 
     private Integer upTalktime;
-    
+
     private String upIseffective;
 
-	public String getUpClueCode() {
-		return upClueCode;
-	}
+    private String upClueAddressCity;
 
-	public void setUpClueCode(String upClueCode) {
-		this.upClueCode = upClueCode;
-	}
+    private String upClueAddressAera;
 
-	public Date getUpClueTime() {
-		return upClueTime;
-	}
+    public String getUpClueCode() {
+        return upClueCode;
+    }
 
-	public void setUpClueTime(Date upClueTime) {
-		this.upClueTime = upClueTime;
-	}
+    public void setUpClueCode(String upClueCode) {
+        this.upClueCode = upClueCode == null ? null : upClueCode.trim();
+    }
 
-	public String getUpUserCode() {
-		return upUserCode;
-	}
+    public Date getUpClueTime() {
+        return upClueTime;
+    }
 
-	public void setUpUserCode(String upUserCode) {
-		this.upUserCode = upUserCode;
-	}
+    public void setUpClueTime(Date upClueTime) {
+        this.upClueTime = upClueTime;
+    }
 
-	public String getUpClueName() {
-		return upClueName;
-	}
+    public String getUpUserCode() {
+        return upUserCode;
+    }
 
-	public void setUpClueName(String upClueName) {
-		this.upClueName = upClueName;
-	}
+    public void setUpUserCode(String upUserCode) {
+        this.upUserCode = upUserCode == null ? null : upUserCode.trim();
+    }
 
-	public String getUpClueTel() {
-		return upClueTel;
-	}
+    public String getUpClueName() {
+        return upClueName;
+    }
 
-	public void setUpClueTel(String upClueTel) {
-		this.upClueTel = upClueTel;
-	}
+    public void setUpClueName(String upClueName) {
+        this.upClueName = upClueName == null ? null : upClueName.trim();
+    }
 
-	public String getUpClueSex() {
-		return upClueSex;
-	}
+    public String getUpClueTel() {
+        return upClueTel;
+    }
 
-	public void setUpClueSex(String upClueSex) {
-		this.upClueSex = upClueSex;
-	}
+    public void setUpClueTel(String upClueTel) {
+        this.upClueTel = upClueTel == null ? null : upClueTel.trim();
+    }
 
-	public String getUpClueAddre() {
-		return upClueAddre;
-	}
+    public String getUpClueSex() {
+        return upClueSex;
+    }
 
-	public void setUpClueAddre(String upClueAddre) {
-		this.upClueAddre = upClueAddre;
-	}
+    public void setUpClueSex(String upClueSex) {
+        this.upClueSex = upClueSex == null ? null : upClueSex.trim();
+    }
 
-	public String getUpClueStatus() {
-		return upClueStatus;
-	}
+    public String getUpClueAddre() {
+        return upClueAddre;
+    }
 
-	public void setUpClueStatus(String upClueStatus) {
-		this.upClueStatus = upClueStatus;
-	}
+    public void setUpClueAddre(String upClueAddre) {
+        this.upClueAddre = upClueAddre == null ? null : upClueAddre.trim();
+    }
 
-	public String getUpClueAppraise() {
-		return upClueAppraise;
-	}
+    public String getUpClueStatus() {
+        return upClueStatus;
+    }
 
-	public void setUpClueAppraise(String upClueAppraise) {
-		this.upClueAppraise = upClueAppraise;
-	}
+    public void setUpClueStatus(String upClueStatus) {
+        this.upClueStatus = upClueStatus == null ? null : upClueStatus.trim();
+    }
 
-	public Integer getUpClueAge() {
-		return upClueAge;
-	}
+    public String getUpClueAppraise() {
+        return upClueAppraise;
+    }
 
-	public void setUpClueAge(Integer upClueAge) {
-		this.upClueAge = upClueAge;
-	}
+    public void setUpClueAppraise(String upClueAppraise) {
+        this.upClueAppraise = upClueAppraise == null ? null : upClueAppraise.trim();
+    }
 
-	public Double getUpClueLongitude() {
-		return upClueLongitude;
-	}
+    public Integer getUpClueAge() {
+        return upClueAge;
+    }
 
-	public void setUpClueLongitude(Double upClueLongitude) {
-		this.upClueLongitude = upClueLongitude;
-	}
+    public void setUpClueAge(Integer upClueAge) {
+        this.upClueAge = upClueAge;
+    }
 
-	public Double getUpClueLatitude() {
-		return upClueLatitude;
-	}
+    public Double getUpClueLongitude() {
+        return upClueLongitude;
+    }
 
-	public void setUpClueLatitude(Double upClueLatitude) {
-		this.upClueLatitude = upClueLatitude;
-	}
+    public void setUpClueLongitude(Double upClueLongitude) {
+        this.upClueLongitude = upClueLongitude;
+    }
 
-	public Date getUpClueMatchtime() {
-		return upClueMatchtime;
-	}
+    public Double getUpClueLatitude() {
+        return upClueLatitude;
+    }
 
-	public void setUpClueMatchtime(Date upClueMatchtime) {
-		this.upClueMatchtime = upClueMatchtime;
-	}
+    public void setUpClueLatitude(Double upClueLatitude) {
+        this.upClueLatitude = upClueLatitude;
+    }
 
-	public String getExtra1() {
-		return extra1;
-	}
+    public Date getUpClueMatchtime() {
+        return upClueMatchtime;
+    }
 
-	public void setExtra1(String extra1) {
-		this.extra1 = extra1;
-	}
+    public void setUpClueMatchtime(Date upClueMatchtime) {
+        this.upClueMatchtime = upClueMatchtime;
+    }
 
-	public String getExtra2() {
-		return extra2;
-	}
+    public String getExtra1() {
+        return extra1;
+    }
 
-	public void setExtra2(String extra2) {
-		this.extra2 = extra2;
-	}
+    public void setExtra1(String extra1) {
+        this.extra1 = extra1 == null ? null : extra1.trim();
+    }
 
-	public String getExtra3() {
-		return extra3;
-	}
+    public String getExtra2() {
+        return extra2;
+    }
 
-	public void setExtra3(String extra3) {
-		this.extra3 = extra3;
-	}
+    public void setExtra2(String extra2) {
+        this.extra2 = extra2 == null ? null : extra2.trim();
+    }
 
-	public String getExtra4() {
-		return extra4;
-	}
+    public String getExtra3() {
+        return extra3;
+    }
 
-	public void setExtra4(String extra4) {
-		this.extra4 = extra4;
-	}
+    public void setExtra3(String extra3) {
+        this.extra3 = extra3 == null ? null : extra3.trim();
+    }
 
-	public String getExtra5() {
-		return extra5;
-	}
+    public String getExtra4() {
+        return extra4;
+    }
 
-	public void setExtra5(String extra5) {
-		this.extra5 = extra5;
-	}
+    public void setExtra4(String extra4) {
+        this.extra4 = extra4 == null ? null : extra4.trim();
+    }
 
-	public String getUpClueDepttype() {
-		return upClueDepttype;
-	}
+    public String getExtra5() {
+        return extra5;
+    }
 
-	public void setUpClueDepttype(String upClueDepttype) {
-		this.upClueDepttype = upClueDepttype;
-	}
+    public void setExtra5(String extra5) {
+        this.extra5 = extra5 == null ? null : extra5.trim();
+    }
 
-	public String getUpClueTaskid() {
-		return upClueTaskid;
-	}
+    public String getUpClueDepttype() {
+        return upClueDepttype;
+    }
 
-	public void setUpClueTaskid(String upClueTaskid) {
-		this.upClueTaskid = upClueTaskid;
-	}
+    public void setUpClueDepttype(String upClueDepttype) {
+        this.upClueDepttype = upClueDepttype == null ? null : upClueDepttype.trim();
+    }
 
-	public Date getUpAiexecutetime() {
-		return upAiexecutetime;
-	}
+    public String getUpClueTaskid() {
+        return upClueTaskid;
+    }
 
-	public void setUpAiexecutetime(Date upAiexecutetime) {
-		this.upAiexecutetime = upAiexecutetime;
-	}
+    public void setUpClueTaskid(String upClueTaskid) {
+        this.upClueTaskid = upClueTaskid == null ? null : upClueTaskid.trim();
+    }
 
-	public Date getUpAipersontime() {
-		return upAipersontime;
-	}
+    public Date getUpAiexecutetime() {
+        return upAiexecutetime;
+    }
 
-	public void setUpAipersontime(Date upAipersontime) {
-		this.upAipersontime = upAipersontime;
-	}
+    public void setUpAiexecutetime(Date upAiexecutetime) {
+        this.upAiexecutetime = upAiexecutetime;
+    }
 
-	public Date getUpAipersonendtime() {
-		return upAipersonendtime;
-	}
+    public Date getUpAipersontime() {
+        return upAipersontime;
+    }
 
-	public void setUpAipersonendtime(Date upAipersonendtime) {
-		this.upAipersonendtime = upAipersonendtime;
-	}
+    public void setUpAipersontime(Date upAipersontime) {
+        this.upAipersontime = upAipersontime;
+    }
 
-	public Date getUpAiendtime() {
-		return upAiendtime;
-	}
+    public Date getUpAipersonendtime() {
+        return upAipersonendtime;
+    }
 
-	public void setUpAiendtime(Date upAiendtime) {
-		this.upAiendtime = upAiendtime;
-	}
+    public void setUpAipersonendtime(Date upAipersonendtime) {
+        this.upAipersonendtime = upAipersonendtime;
+    }
 
-	public Integer getUpTalktime() {
-		return upTalktime;
-	}
+    public Date getUpAiendtime() {
+        return upAiendtime;
+    }
 
-	public void setUpTalktime(Integer upTalktime) {
-		this.upTalktime = upTalktime;
-	}
+    public void setUpAiendtime(Date upAiendtime) {
+        this.upAiendtime = upAiendtime;
+    }
 
-	public String getUpIseffective() {
-		return upIseffective;
-	}
+    public Integer getUpTalktime() {
+        return upTalktime;
+    }
 
-	public void setUpIseffective(String upIseffective) {
-		this.upIseffective = upIseffective;
-	}
-   
+    public void setUpTalktime(Integer upTalktime) {
+        this.upTalktime = upTalktime;
+    }
+
+    public String getUpIseffective() {
+        return upIseffective;
+    }
+
+    public void setUpIseffective(String upIseffective) {
+        this.upIseffective = upIseffective == null ? null : upIseffective.trim();
+    }
+
+    public String getUpClueAddressCity() {
+        return upClueAddressCity;
+    }
+
+    public void setUpClueAddressCity(String upClueAddressCity) {
+        this.upClueAddressCity = upClueAddressCity == null ? null : upClueAddressCity.trim();
+    }
+
+    public String getUpClueAddressAera() {
+        return upClueAddressAera;
+    }
+
+    public void setUpClueAddressAera(String upClueAddressAera) {
+        this.upClueAddressAera = upClueAddressAera == null ? null : upClueAddressAera.trim();
+    }
 }

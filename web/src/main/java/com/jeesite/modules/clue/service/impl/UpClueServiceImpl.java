@@ -49,8 +49,8 @@ public class UpClueServiceImpl implements UpClueService{
 
 	//匹配线索资源
 	@Override
-	public List getMatchClue(String userId, String deptType,String minlng,String maxlng,String minlat,String maxlat) {
-		List list = upClueMapper.getMatchClue(userId,deptType,minlng,maxlng,minlat,maxlat);
+	public List getMatchClue(String userId, String deptType,String addressCity,String minlng,String maxlng,String minlat,String maxlat) {
+		List list = upClueMapper.getMatchClue(userId,deptType,addressCity,minlng,maxlng,minlat,maxlat);
 		return list;
 	}
 

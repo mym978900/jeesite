@@ -72,7 +72,16 @@ public class AccountNumController {
 	@ResponseBody
 	public JsSysMember getMemberByPage(HttpServletResponse response, Model model) {
 		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
-		return accountService.selectMemberByNumber(userVo.getUser().getLoginCode());
+		if(userVo!=null) {
+			JsSysMember member = accountService.selectMemberByNumber(userVo.getUser().getLoginCode());
+			//级联市和区
+			if(member!=null) {
+				String[] arr = member.getOrganAddress().split(",");
+				member.setOrganAddressArr(arr);
+			}
+			return member;
+		}
+		return null;
 	}
 
 	// 编辑申请信息
@@ -91,6 +100,11 @@ public class AccountNumController {
 	@RequestMapping(value = "updateMember")
 	@ResponseBody
 	public Integer updateMemberByKey(JsSysMember member) {
+		//级联市和区
+		if(member!=null) {
+			String[] arr = member.getOrganAddressArr();
+			member.setOrganAddress(arr[0]+","+arr[1]);
+		}
 		Integer num = accountService.updateMemberByKey(member);
 		if (num != 1) {
 			return 0;// 编辑失败
@@ -117,6 +131,11 @@ public class AccountNumController {
 	@RequestMapping(value = "insertMember")
 	@ResponseBody
 	public Integer insertMember(JsSysMember member, HttpServletResponse response, Model model) {
+		//级联市和区
+		if(member!=null) {
+			String[] arr = member.getOrganAddressArr();
+			member.setOrganAddress(arr[0]+","+arr[1]);
+		}
 		Integer num = accountService.insertMember(member, response, model);
 		if (num != 1) {
 			return 0;// 添加失败

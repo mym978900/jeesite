@@ -130,8 +130,8 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		// HttpServletRequest req = ((ServletRequestAttributes)
 		// RequestContextHolder.getRequestAttributes()).getRequest();
-		DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "",
-				"");
+		DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI4FwvuFWVLTCdpgirTHD2",
+				"4bvT0wNF90llCp4ArRlWPRyYIE6f1Z");
 		IAcsClient client = new DefaultAcsClient(profile);
 
 		String password = new Random().nextInt(899999) + 100000 + "";

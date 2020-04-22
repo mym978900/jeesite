@@ -15,7 +15,7 @@ public class JsSysMember {
     private String organClass;
 
     private String memberGrade;
-    
+
     private Date memberCreatetime;
 
     private String memberOvertime;
@@ -47,10 +47,22 @@ public class JsSysMember {
     private Integer clueCount;
 
     private Integer aiTimes;
-    
+
     private String userCode;
-    
+
     private String upIseffective;
+
+    private String organAddressArea;
+    
+    private String[] organAddressArr;
+    
+    public String[] getOrganAddressArr() {
+    	return organAddressArr;
+    }
+    
+    public void setOrganAddressArr(String[] organAddressArr) {
+    	this.organAddressArr = organAddressArr == null ? null : organAddressArr;
+    } 
 
     public String getSerialNumber() {
         return serialNumber;
@@ -91,14 +103,14 @@ public class JsSysMember {
     public void setMemberGrade(String memberGrade) {
         this.memberGrade = memberGrade == null ? null : memberGrade.trim();
     }
-    
-	public Date getMemberCreatetime() {
-		return memberCreatetime;
-	}
 
-	public void setMemberCreatetime(Date memberCreatetime) {
-		this.memberCreatetime = memberCreatetime;
-	}
+    public Date getMemberCreatetime() {
+        return memberCreatetime;
+    }
+
+    public void setMemberCreatetime(Date memberCreatetime) {
+        this.memberCreatetime = memberCreatetime;
+    }
 
     public String getMemberOvertime() {
         return memberOvertime;
@@ -219,7 +231,7 @@ public class JsSysMember {
     public void setAiTimes(Integer aiTimes) {
         this.aiTimes = aiTimes;
     }
-    
+
     public String getUserCode() {
         return userCode;
     }
@@ -236,7 +248,13 @@ public class JsSysMember {
         this.upIseffective = upIseffective == null ? null : upIseffective.trim();
     }
 
+    public String getOrganAddressArea() {
+        return organAddressArea;
+    }
 
-
+    public void setOrganAddressArea(String organAddressArea) {
+        this.organAddressArea = organAddressArea == null ? null : organAddressArea.trim();
+    }
+    
     
 }

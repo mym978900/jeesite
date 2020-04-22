@@ -25,12 +25,13 @@
     <result column="ai_times" property="aiTimes" jdbcType="INTEGER" />
     <result column="user_code" property="userCode" jdbcType="VARCHAR" />
     <result column="up_isEffective" property="upIseffective" jdbcType="CHAR" />
+    <result column="organ_address_area" property="organAddressArea" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     serial_number, account_number, organ_name, organ_class, member_grade, member_createtime, 
     member_overtime, organ_address, detail_address, organ_phone, organ_man, organ_manphone, 
     organ_hava, reserve_field1, reserve_dield2, match_update, match_onedate, match_longitude, 
-    match_latitude, clue_count, ai_times, user_code, up_isEffective
+    match_latitude, clue_count, ai_times, user_code, up_isEffective, organ_address_area
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -50,8 +51,8 @@
       organ_hava, reserve_field1, reserve_dield2, 
       match_update, match_onedate, match_longitude, 
       match_latitude, clue_count, ai_times, 
-      user_code, up_isEffective)
-
+      user_code, up_isEffective, organ_address_area
+      )
     values (#{serialNumber,jdbcType=VARCHAR}, #{accountNumber,jdbcType=VARCHAR}, #{organName,jdbcType=VARCHAR}, 
       #{organClass,jdbcType=VARCHAR}, #{memberGrade,jdbcType=CHAR}, #{memberCreatetime,jdbcType=TIMESTAMP}, 
       #{memberOvertime,jdbcType=VARCHAR}, #{organAddress,jdbcType=VARCHAR}, #{detailAddress,jdbcType=VARCHAR}, 
@@ -59,8 +60,8 @@
       #{organHava,jdbcType=VARCHAR}, #{reserveField1,jdbcType=VARCHAR}, #{reserveDield2,jdbcType=VARCHAR}, 
       #{matchUpdate,jdbcType=DATE}, #{matchOnedate,jdbcType=DATE}, #{matchLongitude,jdbcType=DOUBLE}, 
       #{matchLatitude,jdbcType=DOUBLE}, #{clueCount,jdbcType=INTEGER}, #{aiTimes,jdbcType=INTEGER}, 
-      #{userCode,jdbcType=VARCHAR}, #{upIseffective,jdbcType=CHAR})
-
+      #{userCode,jdbcType=VARCHAR}, #{upIseffective,jdbcType=CHAR}, #{organAddressArea,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysMember" >
     insert into js_sys_member
@@ -134,6 +135,9 @@
       <if test="upIseffective != null" >
         up_isEffective,
       </if>
+      <if test="organAddressArea != null" >
+        organ_address_area,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="serialNumber != null" >
@@ -204,6 +208,9 @@
       </if>
       <if test="upIseffective != null" >
         #{upIseffective,jdbcType=CHAR},
+      </if>
+      <if test="organAddressArea != null" >
+        #{organAddressArea,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -276,6 +283,9 @@
       <if test="upIseffective != null" >
         up_isEffective = #{upIseffective,jdbcType=CHAR},
       </if>
+      <if test="organAddressArea != null" >
+        organ_address_area = #{organAddressArea,jdbcType=VARCHAR},
+      </if>
     </set>
     where serial_number = #{serialNumber,jdbcType=VARCHAR}
   </update>
@@ -302,7 +312,8 @@
       clue_count = #{clueCount,jdbcType=INTEGER},
       ai_times = #{aiTimes,jdbcType=INTEGER},
       user_code = #{userCode,jdbcType=VARCHAR},
-      up_isEffective = #{upIseffective,jdbcType=CHAR}
+      up_isEffective = #{upIseffective,jdbcType=CHAR},
+      organ_address_area = #{organAddressArea,jdbcType=VARCHAR}
     where serial_number = #{serialNumber,jdbcType=VARCHAR}
   </update>
   <select id="selectAllMember" resultMap="BaseResultMap" parameterType="com.jeesite.modules.test.vo.MemberVo" >
@@ -373,5 +384,4 @@
   <select id="findClueNumByMonth" resultType="java.lang.Integer">
     SELECT COUNT(*) from up_clue where DATE_FORMAT(up_clue_time, '%Y-%m')=DATE_FORMAT(NOW(), '%Y-%m');
   </select>
- 
 </mapper>

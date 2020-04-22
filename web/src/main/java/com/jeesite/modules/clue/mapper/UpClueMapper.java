@@ -30,7 +30,7 @@ public interface UpClueMapper extends BaseMapper<UpClue>{
 		xf
 		2019.12.03
 	*/
-    List getMatchClue(String userId, String deptType,String minlng,String maxlng,String minlat,String maxlat);
+    List getMatchClue(String userId, String deptType,String addressCity,String minlng,String maxlng,String minlat,String maxlat);
 
     
     /*

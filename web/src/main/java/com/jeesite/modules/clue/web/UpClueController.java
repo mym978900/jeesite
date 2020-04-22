@@ -163,11 +163,10 @@ public class UpClueController extends BaseController{
 		uc.setUpClueSex(sex);
 		uc.setUpClueAge(Integer.parseInt(age));
 		uc.setUpClueTime(new Date());
-		if(site.contains("北京市")) {
-			uc.setUpClueAddre(site);
-		}else {
-			uc.setUpClueAddre("北京市"+site);
-		}
+		uc.setUpClueAddre(site);
+		String[] address = jsm.getOrganAddress().split(",");
+		uc.setUpClueAddressCity(address[0]);
+		uc.setUpClueAddressAera(address[1]);
 		uc.setUpClueAppraise("0");
 		uc.setUpClueStatus("2");
 		uc.setUpUserCode(user.getUserCode());
@@ -359,6 +358,7 @@ public class UpClueController extends BaseController{
 		// 获取用户机构品类
 //		String deptType = iMeberService.getDeptType(user.getUserCode());
 		JsSysMember jsm = iMeberService.getMemberByAccountCode(user.getUserCode());
+		String[] cityarea = jsm.getOrganAddress().split(",");
 		
     	File fileDir = new File(rootPath);
         if (!fileDir.exists() && !fileDir.isDirectory()) {
@@ -408,14 +408,12 @@ public class UpClueController extends BaseController{
 	                    			address = parsedResult.get(i).getAddress();
 	                    			//地址是否为空
 	                    			if("".equals(address)) {
-	                    				uc.setUpClueAddre(address);
 	                    				uc.setUpIseffective("0");
 	                    			}else {
-	                    				if(!address.contains("北京市")) {
-	                    					uc.setUpClueAddre(address);
-	                    				}else {
-	                    					uc.setUpClueAddre("北京市"+address);
-	                    				}
+	                    				uc.setUpClueAddre(address);
+	                    				uc.setUpClueAddressCity(cityarea[0]);
+	                    				uc.setUpClueAddressAera(cityarea[1]);
+	                    				uc.setUpIseffective(null);
 	                    			}
 	                    			uc.setUpClueAppraise("0");
 	                    			uc.setUpClueStatus("2");
@@ -650,6 +648,8 @@ public class UpClueController extends BaseController{
 	    	
 	    	//外呼记录id
 	    	String id="";
+	    	//匹配市区
+	    	String[] arr;
 	    	//线索集合
 			List<Object> list = aiv.getList();
 			//机构线索
@@ -743,6 +743,8 @@ public class UpClueController extends BaseController{
 		    			}
 		    			JsSysMember jsm = iMeberService.getMemberByAccountCode(user.getUserCode());
 	//	    			JsSysMember jsm = iMeberService.getMemberByAccountCode("system");
+		    			arr = jsm.getOrganAddress().split(",");
+		    			properties.put("机构地址", arr[0]+arr[1]);//机构名称
 		    			properties.put("机构名称", jsm.getOrganName());//机构名称
 		    			properties.put("课程名称", jsm.getOrganClass());//课程名称
 		    			properties.put("clueSource", "1");//线索来源
@@ -781,6 +783,8 @@ public class UpClueController extends BaseController{
 		    				continue;
 		    			}
 		    			JsSysMember jsm = iMeberService.getMemberByAccountCode(user.getUserCode());
+		    			arr = jsm.getOrganAddress().split(",");
+		    			properties.put("机构地址", arr[0]+arr[1]);//机构名称
 		    			properties.put("机构名称", jsm.getOrganName());//机构名称
 		    			properties.put("课程名称", jsm.getOrganClass());//课程名称
 		    			properties.put("clueSource", "2");//线索来源

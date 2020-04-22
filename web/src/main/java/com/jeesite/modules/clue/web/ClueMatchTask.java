@@ -48,7 +48,7 @@ public class ClueMatchTask {
 	
 	//定时处理智能线索匹配
 	@SuppressWarnings("deprecation")
-	@Scheduled(cron="0 42 13 * * ?")
+	@Scheduled(cron="0 56 16 * * ?")
 	public void clueMatch() {
 		logger.info("数据共享-----开启匹配线索数据筛选任务");
 		//会员等级2、3级支持匹配
@@ -89,6 +89,8 @@ public class ClueMatchTask {
 			List exitsMatchList = new ArrayList();
 			//匹配的范围
 			Object[] values;
+			//匹配的市区
+			String[] arr;
 			//线索信息
 			UpClue uc;
 			//匹配线索对象
@@ -107,6 +109,7 @@ public class ClueMatchTask {
 					isEffective = jsm.getUpIseffective();
 					grade = jsm.getMemberGrade();
 					userCode = jsm.getUserCode();
+					arr = jsm.getOrganAddress().split(",");
 					//用户不是会员并且无效直接退出线索匹配
 					if("0".contentEquals(grade)) {
 						logger.info("用户["+userCode+"]不是会员，不需要获取线索,进行下一轮匹配");
@@ -143,7 +146,7 @@ public class ClueMatchTask {
 								while(matchList.size()<matchCount) {
 									n+=1;
 									values = AddressUtil.findNeighPosition(longitude, latitude, n);
-									matchList = iUpClueService.getMatchClue(jsm.getAccountNumber(),jsm.getOrganClass(),values[0].toString(),values[1].toString(),values[2].toString(),values[3].toString());
+									matchList = iUpClueService.getMatchClue(jsm.getUserCode(),jsm.getOrganClass(),arr[0],values[0].toString(),values[1].toString(),values[2].toString(),values[3].toString());
 									//去掉匹配过得线索
 									if(matchList != null && !matchList.isEmpty() && exitsMatchList != null && !exitsMatchList.isEmpty()) {
 										matchList.removeAll(exitsMatchList);
@@ -220,7 +223,7 @@ public class ClueMatchTask {
 								while(matchList.size()<matchCount) {
 									n+=1;
 									values = AddressUtil.findNeighPosition(longitude, latitude, n);
-									matchList = iUpClueService.getMatchClue(jsm.getAccountNumber(),jsm.getOrganClass(),values[0].toString(),values[1].toString(),values[2].toString(),values[3].toString());
+									matchList = iUpClueService.getMatchClue(jsm.getUserCode(),jsm.getOrganClass(),arr[0],values[0].toString(),values[1].toString(),values[2].toString(),values[3].toString());
 									//去掉匹配过得线索
 									if(matchList != null && !matchList.isEmpty() && exitsMatchList != null && !exitsMatchList.isEmpty()) {
 										matchList.removeAll(exitsMatchList);
@@ -278,7 +281,7 @@ public class ClueMatchTask {
 	
 	//为会员和线索标注经纬度
 	@SuppressWarnings("deprecation")
-	@Scheduled(cron="0 0 22 * * ?")
+	@Scheduled(cron="0 46 15 * * ?")
 	public void autoConfigAddress() {
 		logger.info("会员地理逆编码开始");
 		//设置会员经纬度
@@ -298,7 +301,9 @@ public class ClueMatchTask {
 		if(list != null && !list.isEmpty()) {
 			for(int i=0;i<list.size();i++) {
 				jsm = list.get(i);
-				address = jsm.getOrganAddress();
+				String[] cityarea = jsm.getOrganAddress().split(",");
+				address = cityarea[0]+cityarea[1]+jsm.getDetailAddress();
+				logger.info(address);
 				//调用百度地图API获取逆地理编码
 				try {
 					values = AddressUtil.AddressTolongitudea(address);
@@ -330,7 +335,8 @@ public class ClueMatchTask {
 		if(listUp != null && !listUp.isEmpty()) {
 			for(int i=0;i<listUp.size();i++) {
 				uc = listUp.get(i);
-				address = uc.getUpClueAddre();
+				address = uc.getUpClueAddressCity()+uc.getUpClueAddressAera()+uc.getUpClueAddre();
+				logger.info(address);
 				//调用百度地图API获取逆地理编码
 				try {
 					values = AddressUtil.AddressTolongitudea(address);
