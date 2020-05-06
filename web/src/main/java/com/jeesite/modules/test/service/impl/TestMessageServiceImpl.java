@@ -49,7 +49,7 @@ public class TestMessageServiceImpl implements TestMessageService {
 		// TODO Auto-generated method stub
 		// HttpServletRequest req = ((ServletRequestAttributes)
 		// RequestContextHolder.getRequestAttributes()).getRequest();
-		DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI4FwvuFWVLTCdpgirTHD2", "4bvT0wNF90llCp4ArRlWPRyYIE6f1Z");
+		DefaultProfile profile = DefaultProfile.getProfile("", "", "");
 		IAcsClient client = new DefaultAcsClient(profile);
 
 		String password = new Random().nextInt(899999) + 100000 + "";
@@ -158,8 +158,13 @@ public class TestMessageServiceImpl implements TestMessageService {
 	public JsSysMember getMemberByLoginCode(HttpServletResponse response, Model model) {
 		// TODO Auto-generated method stub
 		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
-		JsSysMember member = jsSysMemberMapper.selectMemberByNumber(userVo.getUser().getLoginCode());
-		return member;
+		if(userVo!=null) {
+			if(userVo.getUser()!=null) {
+				JsSysMember member = jsSysMemberMapper.selectMemberByNumber(userVo.getUser().getLoginCode());
+				return member;
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -187,7 +192,7 @@ public class TestMessageServiceImpl implements TestMessageService {
 		// TODO Auto-generated method stub
 		// HttpServletRequest req = ((ServletRequestAttributes)
 		// RequestContextHolder.getRequestAttributes()).getRequest();
-		DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI4FwvuFWVLTCdpgirTHD2", "4bvT0wNF90llCp4ArRlWPRyYIE6f1Z");
+		DefaultProfile profile = DefaultProfile.getProfile("", "", "");
 		IAcsClient client = new DefaultAcsClient(profile);
 
 		String password = new Random().nextInt(899999) + 100000 + "";
