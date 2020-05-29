@@ -162,8 +162,13 @@ public class TestMessageServiceImpl implements TestMessageService {
 	public JsSysMember getMemberByLoginCode(HttpServletResponse response, Model model) {
 		// TODO Auto-generated method stub
 		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
-		JsSysMember member = jsSysMemberMapper.selectMemberByNumber(userVo.getUser().getLoginCode());
-		return member;
+		if(userVo!=null) {
+			if(userVo.getUser()!=null) {
+				JsSysMember member = jsSysMemberMapper.selectMemberByNumber(userVo.getUser().getLoginCode());
+				return member;
+			}
+		}
+		return null;
 	}
 
 	@Override
