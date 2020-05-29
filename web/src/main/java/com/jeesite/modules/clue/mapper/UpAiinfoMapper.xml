@@ -1,516 +1,262 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jeesite.modules.clue.mapper.UpAiinfoMapper">
-  <resultMap id="BaseResultMap" type="com.jeesite.modules.clue.entity.UpAiinfo">
-    <id column="up_id" jdbcType="VARCHAR" property="upId" />
-    <result column="up_aicode" jdbcType="VARCHAR" property="upAicode" />
-    <result column="up_aiappraise" jdbcType="CHAR" property="upAiappraise" />
-    <result column="up_aistatus" jdbcType="CHAR" property="upAistatus" />
-    <result column="up_usercode" jdbcType="VARCHAR" property="upUsercode" />
-    <result column="up_aitimes" jdbcType="INTEGER" property="upAitimes" />
-    <result column="up_aicreatetime" jdbcType="TIMESTAMP" property="upAicreatetime" />
-    <result column="up_aiexecutetime" jdbcType="TIMESTAMP" property="upAiexecutetime" />
-    <result column="up_aipersontime" jdbcType="TIMESTAMP" property="upAipersontime" />
-    <result column="up_aitaskid" jdbcType="VARCHAR" property="upAitaskid" />
-    <result column="up_aiphone" jdbcType="VARCHAR" property="upAiphone" />
-    <result column="extra1" jdbcType="VARCHAR" property="extra1" />
-    <result column="extra2" jdbcType="VARCHAR" property="extra2" />
-    <result column="extra3" jdbcType="VARCHAR" property="extra3" />
-    <result column="extra4" jdbcType="VARCHAR" property="extra4" />
-    <result column="extra5" jdbcType="VARCHAR" property="extra5" />
-    <result column="up_cluename" jdbcType="VARCHAR" property="upCluename" />
-    <result column="up_aipersonendtime" jdbcType="TIMESTAMP" property="upAipersonendtime" />
-    <result column="up_aiendtime" jdbcType="TIMESTAMP" property="upAiendtime" />
-    <result column="up_talktime" jdbcType="INTEGER" property="upTalktime" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.clue.mapper.UpAiinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.clue.entity.UpAiinfo" >
+    <id column="up_id" property="upId" jdbcType="VARCHAR" />
+    <result column="up_aicode" property="upAicode" jdbcType="VARCHAR" />
+    <result column="up_aiappraise" property="upAiappraise" jdbcType="CHAR" />
+    <result column="up_aistatus" property="upAistatus" jdbcType="CHAR" />
+    <result column="up_usercode" property="upUsercode" jdbcType="VARCHAR" />
+    <result column="up_aitimes" property="upAitimes" jdbcType="INTEGER" />
+    <result column="up_aicreatetime" property="upAicreatetime" jdbcType="TIMESTAMP" />
+    <result column="up_aiexecutetime" property="upAiexecutetime" jdbcType="TIMESTAMP" />
+    <result column="up_aipersontime" property="upAipersontime" jdbcType="TIMESTAMP" />
+    <result column="up_aitaskid" property="upAitaskid" jdbcType="VARCHAR" />
+    <result column="up_aiphone" property="upAiphone" jdbcType="VARCHAR" />
+    <result column="extra1" property="extra1" jdbcType="VARCHAR" />
+    <result column="extra2" property="extra2" jdbcType="VARCHAR" />
+    <result column="extra3" property="extra3" jdbcType="VARCHAR" />
+    <result column="extra4" property="extra4" jdbcType="VARCHAR" />
+    <result column="extra5" property="extra5" jdbcType="VARCHAR" />
+    <result column="up_cluename" property="upCluename" jdbcType="VARCHAR" />
+    <result column="up_aipersonendtime" property="upAipersonendtime" jdbcType="TIMESTAMP" />
+    <result column="up_aiendtime" property="upAiendtime" jdbcType="TIMESTAMP" />
+    <result column="up_talktime" property="upTalktime" jdbcType="INTEGER" />
+    <result column="up_personstatus" property="upPersonstatus" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List">
+  <sql id="Base_Column_List" >
     up_id, up_aicode, up_aiappraise, up_aistatus, up_usercode, up_aitimes, up_aicreatetime, 
     up_aiexecutetime, up_aipersontime, up_aitaskid, up_aiphone, extra1, extra2, extra3, 
-    extra4, extra5, up_cluename, up_aipersonendtime, up_aiendtime, up_talktime
+    extra4, extra5, up_cluename, up_aipersonendtime, up_aiendtime, up_talktime, up_personstatus
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from up_aiInfo
-    where up_id = #{upId,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from up_aiInfo
-    where up_id = #{upId,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.jeesite.modules.clue.entity.UpAiinfo">
-    insert into up_aiInfo (up_id, up_aicode, up_aiappraise, 
-      up_aistatus, up_usercode, up_aitimes, 
-      up_aicreatetime, up_aiexecutetime, up_aipersontime, 
-      up_aitaskid, up_aiphone, extra1, 
-      extra2, extra3, extra4, 
-      extra5, up_cluename, up_aipersonendtime, 
-      up_aiendtime, up_talktime)
-    values (#{upId,jdbcType=VARCHAR}, #{upAicode,jdbcType=VARCHAR}, #{upAiappraise,jdbcType=CHAR}, 
-      #{upAistatus,jdbcType=CHAR}, #{upUsercode,jdbcType=VARCHAR}, #{upAitimes,jdbcType=INTEGER}, 
-      #{upAicreatetime,jdbcType=TIMESTAMP}, #{upAiexecutetime,jdbcType=TIMESTAMP}, #{upAipersontime,jdbcType=TIMESTAMP}, 
-      #{upAitaskid,jdbcType=VARCHAR}, #{upAiphone,jdbcType=VARCHAR}, #{extra1,jdbcType=VARCHAR}, 
-      #{extra2,jdbcType=VARCHAR}, #{extra3,jdbcType=VARCHAR}, #{extra4,jdbcType=VARCHAR}, 
-      #{extra5,jdbcType=VARCHAR}, #{upCluename,jdbcType=VARCHAR}, #{upAipersonendtime,jdbcType=TIMESTAMP}, 
-      #{upAiendtime,jdbcType=TIMESTAMP}, #{upTalktime,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" parameterType="com.jeesite.modules.clue.entity.UpAiinfo">
-    insert into up_aiInfo
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="upId != null">
-        up_id,
-      </if>
-      <if test="upAicode != null">
-        up_aicode,
-      </if>
-      <if test="upAiappraise != null">
-        up_aiappraise,
-      </if>
-      <if test="upAistatus != null">
-        up_aistatus,
-      </if>
-      <if test="upUsercode != null">
-        up_usercode,
-      </if>
-      <if test="upAitimes != null">
-        up_aitimes,
-      </if>
-      <if test="upAicreatetime != null">
-        up_aicreatetime,
-      </if>
-      <if test="upAiexecutetime != null">
-        up_aiexecutetime,
-      </if>
-      <if test="upAipersontime != null">
-        up_aipersontime,
-      </if>
-      <if test="upAitaskid != null">
-        up_aitaskid,
-      </if>
-      <if test="upAiphone != null">
-        up_aiphone,
-      </if>
-      <if test="extra1 != null">
-        extra1,
-      </if>
-      <if test="extra2 != null">
-        extra2,
-      </if>
-      <if test="extra3 != null">
-        extra3,
-      </if>
-      <if test="extra4 != null">
-        extra4,
-      </if>
-      <if test="extra5 != null">
-        extra5,
-      </if>
-      <if test="upCluename != null">
-        up_cluename,
-      </if>
-      <if test="upAipersonendtime != null">
-        up_aipersonendtime,
-      </if>
-      <if test="upAiendtime != null">
-        up_aiendtime,
-      </if>
-      <if test="upTalktime != null">
-        up_talktime,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="upId != null">
-        #{upId,jdbcType=VARCHAR},
-      </if>
-      <if test="upAicode != null">
-        #{upAicode,jdbcType=VARCHAR},
-      </if>
-      <if test="upAiappraise != null">
-        #{upAiappraise,jdbcType=CHAR},
-      </if>
-      <if test="upAistatus != null">
-        #{upAistatus,jdbcType=CHAR},
-      </if>
-      <if test="upUsercode != null">
-        #{upUsercode,jdbcType=VARCHAR},
-      </if>
-      <if test="upAitimes != null">
-        #{upAitimes,jdbcType=INTEGER},
-      </if>
-      <if test="upAicreatetime != null">
-        #{upAicreatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upAiexecutetime != null">
-        #{upAiexecutetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upAipersontime != null">
-        #{upAipersontime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upAitaskid != null">
-        #{upAitaskid,jdbcType=VARCHAR},
-      </if>
-      <if test="upAiphone != null">
-        #{upAiphone,jdbcType=VARCHAR},
-      </if>
-      <if test="extra1 != null">
-        #{extra1,jdbcType=VARCHAR},
-      </if>
-      <if test="extra2 != null">
-        #{extra2,jdbcType=VARCHAR},
-      </if>
-      <if test="extra3 != null">
-        #{extra3,jdbcType=VARCHAR},
-      </if>
-      <if test="extra4 != null">
-        #{extra4,jdbcType=VARCHAR},
-      </if>
-      <if test="extra5 != null">
-        #{extra5,jdbcType=VARCHAR},
-      </if>
-      <if test="upCluename != null">
-        #{upCluename,jdbcType=VARCHAR},
-      </if>
-      <if test="upAipersonendtime != null">
-        #{upAipersonendtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upAiendtime != null">
-        #{upAiendtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upTalktime != null">
-        #{upTalktime,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.clue.entity.UpAiinfo">
-    update up_aiInfo
-    <set>
-      <if test="upAicode != null">
-        up_aicode = #{upAicode,jdbcType=VARCHAR},
-      </if>
-      <if test="upAiappraise != null">
-        up_aiappraise = #{upAiappraise,jdbcType=CHAR},
-      </if>
-      <if test="upAistatus != null">
-        up_aistatus = #{upAistatus,jdbcType=CHAR},
-      </if>
-      <if test="upUsercode != null">
-        up_usercode = #{upUsercode,jdbcType=VARCHAR},
-      </if>
-      <if test="upAitimes != null">
-        up_aitimes = #{upAitimes,jdbcType=INTEGER},
-      </if>
-      <if test="upAicreatetime != null">
-        up_aicreatetime = #{upAicreatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upAiexecutetime != null">
-        up_aiexecutetime = #{upAiexecutetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upAipersontime != null">
-        up_aipersontime = #{upAipersontime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upAitaskid != null">
-        up_aitaskid = #{upAitaskid,jdbcType=VARCHAR},
-      </if>
-      <if test="upAiphone != null">
-        up_aiphone = #{upAiphone,jdbcType=VARCHAR},
-      </if>
-      <if test="extra1 != null">
-        extra1 = #{extra1,jdbcType=VARCHAR},
-      </if>
-      <if test="extra2 != null">
-        extra2 = #{extra2,jdbcType=VARCHAR},
-      </if>
-      <if test="extra3 != null">
-        extra3 = #{extra3,jdbcType=VARCHAR},
-      </if>
-      <if test="extra4 != null">
-        extra4 = #{extra4,jdbcType=VARCHAR},
-      </if>
-      <if test="extra5 != null">
-        extra5 = #{extra5,jdbcType=VARCHAR},
-      </if>
-      <if test="upCluename != null">
-        up_cluename = #{upCluename,jdbcType=VARCHAR},
-      </if>
-      <if test="upAipersonendtime != null">
-        up_aipersonendtime = #{upAipersonendtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upAiendtime != null">
-        up_aiendtime = #{upAiendtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upTalktime != null">
-        up_talktime = #{upTalktime,jdbcType=INTEGER},
-      </if>
-    </set>
-    where up_id = #{upId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.clue.entity.UpAiinfo">
-    update up_aiInfo
-    set up_aicode = #{upAicode,jdbcType=VARCHAR},
-      up_aiappraise = #{upAiappraise,jdbcType=CHAR},
-      up_aistatus = #{upAistatus,jdbcType=CHAR},
-      up_usercode = #{upUsercode,jdbcType=VARCHAR},
-      up_aitimes = #{upAitimes,jdbcType=INTEGER},
-      up_aicreatetime = #{upAicreatetime,jdbcType=TIMESTAMP},
-      up_aiexecutetime = #{upAiexecutetime,jdbcType=TIMESTAMP},
-      up_aipersontime = #{upAipersontime,jdbcType=TIMESTAMP},
-      up_aitaskid = #{upAitaskid,jdbcType=VARCHAR},
-      up_aiphone = #{upAiphone,jdbcType=VARCHAR},
-      extra1 = #{extra1,jdbcType=VARCHAR},
-      extra2 = #{extra2,jdbcType=VARCHAR},
-      extra3 = #{extra3,jdbcType=VARCHAR},
-      extra4 = #{extra4,jdbcType=VARCHAR},
-      extra5 = #{extra5,jdbcType=VARCHAR},
-      up_cluename = #{upCluename,jdbcType=VARCHAR},
-      up_aipersonendtime = #{upAipersonendtime,jdbcType=TIMESTAMP},
-      up_aiendtime = #{upAiendtime,jdbcType=TIMESTAMP},
-      up_talktime = #{upTalktime,jdbcType=INTEGER}
-    where up_id = #{upId,jdbcType=VARCHAR}
-  </update>
-  <resultMap id="BaseResultMap" type="com.jeesite.modules.clue.entity.UpAiinfo">
-    <id column="up_id" jdbcType="VARCHAR" property="upId" />
-    <result column="up_aicode" jdbcType="VARCHAR" property="upAicode" />
-    <result column="up_aiappraise" jdbcType="CHAR" property="upAiappraise" />
-    <result column="up_aistatus" jdbcType="CHAR" property="upAistatus" />
-    <result column="up_usercode" jdbcType="VARCHAR" property="upUsercode" />
-    <result column="up_aitimes" jdbcType="INTEGER" property="upAitimes" />
-    <result column="up_aicreatetime" jdbcType="TIMESTAMP" property="upAicreatetime" />
-    <result column="up_aiexecutetime" jdbcType="TIMESTAMP" property="upAiexecutetime" />
-    <result column="up_aipersontime" jdbcType="TIMESTAMP" property="upAipersontime" />
-    <result column="up_aitaskid" jdbcType="VARCHAR" property="upAitaskid" />
-    <result column="up_aiphone" jdbcType="VARCHAR" property="upAiphone" />
-    <result column="extra1" jdbcType="VARCHAR" property="extra1" />
-    <result column="extra2" jdbcType="VARCHAR" property="extra2" />
-    <result column="extra3" jdbcType="VARCHAR" property="extra3" />
-    <result column="extra4" jdbcType="VARCHAR" property="extra4" />
-    <result column="extra5" jdbcType="VARCHAR" property="extra5" />
-    <result column="up_cluename" jdbcType="VARCHAR" property="upCluename" />
-    <result column="up_aipersonendtime" jdbcType="TIMESTAMP" property="upAipersonendtime" />
-    <result column="up_aiendtime" jdbcType="TIMESTAMP" property="upAiendtime" />
-    <result column="up_talktime" jdbcType="INTEGER" property="upTalktime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    up_id, up_aicode, up_aiappraise, up_aistatus, up_usercode, up_aitimes, up_aicreatetime, 
-    up_aiexecutetime, up_aipersontime, up_aitaskid, up_aiphone, extra1, extra2, extra3, 
-    extra4, extra5, up_cluename, up_aipersonendtime, up_aiendtime, up_talktime
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from up_aiinfo
     where up_id = #{upId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from up_aiinfo
     where up_id = #{upId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.jeesite.modules.clue.entity.UpAiinfo">
+  <insert id="insert" parameterType="com.jeesite.modules.clue.entity.UpAiinfo" >
     insert into up_aiinfo (up_id, up_aicode, up_aiappraise, 
       up_aistatus, up_usercode, up_aitimes, 
       up_aicreatetime, up_aiexecutetime, up_aipersontime, 
       up_aitaskid, up_aiphone, extra1, 
       extra2, extra3, extra4, 
       extra5, up_cluename, up_aipersonendtime, 
-      up_aiendtime, up_talktime)
+      up_aiendtime, up_talktime, up_personstatus
+      )
     values (#{upId,jdbcType=VARCHAR}, #{upAicode,jdbcType=VARCHAR}, #{upAiappraise,jdbcType=CHAR}, 
       #{upAistatus,jdbcType=CHAR}, #{upUsercode,jdbcType=VARCHAR}, #{upAitimes,jdbcType=INTEGER}, 
       #{upAicreatetime,jdbcType=TIMESTAMP}, #{upAiexecutetime,jdbcType=TIMESTAMP}, #{upAipersontime,jdbcType=TIMESTAMP}, 
       #{upAitaskid,jdbcType=VARCHAR}, #{upAiphone,jdbcType=VARCHAR}, #{extra1,jdbcType=VARCHAR}, 
       #{extra2,jdbcType=VARCHAR}, #{extra3,jdbcType=VARCHAR}, #{extra4,jdbcType=VARCHAR}, 
       #{extra5,jdbcType=VARCHAR}, #{upCluename,jdbcType=VARCHAR}, #{upAipersonendtime,jdbcType=TIMESTAMP}, 
-      #{upAiendtime,jdbcType=TIMESTAMP}, #{upTalktime,jdbcType=INTEGER})
+      #{upAiendtime,jdbcType=TIMESTAMP}, #{upTalktime,jdbcType=INTEGER}, #{upPersonstatus,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.jeesite.modules.clue.entity.UpAiinfo">
+  <insert id="insertSelective" parameterType="com.jeesite.modules.clue.entity.UpAiinfo" >
     insert into up_aiinfo
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="upId != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="upId != null" >
         up_id,
       </if>
-      <if test="upAicode != null">
+      <if test="upAicode != null" >
         up_aicode,
       </if>
-      <if test="upAiappraise != null">
+      <if test="upAiappraise != null" >
         up_aiappraise,
       </if>
-      <if test="upAistatus != null">
+      <if test="upAistatus != null" >
         up_aistatus,
       </if>
-      <if test="upUsercode != null">
+      <if test="upUsercode != null" >
         up_usercode,
       </if>
-      <if test="upAitimes != null">
+      <if test="upAitimes != null" >
         up_aitimes,
       </if>
-      <if test="upAicreatetime != null">
+      <if test="upAicreatetime != null" >
         up_aicreatetime,
       </if>
-      <if test="upAiexecutetime != null">
+      <if test="upAiexecutetime != null" >
         up_aiexecutetime,
       </if>
-      <if test="upAipersontime != null">
+      <if test="upAipersontime != null" >
         up_aipersontime,
       </if>
-      <if test="upAitaskid != null">
+      <if test="upAitaskid != null" >
         up_aitaskid,
       </if>
-      <if test="upAiphone != null">
+      <if test="upAiphone != null" >
         up_aiphone,
       </if>
-      <if test="extra1 != null">
+      <if test="extra1 != null" >
         extra1,
       </if>
-      <if test="extra2 != null">
+      <if test="extra2 != null" >
         extra2,
       </if>
-      <if test="extra3 != null">
+      <if test="extra3 != null" >
         extra3,
       </if>
-      <if test="extra4 != null">
+      <if test="extra4 != null" >
         extra4,
       </if>
-      <if test="extra5 != null">
+      <if test="extra5 != null" >
         extra5,
       </if>
-      <if test="upCluename != null">
+      <if test="upCluename != null" >
         up_cluename,
       </if>
-      <if test="upAipersonendtime != null">
+      <if test="upAipersonendtime != null" >
         up_aipersonendtime,
       </if>
-      <if test="upAiendtime != null">
+      <if test="upAiendtime != null" >
         up_aiendtime,
       </if>
-      <if test="upTalktime != null">
+      <if test="upTalktime != null" >
         up_talktime,
       </if>
+      <if test="upPersonstatus != null" >
+        up_personstatus,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="upId != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="upId != null" >
         #{upId,jdbcType=VARCHAR},
       </if>
-      <if test="upAicode != null">
+      <if test="upAicode != null" >
         #{upAicode,jdbcType=VARCHAR},
       </if>
-      <if test="upAiappraise != null">
+      <if test="upAiappraise != null" >
         #{upAiappraise,jdbcType=CHAR},
       </if>
-      <if test="upAistatus != null">
+      <if test="upAistatus != null" >
         #{upAistatus,jdbcType=CHAR},
       </if>
-      <if test="upUsercode != null">
+      <if test="upUsercode != null" >
         #{upUsercode,jdbcType=VARCHAR},
       </if>
-      <if test="upAitimes != null">
+      <if test="upAitimes != null" >
         #{upAitimes,jdbcType=INTEGER},
       </if>
-      <if test="upAicreatetime != null">
+      <if test="upAicreatetime != null" >
         #{upAicreatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="upAiexecutetime != null">
+      <if test="upAiexecutetime != null" >
         #{upAiexecutetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="upAipersontime != null">
+      <if test="upAipersontime != null" >
         #{upAipersontime,jdbcType=TIMESTAMP},
       </if>
-      <if test="upAitaskid != null">
+      <if test="upAitaskid != null" >
         #{upAitaskid,jdbcType=VARCHAR},
       </if>
-      <if test="upAiphone != null">
+      <if test="upAiphone != null" >
         #{upAiphone,jdbcType=VARCHAR},
       </if>
-      <if test="extra1 != null">
+      <if test="extra1 != null" >
         #{extra1,jdbcType=VARCHAR},
       </if>
-      <if test="extra2 != null">
+      <if test="extra2 != null" >
         #{extra2,jdbcType=VARCHAR},
       </if>
-      <if test="extra3 != null">
+      <if test="extra3 != null" >
         #{extra3,jdbcType=VARCHAR},
       </if>
-      <if test="extra4 != null">
+      <if test="extra4 != null" >
         #{extra4,jdbcType=VARCHAR},
       </if>
-      <if test="extra5 != null">
+      <if test="extra5 != null" >
         #{extra5,jdbcType=VARCHAR},
       </if>
-      <if test="upCluename != null">
+      <if test="upCluename != null" >
         #{upCluename,jdbcType=VARCHAR},
       </if>
-      <if test="upAipersonendtime != null">
+      <if test="upAipersonendtime != null" >
         #{upAipersonendtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="upAiendtime != null">
+      <if test="upAiendtime != null" >
         #{upAiendtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="upTalktime != null">
+      <if test="upTalktime != null" >
         #{upTalktime,jdbcType=INTEGER},
+      </if>
+      <if test="upPersonstatus != null" >
+        #{upPersonstatus,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.clue.entity.UpAiinfo">
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.clue.entity.UpAiinfo" >
     update up_aiinfo
-    <set>
-      <if test="upAicode != null">
+    <set >
+      <if test="upAicode != null" >
         up_aicode = #{upAicode,jdbcType=VARCHAR},
       </if>
-      <if test="upAiappraise != null">
+      <if test="upAiappraise != null" >
         up_aiappraise = #{upAiappraise,jdbcType=CHAR},
       </if>
-      <if test="upAistatus != null">
+      <if test="upAistatus != null" >
         up_aistatus = #{upAistatus,jdbcType=CHAR},
       </if>
-      <if test="upUsercode != null">
+      <if test="upUsercode != null" >
         up_usercode = #{upUsercode,jdbcType=VARCHAR},
       </if>
-      <if test="upAitimes != null">
+      <if test="upAitimes != null" >
         up_aitimes = #{upAitimes,jdbcType=INTEGER},
       </if>
-      <if test="upAicreatetime != null">
+      <if test="upAicreatetime != null" >
         up_aicreatetime = #{upAicreatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="upAiexecutetime != null">
+      <if test="upAiexecutetime != null" >
         up_aiexecutetime = #{upAiexecutetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="upAipersontime != null">
+      <if test="upAipersontime != null" >
         up_aipersontime = #{upAipersontime,jdbcType=TIMESTAMP},
       </if>
-      <if test="upAitaskid != null">
+      <if test="upAitaskid != null" >
         up_aitaskid = #{upAitaskid,jdbcType=VARCHAR},
       </if>
-      <if test="upAiphone != null">
+      <if test="upAiphone != null" >
         up_aiphone = #{upAiphone,jdbcType=VARCHAR},
       </if>
-      <if test="extra1 != null">
+      <if test="extra1 != null" >
         extra1 = #{extra1,jdbcType=VARCHAR},
       </if>
-      <if test="extra2 != null">
+      <if test="extra2 != null" >
         extra2 = #{extra2,jdbcType=VARCHAR},
       </if>
-      <if test="extra3 != null">
+      <if test="extra3 != null" >
         extra3 = #{extra3,jdbcType=VARCHAR},
       </if>
-      <if test="extra4 != null">
+      <if test="extra4 != null" >
         extra4 = #{extra4,jdbcType=VARCHAR},
       </if>
-      <if test="extra5 != null">
+      <if test="extra5 != null" >
         extra5 = #{extra5,jdbcType=VARCHAR},
       </if>
-      <if test="upCluename != null">
+      <if test="upCluename != null" >
         up_cluename = #{upCluename,jdbcType=VARCHAR},
       </if>
-      <if test="upAipersonendtime != null">
+      <if test="upAipersonendtime != null" >
         up_aipersonendtime = #{upAipersonendtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="upAiendtime != null">
+      <if test="upAiendtime != null" >
         up_aiendtime = #{upAiendtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="upTalktime != null">
+      <if test="upTalktime != null" >
         up_talktime = #{upTalktime,jdbcType=INTEGER},
+      </if>
+      <if test="upPersonstatus != null" >
+        up_personstatus = #{upPersonstatus,jdbcType=VARCHAR},
       </if>
     </set>
     where up_id = #{upId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.clue.entity.UpAiinfo">
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.clue.entity.UpAiinfo" >
     update up_aiinfo
     set up_aicode = #{upAicode,jdbcType=VARCHAR},
       up_aiappraise = #{upAiappraise,jdbcType=CHAR},
@@ -530,7 +276,8 @@
       up_cluename = #{upCluename,jdbcType=VARCHAR},
       up_aipersonendtime = #{upAipersonendtime,jdbcType=TIMESTAMP},
       up_aiendtime = #{upAiendtime,jdbcType=TIMESTAMP},
-      up_talktime = #{upTalktime,jdbcType=INTEGER}
+      up_talktime = #{upTalktime,jdbcType=INTEGER},
+      up_personstatus = #{upPersonstatus,jdbcType=VARCHAR}
     where up_id = #{upId,jdbcType=VARCHAR}
   </update>
   <select id="getExistClue" resultType="java.util.HashMap">
@@ -589,5 +336,12 @@
     from up_aiinfo
     where up_aicode = #{upClueCode}
     and up_usercode = #{userCode}
+  </select>
+  <select id="getUpAiinfoByPhone" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from up_aiinfo
+    where up_aiphone = #{upAiphone,jdbcType=VARCHAR}
+    and up_usercode = #{usercode}
   </select>
 </mapper>

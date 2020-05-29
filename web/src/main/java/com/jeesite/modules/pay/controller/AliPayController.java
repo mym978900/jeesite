@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,6 +35,7 @@ import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.entity.VideoOrder;
 import com.jeesite.modules.test.util.DailyUtil;
 import com.jeesite.modules.test.vo.GetUserVo;
+import com.jeesite.modules.tr.service.TrService;
 import com.jeesite.modules.pay.config.AliPayConfig;
 
 /**
@@ -46,10 +48,12 @@ public class AliPayController {
 	private static final Logger logger = LoggerFactory.getLogger(AliPayController.class);
 	@Autowired
 	private IAliPayService aliPayService;
-
+	@Autowired
+	private TrService iTrService;
 	// 支付宝PC支付
 	@RequestMapping(value = "pcPay", method = RequestMethod.POST)
-	public void pcPay(Product product, ModelMap map, HttpServletResponse response, Model model,
+	public void pcPay(
+			@RequestBody(required = false)Product product, ModelMap map, HttpServletResponse response, Model model,
 			HttpServletRequest request) throws IOException {
 		logger.info("PC支付");
 		String form = aliPayService.aliPayPc(response, model, request, product);
@@ -109,98 +113,104 @@ public class AliPayController {
 				} else if (status.equals("TRADE_CLOSED")) { // 如果状态是未付款交易超时关闭，或支付完成后全额退款
 					logger.info(outtradeno + "订单的状态已经关闭");
 				} else if (status.equals("TRADE_SUCCESS") || status.equals("TRADE_FINISHED")) { // 如果状态是已经支付成功
-					logger.info("(支付宝订单号:" + outtradeno + "付款成功)");
-					// 这里 根据实际业务场景 做相应的操作
-					// 当前登录用户信息
-					//GetUserVo userVo = DailyUtil.getLoginUser(response, model);
-					// 会员信息
-					String body = params.get("body");
-					System.out.println("body"+body);
-					JsSysMember member = aliPayService.findMemberByLoginCode(body);
-					
-					// 标题
-					String title = order.getOutTradeNo();
-					// 会员等级
-					String grade = member.getMemberGrade();
-					// 到期时间
-					String overTime = member.getMemberOvertime();
-					// 余额
-					String balance = member.getReserveField1();
-					// 坐席数量
-					String seat = member.getReserveDield2();
-					//订单类型
-					String videoType=null;
-					if (title.length() > 2) {
-						String lei = title.substring(0, 2);
-						// String time=title.substring(2, 4);
-						if (lei.equals("开通")) {
-							videoType="消费";
-							String type = title.substring(2, 5);
-							SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-							overTime = formatter.format(new Date());
-							if (type.equals("基础版")) {
-								grade = "1";
-								String time = title.substring(5, 7);
-								if (time.equals("半年"))
+					if("0".equals(order.getTrPaycommodity())) {
+						logger.info("(支付宝订单号:" + outtradeno + "付款成功)");
+						// 这里 根据实际业务场景 做相应的操作
+						// 当前登录用户信息
+						//GetUserVo userVo = DailyUtil.getLoginUser(response, model);
+						// 会员信息
+						String body = params.get("body");
+						System.out.println("body"+body);
+						JsSysMember member = aliPayService.findMemberByLoginCode(body);
+						
+						// 标题
+						String title = order.getOutTradeNo();
+						// 会员等级
+						String grade = member.getMemberGrade();
+						// 到期时间
+						String overTime = member.getMemberOvertime();
+						// 余额
+						String balance = member.getReserveField1();
+						// 坐席数量
+						String seat = member.getReserveDield2();
+						//订单类型
+						String videoType=null;
+						if (title.length() > 2) {
+							String lei = title.substring(0, 2);
+							// String time=title.substring(2, 4);
+							if (lei.equals("开通")) {
+								videoType="消费";
+								String type = title.substring(2, 5);
+								SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+								overTime = formatter.format(new Date());
+								if (type.equals("基础版")) {
+									grade = "1";
+									String time = title.substring(5, 7);
+									if (time.equals("半年"))
+										overTime = TimeUtil.getBanYear(overTime);
+									else
+										overTime = TimeUtil.getZhenYear(overTime);
+								} else if (type.equals("升级版")) {
+									grade = "2";
+									String time = title.substring(5, 7);
+									if (time.equals("半年"))
+										overTime = TimeUtil.getBanYear(overTime);
+									else
+										overTime = TimeUtil.getZhenYear(overTime);
+								} else {
+									grade = "3";
+									String time = title.substring(5, 7);
+									if (time.equals("半年"))
+										overTime = TimeUtil.getBanYear(overTime);
+									else
+										overTime = TimeUtil.getZhenYear(overTime);
+								}
+							} else if (lei.equals("续费")) {
+								videoType="消费";
+								String type = title.substring(5, 7);
+								if (type.equals("半年"))
 									overTime = TimeUtil.getBanYear(overTime);
 								else
 									overTime = TimeUtil.getZhenYear(overTime);
-							} else if (type.equals("升级版")) {
-								grade = "2";
-								String time = title.substring(5, 7);
-								if (time.equals("半年"))
-									overTime = TimeUtil.getBanYear(overTime);
-								else
-									overTime = TimeUtil.getZhenYear(overTime);
-							} else {
-								grade = "3";
-								String time = title.substring(5, 7);
-								if (time.equals("半年"))
-									overTime = TimeUtil.getBanYear(overTime);
-								else
-									overTime = TimeUtil.getZhenYear(overTime);
+							} else if(lei.equals("升级")){
+								videoType="消费";
+								String type = title.substring(2, 5);
+								if (type.equals("基础版")) {
+									grade="1";
+								}else if(type.equals("升级版")) {
+									grade="2";
+								}else {
+									grade="3";
+								}
+							}else {}
+						} else {
+							String lei = title.substring(0, 2);
+							if (lei.equals("充值")){
+								videoType="充值";
+								balance = String.format("%.2f",(Double.valueOf(balance) + Double.valueOf(order.getTotalFee())));
+							}else if(lei.equals("坐席")) {
+								videoType="消费";
+								seat = (Integer.parseInt(seat) + 1) + "";
 							}
-						} else if (lei.equals("续费")) {
-							videoType="消费";
-							String type = title.substring(5, 7);
-							if (type.equals("半年"))
-								overTime = TimeUtil.getBanYear(overTime);
-							else
-								overTime = TimeUtil.getZhenYear(overTime);
-						} else if(lei.equals("升级")){
-							videoType="消费";
-							String type = title.substring(2, 5);
-							if (type.equals("基础版")) {
-								grade="1";
-							}else if(type.equals("升级版")) {
-								grade="2";
-							}else {
-								grade="3";
-							}
-						}else {}
-					} else {
-						String lei = title.substring(0, 2);
-						if (lei.equals("充值")){
-							videoType="充值";
-							balance = String.format("%.2f",(Double.valueOf(balance) + Double.valueOf(order.getTotalFee())));
-						}else if(lei.equals("坐席")) {
-							videoType="消费";
-							seat = (Integer.parseInt(seat) + 1) + "";
+							 else {}
+	
 						}
-						 else {}
-
+						JsSysMember mem = new JsSysMember();
+						mem.setSerialNumber(member.getSerialNumber());
+						mem.setMemberGrade(grade);
+						mem.setMemberOvertime(overTime);
+						mem.setReserveField1(balance);
+						mem.setReserveDield2(seat);
+						// 需要修改订单的信息
+						VideoOrder ord = new VideoOrder(order.getOpenid(), 1, new Date(),videoType);
+						aliPayService.updateOrderAndMember(ord, mem);
+					}else if("1".equals(order.getTrPaycommodity())) {
+						//订单类型
+						String videoType="消费";
+						VideoOrder ord = new VideoOrder(order.getOpenid(), 1, new Date(),videoType);
+						iTrService.updateVideoOrder(ord);
 					}
-					JsSysMember mem = new JsSysMember();
-					mem.setSerialNumber(member.getSerialNumber());
-					mem.setMemberGrade(grade);
-					mem.setMemberOvertime(overTime);
-					mem.setReserveField1(balance);
-					mem.setReserveDield2(seat);
-					// 需要修改订单的信息
-					VideoOrder ord = new VideoOrder(order.getOpenid(), 1, new Date(),videoType);
-					aliPayService.updateOrderAndMember(ord, mem);
 				} else {
-
 				}
 			}
 		} else { // 如果验证签名没有通过
@@ -243,7 +253,8 @@ public class AliPayController {
 				logger.info("订单号" + orderNo + "验证签名结果[失败].");
 			}
 			//重定向到费用中心页面
-			response.sendRedirect("http://www.aolige.cn/#/Expense");
+//			response.sendRedirect("http://www.aolige.cn/#/Expense");
+			response.sendRedirect("http://28x3836517.goho.co:20895/#/DemandOrder");
 		} catch (Exception e) {
 			e.printStackTrace();
 			// 处理异常信息

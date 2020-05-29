@@ -106,7 +106,8 @@ public class CostController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "toPayment")
-	public String toBalancePayment(Product product, HttpServletRequest request, HttpServletResponse response,
+	public String toBalancePayment(
+			@RequestBody(required = false) Product product, HttpServletRequest request, HttpServletResponse response,
 			Model model) {
 
 		String openid = costService.insertPaymentByBalance(product, request, response, model);
@@ -124,7 +125,8 @@ public class CostController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "payment")
-	public Integer BalancePayment(Product product, HttpServletRequest request, HttpServletResponse response,
+	public Integer BalancePayment(
+			@RequestBody(required = false)Product product, HttpServletRequest request, HttpServletResponse response,
 			Model model) throws ParseException {
 
 		Integer nums = costService.toBalancePayment(product, request, response, model);

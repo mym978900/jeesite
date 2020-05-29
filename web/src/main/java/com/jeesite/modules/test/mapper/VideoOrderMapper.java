@@ -21,4 +21,8 @@ public interface VideoOrderMapper {
     List<VideoOrder> findOrderByLimit(CostVo vo);
 
 	VideoOrder findOrderByTradeNo(String outtradeno);
+
+	List<VideoOrder> getAllCreatOrder(String headImg);
+
+	List<VideoOrder> getAllAcceptOrder(String trPartbusercode);
 }

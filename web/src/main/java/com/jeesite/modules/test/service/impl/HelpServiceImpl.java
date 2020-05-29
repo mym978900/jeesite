@@ -50,7 +50,7 @@ public class HelpServiceImpl implements HelpService {
 		pro.setCreateTime(new Date());
 		pro.setStatus("0");
 		pro.setProposalMan(userVo.getUser().getLoginCode());
-		return jsSysProposalMapper.insertSelective(pro);
+		return jsSysProposalMapper.insert(pro);
 	}
 
 	@Override

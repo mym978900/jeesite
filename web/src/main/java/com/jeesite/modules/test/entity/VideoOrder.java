@@ -2,6 +2,9 @@ package com.jeesite.modules.test.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jeesite.modules.tr.entity.TrOrder;
+
 public class VideoOrder {
     private Integer id;
 
@@ -11,8 +14,10 @@ public class VideoOrder {
 
     private Integer state;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date notifyTime;
 
     private String totalFee;
@@ -21,19 +26,39 @@ public class VideoOrder {
 
     private String headImg;
 
-    private Integer videoId;
+    private String videoId;
 
     private String videoTitle;
 
     private String videoImg;
 
-    private Integer userId;
+    private String userId;
 
     private String ip;
 
     private Integer del;
+    
+    private String reserve1;
 
-    public Integer getId() {
+    private String reserve2;
+
+    private String reserve3;
+    
+    private String trPaycommodity;
+
+    private String trPartbusercode;
+    
+    private TrOrder trOrder;
+    
+    public TrOrder getTrOrder() {
+		return trOrder;
+	}
+
+	public void setTrOrder(TrOrder trOrder) {
+		this.trOrder = trOrder;
+	}
+
+	public Integer getId() {
         return id;
     }
 
@@ -105,11 +130,11 @@ public class VideoOrder {
         this.headImg = headImg == null ? null : headImg.trim();
     }
 
-    public Integer getVideoId() {
+    public String getVideoId() {
         return videoId;
     }
 
-    public void setVideoId(Integer videoId) {
+    public void setVideoId(String videoId) {
         this.videoId = videoId;
     }
 
@@ -129,11 +154,11 @@ public class VideoOrder {
         this.videoImg = videoImg == null ? null : videoImg.trim();
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -152,10 +177,50 @@ public class VideoOrder {
     public void setDel(Integer del) {
         this.del = del;
     }
+    
+    public String getReserve1() {
+        return reserve1;
+    }
+
+    public void setReserve1(String reserve1) {
+        this.reserve1 = reserve1 == null ? null : reserve1.trim();
+    }
+
+    public String getReserve2() {
+        return reserve2;
+    }
+
+    public void setReserve2(String reserve2) {
+        this.reserve2 = reserve2 == null ? null : reserve2.trim();
+    }
+
+    public String getReserve3() {
+        return reserve3;
+    }
+
+    public void setReserve3(String reserve3) {
+        this.reserve3 = reserve3 == null ? null : reserve3.trim();
+    }
+    
+    public String getTrPaycommodity() {
+        return trPaycommodity;
+    }
+
+    public void setTrPaycommodity(String trPaycommodity) {
+        this.trPaycommodity = trPaycommodity == null ? null : trPaycommodity.trim();
+    }
+
+    public String getTrPartbusercode() {
+        return trPartbusercode;
+    }
+
+    public void setTrPartbusercode(String trPartbusercode) {
+        this.trPartbusercode = trPartbusercode == null ? null : trPartbusercode.trim();
+    }
 
 	public VideoOrder(String openid, String outTradeNo, Integer state, Date createTime, Date notifyTime,
-			String totalFee, String nickname, String headImg, Integer videoId, String videoTitle, String videoImg,
-			Integer userId, String ip, Integer del) {
+			String totalFee, String nickname, String headImg, String videoId, String videoTitle, String videoImg,
+			String userId, String ip, Integer del) {
 		super();
 		this.openid = openid;
 		this.outTradeNo = outTradeNo;

@@ -32,4 +32,6 @@ public interface UpAiinfoMapper {
 
 	//根据用户编码和线索编码更新智能匹配线索信息
 	void updateByUserCodeAndClueCode(UpAiinfo upAiInfo);
+
+	UpAiinfo getUpAiinfoByPhone(String upAiphone, String usercode);
 }

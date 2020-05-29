@@ -28,7 +28,8 @@ public class HelpController {
 	// 建议反馈信息添加
 	@RequestMapping(value = "insertPp")
 	@ResponseBody
-	public Integer insertPp(JsSysProposal pro, HttpServletResponse response, Model model) {
+	public Integer insertPp(
+			@RequestBody(required = false) JsSysProposal pro, HttpServletResponse response, Model model) {
 
 		return helpService.insertProposal(pro, response, model);
 

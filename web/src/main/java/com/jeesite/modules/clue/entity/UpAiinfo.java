@@ -47,7 +47,19 @@ public class UpAiinfo {
 
     private Integer upTalktime;
     
-    public String getUpId() {
+    private String upPersonstatus;
+    
+    private String source;
+    
+    public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	public String getUpId() {
         return upId;
     }
 
@@ -205,6 +217,14 @@ public class UpAiinfo {
 
     public void setUpTalktime(Integer upTalktime) {
         this.upTalktime = upTalktime;
+    }
+    
+    public String getUpPersonstatus() {
+        return upPersonstatus;
+    }
+
+    public void setUpPersonstatus(String upPersonstatus) {
+        this.upPersonstatus = upPersonstatus == null ? null : upPersonstatus.trim();
     }
     
 }

@@ -258,6 +258,7 @@ public class StatisticsController extends BaseController{
 		double customCountChange = 0;
 		double intentionCountChange = 0;
 		String conversionRate = "";
+		String subday = "";
 		List list1 = new ArrayList();
 		JSONObject js;
 
@@ -266,7 +267,7 @@ public class StatisticsController extends BaseController{
 		String day;
 		String dayOfMonth;
 		DecimalFormat decimalFormat=new DecimalFormat("0.0");//构造方法的字符格式这里如果小数不足2位,会以0补足.
-		for(int i = 6;i>-1;i--) {
+		for(int i = 13;i>-1;i--) {
 			sv = new StatisticsVo();
 			cal = Calendar.getInstance();
 			customCountChange = iStatisticsService.loginOrganAICallCustomCount(user.getUserCode(),i);
@@ -279,14 +280,28 @@ public class StatisticsController extends BaseController{
 //	        dayOfMonth = day.substring(8);
 			
 	        if(customCountChange != 0) {
-				conversionRate = decimalFormat.format(Double.valueOf(intentionCountChange/customCountChange));;
-				sv.setDate(day);
-				sv.setConversionRate(conversionRate);
-				list1.add(sv);
+				conversionRate = decimalFormat.format(Double.valueOf(intentionCountChange/customCountChange));
+				if(i!=13) {
+					subday = day.substring(5);
+					sv.setDate(subday);
+					sv.setConversionRate(conversionRate);
+					list1.add(sv);
+				}else {
+					sv.setDate(day);
+					sv.setConversionRate(conversionRate);
+					list1.add(sv);
+				}
 	        }else {
-	        	sv.setDate(day);
-				sv.setConversionRate("0.0");
-	        	list1.add(sv);
+	        	if(i!=13) {
+					subday = day.substring(5);
+					sv.setDate(subday);
+					sv.setConversionRate("0.0");
+		        	list1.add(sv);
+				}else {
+					sv.setDate(day);
+					sv.setConversionRate("0.0");
+					list1.add(sv);
+				}
 	        }
 		}
 		model.addAttribute("gkconversionRate",list1);

@@ -69,7 +69,7 @@ public class UpClueServiceImpl implements UpClueService{
 
 	@Override
 	public void updateByPrimaryKey(UpClue upClue) {
-		upClueMapper.updateByPrimaryKey(upClue);
+		upClueMapper.updateByPrimaryKeySelective(upClue);
 	}
 
 	@Override
@@ -82,6 +82,12 @@ public class UpClueServiceImpl implements UpClueService{
 	public List getIntentionClue(IntentionVo itv) {
 		List list = upClueMapper.getIntentionClue(itv);
 		return list;
+	}
+
+	@Override
+	public UpClue getUpClueByPhone(String upAiphone,String usercode) {
+		UpClue uc = upClueMapper.getUpClueByPhone(upAiphone,usercode);
+		return uc;
 	}
 
 }

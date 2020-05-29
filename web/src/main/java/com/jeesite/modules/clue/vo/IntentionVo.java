@@ -8,11 +8,19 @@ public class IntentionVo {
 	private String beginTime;
 	private String endTime;
 	private String userCode;
+	private String upPersonstatus;
 	private Integer pageNum;
 	private PageInfo<UpAiinfo> pageInfo;
 	private boolean result;
 	
 	
+	
+	public String getUpPersonstatus() {
+		return upPersonstatus;
+	}
+	public void setUpPersonstatus(String upPersonstatus) {
+		this.upPersonstatus = upPersonstatus;
+	}
 	public String getUserCode() {
 		return userCode;
 	}

@@ -3,6 +3,7 @@ package com.jeesite.modules.clue.service;
 import java.util.Date;
 import java.util.List;
 
+import com.jeesite.modules.clue.entity.UpAiinfo;
 import com.jeesite.modules.clue.entity.UpClue;
 import com.jeesite.modules.clue.vo.AiTaskVo;
 import com.jeesite.modules.clue.vo.ClueVo;
@@ -40,5 +41,8 @@ public interface UpClueService {
 
 	//意向用户
 	public List getIntentionClue(IntentionVo itv);
+
+	//根据电话号码获取线索
+	public UpClue getUpClueByPhone(String upAiphone, String usercode);
 
 }
