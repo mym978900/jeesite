@@ -3,7 +3,7 @@ package com.jeesite.modules.test.entity;
 import java.util.Date;
 
 public class VideoOrder {
-    private Integer id;
+	private Integer id;
 
     private String openid;
 
@@ -21,17 +21,29 @@ public class VideoOrder {
 
     private String headImg;
 
-    private Integer videoId;
+    private String videoId;
 
     private String videoTitle;
 
     private String videoImg;
 
-    private Integer userId;
+    private String userId;
 
     private String ip;
 
     private Integer del;
+
+    private String reserve1;
+
+    private String reserve2;
+
+    private String reserve3;
+    private String trPaycommodity;
+
+    private String trPartbusercode;
+    private TrOrder trOrder;
+    private TrAbility trAbility;
+    private TrNeed trNeed;
 
     public Integer getId() {
         return id;
@@ -86,7 +98,7 @@ public class VideoOrder {
     }
 
     public void setTotalFee(String totalFee) {
-        this.totalFee = totalFee;
+        this.totalFee = totalFee == null ? null : totalFee.trim();
     }
 
     public String getNickname() {
@@ -105,12 +117,12 @@ public class VideoOrder {
         this.headImg = headImg == null ? null : headImg.trim();
     }
 
-    public Integer getVideoId() {
+    public String getVideoId() {
         return videoId;
     }
 
-    public void setVideoId(Integer videoId) {
-        this.videoId = videoId;
+    public void setVideoId(String videoId) {
+        this.videoId = videoId == null ? null : videoId.trim();
     }
 
     public String getVideoTitle() {
@@ -129,12 +141,12 @@ public class VideoOrder {
         this.videoImg = videoImg == null ? null : videoImg.trim();
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
     }
 
     public String getIp() {
@@ -153,9 +165,74 @@ public class VideoOrder {
         this.del = del;
     }
 
+    public String getReserve1() {
+        return reserve1;
+    }
+
+    public void setReserve1(String reserve1) {
+        this.reserve1 = reserve1 == null ? null : reserve1.trim();
+    }
+
+    public String getReserve2() {
+        return reserve2;
+    }
+
+    public void setReserve2(String reserve2) {
+        this.reserve2 = reserve2 == null ? null : reserve2.trim();
+    }
+
+    public String getReserve3() {
+        return reserve3;
+    }
+
+    public void setReserve3(String reserve3) {
+        this.reserve3 = reserve3 == null ? null : reserve3.trim();
+    }
+
+
+	public TrOrder getTrOrder() {
+		return trOrder;
+	}
+
+	public void setTrOrder(TrOrder trOrder) {
+		this.trOrder = trOrder;
+	}
+
+	public TrAbility getTrAbility() {
+		return trAbility;
+	}
+
+	public void setTrAbility(TrAbility trAbility) {
+		this.trAbility = trAbility;
+	}
+
+	public TrNeed getTrNeed() {
+		return trNeed;
+	}
+
+	public void setTrNeed(TrNeed trNeed) {
+		this.trNeed = trNeed;
+	}
+
+	public String getTrPaycommodity() {
+		return trPaycommodity;
+	}
+
+	public void setTrPaycommodity(String trPaycommodity) {
+		this.trPaycommodity = trPaycommodity;
+	}
+
+	public String getTrPartbusercode() {
+		return trPartbusercode;
+	}
+
+	public void setTrPartbusercode(String trPartbusercode) {
+		this.trPartbusercode = trPartbusercode;
+	}
+
 	public VideoOrder(String openid, String outTradeNo, Integer state, Date createTime, Date notifyTime,
-			String totalFee, String nickname, String headImg, Integer videoId, String videoTitle, String videoImg,
-			Integer userId, String ip, Integer del) {
+			String totalFee, String nickname, String headImg, String videoId, String videoTitle, String videoImg,
+			String userId, String ip, Integer del) {
 		super();
 		this.openid = openid;
 		this.outTradeNo = outTradeNo;
@@ -193,6 +270,30 @@ public class VideoOrder {
 		this.videoTitle = videoTitle;
 	}
 
-	
-    
+	public VideoOrder(String openid, String outTradeNo, Integer state, Date createTime, Date notifyTime,
+			String totalFee, String nickname, String headImg, String videoId, String videoTitle, String videoImg,
+			String userId, String ip, Integer del, String reserve1, String reserve2, String reserve3,
+			String trPaycommodity, String trPartbusercode) {
+		super();
+		this.openid = openid;
+		this.outTradeNo = outTradeNo;
+		this.state = state;
+		this.createTime = createTime;
+		this.notifyTime = notifyTime;
+		this.totalFee = totalFee;
+		this.nickname = nickname;
+		this.headImg = headImg;
+		this.videoId = videoId;
+		this.videoTitle = videoTitle;
+		this.videoImg = videoImg;
+		this.userId = userId;
+		this.ip = ip;
+		this.del = del;
+		this.reserve1 = reserve1;
+		this.reserve2 = reserve2;
+		this.reserve3 = reserve3;
+		this.trPaycommodity = trPaycommodity;
+		this.trPartbusercode = trPartbusercode;
+	}
+
 }

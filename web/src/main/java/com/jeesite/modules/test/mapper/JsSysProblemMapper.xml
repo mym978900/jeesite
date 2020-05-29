@@ -5,11 +5,11 @@
     <id column="serial_num" property="serialNum" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="describe" property="describe" jdbcType="VARCHAR" />
+    <result column="represent" property="represent" jdbcType="VARCHAR" />
     <result column="reserve1" property="reserve1" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    serial_num, title, create_time, describe, reserve1
+    serial_num, title, create_time, represent, reserve1
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -28,9 +28,9 @@
   </delete>
   <insert id="insert" parameterType="com.jeesite.modules.test.entity.JsSysProblem" >
     insert into js_sys_problem (serial_num, title, create_time, 
-      describe, reserve1)
+      represent, reserve1)
     values (#{serialNum,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{describe,jdbcType=VARCHAR}, #{reserve1,jdbcType=VARCHAR})
+      #{represent,jdbcType=VARCHAR}, #{reserve1,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jeesite.modules.test.entity.JsSysProblem" >
     insert into js_sys_problem
@@ -44,8 +44,8 @@
       <if test="createTime != null" >
         create_time,
       </if>
-      <if test="describe != null" >
-        describe,
+      <if test="represent != null" >
+        represent,
       </if>
       <if test="reserve1 != null" >
         reserve1,
@@ -61,8 +61,8 @@
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="describe != null" >
-        #{describe,jdbcType=VARCHAR},
+      <if test="represent != null" >
+        #{represent,jdbcType=VARCHAR},
       </if>
       <if test="reserve1 != null" >
         #{reserve1,jdbcType=VARCHAR},
@@ -78,8 +78,8 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="describe != null" >
-        describe = #{describe,jdbcType=VARCHAR},
+      <if test="represent != null" >
+        represent = #{represent,jdbcType=VARCHAR},
       </if>
       <if test="reserve1 != null" >
         reserve1 = #{reserve1,jdbcType=VARCHAR},
@@ -91,7 +91,7 @@
     update js_sys_problem
     set title = #{title,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      describe = #{describe,jdbcType=VARCHAR},
+      represent = #{represent,jdbcType=VARCHAR},
       reserve1 = #{reserve1,jdbcType=VARCHAR}
     where serial_num = #{serialNum,jdbcType=VARCHAR}
   </update>

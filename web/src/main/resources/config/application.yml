@@ -36,6 +36,12 @@ jdbc:
   # Mysql 数据库配置
   type: mysql
   driver: com.mysql.jdbc.Driver
+  # 生产
+  #  url: jdbc:mysql://101.200.85.145:8066/TESTDB?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+  # 测试
+  url: jdbc:mysql://123.57.227.179:3306/TESTDB?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+  username: root
+  password: AOLige.123
   testSql: SELECT 1
 
 #  # Oracle 数据库配置

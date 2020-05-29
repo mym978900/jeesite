@@ -4,12 +4,12 @@ import java.util.Date;
 
 public class AitaskVo {
 
-	private Date day;//开始时间
+	private String day;//开始时间
 	private Integer time;//结束时间
-	public Date getDay() {
+	public String getDay() {
 		return day;
 	}
-	public void setDay(Date day) {
+	public void setDay(String day) {
 		this.day = day;
 	}
 	public Integer getTime() {
@@ -18,7 +18,7 @@ public class AitaskVo {
 	public void setTime(Integer time) {
 		this.time = time;
 	}
-	public AitaskVo(Date day, Integer time) {
+	public AitaskVo(String day, Integer time) {
 		super();
 		this.day = day;
 		this.time = time;

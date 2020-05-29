@@ -135,4 +135,10 @@ public class HelpServiceImpl implements HelpService {
 		return jsSysSetmealMapper.deleteByPrimaryKey(delStr);
 	}
 
+	@Override
+	public Integer deleteProblem(String delStr) {
+		// TODO Auto-generated method stub
+		return jsSysProblemMapper.deleteByPrimaryKey(delStr);
+	}
+
 }

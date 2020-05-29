@@ -149,7 +149,6 @@ public class CostController {
 	@RequestMapping(value = "dateStat")
 	@ResponseBody
 	public DataStatisticsVo getDateStatistics() {
-
 		List<AitaskBackVo> dayVo = DataStatisticsUtil.getDayStatistics();
 		List<AitaskBackVo> monthVo = DataStatisticsUtil.getMonthStatistics();
 		Integer memberNum = costService.findMemberNum();
@@ -158,6 +157,6 @@ public class CostController {
 		Integer clueNumMonth = costService.findClueNumByMonth();
 		DataStatisticsVo vo = new DataStatisticsVo(memberNum, memberNumMonth, clueNum, clueNumMonth, dayVo, monthVo);
 		return vo;
-
+  
 	}
 }

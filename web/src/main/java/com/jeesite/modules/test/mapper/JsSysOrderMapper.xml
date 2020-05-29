@@ -42,12 +42,12 @@
 		select SUM(order_price) from js_sys_order
 		where 1=1
 		<if test="startTime!=null and startTime!=''">
-			and DATE(create_time) <![CDATA[ >= ]]>
-			DATE(#{startTime})
+			and create_time <![CDATA[ >= ]]>
+			#{startTime}
 		</if>
 		<if test="endTime!=null and endTime!=''">
-			and DATE(create_time) <![CDATA[ <= ]]>
-			DATE(#{endTime})
+			and create_time <![CDATA[ <= ]]>
+			#{endTime}
 		</if>
 	</select>
 	<select id="findOrderByLimit" resultMap="BaseResultMap"
@@ -56,12 +56,12 @@
 		<include refid="Base_Column_List" />
 		from js_sys_order where 1=1
 		<if test="startTime!=null and startTime!=''">
-			and DATE(create_time) <![CDATA[ >= ]]>
-			DATE(#{startTime})
+			and create_time <![CDATA[ >= ]]>
+			#{startTime}
 		</if>
 		<if test="endTime!=null and endTime!=''">
-			and DATE(create_time) <![CDATA[ <= ]]>
-			DATE(#{endTime})
+			and create_time <![CDATA[ <= ]]>
+			#{endTime}
 		</if>
 		<if test="organName!=null and organName!=''">
 			and organ_name = #{organName}

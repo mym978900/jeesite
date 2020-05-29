@@ -10,6 +10,7 @@ import com.jeesite.modules.sys.entity.User;
 import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.entity.JsSysOffice;
 import com.jeesite.modules.test.entity.JsSysOrder;
+import com.jeesite.modules.test.entity.VideoOrder;
 import com.jeesite.modules.test.vo.FlowingWaterVo;
 
 public interface MemberService {
@@ -47,9 +48,11 @@ public interface MemberService {
 
 	JsSysMember getMemberByAccountCode(String code);
 
-	List<JsSysOrder> findOrderByLimit(FlowingWaterVo vo);
+	List<VideoOrder> findOrderByLimit(FlowingWaterVo vo);
 
 	BigDecimal selectMoneyByTime(FlowingWaterVo vo);
 
 	Integer toGetMessage(HttpServletRequest request, String phone);
+
+	JsSysMember findMemberByOrganName(String organName);
 }

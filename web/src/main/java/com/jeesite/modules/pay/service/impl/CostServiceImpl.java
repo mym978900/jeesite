@@ -83,7 +83,7 @@ public class CostServiceImpl implements CostService {
 		if (Double.doubleToLongBits(Double.valueOf(member.getReserveField1())) >= Double
 				.doubleToLongBits(Double.valueOf(product.getTotalFee()))) {
 			VideoOrder order = new VideoOrder();
-			String openid = CommonUtils.generateUUID();
+			String openid = CommonUtils.generateOrder("1", userVo.getUser().getLoginCode());
 			order.setOpenid(openid);
 			order.setOutTradeNo(product.getSubject());
 			order.setState(0);

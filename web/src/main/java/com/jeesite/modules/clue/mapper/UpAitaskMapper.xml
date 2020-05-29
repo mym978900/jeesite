@@ -1,301 +1,359 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jeesite.modules.clue.mapper.UpAitaskMapper" >
-  <resultMap id="BaseResultMap" type="com.jeesite.modules.clue.entity.UpAitask" >
-    <id column="up_id" property="upId" jdbcType="VARCHAR" />
-    <result column="up_taskId" property="upTaskid" jdbcType="VARCHAR" />
-    <result column="up_source" property="upSource" jdbcType="CHAR" />
-    <result column="up_createTime" property="upCreatetime" jdbcType="TIMESTAMP" />
-    <result column="up_startaitime" property="upStartaitime" jdbcType="TIMESTAMP" />
-    <result column="up_endtime" property="upEndtime" jdbcType="TIMESTAMP" />
-    <result column="up_createUserCode" property="upCreateusercode" jdbcType="VARCHAR" />
-    <result column="up_status" property="upStatus" jdbcType="VARCHAR" />
-    <result column="up_talkTime" property="upTalktime" jdbcType="INTEGER" />
-    <result column="up_cluecode" property="upCluecode" jdbcType="VARCHAR" />
-    <result column="up_aipersontime" property="upAipersontime" jdbcType="TIMESTAMP" />
-    <result column="up_aipersonendtime" property="upAipersonendtime" jdbcType="TIMESTAMP" />
-    <result column="up_deductionMark" property="upDeductionmark" jdbcType="CHAR" />
-    <result column="up_deductionPrice" property="upDeductionprice" jdbcType="DOUBLE" />
-    <result column="up_callInstanceStatus" property="upCallinstancestatus" jdbcType="CHAR" />
-    <result column="up_finishStatus" property="upFinishstatus" jdbcType="CHAR" />
-    <result column="up_aiappraise" property="upAiappraise" jdbcType="CHAR" />
-    <result column="up_cluename" property="upCluename" jdbcType="VARCHAR" />
-    <result column="up_cluetel" property="upCluetel" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    up_id, up_taskId, up_source, up_createTime, up_startaitime, up_endtime, up_createUserCode, 
-    up_status, up_talkTime, up_cluecode, up_aipersontime, up_aipersonendtime, up_deductionMark, 
-    up_deductionPrice, up_callInstanceStatus, up_finishStatus, up_aiappraise, up_cluename, 
-    up_cluetel
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from up_aitask
-    where up_id = #{upId,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from up_aitask
-    where up_id = #{upId,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.jeesite.modules.clue.entity.UpAitask" >
-    insert into up_aitask (up_id, up_taskId, up_source, 
-      up_createTime, up_startaitime, up_endtime, 
-      up_createUserCode, up_status, up_talkTime, 
-      up_cluecode, up_aipersontime, up_aipersonendtime, 
-      up_deductionMark, up_deductionPrice, up_callInstanceStatus, 
-      up_finishStatus, up_aiappraise, up_cluename, 
-      up_cluetel)
-    values (#{upId,jdbcType=VARCHAR}, #{upTaskid,jdbcType=VARCHAR}, #{upSource,jdbcType=CHAR}, 
-      #{upCreatetime,jdbcType=TIMESTAMP}, #{upStartaitime,jdbcType=TIMESTAMP}, #{upEndtime,jdbcType=TIMESTAMP}, 
-      #{upCreateusercode,jdbcType=VARCHAR}, #{upStatus,jdbcType=VARCHAR}, #{upTalktime,jdbcType=INTEGER}, 
-      #{upCluecode,jdbcType=VARCHAR}, #{upAipersontime,jdbcType=TIMESTAMP}, #{upAipersonendtime,jdbcType=TIMESTAMP}, 
-      #{upDeductionmark,jdbcType=CHAR}, #{upDeductionprice,jdbcType=DOUBLE}, #{upCallinstancestatus,jdbcType=CHAR}, 
-      #{upFinishstatus,jdbcType=CHAR}, #{upAiappraise,jdbcType=CHAR}, #{upCluename,jdbcType=VARCHAR}, 
-      #{upCluetel,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.jeesite.modules.clue.entity.UpAitask" >
-    insert into up_aitask
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="upId != null" >
-        up_id,
-      </if>
-      <if test="upTaskid != null" >
-        up_taskId,
-      </if>
-      <if test="upSource != null" >
-        up_source,
-      </if>
-      <if test="upCreatetime != null" >
-        up_createTime,
-      </if>
-      <if test="upStartaitime != null" >
-        up_startaitime,
-      </if>
-      <if test="upEndtime != null" >
-        up_endtime,
-      </if>
-      <if test="upCreateusercode != null" >
-        up_createUserCode,
-      </if>
-      <if test="upStatus != null" >
-        up_status,
-      </if>
-      <if test="upTalktime != null" >
-        up_talkTime,
-      </if>
-      <if test="upCluecode != null" >
-        up_cluecode,
-      </if>
-      <if test="upAipersontime != null" >
-        up_aipersontime,
-      </if>
-      <if test="upAipersonendtime != null" >
-        up_aipersonendtime,
-      </if>
-      <if test="upDeductionmark != null" >
-        up_deductionMark,
-      </if>
-      <if test="upDeductionprice != null" >
-        up_deductionPrice,
-      </if>
-      <if test="upCallinstancestatus != null" >
-        up_callInstanceStatus,
-      </if>
-      <if test="upFinishstatus != null" >
-        up_finishStatus,
-      </if>
-      <if test="upAiappraise != null" >
-        up_aiappraise,
-      </if>
-      <if test="upCluename != null" >
-        up_cluename,
-      </if>
-      <if test="upCluetel != null" >
-        up_cluetel,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="upId != null" >
-        #{upId,jdbcType=VARCHAR},
-      </if>
-      <if test="upTaskid != null" >
-        #{upTaskid,jdbcType=VARCHAR},
-      </if>
-      <if test="upSource != null" >
-        #{upSource,jdbcType=CHAR},
-      </if>
-      <if test="upCreatetime != null" >
-        #{upCreatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upStartaitime != null" >
-        #{upStartaitime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upEndtime != null" >
-        #{upEndtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upCreateusercode != null" >
-        #{upCreateusercode,jdbcType=VARCHAR},
-      </if>
-      <if test="upStatus != null" >
-        #{upStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="upTalktime != null" >
-        #{upTalktime,jdbcType=INTEGER},
-      </if>
-      <if test="upCluecode != null" >
-        #{upCluecode,jdbcType=VARCHAR},
-      </if>
-      <if test="upAipersontime != null" >
-        #{upAipersontime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upAipersonendtime != null" >
-        #{upAipersonendtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upDeductionmark != null" >
-        #{upDeductionmark,jdbcType=CHAR},
-      </if>
-      <if test="upDeductionprice != null" >
-        #{upDeductionprice,jdbcType=DOUBLE},
-      </if>
-      <if test="upCallinstancestatus != null" >
-        #{upCallinstancestatus,jdbcType=CHAR},
-      </if>
-      <if test="upFinishstatus != null" >
-        #{upFinishstatus,jdbcType=CHAR},
-      </if>
-      <if test="upAiappraise != null" >
-        #{upAiappraise,jdbcType=CHAR},
-      </if>
-      <if test="upCluename != null" >
-        #{upCluename,jdbcType=VARCHAR},
-      </if>
-      <if test="upCluetel != null" >
-        #{upCluetel,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.clue.entity.UpAitask" >
-    update up_aitask
-    <set >
-      <if test="upTaskid != null" >
-        up_taskId = #{upTaskid,jdbcType=VARCHAR},
-      </if>
-      <if test="upSource != null" >
-        up_source = #{upSource,jdbcType=CHAR},
-      </if>
-      <if test="upCreatetime != null" >
-        up_createTime = #{upCreatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upStartaitime != null" >
-        up_startaitime = #{upStartaitime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upEndtime != null" >
-        up_endtime = #{upEndtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upCreateusercode != null" >
-        up_createUserCode = #{upCreateusercode,jdbcType=VARCHAR},
-      </if>
-      <if test="upStatus != null" >
-        up_status = #{upStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="upTalktime != null" >
-        up_talkTime = #{upTalktime,jdbcType=INTEGER},
-      </if>
-      <if test="upCluecode != null" >
-        up_cluecode = #{upCluecode,jdbcType=VARCHAR},
-      </if>
-      <if test="upAipersontime != null" >
-        up_aipersontime = #{upAipersontime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upAipersonendtime != null" >
-        up_aipersonendtime = #{upAipersonendtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="upDeductionmark != null" >
-        up_deductionMark = #{upDeductionmark,jdbcType=CHAR},
-      </if>
-      <if test="upDeductionprice != null" >
-        up_deductionPrice = #{upDeductionprice,jdbcType=DOUBLE},
-      </if>
-      <if test="upCallinstancestatus != null" >
-        up_callInstanceStatus = #{upCallinstancestatus,jdbcType=CHAR},
-      </if>
-      <if test="upFinishstatus != null" >
-        up_finishStatus = #{upFinishstatus,jdbcType=CHAR},
-      </if>
-      <if test="upAiappraise != null" >
-        up_aiappraise = #{upAiappraise,jdbcType=CHAR},
-      </if>
-      <if test="upCluename != null" >
-        up_cluename = #{upCluename,jdbcType=VARCHAR},
-      </if>
-      <if test="upCluetel != null" >
-        up_cluetel = #{upCluetel,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where up_id = #{upId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.clue.entity.UpAitask" >
-    update up_aitask
-    set up_taskId = #{upTaskid,jdbcType=VARCHAR},
-      up_source = #{upSource,jdbcType=CHAR},
-      up_createTime = #{upCreatetime,jdbcType=TIMESTAMP},
-      up_startaitime = #{upStartaitime,jdbcType=TIMESTAMP},
-      up_endtime = #{upEndtime,jdbcType=TIMESTAMP},
-      up_createUserCode = #{upCreateusercode,jdbcType=VARCHAR},
-      up_status = #{upStatus,jdbcType=VARCHAR},
-      up_talkTime = #{upTalktime,jdbcType=INTEGER},
-      up_cluecode = #{upCluecode,jdbcType=VARCHAR},
-      up_aipersontime = #{upAipersontime,jdbcType=TIMESTAMP},
-      up_aipersonendtime = #{upAipersonendtime,jdbcType=TIMESTAMP},
-      up_deductionMark = #{upDeductionmark,jdbcType=CHAR},
-      up_deductionPrice = #{upDeductionprice,jdbcType=DOUBLE},
-      up_callInstanceStatus = #{upCallinstancestatus,jdbcType=CHAR},
-      up_finishStatus = #{upFinishstatus,jdbcType=CHAR},
-      up_aiappraise = #{upAiappraise,jdbcType=CHAR},
-      up_cluename = #{upCluename,jdbcType=VARCHAR},
-      up_cluetel = #{upCluetel,jdbcType=VARCHAR}
-    where up_id = #{upId,jdbcType=VARCHAR}
-  </update>
-  <select id="getUpAitaskByUpCodeTaskId" resultMap="BaseResultMap">
-  	select
-  	  <include refid="Base_Column_List" />
-    from up_aitask
-    where up_taskId = #{taskId}
-    and up_cluecode = #{upClueCode}
-  </select>
-  <update id="updateByTaskId" parameterType="java.lang.String">
-  	update up_aitask set up_status = #{status}
-  	where up_taskId = #{taskId}
-  </update>
-  <select id="getAiTask" resultMap="BaseResultMap" parameterType="com.jeesite.modules.clue.vo.AiTaskVo">
-  	select
-  		<include refid="Base_Column_List" />
-    	from up_aitask t
-    	where 1= 1
-    	<if test="userCode!=null and userCode!=''">
-    		and t.up_createUserCode=#{userCode}
-    	</if>
-    	<if test="beginTime!=null and beginTime!=''">
-    		and up_startaitime <![CDATA[ >= ]]> #{beginTime}
-    	</if>
-    	<if test="endTime!=null and endTime!=''">
-	      and up_startaitime <![CDATA[ <= ]]> #{endTime}
-	    </if>
-    	and t.up_status='2'
-    	order by up_startaitime desc
-  </select>
-  <select id="getAitaskList" resultMap="BaseResultMap" parameterType="java.lang.String">
-  	select <include refid="Base_Column_List" />
-    	from up_aitask t
-    	where 1= 1
-    		and t.up_createUserCode=#{userCode}
-    	and t.up_status='2'
-  </select>
-  <select id="getTodayAitask">
-  	select t.up_cluetel as tel ,count(*) as num from up_aitask t 
+<mapper
+	namespace="com.jeesite.modules.clue.mapper.UpAitaskMapper">
+	<resultMap id="BaseResultMap"
+		type="com.jeesite.modules.clue.entity.UpAitask">
+		<id column="up_id" property="upId" jdbcType="VARCHAR" />
+		<result column="up_taskId" property="upTaskid"
+			jdbcType="VARCHAR" />
+		<result column="up_source" property="upSource" jdbcType="CHAR" />
+		<result column="up_createTime" property="upCreatetime"
+			jdbcType="TIMESTAMP" />
+		<result column="up_startaitime" property="upStartaitime"
+			jdbcType="TIMESTAMP" />
+		<result column="up_endtime" property="upEndtime"
+			jdbcType="TIMESTAMP" />
+		<result column="up_createUserCode" property="upCreateusercode"
+			jdbcType="VARCHAR" />
+		<result column="up_status" property="upStatus"
+			jdbcType="VARCHAR" />
+		<result column="up_talkTime" property="upTalktime"
+			jdbcType="INTEGER" />
+		<result column="up_cluecode" property="upCluecode"
+			jdbcType="VARCHAR" />
+		<result column="up_aipersontime" property="upAipersontime"
+			jdbcType="TIMESTAMP" />
+		<result column="up_aipersonendtime"
+			property="upAipersonendtime" jdbcType="TIMESTAMP" />
+		<result column="up_deductionMark" property="upDeductionmark"
+			jdbcType="CHAR" />
+		<result column="up_deductionPrice" property="upDeductionprice"
+			jdbcType="DOUBLE" />
+		<result column="up_callInstanceStatus"
+			property="upCallinstancestatus" jdbcType="CHAR" />
+		<result column="up_finishStatus" property="upFinishstatus"
+			jdbcType="CHAR" />
+		<result column="up_aiappraise" property="upAiappraise"
+			jdbcType="CHAR" />
+		<result column="up_cluename" property="upCluename"
+			jdbcType="VARCHAR" />
+		<result column="up_cluetel" property="upCluetel"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="AitaskMap"
+		type="com.jeesite.modules.test.vo.AitaskVo">
+		<result column="day" property="day" jdbcType="TIMESTAMP" />
+		<result column="time" property="time" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		up_id, up_taskId, up_source, up_createTime, up_startaitime, up_endtime,
+		up_createUserCode,
+		up_status, up_talkTime, up_cluecode, up_aipersontime, up_aipersonendtime,
+		up_deductionMark,
+		up_deductionPrice, up_callInstanceStatus, up_finishStatus, up_aiappraise, up_cluename,
+		up_cluetel
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from up_aitask
+		where up_id = #{upId,jdbcType=VARCHAR}
+	</select>
+	<select id="getDateStatisticsByDay" resultMap="AitaskMap">
+		select
+		date_format(up_createTime, '%Y-%m-%d') day,SUM(up_talkTime) time
+		from up_aitask
+		where DATE_SUB(CURDATE(), INTERVAL 12 DAY) <![CDATA[ <= ]]>
+		date(up_createTime)
+		group by date_format(up_createTime, '%Y-%m-%d')
+	</select>
+	<select id="getDateStatisticsByMonth" resultMap="AitaskMap">
+		select
+		date_format(up_createTime, '%Y-%m') day,SUM(up_talkTime) time
+		from up_aitask
+		where DATE_SUB(CURDATE(), INTERVAL 12 MONTH) <![CDATA[ <= ]]>
+		date(up_createTime)
+		group by date_format(up_createTime, '%Y-%m')
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from up_aitask
+		where up_id = #{upId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="com.jeesite.modules.clue.entity.UpAitask">
+		insert into up_aitask (up_id, up_taskId, up_source,
+		up_createTime, up_startaitime, up_endtime,
+		up_createUserCode, up_status, up_talkTime,
+		up_cluecode, up_aipersontime, up_aipersonendtime,
+		up_deductionMark, up_deductionPrice, up_callInstanceStatus,
+		up_finishStatus, up_aiappraise, up_cluename,
+		up_cluetel)
+		values (#{upId,jdbcType=VARCHAR}, #{upTaskid,jdbcType=VARCHAR},
+		#{upSource,jdbcType=CHAR},
+		#{upCreatetime,jdbcType=TIMESTAMP}, #{upStartaitime,jdbcType=TIMESTAMP}, #{upEndtime,jdbcType=TIMESTAMP},
+		#{upCreateusercode,jdbcType=VARCHAR}, #{upStatus,jdbcType=VARCHAR},
+		#{upTalktime,jdbcType=INTEGER},
+		#{upCluecode,jdbcType=VARCHAR}, #{upAipersontime,jdbcType=TIMESTAMP},
+		#{upAipersonendtime,jdbcType=TIMESTAMP},
+		#{upDeductionmark,jdbcType=CHAR}, #{upDeductionprice,jdbcType=DOUBLE},
+		#{upCallinstancestatus,jdbcType=CHAR},
+		#{upFinishstatus,jdbcType=CHAR}, #{upAiappraise,jdbcType=CHAR},
+		#{upCluename,jdbcType=VARCHAR},
+		#{upCluetel,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.jeesite.modules.clue.entity.UpAitask">
+		insert into up_aitask
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="upId != null">
+				up_id,
+			</if>
+			<if test="upTaskid != null">
+				up_taskId,
+			</if>
+			<if test="upSource != null">
+				up_source,
+			</if>
+			<if test="upCreatetime != null">
+				up_createTime,
+			</if>
+			<if test="upStartaitime != null">
+				up_startaitime,
+			</if>
+			<if test="upEndtime != null">
+				up_endtime,
+			</if>
+			<if test="upCreateusercode != null">
+				up_createUserCode,
+			</if>
+			<if test="upStatus != null">
+				up_status,
+			</if>
+			<if test="upTalktime != null">
+				up_talkTime,
+			</if>
+			<if test="upCluecode != null">
+				up_cluecode,
+			</if>
+			<if test="upAipersontime != null">
+				up_aipersontime,
+			</if>
+			<if test="upAipersonendtime != null">
+				up_aipersonendtime,
+			</if>
+			<if test="upDeductionmark != null">
+				up_deductionMark,
+			</if>
+			<if test="upDeductionprice != null">
+				up_deductionPrice,
+			</if>
+			<if test="upCallinstancestatus != null">
+				up_callInstanceStatus,
+			</if>
+			<if test="upFinishstatus != null">
+				up_finishStatus,
+			</if>
+			<if test="upAiappraise != null">
+				up_aiappraise,
+			</if>
+			<if test="upCluename != null">
+				up_cluename,
+			</if>
+			<if test="upCluetel != null">
+				up_cluetel,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="upId != null">
+				#{upId,jdbcType=VARCHAR},
+			</if>
+			<if test="upTaskid != null">
+				#{upTaskid,jdbcType=VARCHAR},
+			</if>
+			<if test="upSource != null">
+				#{upSource,jdbcType=CHAR},
+			</if>
+			<if test="upCreatetime != null">
+				#{upCreatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="upStartaitime != null">
+				#{upStartaitime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="upEndtime != null">
+				#{upEndtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="upCreateusercode != null">
+				#{upCreateusercode,jdbcType=VARCHAR},
+			</if>
+			<if test="upStatus != null">
+				#{upStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="upTalktime != null">
+				#{upTalktime,jdbcType=INTEGER},
+			</if>
+			<if test="upCluecode != null">
+				#{upCluecode,jdbcType=VARCHAR},
+			</if>
+			<if test="upAipersontime != null">
+				#{upAipersontime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="upAipersonendtime != null">
+				#{upAipersonendtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="upDeductionmark != null">
+				#{upDeductionmark,jdbcType=CHAR},
+			</if>
+			<if test="upDeductionprice != null">
+				#{upDeductionprice,jdbcType=DOUBLE},
+			</if>
+			<if test="upCallinstancestatus != null">
+				#{upCallinstancestatus,jdbcType=CHAR},
+			</if>
+			<if test="upFinishstatus != null">
+				#{upFinishstatus,jdbcType=CHAR},
+			</if>
+			<if test="upAiappraise != null">
+				#{upAiappraise,jdbcType=CHAR},
+			</if>
+			<if test="upCluename != null">
+				#{upCluename,jdbcType=VARCHAR},
+			</if>
+			<if test="upCluetel != null">
+				#{upCluetel,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.jeesite.modules.clue.entity.UpAitask">
+		update up_aitask
+		<set>
+			<if test="upTaskid != null">
+				up_taskId = #{upTaskid,jdbcType=VARCHAR},
+			</if>
+			<if test="upSource != null">
+				up_source = #{upSource,jdbcType=CHAR},
+			</if>
+			<if test="upCreatetime != null">
+				up_createTime = #{upCreatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="upStartaitime != null">
+				up_startaitime = #{upStartaitime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="upEndtime != null">
+				up_endtime = #{upEndtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="upCreateusercode != null">
+				up_createUserCode = #{upCreateusercode,jdbcType=VARCHAR},
+			</if>
+			<if test="upStatus != null">
+				up_status = #{upStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="upTalktime != null">
+				up_talkTime = #{upTalktime,jdbcType=INTEGER},
+			</if>
+			<if test="upCluecode != null">
+				up_cluecode = #{upCluecode,jdbcType=VARCHAR},
+			</if>
+			<if test="upAipersontime != null">
+				up_aipersontime = #{upAipersontime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="upAipersonendtime != null">
+				up_aipersonendtime = #{upAipersonendtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="upDeductionmark != null">
+				up_deductionMark = #{upDeductionmark,jdbcType=CHAR},
+			</if>
+			<if test="upDeductionprice != null">
+				up_deductionPrice = #{upDeductionprice,jdbcType=DOUBLE},
+			</if>
+			<if test="upCallinstancestatus != null">
+				up_callInstanceStatus = #{upCallinstancestatus,jdbcType=CHAR},
+			</if>
+			<if test="upFinishstatus != null">
+				up_finishStatus = #{upFinishstatus,jdbcType=CHAR},
+			</if>
+			<if test="upAiappraise != null">
+				up_aiappraise = #{upAiappraise,jdbcType=CHAR},
+			</if>
+			<if test="upCluename != null">
+				up_cluename = #{upCluename,jdbcType=VARCHAR},
+			</if>
+			<if test="upCluetel != null">
+				up_cluetel = #{upCluetel,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where up_id = #{upId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.jeesite.modules.clue.entity.UpAitask">
+		update up_aitask
+		set up_taskId = #{upTaskid,jdbcType=VARCHAR},
+		up_source = #{upSource,jdbcType=CHAR},
+		up_createTime = #{upCreatetime,jdbcType=TIMESTAMP},
+		up_startaitime = #{upStartaitime,jdbcType=TIMESTAMP},
+		up_endtime = #{upEndtime,jdbcType=TIMESTAMP},
+		up_createUserCode = #{upCreateusercode,jdbcType=VARCHAR},
+		up_status = #{upStatus,jdbcType=VARCHAR},
+		up_talkTime = #{upTalktime,jdbcType=INTEGER},
+		up_cluecode = #{upCluecode,jdbcType=VARCHAR},
+		up_aipersontime = #{upAipersontime,jdbcType=TIMESTAMP},
+		up_aipersonendtime = #{upAipersonendtime,jdbcType=TIMESTAMP},
+		up_deductionMark = #{upDeductionmark,jdbcType=CHAR},
+		up_deductionPrice = #{upDeductionprice,jdbcType=DOUBLE},
+		up_callInstanceStatus = #{upCallinstancestatus,jdbcType=CHAR},
+		up_finishStatus = #{upFinishstatus,jdbcType=CHAR},
+		up_aiappraise = #{upAiappraise,jdbcType=CHAR},
+		up_cluename = #{upCluename,jdbcType=VARCHAR},
+		up_cluetel = #{upCluetel,jdbcType=VARCHAR}
+		where up_id = #{upId,jdbcType=VARCHAR}
+	</update>
+	<select id="getUpAitaskByUpCodeTaskId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from up_aitask
+		where up_taskId = #{taskId}
+		and up_cluecode = #{upClueCode}
+	</select>
+	<update id="updateByTaskId" parameterType="java.lang.String">
+		update up_aitask set up_status = #{status}
+		where up_taskId = #{taskId}
+	</update>
+	<select id="getAiTask" resultMap="BaseResultMap"
+		parameterType="com.jeesite.modules.clue.vo.AiTaskVo">
+		select
+		<include refid="Base_Column_List" />
+		from up_aitask t
+		where 1= 1
+		<if test="userCode!=null and userCode!=''">
+			and t.up_createUserCode=#{userCode}
+		</if>
+		<if test="beginTime!=null and beginTime!=''">
+			and up_startaitime <![CDATA[ >= ]]>
+			#{beginTime}
+		</if>
+		<if test="endTime!=null and endTime!=''">
+			and up_startaitime <![CDATA[ <= ]]>
+			#{endTime}
+		</if>
+		and t.up_status='2'
+		order by up_startaitime desc
+	</select>
+	<select id="getAitaskList" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from up_aitask t
+		where 1= 1
+		and t.up_createUserCode=#{userCode}
+		and t.up_status='2'
+	</select>
+	<select id="getTodayAitask">
+		select t.up_cluetel as tel ,count(*) as num from up_aitask t
 		where t.up_aiappraise = '2'
-		and t.up_createTime > date_format(NOW(),'%Y-%m-%d')
+		and t.up_createTime >
+		date_format(NOW(),'%Y-%m-%d')
 		GROUP BY t.up_cluetel
-  </select>
+	</select>
 </mapper>

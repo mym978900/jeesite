@@ -1,6 +1,7 @@
 package com.jeesite.modules.pay.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,19 +22,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.demo.trade.config.Configs;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.jeesite.modules.pay.model.Product;
 import com.jeesite.modules.pay.service.IAliPayService;
+import com.jeesite.modules.pay.service.VideoOrderService;
 import com.jeesite.modules.pay.utils.TimeUtil;
+import com.jeesite.modules.test.entity.JsSysApply;
 import com.jeesite.modules.test.entity.JsSysMember;
+import com.jeesite.modules.test.entity.JsSysOffice;
 import com.jeesite.modules.test.entity.VideoOrder;
 import com.jeesite.modules.test.util.DailyUtil;
+import com.jeesite.modules.test.vo.AccountVo;
 import com.jeesite.modules.test.vo.GetUserVo;
 import com.jeesite.modules.pay.config.AliPayConfig;
 
@@ -46,9 +56,11 @@ public class AliPayController {
 	private static final Logger logger = LoggerFactory.getLogger(AliPayController.class);
 	@Autowired
 	private IAliPayService aliPayService;
+	@Autowired
+	private VideoOrderService videoOrderService;
 
 	// 支付宝PC支付
-	@RequestMapping(value = "pcPay", method = RequestMethod.POST)
+	@RequestMapping(value = "pcPay")
 	public void pcPay(Product product, ModelMap map, HttpServletResponse response, Model model,
 			HttpServletRequest request) throws IOException {
 		logger.info("PC支付");
@@ -61,7 +73,7 @@ public class AliPayController {
 	}
 
 	// 支付宝异步回调
-	@RequestMapping(value = "pay", method = RequestMethod.POST)
+	@RequestMapping(value = "pay")
 	public void alipay_notify(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
 		String message = "success";
 		Map<String, String> params = new HashMap<String, String>();
@@ -98,11 +110,11 @@ public class AliPayController {
 				System.out.println(totalFee);
 				// 在数据库中查找订单号对应的订单，并将其金额与数据库中的金额对比，若对不上，也为异常通知
 				VideoOrder order = aliPayService.findOrderByTradeNo(outtradeno);
-				System.out.println("outtradeno"+outtradeno);
+				System.out.println("outtradeno" + outtradeno);
 				if (!(order.getTotalFee()).equals(totalFee)) {
 					return;
 				}
-				//System.out.println(String.format("%.2f",Double.valueOf(order.getTotalFee())).toString());
+				// System.out.println(String.format("%.2f",Double.valueOf(order.getTotalFee())).toString());
 				String status = params.get("trade_status");
 				if (status.equals("WAIT_BUYER_PAY")) { // 如果状态是正在等待用户付款
 					logger.info(outtradeno + "订单的状态正在等待用户付款");
@@ -112,12 +124,12 @@ public class AliPayController {
 					logger.info("(支付宝订单号:" + outtradeno + "付款成功)");
 					// 这里 根据实际业务场景 做相应的操作
 					// 当前登录用户信息
-					//GetUserVo userVo = DailyUtil.getLoginUser(response, model);
+					// GetUserVo userVo = DailyUtil.getLoginUser(response, model);
 					// 会员信息
 					String body = params.get("body");
-					System.out.println("body"+body);
+					System.out.println("body" + body);
 					JsSysMember member = aliPayService.findMemberByLoginCode(body);
-					
+
 					// 标题
 					String title = order.getOutTradeNo();
 					// 会员等级
@@ -128,13 +140,13 @@ public class AliPayController {
 					String balance = member.getReserveField1();
 					// 坐席数量
 					String seat = member.getReserveDield2();
-					//订单类型
-					String videoType=null;
+					// 订单类型
+					String videoType = null;
 					if (title.length() > 2) {
 						String lei = title.substring(0, 2);
 						// String time=title.substring(2, 4);
 						if (lei.equals("开通")) {
-							videoType="消费";
+							videoType = "消费";
 							String type = title.substring(2, 5);
 							SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 							overTime = formatter.format(new Date());
@@ -161,33 +173,35 @@ public class AliPayController {
 									overTime = TimeUtil.getZhenYear(overTime);
 							}
 						} else if (lei.equals("续费")) {
-							videoType="消费";
+							videoType = "消费";
 							String type = title.substring(5, 7);
 							if (type.equals("半年"))
 								overTime = TimeUtil.getBanYear(overTime);
 							else
 								overTime = TimeUtil.getZhenYear(overTime);
-						} else if(lei.equals("升级")){
-							videoType="消费";
+						} else if (lei.equals("升级")) {
+							videoType = "消费";
 							String type = title.substring(2, 5);
 							if (type.equals("基础版")) {
-								grade="1";
-							}else if(type.equals("升级版")) {
-								grade="2";
-							}else {
-								grade="3";
+								grade = "1";
+							} else if (type.equals("升级版")) {
+								grade = "2";
+							} else {
+								grade = "3";
 							}
-						}else {}
+						} else {
+						}
 					} else {
 						String lei = title.substring(0, 2);
-						if (lei.equals("充值")){
-							videoType="充值";
-							balance = String.format("%.2f",(Double.valueOf(balance) + Double.valueOf(order.getTotalFee())));
-						}else if(lei.equals("坐席")) {
-							videoType="消费";
+						if (lei.equals("充值")) {
+							videoType = "充值";
+							balance = String.format("%.2f",
+									(Double.valueOf(balance) + Double.valueOf(order.getTotalFee())));
+						} else if (lei.equals("坐席")) {
+							videoType = "消费";
 							seat = (Integer.parseInt(seat) + 1) + "";
+						} else {
 						}
-						 else {}
 
 					}
 					JsSysMember mem = new JsSysMember();
@@ -197,7 +211,7 @@ public class AliPayController {
 					mem.setReserveField1(balance);
 					mem.setReserveDield2(seat);
 					// 需要修改订单的信息
-					VideoOrder ord = new VideoOrder(order.getOpenid(), 1, new Date(),videoType);
+					VideoOrder ord = new VideoOrder(order.getOpenid(), 1, new Date(), videoType);
 					aliPayService.updateOrderAndMember(ord, mem);
 				} else {
 
@@ -216,7 +230,7 @@ public class AliPayController {
 	// 支付宝支付PC端前台回调
 	@ResponseBody
 	@RequestMapping("/frontRcvResponse")
-	public String frontRcvResponse(HttpServletRequest request,HttpServletResponse response) {
+	public String frontRcvResponse(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			// 获取支付宝GET过来反馈信息
 			Map<String, String> params = new HashMap<String, String>();
@@ -242,7 +256,7 @@ public class AliPayController {
 			} else {
 				logger.info("订单号" + orderNo + "验证签名结果[失败].");
 			}
-			//重定向到费用中心页面
+			// 重定向到费用中心页面
 			response.sendRedirect("http://www.aolige.cn/#/Expense");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -252,4 +266,35 @@ public class AliPayController {
 		return "abc";
 	}
 
+	/**
+	 * 支付宝退款申请提交
+	 */
+	@RequestMapping(value = "refundApply")
+	@ResponseBody
+	public Integer insertRefundApply(Product product) {
+		
+		return videoOrderService.updateVideoOrderByRefund(product);
+	}
+
+	/**
+	 * 支付宝退款
+	 * 
+	 */
+	@RequestMapping(value = "reFund", method = RequestMethod.POST)
+	@ResponseBody
+	public String reFund(@RequestBody Product product) {
+		logger.info("支付退款");
+		return aliPayService.aliRefund(product);
+
+	}
+	/**
+	 * 退款状态查询
+	 * 
+	 */
+	@RequestMapping(value = "lookState")
+	public Integer toLookState(String openid) {
+
+		return videoOrderService.findStateByOpenid(openid);
+
+	}
 }

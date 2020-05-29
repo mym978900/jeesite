@@ -1,5 +1,7 @@
 package com.jeesite.modules.test.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.ui.Model;
@@ -34,5 +36,8 @@ public interface HelpService {
 	Integer updateMeal(JsSysSetmeal meal);
 
 	Integer deleteMealByPkey(String delStr);
+
+	Integer deleteProblem(String delStr);
+
 
 }

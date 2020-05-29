@@ -1,6 +1,7 @@
 package com.jeesite.modules.pay.utils;
 
 import java.security.MessageDigest;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -19,7 +20,14 @@ public class CommonUtils {
 
         return uuid;
     }
-
+    /**
+     * 生成 订单号， 即用来标识一笔单
+     * @return
+     */
+    public static String generateOrder(String type,String userId){
+    	String dateStr = Long.toString(System.currentTimeMillis()/1L);
+        return type+dateStr.substring(4)+userId.substring(7)+new Random().nextInt(9999);
+    }
 
     /**
      * md5常用工具类

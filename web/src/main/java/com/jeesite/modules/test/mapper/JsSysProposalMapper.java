@@ -16,6 +16,6 @@ public interface JsSysProposalMapper {
     int updateByPrimaryKeySelective(JsSysProposal record);
 
     int updateByPrimaryKey(JsSysProposal record);
-
-	List<JsSysProposal> findPpByLimit();
+    
+    List<JsSysProposal> findPpByLimit();
 }

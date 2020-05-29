@@ -9,7 +9,7 @@ public class JsSysProblem {
 
     private Date createTime;
 
-    private String describe;
+    private String represent;
 
     private String reserve1;
 
@@ -37,12 +37,12 @@ public class JsSysProblem {
         this.createTime = createTime;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getRepresent() {
+        return represent;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe == null ? null : describe.trim();
+    public void setRepresent(String represent) {
+        this.represent = represent == null ? null : represent.trim();
     }
 
     public String getReserve1() {

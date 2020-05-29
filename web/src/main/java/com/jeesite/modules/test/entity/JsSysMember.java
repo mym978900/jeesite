@@ -6,6 +6,8 @@ import lombok.Data;
 
 @Data
 public class JsSysMember {
+	private Integer memberNumber;
+	
     private String serialNumber;
 
     private String accountNumber;
@@ -255,6 +257,14 @@ public class JsSysMember {
     public void setOrganAddressArea(String organAddressArea) {
         this.organAddressArea = organAddressArea == null ? null : organAddressArea.trim();
     }
+
+	public Integer getMemberNumber() {
+		return memberNumber;
+	}
+
+	public void setMemberNumber(Integer memberNumber) {
+		this.memberNumber = memberNumber;
+	}
     
     
 }

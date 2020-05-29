@@ -12,6 +12,7 @@ public class MemberVo {
 	private String endTime;
 	private Integer pageNum;//页码
 	private PageInfo<JsSysMember> page;
+	private String[] startEndTime;
 	public String getOrganName() {
 		return organName;
 	}
@@ -57,6 +58,12 @@ public class MemberVo {
 		this.endTime = endTime;
 		this.pageNum = pageNum;
 		this.page = page;
+	}
+	public String[] getStartEndTime() {
+		return startEndTime;
+	}
+	public void setStartEndTime(String[] startEndTime) {
+		this.startEndTime = startEndTime;
 	}
 	
 }

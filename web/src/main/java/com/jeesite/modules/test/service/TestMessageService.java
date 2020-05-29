@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.ui.Model;
 
+import com.jeesite.modules.test.entity.JsJobLocksKey;
 import com.jeesite.modules.test.entity.JsSysApply;
 import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.entity.JsSysUser;
@@ -30,4 +31,6 @@ public interface TestMessageService {
 	Integer toUpdatePassByForget(GetUserVo userVo, UpdatePhoneVo vo);
 
 	JsSysUser findUserByLoginCode(String newphone);
+
+	JsJobLocksKey getApplyPhone(String string);
 }

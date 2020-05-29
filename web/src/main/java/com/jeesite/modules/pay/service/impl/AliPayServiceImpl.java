@@ -1,8 +1,10 @@
 package com.jeesite.modules.pay.service.impl;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -133,31 +135,127 @@ public class AliPayServiceImpl implements IAliPayService {
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public String aliRefund(Product product) {
 		logger.info("订单号：" + product.getOutTradeNo() + "支付宝退款");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		// 返回值标识
 		String message = Constants.SUCCESS;
-		// (必填) 外部订单号，需要退款交易的商户外部订单号
+		// 外部订单号，需要退款交易的商户外部订单号
 		String outTradeNo = product.getOutTradeNo();
-		// (必填) 退款金额，该金额必须小于等于订单的支付金额，单位为元
-		String refundAmount = CommonUtil.divide(product.getTotalFee(), "100").toString();
-
-		// (必填) 退款原因，可以说明用户退款原因，方便为商家后台提供统计
-		String refundReason = "正常退款，用户买多了";
-
-		// (必填) 商户门店编号，退款情况下可以为商家后台提供退款权限判定和统计等作用，详询支付宝技术支持
-		String storeId = "test_store_id";
-
+		// 退款金额，该金额必须小于等于订单的支付金额，单位为元
+		String refundAmount = product.getTotalFee();
+		// 退款原因，可以说明用户退款原因，方便为商家后台提供统计
+		String refundReason = product.getBody();
+		// 查询出订单信息
+		VideoOrder videoOrder = videoOrderMapper.selectByPrimaryKey(outTradeNo);
+		// 再次判断是否已退款
+		if (videoOrder.getState() == 3) {
+			return message = Constants.FAIL;
+		}
+		// 获取订单 及退款金额
+		Double total = Double.valueOf(videoOrder.getTotalFee());
+		Double retreat = Double.valueOf(refundAmount);
+		// 判断是余额支付
+		if ("余额支付".equals(videoOrder.getNickname())) {
+			// 编辑订单信息
+			VideoOrder order = new VideoOrder();
+			order.setOpenid(outTradeNo);
+			// 判断退款金额
+			if (retreat < total) {
+				order.setDel(1);
+				order.setTotalFee(String.format("%.2f",
+						(Double.valueOf(videoOrder.getTotalFee()) - Double.valueOf(refundAmount))));
+			} else if (retreat.equals(total)) {
+				order.setState(3);
+				order.setReserve1(sdf.format(new Date()));
+				order.setVideoId(refundAmount);
+				order.setUserId(refundReason);
+			} else {
+				return message = Constants.FAIL;
+			}
+			if (retreat < total) {
+				// 添加部分退款信息
+				VideoOrder orders = new VideoOrder(videoOrder.getOpenid(), videoOrder.getOutTradeNo(), 3,
+						videoOrder.getCreateTime(), videoOrder.getNotifyTime(), videoOrder.getTotalFee(),
+						videoOrder.getNickname(), videoOrder.getHeadImg(), refundAmount, videoOrder.getVideoTitle(),
+						videoOrder.getVideoImg(), refundReason, videoOrder.getIp(), 3, sdf.format(new Date()),
+						videoOrder.getReserve2(), videoOrder.getReserve3(), videoOrder.getTrPaycommodity(),
+						videoOrder.getTrPartbusercode());
+				videoOrderMapper.insertSelective(orders);
+			}
+			// 编辑订单信息
+			if (retreat.equals(total)) {
+				videoOrderMapper.updateByPrimaryKeySelective(order);
+			} else {
+				videoOrderMapper.updateByOpenIdAndStateOne(order);
+			}
+			// 查询机构
+			JsSysMember members = jsSysMemberMapper.getMemberByAccountCode(videoOrder.getHeadImg());
+			// 编辑机构余额
+			JsSysMember member = new JsSysMember();
+			member.setUserCode(videoOrder.getHeadImg());
+			member.setReserveField1(
+					String.format("%.2f", (Double.valueOf(members.getReserveField1()) + Double.valueOf(refundAmount))));
+			// 编辑会员余额
+			int updateTwo = jsSysMemberMapper.updateMemberByUserCode(member);
+			if (updateTwo == 1) {
+				return message = Constants.SUCCESS;
+			} else {
+				return message = Constants.FAIL;
+			}
+		}
+		// 支付宝退款
+		// 部分退款
+		String outRequestNo = new Random().nextInt(999999999) + "";
+		// 商户门店编号，退款情况下可以为商家后台提供退款权限判定和统计等作用，详询支付宝技术支持
+		// String storeId = "2088731863898636";
+		String storeId = "2088102178199444";
 		// 创建退款请求builder，设置请求参数
 		AlipayTradeRefundRequestBuilder builder = new AlipayTradeRefundRequestBuilder().setOutTradeNo(outTradeNo)
-				.setRefundAmount(refundAmount).setRefundReason(refundReason)
-				// .setOutRequestNo(outRequestNo)
+				.setRefundAmount(refundAmount).setRefundReason(refundReason).setOutRequestNo(outRequestNo)
 				.setStoreId(storeId);
-
 		AlipayF2FRefundResult result = AliPayConfig.getAlipayTradeService().tradeRefund(builder);
 		switch (result.getTradeStatus()) {
 		case SUCCESS:
 			logger.info("支付宝退款成功: )");
-			break;
+			VideoOrder order = new VideoOrder();
+			order.setOpenid(outTradeNo);
+			if (retreat < total) {
+				order.setDel(1);
+				order.setTotalFee(String.format("%.2f",
+						(Double.valueOf(videoOrder.getTotalFee()) - Double.valueOf(refundAmount))));
+			} else if (retreat.equals(total)) {
+				order.setState(3);
+				order.setReserve1(sdf.format(new Date()));
+				order.setVideoId(refundAmount);
+				order.setUserId(refundReason);
+			} else {
+				return message = Constants.FAIL;
+			}
+			if (retreat < total) {
+				// 添加部分退款信息
+				VideoOrder orders = new VideoOrder(videoOrder.getOpenid(), videoOrder.getOutTradeNo(), 3,
+						videoOrder.getCreateTime(), videoOrder.getNotifyTime(), videoOrder.getTotalFee(),
+						videoOrder.getNickname(), videoOrder.getHeadImg(), refundAmount, videoOrder.getVideoTitle(),
+						videoOrder.getVideoImg(), refundReason, videoOrder.getIp(), 3, sdf.format(new Date()),
+						videoOrder.getReserve2(), videoOrder.getReserve3(), videoOrder.getTrPaycommodity(),
+						videoOrder.getTrPartbusercode());
+				videoOrderMapper.insertSelective(orders);
+			}
+			if (retreat.equals(total)) {
+				int updateNum = videoOrderMapper.updateByPrimaryKeySelective(order);
+				if (updateNum == 0) {
+					return message = Constants.CURRENT_USER;
+				}
+				break;
+			} else {
+				int updateNum = videoOrderMapper.updateByOpenIdAndStateOne(order);
+				if (updateNum == 0) {
+					return message = Constants.CURRENT_USER;
+				}
+				break;
+			}
 
 		case FAILED:
 			logger.info("支付宝退款失败!!!");
@@ -271,16 +369,19 @@ public class AliPayServiceImpl implements IAliPayService {
 	@Override
 	public String aliPayPc(HttpServletResponse response, Model model, HttpServletRequest request, Product product) {
 		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
-		
+
 		logger.info("支付宝PC支付下单");
 		AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
-		String returnUrl = "http://www.aolige.cn/apis/js/a/alipay/frontRcvResponse";
+		// String returnUrl = "http://www.aolige.cn/apis/js/a/alipay/frontRcvResponse";
+		String returnUrl = "http://283f836h51.zicp.vip:44674/js/a/alipay/frontRcvResponse";
 		alipayRequest.setReturnUrl(returnUrl);// 前台通知
-		alipayRequest.setNotifyUrl("http://www.aolige.cn/apis/js/a/alipay/pay");// 后台回调
+		// alipayRequest.setNotifyUrl("http://www.aolige.cn/apis/js/a/alipay/pay");//
+		// 后台回调
+		alipayRequest.setNotifyUrl("http://283f836h51.zicp.vip:44674/js/a/alipay/pay");// 后台回调
 		JSONObject bizContent = new JSONObject();
-		String outTradeNo=CommonUtils.generateUUID();
+		String outTradeNo = CommonUtils.generateOrder("3", userVo.getUser().getLoginCode());
 		bizContent.put("out_trade_no", outTradeNo);
-		bizContent.put("total_amount", (int)Math.floor(Double.valueOf(product.getTotalFee()))+"");// 订单金额:元
+		bizContent.put("total_amount", (int) Math.floor(Double.valueOf(product.getTotalFee())) + "");// 订单金额:元
 		bizContent.put("subject", product.getSubject());// 订单标题
 		bizContent.put("seller_id", Configs.getPid());// 实际收款账号，一般填写商户PID即可
 		bizContent.put("product_code", "FAST_INSTANT_TRADE_PAY");// 电脑网站支付
@@ -290,12 +391,12 @@ public class AliPayServiceImpl implements IAliPayService {
 		 */
 		bizContent.put("qr_pay_mode", "2");
 		// 创建订单
-		
-		VideoOrder order = new VideoOrder(outTradeNo, product.getSubject(), 0, new Date(), null,
-				product.getTotalFee(), "支付宝", userVo.getUser().getUserCode(), null, null, userVo.getUser().getLoginCode(), null,
+
+		VideoOrder order = new VideoOrder(outTradeNo, product.getSubject(), 0, new Date(), null, product.getTotalFee(),
+				"支付宝", userVo.getUser().getUserCode(), null, null, userVo.getUser().getLoginCode(), null,
 				IpUtils.getIpAddr(request), 0);
-		int num=videoOrderMapper.insertSelective(order);
-		if (num!=1) {
+		int num = videoOrderMapper.insertSelective(order);
+		if (num != 1) {
 			return "服务器异常，订单创建失败";
 		}
 		String biz = bizContent.toString().replaceAll("\"", "'");
@@ -365,7 +466,7 @@ public class AliPayServiceImpl implements IAliPayService {
 	@Override
 	public VideoOrder findOrderByTradeNo(String outtradeno) {
 		// TODO Auto-generated method stub
-		
+
 		return videoOrderMapper.findOrderByTradeNo(outtradeno);
 	}
 
@@ -374,6 +475,7 @@ public class AliPayServiceImpl implements IAliPayService {
 		// TODO Auto-generated method stub
 		return jsSysMemberMapper.selectMemberByNumber(loginCode);
 	}
+
 	@Transactional
 	@Override
 	public void updateOrderAndMember(VideoOrder ord, JsSysMember mem) {
