@@ -1,7 +1,7 @@
 package com.jeesite.modules.test.vo;
 
 import com.github.pagehelper.PageInfo;
-import com.jeesite.modules.test.entity.NeedTime;
+import com.jeesite.modules.tr.entity.NeedTime;
 import com.jeesite.modules.test.entity.VideoOrder;
 
 public class TeachersOrderVo {

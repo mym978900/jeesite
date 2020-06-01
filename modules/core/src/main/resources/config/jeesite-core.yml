@@ -399,6 +399,9 @@ shiro:
     /swagger-resources/** = perms[sys:swagger]
     
     #线索相关处理方法不用验证 xf 2019.12.04
+    ${adminPath}/help/* = anon
+    ${adminPath}/account/* = anon
+    ${adminPath}/member/* = anon
     ${adminPath}/cost/* = anon
     ${adminPath}/wxpay/* = anon
     ${adminPath}/alipay/* = anon

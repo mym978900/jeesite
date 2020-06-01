@@ -2,9 +2,9 @@ package com.jeesite.modules.test.vo;
 
 import java.util.Date;
 
-import com.jeesite.modules.test.entity.NeedTime;
-import com.jeesite.modules.test.entity.TrNeed;
-import com.jeesite.modules.test.entity.TrOrder;
+import com.jeesite.modules.tr.entity.NeedTime;
+import com.jeesite.modules.tr.entity.TrNeed;
+import com.jeesite.modules.tr.entity.TrOrder;
 import com.jeesite.modules.test.entity.VideoOrder;
 
 public class OrderNotHaveAbilityVo {
