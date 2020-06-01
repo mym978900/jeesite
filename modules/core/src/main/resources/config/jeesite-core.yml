@@ -333,7 +333,7 @@ shiro:
   # 记住我密钥设置（设置为空则使用默认）
   rememberMe:
     # 密钥必须通过 com.jeesite.common.shiro.web.RememberMeManager 的main方法生成
-    secretKey: ~
+    #secretKey: ~
   
   # 指定获取客户端IP的Header名称，防止IP伪造。指定为空，则使用原生方法获取IP。
   remoteAddrHeaderName: X-Forwarded-For
@@ -342,7 +342,7 @@ shiro:
   allowRequestMethods: GET,POST,OPTIONS,PUT,DELETE
   
   # 是否允许账号多地登录，如果设置为false，同一个设备类型的其它地点登录的相同账号被踢下线
-  isAllowMultiAddrLogin: true
+  isAllowMultiAddrLogin: false
   
   # 是否允许多账号多设备登录，如果设置为false，其它地点登录的相同账号全部登录设备将被踢下线
   isAllowMultiDeviceLogin: true
@@ -385,6 +385,7 @@ shiro:
 #    ${adminPath}/** = user
   filterChainDefinitions: |
     ${adminPath}/** = user
+    /static/index.html = user
   
   # 默认的授权过滤定义，如果在filterChainDefinitions中已经定义，则该定义会被覆盖。
   defaultFilterChainDefinitions: |
@@ -398,16 +399,16 @@ shiro:
     /swagger-resources/** = perms[sys:swagger]
     
     #线索相关处理方法不用验证 xf 2019.12.04
-    ${adminPath}/help/* = anon
-    ${adminPath}/account/* = anon
-    ${adminPath}/member/* = anon
     ${adminPath}/cost/* = anon
     ${adminPath}/wxpay/* = anon
     ${adminPath}/alipay/* = anon
     ${adminPath}/clue/* = anon
+    ${adminPath}/account/* = anon
     ${adminPath}/tosms/* = anon
     #统计概括处理方法不用验证
     ${adminPath}/statistics/* = anon
+    #教师复用处理方法不用验证
+    ${adminPath}/tr/* = anon
     ${adminPath}/login-cas = cas
     ${adminPath}/login = authc
     ${adminPath}/logout = logout
