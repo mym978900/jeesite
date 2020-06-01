@@ -22,6 +22,11 @@
     <result column="up_cluename" property="upCluename" jdbcType="VARCHAR" />
     <result column="up_cluetel" property="upCluetel" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="AitaskMap"
+		type="com.jeesite.modules.test.vo.AitaskVo">
+		<result column="day" property="day" jdbcType="TIMESTAMP" />
+		<result column="time" property="time" jdbcType="INTEGER" />
+	</resultMap>
   <sql id="Base_Column_List" >
     up_id, up_taskId, up_source, up_createTime, up_startaitime, up_endtime, up_createUserCode, 
     up_status, up_talkTime, up_cluecode, up_aipersontime, up_aipersonendtime, up_deductionMark, 
@@ -34,6 +39,22 @@
     from up_aitask
     where up_id = #{upId,jdbcType=VARCHAR}
   </select>
+  <select id="getDateStatisticsByDay" resultMap="AitaskMap">
+		select
+		date_format(up_createTime, '%Y-%m-%d') day,SUM(up_talkTime) time
+		from up_aitask
+		where DATE_SUB(CURDATE(), INTERVAL 12 DAY) <![CDATA[ <= ]]>
+		date(up_createTime)
+		group by date_format(up_createTime, '%Y-%m-%d')
+	</select>
+	<select id="getDateStatisticsByMonth" resultMap="AitaskMap">
+		select
+		date_format(up_createTime, '%Y-%m') day,SUM(up_talkTime) time
+		from up_aitask
+		where DATE_SUB(CURDATE(), INTERVAL 12 MONTH) <![CDATA[ <= ]]>
+		date(up_createTime)
+		group by date_format(up_createTime, '%Y-%m')
+	</select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from up_aitask
     where up_id = #{upId,jdbcType=VARCHAR}

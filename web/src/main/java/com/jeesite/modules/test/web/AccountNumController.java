@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jeesite.modules.test.entity.JsJobLocksKey;
 import com.jeesite.modules.test.entity.JsSysApply;
 import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.entity.JsSysOffice;
@@ -46,6 +47,10 @@ public class AccountNumController {
 		pageNum = pageNum == null ? 1 : pageNum;
 		PageHelper.startPage(pageNum, 10);
 		// 查询全部
+		if (vo.getStartEndTime() != null && vo.getStartEndTime().length > 0) {
+			vo.setStartTime(vo.getStartEndTime()[0]);
+			vo.setEndTime(vo.getStartEndTime()[1]);
+		}
 		List<JsSysApply> applyList = accountService.findApplyByLimit(vo);
 		PageInfo<JsSysApply> page = new PageInfo<JsSysApply>(applyList);
 		return new AccountVo(vo.getStartTime(), vo.getEndTime(), vo.getFollowState(), pageNum, page);
@@ -61,7 +66,15 @@ public class AccountNumController {
 		pageNum = pageNum == null ? 1 : pageNum;
 		PageHelper.startPage(pageNum, 10);
 		// 查询全部
+		if (vo.getStartEndTime() != null && vo.getStartEndTime().length > 0) {
+			vo.setStartTime(vo.getStartEndTime()[0]);
+			vo.setEndTime(vo.getStartEndTime()[1]);
+		}
 		List<JsSysMember> memberList = accountService.findMemberByLimit(vo);
+		for (JsSysMember jsSysMember : memberList) {
+			String[] arr = jsSysMember.getOrganAddress().split(",");
+			jsSysMember.setOrganAddressArr(arr);
+		}
 		PageInfo<JsSysMember> page = new PageInfo<JsSysMember>(memberList);
 		return new MemberVo(vo.getOrganName(), vo.getMemberGrade(), vo.getStartTime(), vo.getEndTime(), pageNum, page);
 

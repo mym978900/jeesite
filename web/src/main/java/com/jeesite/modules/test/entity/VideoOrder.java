@@ -3,6 +3,8 @@ package com.jeesite.modules.test.entity;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jeesite.modules.tr.entity.TrAbility;
+import com.jeesite.modules.tr.entity.TrNeed;
 import com.jeesite.modules.tr.entity.TrOrder;
 
 public class VideoOrder {
@@ -49,6 +51,9 @@ public class VideoOrder {
     private String trPartbusercode;
     
     private TrOrder trOrder;
+
+    private TrAbility trAbility;
+    private TrNeed trNeed;
     
     public TrOrder getTrOrder() {
 		return trOrder;
@@ -111,7 +116,7 @@ public class VideoOrder {
     }
 
     public void setTotalFee(String totalFee) {
-        this.totalFee = totalFee;
+        this.totalFee = totalFee == null ? null : totalFee.trim();
     }
 
     public String getNickname() {
@@ -135,7 +140,7 @@ public class VideoOrder {
     }
 
     public void setVideoId(String videoId) {
-        this.videoId = videoId;
+        this.videoId = videoId == null ? null : videoId.trim();
     }
 
     public String getVideoTitle() {
@@ -159,7 +164,8 @@ public class VideoOrder {
     }
 
     public void setUserId(String userId) {
-        this.userId = userId;
+        this.userId = userId == null ? null : userId.trim();
+
     }
 
     public String getIp() {
@@ -217,6 +223,22 @@ public class VideoOrder {
     public void setTrPartbusercode(String trPartbusercode) {
         this.trPartbusercode = trPartbusercode == null ? null : trPartbusercode.trim();
     }
+    
+    public TrAbility getTrAbility() {
+		return trAbility;
+	}
+
+	public void setTrAbility(TrAbility trAbility) {
+		this.trAbility = trAbility;
+	}
+
+	public TrNeed getTrNeed() {
+		return trNeed;
+	}
+
+	public void setTrNeed(TrNeed trNeed) {
+		this.trNeed = trNeed;
+	}
 
 	public VideoOrder(String openid, String outTradeNo, Integer state, Date createTime, Date notifyTime,
 			String totalFee, String nickname, String headImg, String videoId, String videoTitle, String videoImg,
@@ -258,6 +280,30 @@ public class VideoOrder {
 		this.videoTitle = videoTitle;
 	}
 
-	
-    
+	public VideoOrder(String openid, String outTradeNo, Integer state, Date createTime, Date notifyTime,
+			String totalFee, String nickname, String headImg, String videoId, String videoTitle, String videoImg,
+			String userId, String ip, Integer del, String reserve1, String reserve2, String reserve3,
+			String trPaycommodity, String trPartbusercode) {
+		super();
+		this.openid = openid;
+		this.outTradeNo = outTradeNo;
+		this.state = state;
+		this.createTime = createTime;
+		this.notifyTime = notifyTime;
+		this.totalFee = totalFee;
+		this.nickname = nickname;
+		this.headImg = headImg;
+		this.videoId = videoId;
+		this.videoTitle = videoTitle;
+		this.videoImg = videoImg;
+		this.userId = userId;
+		this.ip = ip;
+		this.del = del;
+		this.reserve1 = reserve1;
+		this.reserve2 = reserve2;
+		this.reserve3 = reserve3;
+		this.trPaycommodity = trPaycommodity;
+		this.trPartbusercode = trPartbusercode;
+	}
+
 }

@@ -71,6 +71,130 @@
     <result column="reserveone" property="reserveone" jdbcType="VARCHAR" />
     <result column="reservetwo" property="reservetwo" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="BaseResultMap1" type="com.jeesite.modules.test.entity.VideoOrder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="out_trade_no" property="outTradeNo" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="notify_time" property="notifyTime" jdbcType="TIMESTAMP" />
+    <result column="total_fee" property="totalFee" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="head_img" property="headImg" jdbcType="VARCHAR" />
+    <result column="video_id" property="videoId" jdbcType="VARCHAR" />
+    <result column="video_title" property="videoTitle" jdbcType="VARCHAR" />
+    <result column="video_img" property="videoImg" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="del" property="del" jdbcType="INTEGER" />
+    <result column="reserve1" property="reserve1" jdbcType="VARCHAR" />
+    <result column="reserve2" property="reserve2" jdbcType="VARCHAR" />
+    <result column="reserve3" property="reserve3" jdbcType="VARCHAR" />
+    <result column="tr_paycommodity" property="trPaycommodity" jdbcType="VARCHAR" />
+    <result column="tr_partbusercode" property="trPartbusercode" jdbcType="VARCHAR" />
+    <!--使用resultMap属性引用下面的教师实体映射-->
+	<association property="trOrder" javaType="com.jeesite.modules.tr.entity.TrOrder"
+	resultMap="trOrderResultMap"/>
+  </resultMap>
+  <resultMap id="trOrderResultMap" type="com.jeesite.modules.tr.entity.TrOrder" >
+    <id column="tr_commonditycode" property="trCommonditycode" jdbcType="VARCHAR" />
+    <result column="tr_partAname" property="trPartaname" jdbcType="VARCHAR" />
+    <result column="tr_partAphone" property="trPartaphone" jdbcType="VARCHAR" />
+    <result column="tr_partAaddress" property="trPartaaddress" jdbcType="VARCHAR" />
+    <result column="tr_partBname" property="trPartbname" jdbcType="VARCHAR" />
+    <result column="tr_partBphone" property="trPartbphone" jdbcType="VARCHAR" />
+    <result column="tr_partBaddress" property="trPartbaddress" jdbcType="VARCHAR" />
+    <result column="tr_type" property="trType" jdbcType="VARCHAR" />
+    <result column="tr_count" property="trCount" jdbcType="INTEGER" />
+    <result column="tr_needbegindate" property="trNeedbegindate" jdbcType="DATE" />
+    <result column="tr_needenddate" property="trNeedenddate" jdbcType="DATE" />
+    <result column="tr_begintime" property="trBegintime" jdbcType="INTEGER" />
+    <result column="tr_endtime" property="trEndtime" jdbcType="INTEGER" />
+    <result column="tr_needdatelist" property="trNeeddatelist" jdbcType="VARCHAR" />
+    <result column="tr_needtimelist" property="trNeedtimelist" jdbcType="VARCHAR" />
+    <result column="tr_duration" property="trDuration" jdbcType="DOUBLE" />
+    <result column="tr_unitprice" property="trUnitprice" jdbcType="DOUBLE" />
+    <result column="tr_totalprice" property="trTotalprice" jdbcType="DOUBLE" />
+    <result column="tr_remark" property="trRemark" jdbcType="VARCHAR" />
+    <result column="reserveone" property="reserveone" jdbcType="VARCHAR" />
+    <result column="reservetwo" property="reservetwo" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ConductOrderMap"
+		type="com.jeesite.modules.test.vo.OrderNotHaveAbilityVo">
+		<result property="openid" column="openid" />
+		<result property="createTime" column="create_time" />
+		<result property="totalFee" column="total_fee" />
+
+		<result property="trPartAname" column="tr_partAname" />
+		<result property="trPartAphone" column="tr_partAphone" />
+		<result property="trPartAaddress" column="tr_partAaddress" />
+		<result property="trPartBname" column="tr_partBname" />
+		<result property="trPartBphone" column="tr_partBphone" />
+		<result property="trPartBaddress" column="tr_partBaddress" />
+
+		<result property="trType" column="tr_type" />
+		<result property="trCount" column="tr_count" />
+		<result property="trUnitprice" column="tr_unitprice" />
+		<result property="trTotaltime" column="tr_totaltime" />
+		<result property="trNeeddatelist" column="tr_needdatelist" />
+		<result property="trNeedtimelist" column="tr_needtimelist" />
+	</resultMap>
+
+	<resultMap id="OtherOrderMap"
+		type="com.jeesite.modules.test.vo.OrderHaveAbilityVo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+			<result column="openid" property="openid" jdbcType="VARCHAR" />
+			<result column="out_trade_no" property="outTradeNo"
+				jdbcType="VARCHAR" />
+			<result column="state" property="state" jdbcType="INTEGER" />
+			<result column="create_time" property="createTime"
+				jdbcType="TIMESTAMP" />
+			<result column="notify_time" property="notifyTime"
+				jdbcType="TIMESTAMP" />
+			<result column="total_fee" property="totalFee"
+				jdbcType="VARCHAR" />
+			<result column="nickname" property="nickname"
+				jdbcType="VARCHAR" />
+			<result column="head_img" property="headImg"
+				jdbcType="VARCHAR" />
+			<result column="video_id" property="videoId"
+				jdbcType="VARCHAR" />
+			<result column="video_title" property="videoTitle"
+				jdbcType="VARCHAR" />
+			<result column="video_img" property="videoImg"
+				jdbcType="VARCHAR" />
+			<result column="user_id" property="userId" jdbcType="VARCHAR" />
+			<result column="ip" property="ip" jdbcType="VARCHAR" />
+			<result column="del" property="del" jdbcType="INTEGER" />
+			<result column="reserve1" property="reserve1"
+				jdbcType="VARCHAR" />
+			<result column="reserve2" property="reserve2"
+				jdbcType="VARCHAR" />
+			<result column="reserve3" property="reserve3"
+				jdbcType="VARCHAR" />
+		
+		<result property="trCardusername" column="tr_cardusername" />
+		<result property="trCardnum" column="tr_cardnum" />
+		<result property="trBankname" column="tr_bankname" />
+
+		<result property="trPartAname" column="tr_partAname" />
+		<result property="trPartAphone" column="tr_partAphone" />
+		<result property="trPartAaddress" column="tr_partAaddress" />
+		<result property="trPartBname" column="tr_partBname" />
+		<result property="trPartBphone" column="tr_partBphone" />
+		<result property="trPartBaddress" column="tr_partBaddress" />
+
+		<result property="trType" column="tr_type" />
+		<result property="trCount" column="tr_count" />
+		<result property="trUnitprice" column="tr_unitprice" />
+		<result property="trTotaltime" column="tr_totaltime" />
+		<result property="trNeeddatelist" column="tr_needdatelist" />
+		<result property="trNeedtimelist" column="tr_needtimelist" />
+		<!-- <association property="videoOrder"
+			javaType="com.jeesite.modules.test.entity.VideoOrder">
+			
+		</association> -->
+	</resultMap>
   <sql id="Base_Column_List" >
     id, openid, out_trade_no, state, create_time, notify_time, total_fee, nickname, head_img, 
     video_id, video_title, video_img, user_id, ip, del, reserve1, reserve2, reserve3, 
@@ -88,6 +212,13 @@
     from video_order
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByState" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from video_order
+		where state=1 and openid = #{openid,jdbcType=VARCHAR}
+	</select>
   <select id="findOrderByLimit" resultMap="BaseResultMap" parameterType="com.jeesite.modules.test.vo.CostVo" >
     select 
     <include refid="Base_Column_List" />
@@ -109,6 +240,99 @@
     from video_order
     where openid = #{openid,jdbcType=INTEGER}
   </select>
+  <select id="findConductOrder" resultMap="ConductOrderMap">
+		SELECT
+		a.openid,a.create_time,a.total_fee,b.tr_partAname,b.tr_partAphone,
+		b.tr_partAaddress,b.tr_partBname,b.tr_partBphone,b.tr_partBaddress,
+		c.tr_type,c.tr_count,c.tr_unitprice,c.tr_totaltime,c.tr_needdatelist,c.tr_needtimelist
+		FROM video_order a
+		INNER JOIN tr_order b ON
+		a.reserve3=b.tr_commonditycode
+		INNER JOIN tr_need c ON
+		a.reserve2=c.tr_id
+		WHERE (a.del='0' OR a.del='2') and
+		a.tr_paycommodity='1' and a.state='1' ORDER BY a.notify_time DESC
+	</select>
+
+	<select id="findSettlementOrder" resultMap="OtherOrderMap">
+		SELECT
+		a.*,b.tr_partAname,b.tr_partAphone,b.tr_partAaddress,b.tr_partBname,b.tr_partBphone,b.tr_partBaddress,
+		c.tr_cardusername,c.tr_cardnum,c.tr_bankname,
+		d.tr_type,d.tr_count,d.tr_unitprice,d.tr_totaltime,d.tr_needdatelist,d.tr_needtimelist
+		FROM video_order a
+		INNER JOIN tr_order b ON
+		a.reserve3=b.tr_commonditycode
+		INNER JOIN tr_ability c ON
+		a.tr_partbusercode=c.tr_usercode
+		INNER JOIN tr_need d ON a.reserve2=d.tr_id
+		WHERE a.tr_paycommodity='1' and a.del='1' and a.state='1' ORDER BY a.notify_time DESC
+	</select>
+
+	<select id="findRefundOrder" resultMap="OtherOrderMap">
+		SELECT
+		a.*,b.tr_partAname,b.tr_partAphone,b.tr_partAaddress,b.tr_partBname,b.tr_partBphone,b.tr_partBaddress,
+		c.tr_cardusername,c.tr_cardnum,c.tr_bankname,
+		d.tr_type,d.tr_count,d.tr_unitprice,d.tr_totaltime,d.tr_needdatelist,d.tr_needtimelist
+		FROM video_order a
+		INNER JOIN tr_order b ON
+		a.reserve3=b.tr_commonditycode
+		INNER JOIN tr_ability c ON
+		a.tr_partbusercode=c.tr_usercode
+		INNER JOIN tr_need d ON a.reserve2=d.tr_id
+		WHERE a.tr_paycommodity='1' and a.del='3' and a.state='1' ORDER BY a.notify_time DESC
+	</select>
+
+	<select id="findCompleteOrder" resultMap="OtherOrderMap">
+		SELECT
+		a.*,b.tr_partAname,b.tr_partAphone,b.tr_partAaddress,b.tr_partBname,b.tr_partBphone,b.tr_partBaddress,
+		c.tr_cardusername,c.tr_cardnum,c.tr_bankname,
+		d.tr_type,d.tr_count,d.tr_unitprice,d.tr_totaltime,d.tr_needdatelist,d.tr_needtimelist
+		FROM video_order a
+		INNER JOIN tr_order b ON
+		a.reserve3=b.tr_commonditycode
+		INNER JOIN tr_ability c ON
+		a.tr_partbusercode=c.tr_usercode
+		INNER JOIN tr_need d ON a.reserve2=d.tr_id
+		WHERE (a.del='1' AND a.state='2') OR (a.del='3' AND a.state='3') AND
+		a.tr_paycommodity='1' ORDER BY a.reserve1 DESC
+	</select>
+
+	<select id="selectMoneyByTime" resultType="java.math.BigDecimal"
+		parameterType="com.jeesite.modules.test.vo.FlowingWaterVo">
+		select cast(sum(total_fee) AS decimal(15,2)) from video_order
+		where
+		state='1'
+		<if test="startTime!=null and startTime!=''">
+			and notify_time <![CDATA[ >= ]]>
+			#{startTime}
+		</if>
+		<if test="endTime!=null and endTime!=''">
+			and notify_time <![CDATA[ <= ]]>
+			#{endTime}
+		</if>
+	</select>
+
+	<select id="findOrderByLimitBackStage" resultMap="BaseResultMap"
+		parameterType="com.jeesite.modules.test.vo.FlowingWaterVo">
+		select
+		<include refid="Base_Column_List" />
+		from video_order where state='1'
+		<if test="startTime!=null and startTime!=''">
+			and create_time <![CDATA[ >= ]]>
+			#{startTime}
+		</if>
+		<if test="endTime!=null and endTime!=''">
+			and create_time <![CDATA[ <= ]]>
+			#{endTime}
+		</if>
+		<if test="organName!=null and organName!=''">
+			and head_img = #{organName}
+		</if>
+		<if test="orderNum!=null and orderNum!=''">
+			and openid = #{orderNum}
+		</if>
+		order by create_time desc
+	</select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from video_order
     where id = #{id,jdbcType=INTEGER}
@@ -342,6 +566,186 @@
       tr_partbusercode = #{trPartbusercode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateByPrimaryKeySelectiveAndDel"
+		parameterType="com.jeesite.modules.test.entity.VideoOrder">
+		update video_order
+		<set>
+			<if test="outTradeNo != null">
+				out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="notifyTime != null">
+				notify_time = #{notifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="totalFee != null">
+				total_fee = #{totalFee,jdbcType=VARCHAR},
+			</if>
+			<if test="nickname != null">
+				nickname = #{nickname,jdbcType=VARCHAR},
+			</if>
+			<if test="headImg != null">
+				head_img = #{headImg,jdbcType=VARCHAR},
+			</if>
+			<if test="videoId != null">
+				video_id = #{videoId,jdbcType=VARCHAR},
+			</if>
+			<if test="videoTitle != null">
+				video_title = #{videoTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="videoImg != null">
+				video_img = #{videoImg,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="ip != null">
+				ip = #{ip,jdbcType=VARCHAR},
+			</if>
+			<if test="del != null">
+				del = #{del,jdbcType=INTEGER},
+			</if>
+			<if test="reserve1 != null">
+				reserve1 = #{reserve1,jdbcType=VARCHAR},
+			</if>
+			<if test="reserve2 != null">
+				reserve2 = #{reserve2,jdbcType=VARCHAR},
+			</if>
+			<if test="reserve3 != null">
+				reserve3 = #{reserve3,jdbcType=VARCHAR},
+			</if>
+			<if test="trPaycommodity != null">
+				tr_paycommodity = #{trPaycommodity,jdbcType=VARCHAR},
+			</if>
+			<if test="trPartbusercode != null">
+				tr_partbusercode = #{trPartbusercode,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where del='1' and openid = #{openid,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByOpenIdAndState"
+		parameterType="com.jeesite.modules.test.entity.VideoOrder">
+		update video_order
+		<set>
+			<if test="outTradeNo != null">
+				out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="notifyTime != null">
+				notify_time = #{notifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="totalFee != null">
+				total_fee = #{totalFee,jdbcType=VARCHAR},
+			</if>
+			<if test="nickname != null">
+				nickname = #{nickname,jdbcType=VARCHAR},
+			</if>
+			<if test="headImg != null">
+				head_img = #{headImg,jdbcType=VARCHAR},
+			</if>
+			<if test="videoId != null">
+				video_id = #{videoId,jdbcType=VARCHAR},
+			</if>
+			<if test="videoTitle != null">
+				video_title = #{videoTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="videoImg != null">
+				video_img = #{videoImg,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="ip != null">
+				ip = #{ip,jdbcType=VARCHAR},
+			</if>
+			<if test="del != null">
+				del = #{del,jdbcType=INTEGER},
+			</if>
+			<if test="reserve1 != null">
+				reserve1 = #{reserve1,jdbcType=VARCHAR},
+			</if>
+			<if test="reserve2 != null">
+				reserve2 = #{reserve2,jdbcType=VARCHAR},
+			</if>
+			<if test="reserve3 != null">
+				reserve3 = #{reserve3,jdbcType=VARCHAR},
+			</if>
+			<if test="trPaycommodity != null">
+				tr_paycommodity = #{trPaycommodity,jdbcType=VARCHAR},
+			</if>
+			<if test="trPartbusercode != null">
+				tr_partbusercode = #{trPartbusercode,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where state='3' and openid = #{openid,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByOpenIdAndStateOne"
+		parameterType="com.jeesite.modules.test.entity.VideoOrder">
+		update video_order
+		<set>
+			<if test="outTradeNo != null">
+				out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="notifyTime != null">
+				notify_time = #{notifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="totalFee != null">
+				total_fee = #{totalFee,jdbcType=VARCHAR},
+			</if>
+			<if test="nickname != null">
+				nickname = #{nickname,jdbcType=VARCHAR},
+			</if>
+			<if test="headImg != null">
+				head_img = #{headImg,jdbcType=VARCHAR},
+			</if>
+			<if test="videoId != null">
+				video_id = #{videoId,jdbcType=VARCHAR},
+			</if>
+			<if test="videoTitle != null">
+				video_title = #{videoTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="videoImg != null">
+				video_img = #{videoImg,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="ip != null">
+				ip = #{ip,jdbcType=VARCHAR},
+			</if>
+			<if test="del != null">
+				del = #{del,jdbcType=INTEGER},
+			</if>
+			<if test="reserve1 != null">
+				reserve1 = #{reserve1,jdbcType=VARCHAR},
+			</if>
+			<if test="reserve2 != null">
+				reserve2 = #{reserve2,jdbcType=VARCHAR},
+			</if>
+			<if test="reserve3 != null">
+				reserve3 = #{reserve3,jdbcType=VARCHAR},
+			</if>
+			<if test="trPaycommodity != null">
+				tr_paycommodity = #{trPaycommodity,jdbcType=VARCHAR},
+			</if>
+			<if test="trPartbusercode != null">
+				tr_partbusercode = #{trPartbusercode,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where state='1' and openid = #{openid,jdbcType=VARCHAR}
+	</update>
   <select id="getAllCreatOrder" parameterType="java.lang.String" resultMap="BaseResultMap1">
   	 select 
     	<include refid="Base_Column_List" />

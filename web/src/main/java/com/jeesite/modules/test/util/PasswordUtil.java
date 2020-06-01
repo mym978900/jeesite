@@ -27,6 +27,7 @@ public class PasswordUtil {
 		}
 	}
 	public static void main(String[] args) {
-		System.out.println(String.format("%.2f",(Double.valueOf("503.93")-Double.valueOf("33.60"))));
+		System.out.println(getPassword("222222"));
+		System.out.println(checkPassword( "222222","120a8cab5e9b67104e016da4726eeecf94dcb10834e6d183204ddd85"));
 	}
 }

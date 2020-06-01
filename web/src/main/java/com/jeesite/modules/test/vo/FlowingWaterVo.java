@@ -5,15 +5,17 @@ import java.math.BigDecimal;
 
 import com.github.pagehelper.PageInfo;
 import com.jeesite.modules.test.entity.JsSysOrder;
+import com.jeesite.modules.test.entity.VideoOrder;
 
-public class FlowingWaterVo implements Serializable{
+public class FlowingWaterVo{
 
 	private String organName;
 	private String orderNum;
 	private String startTime;
 	private String endTime;
-	private PageInfo<JsSysOrder> page;
+	private PageInfo<VideoOrder> page;
 	private BigDecimal moneyCensus;
+	private String[] startEndTime;
 	public String getOrganName() {
 		return organName;
 	}
@@ -40,7 +42,7 @@ public class FlowingWaterVo implements Serializable{
 	}
 	
 	public FlowingWaterVo(String organName, String orderNum, String startTime, String endTime,
-			PageInfo<JsSysOrder> page, BigDecimal moneyCensus) {
+			PageInfo<VideoOrder> page, BigDecimal moneyCensus) {
 		super();
 		this.organName = organName;
 		this.orderNum = orderNum;
@@ -53,10 +55,10 @@ public class FlowingWaterVo implements Serializable{
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public PageInfo<JsSysOrder> getPage() {
+	public PageInfo<VideoOrder> getPage() {
 		return page;
 	}
-	public void setPage(PageInfo<JsSysOrder> page) {
+	public void setPage(PageInfo<VideoOrder> page) {
 		this.page = page;
 	}
 	public BigDecimal getMoneyCensus() {
@@ -64,6 +66,12 @@ public class FlowingWaterVo implements Serializable{
 	}
 	public void setMoneyCensus(BigDecimal moneyCensus) {
 		this.moneyCensus = moneyCensus;
+	}
+	public String[] getStartEndTime() {
+		return startEndTime;
+	}
+	public void setStartEndTime(String[] startEndTime) {
+		this.startEndTime = startEndTime;
 	}
 	
 }

@@ -1,6 +1,7 @@
 package com.jeesite.modules.pay.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,17 +25,24 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.demo.trade.config.Configs;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.jeesite.modules.pay.model.Product;
 import com.jeesite.modules.pay.service.IAliPayService;
+import com.jeesite.modules.pay.service.VideoOrderService;
 import com.jeesite.modules.pay.utils.TimeUtil;
+import com.jeesite.modules.test.entity.JsSysApply;
 import com.jeesite.modules.test.entity.JsSysMember;
+import com.jeesite.modules.test.entity.JsSysOffice;
 import com.jeesite.modules.test.entity.VideoOrder;
 import com.jeesite.modules.test.util.DailyUtil;
+import com.jeesite.modules.test.vo.AccountVo;
 import com.jeesite.modules.test.vo.GetUserVo;
 import com.jeesite.modules.tr.service.TrService;
 import com.jeesite.modules.pay.config.AliPayConfig;
@@ -48,6 +57,8 @@ public class AliPayController {
 	private static final Logger logger = LoggerFactory.getLogger(AliPayController.class);
 	@Autowired
 	private IAliPayService aliPayService;
+	@Autowired
+	private VideoOrderService videoOrderService;
 	@Autowired
 	private TrService iTrService;
 	// 支付宝PC支付
@@ -263,4 +274,35 @@ public class AliPayController {
 		return "abc";
 	}
 
+	/**
+	 * 支付宝退款申请提交
+	 */
+	@RequestMapping(value = "refundApply")
+	@ResponseBody
+	public Integer insertRefundApply(Product product) {
+		
+		return videoOrderService.updateVideoOrderByRefund(product);
+	}
+
+	/**
+	 * 支付宝退款
+	 * 
+	 */
+	@RequestMapping(value = "reFund", method = RequestMethod.POST)
+	@ResponseBody
+	public String reFund(@RequestBody Product product) {
+		logger.info("支付退款");
+		return aliPayService.aliRefund(product);
+
+	}
+	/**
+	 * 退款状态查询
+	 * 
+	 */
+	@RequestMapping(value = "lookState")
+	public Integer toLookState(String openid) {
+
+		return videoOrderService.findStateByOpenid(openid);
+
+	}
 }

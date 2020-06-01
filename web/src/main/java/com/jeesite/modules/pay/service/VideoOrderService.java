@@ -1,5 +1,7 @@
 package com.jeesite.modules.pay.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,6 +11,8 @@ import com.jeesite.modules.pay.model.Product;
 import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.entity.VideoOrder;
 import com.jeesite.modules.test.vo.JumpVo;
+import com.jeesite.modules.test.vo.OrderHaveAbilityVo;
+import com.jeesite.modules.test.vo.OrderNotHaveAbilityVo;
 
 
 /**
@@ -47,5 +51,26 @@ public interface VideoOrderService {
 
 
 	int updateOrderAndMember(VideoOrder videoOrder, JsSysMember mem);
+
+
+	Integer updateVideoOrderByRefund(Product product);
+
+	//退款状态查询
+	Integer findStateByOpenid(String openid);
+
+	//进行中订单
+	List<OrderHaveAbilityVo> findConducttOrder();
+
+
+	List<OrderNotHaveAbilityVo> findConductOrder();
+
+
+	List<OrderHaveAbilityVo> findRefundOrder();
+
+
+	List<OrderHaveAbilityVo> findCompleteOrder();
+
+
+	Integer toSettlementByOrderNum(String orderNum, String settle);
 
 }

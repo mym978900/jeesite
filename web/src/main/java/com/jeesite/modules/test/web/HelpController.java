@@ -48,7 +48,7 @@ public class HelpController {
 	// 建议反馈信息删除
 	@RequestMapping(value = "deletePp")
 	@ResponseBody
-	public Integer deletePpBySerial(@RequestBody String delStr) {
+	public Integer deletePpBySerial(String delStr) {
 
 		return helpService.deletePpBySerial(delStr);
 	}
@@ -77,6 +77,14 @@ public class HelpController {
 
 		return helpService.selectAllProByPage(pageNum);
 
+	}
+
+	// 常见问题的删除
+	@RequestMapping(value = "deletePro")
+	@ResponseBody
+	public Integer deleteProblem(String delStr) {
+
+		return helpService.deleteProblem(delStr);
 	}
 
 	// 费用管理信息展示
@@ -115,8 +123,9 @@ public class HelpController {
 	// 服务套餐信息删除
 	@RequestMapping(value = "deleteMeal")
 	@ResponseBody
-	public Integer deleteMealByPkey(@RequestBody String delStr) {
+	public Integer deleteMealByPkey(String delStr) {
 
 		return helpService.deleteMealByPkey(delStr);
 	}
+	
 }

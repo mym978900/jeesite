@@ -24,8 +24,13 @@ import com.jeesite.modules.test.mapper.VideoOrderMapper;
 import com.jeesite.modules.test.util.DailyUtil;
 import com.jeesite.modules.test.vo.GetUserVo;
 import com.jeesite.modules.test.vo.JumpVo;
+import com.jeesite.modules.test.vo.OrderHaveAbilityVo;
+import com.jeesite.modules.test.vo.OrderNotHaveAbilityVo;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -49,8 +54,8 @@ public class VideoOrderServiceImpl implements VideoOrderService {
 		//当前登录用户
 		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
 		// 3、生成订单，插入数据库
-		VideoOrder order=new VideoOrder();
-		String openid=CommonUtils.generateUUID();
+		VideoOrder order = new VideoOrder();
+		String openid = CommonUtils.generateOrder("2", userVo.getUser().getLoginCode());
 		order.setOpenid(openid);
 		order.setOutTradeNo(product.getSubject());
 		order.setState(0);
@@ -135,6 +140,7 @@ public class VideoOrderServiceImpl implements VideoOrderService {
 		// TODO Auto-generated method stub
 		return jsSysMemberMapper.selectMemberByNumber(loginCode);
 	}
+
 	@Transactional
 	@Override
 	public int updateOrderAndMember(VideoOrder videoOrder, JsSysMember mem) {
@@ -145,6 +151,74 @@ public class VideoOrderServiceImpl implements VideoOrderService {
 			return 1;
 		}
 		return 0;
+	}
+
+	@Override
+	public Integer updateVideoOrderByRefund(Product product) {
+		// TODO Auto-generated method stub
+		VideoOrder order = videoOrderMapper.selectByState(product.getOutTradeNo());
+		if (order != null) {
+			BigDecimal orderFee = new BigDecimal(order.getTotalFee());
+			BigDecimal refundFee = new BigDecimal(product.getTotalFee());
+			if (refundFee.intValue() > orderFee.intValue()) {
+				return 1;// 退款金额大于订单金额
+			}
+			order.setVideoId(product.getTotalFee());
+			order.setUserId(product.getBody());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			order.setReserve1(sdf.format(new Date()));
+			order.setState(2);
+			int num = videoOrderMapper.updateByPrimaryKeySelective(order);
+			if (num != 1) {
+				return 2;// 失败
+			}
+			return 3;// 退款中
+		} else
+			return 0;// 无该订单或未支付成功
+	}
+
+	@Override
+	public Integer findStateByOpenid(String openid) {
+		// TODO Auto-generated method stub
+		VideoOrder order = videoOrderMapper.selectByPrimaryKey(openid);
+		return order.getState();
+	}
+
+	@Override
+	public List<OrderNotHaveAbilityVo> findConductOrder() {
+		// TODO Auto-generated method stub
+		return videoOrderMapper.findConductOrder();
+	}
+
+	@Override
+	public List<OrderHaveAbilityVo> findConducttOrder() {
+		// TODO Auto-generated method stub
+
+		return videoOrderMapper.findSettlementOrder();
+	}
+
+	@Override
+	public List<OrderHaveAbilityVo> findRefundOrder() {
+		// TODO Auto-generated method stub
+		return videoOrderMapper.findRefundOrder();
+	}
+
+	@Override
+	public List<OrderHaveAbilityVo> findCompleteOrder() {
+		// TODO Auto-generated method stub
+		return videoOrderMapper.findCompleteOrder();
+	}
+
+	@Override
+	public Integer toSettlementByOrderNum(String orderNum,String settle) {
+		// TODO Auto-generated method stub
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		VideoOrder order=new VideoOrder();
+		order.setOpenid(orderNum);
+		order.setState(2);
+		order.setVideoId(settle);
+		order.setReserve1(sdf.format(new Date()));
+		return videoOrderMapper.updateByPrimaryKeySelectiveAndDel(order);
 	}
 
 }

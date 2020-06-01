@@ -7,7 +7,19 @@ import com.jeesite.modules.base.BaseMapper;
 import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.vo.MemberVo;
 
-public interface JsSysMemberMapper extends BaseMapper<JsSysMember>{
+public interface JsSysMemberMapper{
+    
+	int deleteByPrimaryKey(Integer memberNumber);
+
+    int insert(JsSysMember record);
+
+    int insertSelective(JsSysMember record);
+
+    JsSysMember selectByPrimaryKey(Integer memberNumber);
+
+    int updateByPrimaryKeySelective(JsSysMember record);
+
+    int updateByPrimaryKey(JsSysMember record);
     
     
     List<JsSysMember> selectAllMember(MemberVo vo);
@@ -39,5 +51,13 @@ public interface JsSysMemberMapper extends BaseMapper<JsSysMember>{
 	Integer findClueNum();
 
 	Integer findClueNumByMonth();
+
+	void updateByVideoimg(JsSysMember member);
+
+	JsSysMember findMemberByOrganName(String organName);
+
+	Integer updateMemberByNewUser(JsSysMember member);
+
+	int updateMemberByUserCode(JsSysMember member);
 
 }

@@ -8,4 +8,6 @@ public interface JsJobLocksMapper {
     int insert(JsJobLocksKey record);
 
     int insertSelective(JsJobLocksKey record);
+
+	JsJobLocksKey selectByPrimaryKey(String string);
 }

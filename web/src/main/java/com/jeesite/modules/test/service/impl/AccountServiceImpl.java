@@ -1,5 +1,6 @@
 package com.jeesite.modules.test.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -76,16 +77,10 @@ public class AccountServiceImpl implements AccountService {
 	public Integer insertMember(JsSysMember member, HttpServletResponse response, Model model) {
 		// TODO Auto-generated method stub
 		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		member.setMemberOvertime(sdf1.format(new Date()));
 		member.setAccountNumber(userVo.getUser().getLoginCode());
-		member.setSerialNumber(DailyUtil.getUuid());
-		member.setMemberGrade("0");
-		member.setReserveField1("0");
-		member.setReserveDield2("1");
-		member.setMemberCreatetime(new Date());
-		member.setMemberOvertime("今日");
-		JsSysUser user = jsSysUserMapper.selectByLoginCode(userVo.getUser().getLoginCode());
-		member.setUserCode(user.getUserCode());
-		return jsSysMemberMapper.insertSelective(member);
+		return jsSysMemberMapper.updateMemberByNewUser(member);
 	}
 
 	@Override

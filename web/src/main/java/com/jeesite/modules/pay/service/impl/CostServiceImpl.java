@@ -93,7 +93,7 @@ public class CostServiceImpl implements CostService {
 			VideoOrder order = new VideoOrder();
 			String openid = "";
 			if("0".equals(product.getProductId())) {
-				openid = CommonUtils.generateUUID();
+				openid = CommonUtils.generateOrder("1", userVo.getUser().getLoginCode());
 				order.setOpenid(openid);
 				order.setOutTradeNo(product.getSubject());
 				order.setState(0);
@@ -189,7 +189,103 @@ public class CostServiceImpl implements CostService {
 				}
 				
 				order = new VideoOrder();
-				openid = CommonUtils.generateUUID();
+				openid = CommonUtils.generateOrder("1", userVo.getUser().getLoginCode());
+				order.setOpenid(openid);
+				order.setOutTradeNo(product.getSubject());
+				order.setState(0);
+				order.setCreateTime(new Date());
+				order.setTotalFee(product.getTotalFee());
+				order.setNickname("余额支付");
+				order.setHeadImg(userVo.getUser().getUserCode());
+				order.setVideoTitle("消费");
+				order.setIp(IpUtils.getIpAddr(request));
+				order.setDel(0);
+				order.setVideoImg(userVo.getUser().getLoginCode());
+			}else if("1".equals(product.getProductId())) {
+				TrOrder to = product.getTrOrder();
+				//需求时间
+				NeedTime[] needTime;
+				//具体需求时间
+				NeedTime nt;
+				//全量日期集合
+				List<Date> alldatelist = new ArrayList<Date>();
+				List<Date> alldatelistasc;
+				List alldatelistasource = new ArrayList();
+				List alldatelistascformat = new ArrayList();
+				//全量时间集合
+				List alltimelist = new ArrayList();
+				Object[] alltimelistasc;
+				List alltimelistascint = new ArrayList();;
+				List allimelistasource = new ArrayList();
+				needTime = to.getNeedTime();
+				String[] timearr;
+				double value = 0;
+				double begintime;
+				double endtime;
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				if(needTime!=null && needTime.length>0) {
+					for(int i=0;i<needTime.length;i++) {
+						nt = needTime[i];
+						timearr = nt.getTimeArr();
+						alldatelist.add(nt.getNeedDate());
+						alldatelistasource.add(nt.getNeedDate());
+						allimelistasource.add(timearr[0]);
+						allimelistasource.add(timearr[1]);
+						alltimelist.add(Integer.parseInt(timearr[0].replace(":", "")));
+						alltimelist.add(Integer.parseInt(timearr[1].replace(":", "")));
+//						begintime = Integer.parseInt(timearr[0].split(":")[0])*3600+Integer.parseInt(timearr[0].split(":")[1])*60 + 0.00;
+//						endtime = Integer.parseInt(timearr[1].split(":")[0])*3600+Integer.parseInt(timearr[1].split(":")[1])*60 + 0.00;
+//						value += endtime - begintime; 
+					}
+					//计算时长
+					//利用BigDecimal来实现四舍五入.保留一位小数
+//					double result = new BigDecimal(value/3600.00).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+					//1代表保留1位小数,保留两位小数就是2,依此累推
+			        //BigDecimal.ROUND_HALF_UP 代表使用四舍五入的方式
+//					to.setTrDuration(product.getTrOrder().getTrDuration());
+					System.out.println("alldatelistasource---------------"+alldatelistasource.toString());
+					//原始日期
+					to.setTrNeeddatelist(JSON.toJSONString(alldatelistasource));
+					//日期做升序
+					alldatelistasc = ClueUtils.getd(alldatelist);
+//					for(int i=0;i<alldatelistasc.size();i++) {
+//						alldatelistascformat.add(sdf.format(alldatelistasc.get(i)));
+//					}
+//					System.out.println("alldatelistascformat---------------"+alldatelistascformat.toString());
+//					tns.setTrNeeddatelistasc(JSON.toJSONString(alldatelistasc));
+					//最小需求日期
+					to.setTrNeedbegindate(alldatelistasc.get(0));
+					//最大需求日期
+					if(alldatelist.size()>1) {
+						to.setTrNeedenddate(alldatelistasc.get(alldatelistasc.size()-1));
+					}else {
+						to.setTrNeedenddate(alldatelistasc.get(0));
+					}
+					System.out.println("allimelistasource---------------"+allimelistasource.toString());
+					//原始时间
+					to.setTrNeedtimelist(JSON.toJSONString(allimelistasource));
+					//时间做升序
+					alltimelistasc = ClueUtils.gett(alltimelist.toArray());
+					if(alltimelistasc != null && alltimelistasc.length>0) {
+						for(int i=0;i<alltimelistasc.length;i++) {
+							alltimelistascint.add(Integer.parseInt(alltimelistasc[i].toString()));
+						}
+					}
+					System.out.println("alltimelistasc---------------"+alltimelistascint.toString());
+//					tns.setTrNeedtimelistasc(alltimelistascint.toString());
+					//最小开始时间
+					to.setTrBegintime(Integer.parseInt(alltimelistasc[0].toString()));
+					//最大开始时间
+					if(alltimelistasc.length>1) {
+						to.setTrEndtime(Integer.parseInt(alltimelistasc[alltimelistasc.length-1].toString()));
+					}else {
+						to.setTrEndtime(Integer.parseInt(alltimelistasc[0].toString()));
+					}
+					trOrderMapper.insert(to);
+				}
+				
+				order = new VideoOrder();
+				openid = CommonUtils.generateOrder("1", userVo.getUser().getLoginCode());
 				order.setOpenid(openid);
 				order.setOutTradeNo(product.getSubject());
 				order.setState(0);

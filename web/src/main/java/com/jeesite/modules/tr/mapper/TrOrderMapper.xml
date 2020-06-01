@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.tr.mapper.TrOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.tr.entity.TrOrder" >
+    <id column="tr_commonditycode" property="trCommonditycode" jdbcType="VARCHAR" />
+    <result column="tr_partAname" property="trPartaname" jdbcType="VARCHAR" />
+    <result column="tr_partAphone" property="trPartaphone" jdbcType="VARCHAR" />
+    <result column="tr_partAaddress" property="trPartaaddress" jdbcType="VARCHAR" />
+    <result column="tr_partBname" property="trPartbname" jdbcType="VARCHAR" />
+    <result column="tr_partBphone" property="trPartbphone" jdbcType="VARCHAR" />
+    <result column="tr_partBaddress" property="trPartbaddress" jdbcType="VARCHAR" />
+    <result column="tr_type" property="trType" jdbcType="VARCHAR" />
+    <result column="tr_count" property="trCount" jdbcType="INTEGER" />
+    <result column="tr_needbegindate" property="trNeedbegindate" jdbcType="DATE" />
+    <result column="tr_needenddate" property="trNeedenddate" jdbcType="DATE" />
+    <result column="tr_begintime" property="trBegintime" jdbcType="INTEGER" />
+    <result column="tr_endtime" property="trEndtime" jdbcType="INTEGER" />
+    <result column="tr_needdatelist" property="trNeeddatelist" jdbcType="VARCHAR" />
+    <result column="tr_needtimelist" property="trNeedtimelist" jdbcType="VARCHAR" />
+    <result column="tr_duration" property="trDuration" jdbcType="DOUBLE" />
+    <result column="tr_unitprice" property="trUnitprice" jdbcType="DOUBLE" />
+    <result column="tr_totalprice" property="trTotalprice" jdbcType="DOUBLE" />
+    <result column="tr_remark" property="trRemark" jdbcType="VARCHAR" />
+    <result column="reserveone" property="reserveone" jdbcType="VARCHAR" />
+    <result column="reservetwo" property="reservetwo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    tr_commonditycode, tr_partAname, tr_partAphone, tr_partAaddress, tr_partBname, tr_partBphone, 
+    tr_partBaddress, tr_type, tr_count, tr_needbegindate, tr_needenddate, tr_begintime, 
+    tr_endtime, tr_needdatelist, tr_needtimelist, tr_duration, tr_unitprice, tr_totalprice, 
+    tr_remark, reserveone, reservetwo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_order
+    where tr_commonditycode = #{trCommonditycode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_order
+    where tr_commonditycode = #{trCommonditycode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.tr.entity.TrOrder" >
+    insert into tr_order (tr_commonditycode, tr_partAname, tr_partAphone, 
+      tr_partAaddress, tr_partBname, tr_partBphone, 
+      tr_partBaddress, tr_type, tr_count, 
+      tr_needbegindate, tr_needenddate, tr_begintime, 
+      tr_endtime, tr_needdatelist, tr_needtimelist, 
+      tr_duration, tr_unitprice, tr_totalprice, 
+      tr_remark, reserveone, reservetwo
+      )
+    values (#{trCommonditycode,jdbcType=VARCHAR}, #{trPartaname,jdbcType=VARCHAR}, #{trPartaphone,jdbcType=VARCHAR}, 
+      #{trPartaaddress,jdbcType=VARCHAR}, #{trPartbname,jdbcType=VARCHAR}, #{trPartbphone,jdbcType=VARCHAR}, 
+      #{trPartbaddress,jdbcType=VARCHAR}, #{trType,jdbcType=VARCHAR}, #{trCount,jdbcType=INTEGER}, 
+      #{trNeedbegindate,jdbcType=DATE}, #{trNeedenddate,jdbcType=DATE}, #{trBegintime,jdbcType=INTEGER}, 
+      #{trEndtime,jdbcType=INTEGER}, #{trNeeddatelist,jdbcType=VARCHAR}, #{trNeedtimelist,jdbcType=VARCHAR}, 
+      #{trDuration,jdbcType=DOUBLE}, #{trUnitprice,jdbcType=DOUBLE}, #{trTotalprice,jdbcType=DOUBLE}, 
+      #{trRemark,jdbcType=VARCHAR}, #{reserveone,jdbcType=VARCHAR}, #{reservetwo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.tr.entity.TrOrder" >
+    insert into tr_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="trCommonditycode != null" >
+        tr_commonditycode,
+      </if>
+      <if test="trPartaname != null" >
+        tr_partAname,
+      </if>
+      <if test="trPartaphone != null" >
+        tr_partAphone,
+      </if>
+      <if test="trPartaaddress != null" >
+        tr_partAaddress,
+      </if>
+      <if test="trPartbname != null" >
+        tr_partBname,
+      </if>
+      <if test="trPartbphone != null" >
+        tr_partBphone,
+      </if>
+      <if test="trPartbaddress != null" >
+        tr_partBaddress,
+      </if>
+      <if test="trType != null" >
+        tr_type,
+      </if>
+      <if test="trCount != null" >
+        tr_count,
+      </if>
+      <if test="trNeedbegindate != null" >
+        tr_needbegindate,
+      </if>
+      <if test="trNeedenddate != null" >
+        tr_needenddate,
+      </if>
+      <if test="trBegintime != null" >
+        tr_begintime,
+      </if>
+      <if test="trEndtime != null" >
+        tr_endtime,
+      </if>
+      <if test="trNeeddatelist != null" >
+        tr_needdatelist,
+      </if>
+      <if test="trNeedtimelist != null" >
+        tr_needtimelist,
+      </if>
+      <if test="trDuration != null" >
+        tr_duration,
+      </if>
+      <if test="trUnitprice != null" >
+        tr_unitprice,
+      </if>
+      <if test="trTotalprice != null" >
+        tr_totalprice,
+      </if>
+      <if test="trRemark != null" >
+        tr_remark,
+      </if>
+      <if test="reserveone != null" >
+        reserveone,
+      </if>
+      <if test="reservetwo != null" >
+        reservetwo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="trCommonditycode != null" >
+        #{trCommonditycode,jdbcType=VARCHAR},
+      </if>
+      <if test="trPartaname != null" >
+        #{trPartaname,jdbcType=VARCHAR},
+      </if>
+      <if test="trPartaphone != null" >
+        #{trPartaphone,jdbcType=VARCHAR},
+      </if>
+      <if test="trPartaaddress != null" >
+        #{trPartaaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="trPartbname != null" >
+        #{trPartbname,jdbcType=VARCHAR},
+      </if>
+      <if test="trPartbphone != null" >
+        #{trPartbphone,jdbcType=VARCHAR},
+      </if>
+      <if test="trPartbaddress != null" >
+        #{trPartbaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="trType != null" >
+        #{trType,jdbcType=VARCHAR},
+      </if>
+      <if test="trCount != null" >
+        #{trCount,jdbcType=INTEGER},
+      </if>
+      <if test="trNeedbegindate != null" >
+        #{trNeedbegindate,jdbcType=DATE},
+      </if>
+      <if test="trNeedenddate != null" >
+        #{trNeedenddate,jdbcType=DATE},
+      </if>
+      <if test="trBegintime != null" >
+        #{trBegintime,jdbcType=INTEGER},
+      </if>
+      <if test="trEndtime != null" >
+        #{trEndtime,jdbcType=INTEGER},
+      </if>
+      <if test="trNeeddatelist != null" >
+        #{trNeeddatelist,jdbcType=VARCHAR},
+      </if>
+      <if test="trNeedtimelist != null" >
+        #{trNeedtimelist,jdbcType=VARCHAR},
+      </if>
+      <if test="trDuration != null" >
+        #{trDuration,jdbcType=DOUBLE},
+      </if>
+      <if test="trUnitprice != null" >
+        #{trUnitprice,jdbcType=DOUBLE},
+      </if>
+      <if test="trTotalprice != null" >
+        #{trTotalprice,jdbcType=DOUBLE},
+      </if>
+      <if test="trRemark != null" >
+        #{trRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="reserveone != null" >
+        #{reserveone,jdbcType=VARCHAR},
+      </if>
+      <if test="reservetwo != null" >
+        #{reservetwo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.tr.entity.TrOrder" >
+    update tr_order
+    <set >
+      <if test="trPartaname != null" >
+        tr_partAname = #{trPartaname,jdbcType=VARCHAR},
+      </if>
+      <if test="trPartaphone != null" >
+        tr_partAphone = #{trPartaphone,jdbcType=VARCHAR},
+      </if>
+      <if test="trPartaaddress != null" >
+        tr_partAaddress = #{trPartaaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="trPartbname != null" >
+        tr_partBname = #{trPartbname,jdbcType=VARCHAR},
+      </if>
+      <if test="trPartbphone != null" >
+        tr_partBphone = #{trPartbphone,jdbcType=VARCHAR},
+      </if>
+      <if test="trPartbaddress != null" >
+        tr_partBaddress = #{trPartbaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="trType != null" >
+        tr_type = #{trType,jdbcType=VARCHAR},
+      </if>
+      <if test="trCount != null" >
+        tr_count = #{trCount,jdbcType=INTEGER},
+      </if>
+      <if test="trNeedbegindate != null" >
+        tr_needbegindate = #{trNeedbegindate,jdbcType=DATE},
+      </if>
+      <if test="trNeedenddate != null" >
+        tr_needenddate = #{trNeedenddate,jdbcType=DATE},
+      </if>
+      <if test="trBegintime != null" >
+        tr_begintime = #{trBegintime,jdbcType=INTEGER},
+      </if>
+      <if test="trEndtime != null" >
+        tr_endtime = #{trEndtime,jdbcType=INTEGER},
+      </if>
+      <if test="trNeeddatelist != null" >
+        tr_needdatelist = #{trNeeddatelist,jdbcType=VARCHAR},
+      </if>
+      <if test="trNeedtimelist != null" >
+        tr_needtimelist = #{trNeedtimelist,jdbcType=VARCHAR},
+      </if>
+      <if test="trDuration != null" >
+        tr_duration = #{trDuration,jdbcType=DOUBLE},
+      </if>
+      <if test="trUnitprice != null" >
+        tr_unitprice = #{trUnitprice,jdbcType=DOUBLE},
+      </if>
+      <if test="trTotalprice != null" >
+        tr_totalprice = #{trTotalprice,jdbcType=DOUBLE},
+      </if>
+      <if test="trRemark != null" >
+        tr_remark = #{trRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="reserveone != null" >
+        reserveone = #{reserveone,jdbcType=VARCHAR},
+      </if>
+      <if test="reservetwo != null" >
+        reservetwo = #{reservetwo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tr_commonditycode = #{trCommonditycode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.tr.entity.TrOrder" >
+    update tr_order
+    set tr_partAname = #{trPartaname,jdbcType=VARCHAR},
+      tr_partAphone = #{trPartaphone,jdbcType=VARCHAR},
+      tr_partAaddress = #{trPartaaddress,jdbcType=VARCHAR},
+      tr_partBname = #{trPartbname,jdbcType=VARCHAR},
+      tr_partBphone = #{trPartbphone,jdbcType=VARCHAR},
+      tr_partBaddress = #{trPartbaddress,jdbcType=VARCHAR},
+      tr_type = #{trType,jdbcType=VARCHAR},
+      tr_count = #{trCount,jdbcType=INTEGER},
+      tr_needbegindate = #{trNeedbegindate,jdbcType=DATE},
+      tr_needenddate = #{trNeedenddate,jdbcType=DATE},
+      tr_begintime = #{trBegintime,jdbcType=INTEGER},
+      tr_endtime = #{trEndtime,jdbcType=INTEGER},
+      tr_needdatelist = #{trNeeddatelist,jdbcType=VARCHAR},
+      tr_needtimelist = #{trNeedtimelist,jdbcType=VARCHAR},
+      tr_duration = #{trDuration,jdbcType=DOUBLE},
+      tr_unitprice = #{trUnitprice,jdbcType=DOUBLE},
+      tr_totalprice = #{trTotalprice,jdbcType=DOUBLE},
+      tr_remark = #{trRemark,jdbcType=VARCHAR},
+      reserveone = #{reserveone,jdbcType=VARCHAR},
+      reservetwo = #{reservetwo,jdbcType=VARCHAR}
+    where tr_commonditycode = #{trCommonditycode,jdbcType=VARCHAR}
+  </update>
+</mapper>

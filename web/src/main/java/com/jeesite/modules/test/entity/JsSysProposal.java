@@ -11,7 +11,7 @@ public class JsSysProposal {
 
     private Date createTime;
 
-    private String describe;
+    private String represent;
 
     private String plan;
 
@@ -49,12 +49,12 @@ public class JsSysProposal {
         this.createTime = createTime;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getRepresent() {
+        return represent;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe == null ? null : describe.trim();
+    public void setRepresent(String represent) {
+        this.represent = represent == null ? null : represent.trim();
     }
 
     public String getPlan() {

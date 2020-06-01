@@ -24,9 +24,11 @@ import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.jeesite.modules.sys.utils.UserUtils;
+import com.jeesite.modules.test.entity.JsJobLocksKey;
 import com.jeesite.modules.test.entity.JsSysApply;
 import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.entity.JsSysUser;
+import com.jeesite.modules.test.mapper.JsJobLocksMapper;
 import com.jeesite.modules.test.mapper.JsSysMemberMapper;
 import com.jeesite.modules.test.mapper.JsSysUserMapper;
 import com.jeesite.modules.test.service.TestMessageService;
@@ -43,6 +45,8 @@ public class TestMessageServiceImpl implements TestMessageService {
 	private JsSysUserMapper jsSysUserMapper;
 	@Autowired
 	private JsSysMemberMapper jsSysMemberMapper;
+	@Autowired
+	private JsJobLocksMapper jsJobLocksMapper;
 
 	@Override
 	public Integer toGetMessage(HttpServletRequest req, HttpServletResponse rep,String phone) {
@@ -148,7 +152,7 @@ public class TestMessageServiceImpl implements TestMessageService {
 		// TODO Auto-generated method stub
 		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
 		JsSysMember member = jsSysMemberMapper.selectMemberByNumber(userVo.getUser().getLoginCode());
-		if (member == null) {
+		if (member.getOrganName() == null) {
 			return 0;
 		}
 		return 1;
@@ -238,6 +242,12 @@ public class TestMessageServiceImpl implements TestMessageService {
 	public JsSysUser findUserByLoginCode(String newphone) {
 		// TODO Auto-generated method stub
 		return jsSysUserMapper.selectByLoginCode(newphone);
+	}
+
+	@Override
+	public JsJobLocksKey getApplyPhone(String string) {
+		// TODO Auto-generated method stub
+		return jsJobLocksMapper.selectByPrimaryKey(string);
 	}
 
 }

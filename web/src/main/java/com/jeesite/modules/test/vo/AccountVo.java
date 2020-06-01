@@ -16,6 +16,7 @@ public class AccountVo implements Serializable{
 	private PageInfo<JsSysApply> page;//page分页数据
 	private PageInfo<JsSysProposal> pagePro;
 	private PageInfo<JsSysProblem> pagePb;
+	private String[] startEndTime;//开始结束时间数组
 	public String getStartTime() {
 		return startTime;
 	}
@@ -85,6 +86,12 @@ public class AccountVo implements Serializable{
 	}
 	public void setPagePb(PageInfo<JsSysProblem> pagePb) {
 		this.pagePb = pagePb;
+	}
+	public String[] getStartEndTime() {
+		return startEndTime;
+	}
+	public void setStartEndTime(String[] startEndTime) {
+		this.startEndTime = startEndTime;
 	}
 	
 }

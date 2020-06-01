@@ -16,6 +16,6 @@ public interface JsSysProblemMapper {
     int updateByPrimaryKeySelective(JsSysProblem record);
 
     int updateByPrimaryKey(JsSysProblem record);
-
-	List<JsSysProblem> findProByLimit();
+    
+    List<JsSysProblem> findProByLimit();
 }

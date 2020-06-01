@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.jeesite.modules.test.entity.JsSysOrder;
+import com.jeesite.modules.test.entity.VideoOrder;
 import com.jeesite.modules.test.vo.FlowingWaterVo;
 
 public interface JsSysOrderMapper {
@@ -19,7 +20,7 @@ public interface JsSysOrderMapper {
 
     int updateByPrimaryKey(JsSysOrder record);
 
-	List<JsSysOrder> findOrderByLimit(FlowingWaterVo vo);
+	List<VideoOrder> findOrderByLimit(FlowingWaterVo vo);
 
 	BigDecimal selectMoneyByTime(FlowingWaterVo vo);
 }

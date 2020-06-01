@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.tr.mapper.TrNeedMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.tr.entity.TrNeed" >
+    <id column="tr_id" property="trId" jdbcType="VARCHAR" />
+    <result column="tr_type" property="trType" jdbcType="VARCHAR" />
+    <result column="tr_count" property="trCount" jdbcType="INTEGER" />
+    <result column="tr_unitprice" property="trUnitprice" jdbcType="DOUBLE" />
+    <result column="tr_needbegindate" property="trNeedbegindate" jdbcType="DATE" />
+    <result column="tr_needenddate" property="trNeedenddate" jdbcType="DATE" />
+    <result column="tr_begintime" property="trBegintime" jdbcType="INTEGER" />
+    <result column="tr_endtime" property="trEndtime" jdbcType="INTEGER" />
+    <result column="tr_address" property="trAddress" jdbcType="VARCHAR" />
+    <result column="tr_longitude" property="trLongitude" jdbcType="DOUBLE" />
+    <result column="tr_latitude" property="trLatitude" jdbcType="DOUBLE" />
+    <result column="tr_minlng" property="trMinlng" jdbcType="DOUBLE" />
+    <result column="tr_maxlng" property="trMaxlng" jdbcType="DOUBLE" />
+    <result column="tr_minlat" property="trMinlat" jdbcType="DOUBLE" />
+    <result column="tr_maxlat" property="trMaxlat" jdbcType="DOUBLE" />
+    <result column="tr_isEffective" property="trIseffective" jdbcType="CHAR" />
+    <result column="tr_remark" property="trRemark" jdbcType="VARCHAR" />
+    <result column="tr_usercode" property="trUsercode" jdbcType="VARCHAR" />
+    <result column="extra1" property="extra1" jdbcType="VARCHAR" />
+    <result column="extra2" property="extra2" jdbcType="VARCHAR" />
+    <result column="extra3" property="extra3" jdbcType="VARCHAR" />
+    <result column="extra4" property="extra4" jdbcType="VARCHAR" />
+    <result column="extra5" property="extra5" jdbcType="VARCHAR" />
+    <result column="tr_address_city" property="trAddressCity" jdbcType="VARCHAR" />
+    <result column="tr_address_area" property="trAddressArea" jdbcType="VARCHAR" />
+    <result column="tr_createtime" property="trCreatetime" jdbcType="TIMESTAMP" />
+    <result column="tr_updatetime" property="trUpdatetime" jdbcType="TIMESTAMP" />
+    <result column="tr_allneedtime" property="trAllneedtime" jdbcType="VARCHAR" />
+    <result column="tr_totaltime" property="trTotaltime" jdbcType="DOUBLE" />
+    <result column="tr_needdatelist" property="trNeeddatelist" jdbcType="VARCHAR" />
+    <result column="tr_needtimelist" property="trNeedtimelist" jdbcType="VARCHAR" />
+    <result column="tr_needdatelistasc" property="trNeeddatelistasc" jdbcType="VARCHAR" />
+    <result column="tr_needtimelistasc" property="trNeedtimelistasc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    tr_id, tr_type, tr_count, tr_unitprice, tr_needbegindate, tr_needenddate, tr_begintime, 
+    tr_endtime, tr_address, tr_longitude, tr_latitude, tr_minlng, tr_maxlng, tr_minlat, 
+    tr_maxlat, tr_isEffective, tr_remark, tr_usercode, extra1, extra2, extra3, extra4, 
+    extra5, tr_address_city, tr_address_area, tr_createtime, tr_updatetime, tr_allneedtime, 
+    tr_totaltime, tr_needdatelist, tr_needtimelist, tr_needdatelistasc, tr_needtimelistasc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tr_need
+    where tr_id = #{trId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_need
+    where tr_id = #{trId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.tr.entity.TrNeed" >
+    insert into tr_need (tr_id, tr_type, tr_count, 
+      tr_unitprice, tr_needbegindate, tr_needenddate, 
+      tr_begintime, tr_endtime, tr_address, 
+      tr_longitude, tr_latitude, tr_minlng, 
+      tr_maxlng, tr_minlat, tr_maxlat, 
+      tr_isEffective, tr_remark, tr_usercode, 
+      extra1, extra2, extra3, 
+      extra4, extra5, tr_address_city, 
+      tr_address_area, tr_createtime, tr_updatetime, 
+      tr_allneedtime, tr_totaltime, tr_needdatelist, 
+      tr_needtimelist, tr_needdatelistasc, tr_needtimelistasc
+      )
+    values (#{trId,jdbcType=VARCHAR}, #{trType,jdbcType=VARCHAR}, #{trCount,jdbcType=INTEGER}, 
+      #{trUnitprice,jdbcType=DOUBLE}, #{trNeedbegindate,jdbcType=DATE}, #{trNeedenddate,jdbcType=DATE}, 
+      #{trBegintime,jdbcType=INTEGER}, #{trEndtime,jdbcType=INTEGER}, #{trAddress,jdbcType=VARCHAR}, 
+      #{trLongitude,jdbcType=DOUBLE}, #{trLatitude,jdbcType=DOUBLE}, #{trMinlng,jdbcType=DOUBLE}, 
+      #{trMaxlng,jdbcType=DOUBLE}, #{trMinlat,jdbcType=DOUBLE}, #{trMaxlat,jdbcType=DOUBLE}, 
+      #{trIseffective,jdbcType=CHAR}, #{trRemark,jdbcType=VARCHAR}, #{trUsercode,jdbcType=VARCHAR}, 
+      #{extra1,jdbcType=VARCHAR}, #{extra2,jdbcType=VARCHAR}, #{extra3,jdbcType=VARCHAR}, 
+      #{extra4,jdbcType=VARCHAR}, #{extra5,jdbcType=VARCHAR}, #{trAddressCity,jdbcType=VARCHAR}, 
+      #{trAddressArea,jdbcType=VARCHAR}, #{trCreatetime,jdbcType=TIMESTAMP}, #{trUpdatetime,jdbcType=TIMESTAMP}, 
+      #{trAllneedtime,jdbcType=VARCHAR}, #{trTotaltime,jdbcType=DOUBLE}, #{trNeeddatelist,jdbcType=VARCHAR}, 
+      #{trNeedtimelist,jdbcType=VARCHAR}, #{trNeeddatelistasc,jdbcType=VARCHAR}, #{trNeedtimelistasc,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.tr.entity.TrNeed" >
+    insert into tr_need
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="trId != null" >
+        tr_id,
+      </if>
+      <if test="trType != null" >
+        tr_type,
+      </if>
+      <if test="trCount != null" >
+        tr_count,
+      </if>
+      <if test="trUnitprice != null" >
+        tr_unitprice,
+      </if>
+      <if test="trNeedbegindate != null" >
+        tr_needbegindate,
+      </if>
+      <if test="trNeedenddate != null" >
+        tr_needenddate,
+      </if>
+      <if test="trBegintime != null" >
+        tr_begintime,
+      </if>
+      <if test="trEndtime != null" >
+        tr_endtime,
+      </if>
+      <if test="trAddress != null" >
+        tr_address,
+      </if>
+      <if test="trLongitude != null" >
+        tr_longitude,
+      </if>
+      <if test="trLatitude != null" >
+        tr_latitude,
+      </if>
+      <if test="trMinlng != null" >
+        tr_minlng,
+      </if>
+      <if test="trMaxlng != null" >
+        tr_maxlng,
+      </if>
+      <if test="trMinlat != null" >
+        tr_minlat,
+      </if>
+      <if test="trMaxlat != null" >
+        tr_maxlat,
+      </if>
+      <if test="trIseffective != null" >
+        tr_isEffective,
+      </if>
+      <if test="trRemark != null" >
+        tr_remark,
+      </if>
+      <if test="trUsercode != null" >
+        tr_usercode,
+      </if>
+      <if test="extra1 != null" >
+        extra1,
+      </if>
+      <if test="extra2 != null" >
+        extra2,
+      </if>
+      <if test="extra3 != null" >
+        extra3,
+      </if>
+      <if test="extra4 != null" >
+        extra4,
+      </if>
+      <if test="extra5 != null" >
+        extra5,
+      </if>
+      <if test="trAddressCity != null" >
+        tr_address_city,
+      </if>
+      <if test="trAddressArea != null" >
+        tr_address_area,
+      </if>
+      <if test="trCreatetime != null" >
+        tr_createtime,
+      </if>
+      <if test="trUpdatetime != null" >
+        tr_updatetime,
+      </if>
+      <if test="trAllneedtime != null" >
+        tr_allneedtime,
+      </if>
+      <if test="trTotaltime != null" >
+        tr_totaltime,
+      </if>
+      <if test="trNeeddatelist != null" >
+        tr_needdatelist,
+      </if>
+      <if test="trNeedtimelist != null" >
+        tr_needtimelist,
+      </if>
+      <if test="trNeeddatelistasc != null" >
+        tr_needdatelistasc,
+      </if>
+      <if test="trNeedtimelistasc != null" >
+        tr_needtimelistasc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="trId != null" >
+        #{trId,jdbcType=VARCHAR},
+      </if>
+      <if test="trType != null" >
+        #{trType,jdbcType=VARCHAR},
+      </if>
+      <if test="trCount != null" >
+        #{trCount,jdbcType=INTEGER},
+      </if>
+      <if test="trUnitprice != null" >
+        #{trUnitprice,jdbcType=DOUBLE},
+      </if>
+      <if test="trNeedbegindate != null" >
+        #{trNeedbegindate,jdbcType=DATE},
+      </if>
+      <if test="trNeedenddate != null" >
+        #{trNeedenddate,jdbcType=DATE},
+      </if>
+      <if test="trBegintime != null" >
+        #{trBegintime,jdbcType=INTEGER},
+      </if>
+      <if test="trEndtime != null" >
+        #{trEndtime,jdbcType=INTEGER},
+      </if>
+      <if test="trAddress != null" >
+        #{trAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="trLongitude != null" >
+        #{trLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="trLatitude != null" >
+        #{trLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="trMinlng != null" >
+        #{trMinlng,jdbcType=DOUBLE},
+      </if>
+      <if test="trMaxlng != null" >
+        #{trMaxlng,jdbcType=DOUBLE},
+      </if>
+      <if test="trMinlat != null" >
+        #{trMinlat,jdbcType=DOUBLE},
+      </if>
+      <if test="trMaxlat != null" >
+        #{trMaxlat,jdbcType=DOUBLE},
+      </if>
+      <if test="trIseffective != null" >
+        #{trIseffective,jdbcType=CHAR},
+      </if>
+      <if test="trRemark != null" >
+        #{trRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="trUsercode != null" >
+        #{trUsercode,jdbcType=VARCHAR},
+      </if>
+      <if test="extra1 != null" >
+        #{extra1,jdbcType=VARCHAR},
+      </if>
+      <if test="extra2 != null" >
+        #{extra2,jdbcType=VARCHAR},
+      </if>
+      <if test="extra3 != null" >
+        #{extra3,jdbcType=VARCHAR},
+      </if>
+      <if test="extra4 != null" >
+        #{extra4,jdbcType=VARCHAR},
+      </if>
+      <if test="extra5 != null" >
+        #{extra5,jdbcType=VARCHAR},
+      </if>
+      <if test="trAddressCity != null" >
+        #{trAddressCity,jdbcType=VARCHAR},
+      </if>
+      <if test="trAddressArea != null" >
+        #{trAddressArea,jdbcType=VARCHAR},
+      </if>
+      <if test="trCreatetime != null" >
+        #{trCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trUpdatetime != null" >
+        #{trUpdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trAllneedtime != null" >
+        #{trAllneedtime,jdbcType=VARCHAR},
+      </if>
+      <if test="trTotaltime != null" >
+        #{trTotaltime,jdbcType=DOUBLE},
+      </if>
+      <if test="trNeeddatelist != null" >
+        #{trNeeddatelist,jdbcType=VARCHAR},
+      </if>
+      <if test="trNeedtimelist != null" >
+        #{trNeedtimelist,jdbcType=VARCHAR},
+      </if>
+      <if test="trNeeddatelistasc != null" >
+        #{trNeeddatelistasc,jdbcType=VARCHAR},
+      </if>
+      <if test="trNeedtimelistasc != null" >
+        #{trNeedtimelistasc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.tr.entity.TrNeed" >
+    update tr_need
+    <set >
+      <if test="trType != null" >
+        tr_type = #{trType,jdbcType=VARCHAR},
+      </if>
+      <if test="trCount != null" >
+        tr_count = #{trCount,jdbcType=INTEGER},
+      </if>
+      <if test="trUnitprice != null" >
+        tr_unitprice = #{trUnitprice,jdbcType=DOUBLE},
+      </if>
+      <if test="trNeedbegindate != null" >
+        tr_needbegindate = #{trNeedbegindate,jdbcType=DATE},
+      </if>
+      <if test="trNeedenddate != null" >
+        tr_needenddate = #{trNeedenddate,jdbcType=DATE},
+      </if>
+      <if test="trBegintime != null" >
+        tr_begintime = #{trBegintime,jdbcType=INTEGER},
+      </if>
+      <if test="trEndtime != null" >
+        tr_endtime = #{trEndtime,jdbcType=INTEGER},
+      </if>
+      <if test="trAddress != null" >
+        tr_address = #{trAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="trLongitude != null" >
+        tr_longitude = #{trLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="trLatitude != null" >
+        tr_latitude = #{trLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="trMinlng != null" >
+        tr_minlng = #{trMinlng,jdbcType=DOUBLE},
+      </if>
+      <if test="trMaxlng != null" >
+        tr_maxlng = #{trMaxlng,jdbcType=DOUBLE},
+      </if>
+      <if test="trMinlat != null" >
+        tr_minlat = #{trMinlat,jdbcType=DOUBLE},
+      </if>
+      <if test="trMaxlat != null" >
+        tr_maxlat = #{trMaxlat,jdbcType=DOUBLE},
+      </if>
+      <if test="trIseffective != null" >
+        tr_isEffective = #{trIseffective,jdbcType=CHAR},
+      </if>
+      <if test="trRemark != null" >
+        tr_remark = #{trRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="trUsercode != null" >
+        tr_usercode = #{trUsercode,jdbcType=VARCHAR},
+      </if>
+      <if test="extra1 != null" >
+        extra1 = #{extra1,jdbcType=VARCHAR},
+      </if>
+      <if test="extra2 != null" >
+        extra2 = #{extra2,jdbcType=VARCHAR},
+      </if>
+      <if test="extra3 != null" >
+        extra3 = #{extra3,jdbcType=VARCHAR},
+      </if>
+      <if test="extra4 != null" >
+        extra4 = #{extra4,jdbcType=VARCHAR},
+      </if>
+      <if test="extra5 != null" >
+        extra5 = #{extra5,jdbcType=VARCHAR},
+      </if>
+      <if test="trAddressCity != null" >
+        tr_address_city = #{trAddressCity,jdbcType=VARCHAR},
+      </if>
+      <if test="trAddressArea != null" >
+        tr_address_area = #{trAddressArea,jdbcType=VARCHAR},
+      </if>
+      <if test="trCreatetime != null" >
+        tr_createtime = #{trCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trUpdatetime != null" >
+        tr_updatetime = #{trUpdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trAllneedtime != null" >
+        tr_allneedtime = #{trAllneedtime,jdbcType=VARCHAR},
+      </if>
+      <if test="trTotaltime != null" >
+        tr_totaltime = #{trTotaltime,jdbcType=DOUBLE},
+      </if>
+      <if test="trNeeddatelist != null" >
+        tr_needdatelist = #{trNeeddatelist,jdbcType=VARCHAR},
+      </if>
+      <if test="trNeedtimelist != null" >
+        tr_needtimelist = #{trNeedtimelist,jdbcType=VARCHAR},
+      </if>
+      <if test="trNeeddatelistasc != null" >
+        tr_needdatelistasc = #{trNeeddatelistasc,jdbcType=VARCHAR},
+      </if>
+      <if test="trNeedtimelistasc != null" >
+        tr_needtimelistasc = #{trNeedtimelistasc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tr_id = #{trId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.tr.entity.TrNeed" >
+    update tr_need
+    set tr_type = #{trType,jdbcType=VARCHAR},
+      tr_count = #{trCount,jdbcType=INTEGER},
+      tr_unitprice = #{trUnitprice,jdbcType=DOUBLE},
+      tr_needbegindate = #{trNeedbegindate,jdbcType=DATE},
+      tr_needenddate = #{trNeedenddate,jdbcType=DATE},
+      tr_begintime = #{trBegintime,jdbcType=INTEGER},
+      tr_endtime = #{trEndtime,jdbcType=INTEGER},
+      tr_address = #{trAddress,jdbcType=VARCHAR},
+      tr_longitude = #{trLongitude,jdbcType=DOUBLE},
+      tr_latitude = #{trLatitude,jdbcType=DOUBLE},
+      tr_minlng = #{trMinlng,jdbcType=DOUBLE},
+      tr_maxlng = #{trMaxlng,jdbcType=DOUBLE},
+      tr_minlat = #{trMinlat,jdbcType=DOUBLE},
+      tr_maxlat = #{trMaxlat,jdbcType=DOUBLE},
+      tr_isEffective = #{trIseffective,jdbcType=CHAR},
+      tr_remark = #{trRemark,jdbcType=VARCHAR},
+      tr_usercode = #{trUsercode,jdbcType=VARCHAR},
+      extra1 = #{extra1,jdbcType=VARCHAR},
+      extra2 = #{extra2,jdbcType=VARCHAR},
+      extra3 = #{extra3,jdbcType=VARCHAR},
+      extra4 = #{extra4,jdbcType=VARCHAR},
+      extra5 = #{extra5,jdbcType=VARCHAR},
+      tr_address_city = #{trAddressCity,jdbcType=VARCHAR},
+      tr_address_area = #{trAddressArea,jdbcType=VARCHAR},
+      tr_createtime = #{trCreatetime,jdbcType=TIMESTAMP},
+      tr_updatetime = #{trUpdatetime,jdbcType=TIMESTAMP},
+      tr_allneedtime = #{trAllneedtime,jdbcType=VARCHAR},
+      tr_totaltime = #{trTotaltime,jdbcType=DOUBLE},
+      tr_needdatelist = #{trNeeddatelist,jdbcType=VARCHAR},
+      tr_needtimelist = #{trNeedtimelist,jdbcType=VARCHAR},
+      tr_needdatelistasc = #{trNeeddatelistasc,jdbcType=VARCHAR},
+      tr_needtimelistasc = #{trNeedtimelistasc,jdbcType=VARCHAR}
+    where tr_id = #{trId,jdbcType=VARCHAR}
+  </update>
+  <select id="getTrNeedList" parameterType="com.jeesite.modules.tr.vo.TrNeedVo" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+    from tr_need
+    where 1 = 1
+    <if test="userCode != null" >
+       and tr_usercode = #{userCode}
+     </if>
+  </select>
+</mapper>
