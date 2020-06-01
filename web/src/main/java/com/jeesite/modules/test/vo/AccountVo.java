@@ -7,7 +7,7 @@ import com.jeesite.modules.test.entity.JsSysApply;
 import com.jeesite.modules.test.entity.JsSysProblem;
 import com.jeesite.modules.test.entity.JsSysProposal;
 
-public class AccountVo{
+public class AccountVo implements Serializable{
 
 	private String startTime;//开始时间
 	private String endTime;//结束时间

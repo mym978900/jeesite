@@ -1,5 +1,7 @@
 package com.jeesite.modules.clue.utils;
 
+import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -96,12 +98,46 @@ public class ClueUtils {
 	
 	/** 
      * 香港手机号码8位数，5|6|8|9开头+7位任意数 
-     */
+    */
 	public static boolean isHKPhoneLegal(String str)throws PatternSyntaxException {
 		String regExp="^(5|6|8|9)\\d{7}$";
 		Pattern p = Pattern.compile(regExp);
 		Matcher m = p.matcher(str);
 		return m.matches();
+	}
+	
+	/** 
+     * 对传入的日期数据集合做升序
+    */
+	public static List<Date> getd(List<Date> dateList){
+		dateList.sort((a1, a2) -> {
+			return a1.compareTo(a2);
+		});
+		return dateList;
+	}
+	
+	/** 
+     * 对传入的数据集合做升序
+    */
+	public static Object[] gett(Object[] arr) {
+	
+		int temp;
+	
+		for(int i=0;i<arr.length;i++){
+	
+			for(int j=0;j<arr.length-i-1;j++){
+	
+				if((Integer)arr[j]>(Integer)arr[j+1]){
+	
+					temp = (Integer)arr[j];
+	
+					arr[j] = arr[j+1];
+	
+					arr[j+1] = temp;
+				}
+			}
+		}
+		return arr;	
 	}
 	
 //	public static void main(String[] args) {

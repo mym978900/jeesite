@@ -27,7 +27,7 @@ import com.jeesite.modules.test.entity.JsSysMember;
 import com.jeesite.modules.test.entity.JsSysOffice;
 import com.jeesite.modules.test.entity.JsSysOrder;
 import com.jeesite.modules.test.entity.JsSysUser;
-import com.jeesite.modules.test.entity.NeedTime;
+import com.jeesite.modules.tr.entity.NeedTime;
 import com.jeesite.modules.test.entity.VideoOrder;
 import com.jeesite.modules.test.service.MemberService;
 import com.jeesite.modules.test.util.DailyUtil;

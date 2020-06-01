@@ -150,7 +150,6 @@ public class UpClueController extends BaseController{
 			model.addAttribute("data","会话超时请重新登录..");
 			return ServletUtils.renderObject(response, model);
 		}
-		
 		// 获取用户机构品类
 //		String deptType = iMeberService.getDeptType(user.getUserCode());
 		JsSysMember jsm = iMeberService.getMemberByAccountCode(user.getUserCode());
@@ -171,20 +170,22 @@ public class UpClueController extends BaseController{
 		uc.setUpClueStatus("2");
 		uc.setUpUserCode(user.getUserCode());
 		uc.setUpClueDepttype(jsm.getOrganClass());
+		uc.setUpCluePersonstatus("0");
 		
 		//更新会员机构线索数量及首次上传时间
 		if(jsm.getMatchUpdate()==null) {
 			jsm.setMatchUpdate(new Date());
 		}
 		
-		jsm.setClueCount(jsm.getClueCount()+1);
-		iMeberService.updateByPrimaryKey(jsm);
 		
 		//相同的手机号线索资源 - 姓名性别验证 - 可以上传不删除上传自动去重
 		if(!ClueUtils.effectiveClue(uc)) {
 			model.addAttribute("result", Global.TRUE);
 			return ServletUtils.renderObject(response, model);
 		}
+		
+		jsm.setClueCount(jsm.getClueCount()+1);
+		iMeberService.updateByPrimaryKey(jsm);
 		
 		iUpClueService.addUpClue(uc);
 		
@@ -333,6 +334,7 @@ public class UpClueController extends BaseController{
     	String rootPath = filePath + "/" + dataForm;
     	int effectCount = 0;//有效数
     	int ineffectCount = 0;//无效数
+    	int addCount = 0;//新增有效
     	String ineffectInfo ="";//无效信息
     	String phone = "";
     	String address = "";
@@ -419,7 +421,11 @@ public class UpClueController extends BaseController{
 	                    			uc.setUpClueStatus("2");
 	                    			uc.setUpUserCode(user.getUserCode());
 	                    			uc.setUpClueDepttype(jsm.getOrganClass());
+	                    			uc.setUpCluePersonstatus("0");
 	                    			iUpClueService.addUpClue(uc);
+	                    			if(!"0".equals(uc.getUpIseffective())) {
+	                    				addCount++;
+	                    			}
 	                    		}
 	                        }
 	                        
@@ -428,9 +434,9 @@ public class UpClueController extends BaseController{
 	                			jsm.setMatchUpdate(new Date());
 	                		}
 	                		if(jsm.getClueCount() != null) {
-	                			jsm.setClueCount(jsm.getClueCount()+parsedResult.size());
+	                			jsm.setClueCount(jsm.getClueCount()+addCount);
 	                		}else {
-	                			jsm.setClueCount(parsedResult.size());
+	                			jsm.setClueCount(addCount);
 	                		}
                 			iMeberService.updateByPrimaryKey(jsm);
 	                		
@@ -1128,5 +1134,45 @@ public class UpClueController extends BaseController{
 		
     	return iv;
     }
-    
+    //意向用户人工拨打状态调整
+    @RequestMapping(value = "personStatusChange", method = RequestMethod.POST)
+	@ResponseBody
+	public AiInfoVo personStatusChange(
+			@RequestParam(required = false,value="personStatusChange") String personStatusChange,
+			@RequestBody(required = false) UpAiinfo uai) {
+    	AiInfoVo aiv = new AiInfoVo();
+    	//获取登录用户信息
+		LoginInfo loginInfo = UserUtils.getLoginInfo();
+		if(loginInfo == null){
+			UserUtils.getSubject().logout();
+			aiv.setResult(false);
+			return aiv;
+		}
+				
+		// 当前用户对象信息
+		User user = UserUtils.get(loginInfo.getId());
+		if (user == null){
+			UserUtils.getSubject().logout();
+			aiv.setResult(false);
+			return aiv;
+		}
+		UpClue uc = new UpClue();
+		UpAiinfo uaio = new UpAiinfo();
+		if(uai==null) {
+			aiv.setResult(false);
+			return aiv;
+		}else {
+			if("潜在用户".equals(uai.getSource())) {
+				uc = iUpClueService.getUpClueByPhone(uai.getUpAiphone(),user.getUserCode());
+				uc.setUpCluePersonstatus(personStatusChange);
+				iUpClueService.updateByPrimaryKey(uc);
+			}else {
+				uaio = iUpAiInfoService.getUpAiinfoByPhone(uai.getUpAiphone(),user.getUserCode());
+				uaio.setUpPersonstatus(personStatusChange);
+		    	iUpAiInfoService.updateByPrimaryKey(uai);
+			}
+		}
+    	aiv.setResult(true);
+    	return aiv;
+    }
 }

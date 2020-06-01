@@ -50,9 +50,8 @@ public class VideoOrderServiceImpl implements VideoOrderService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public JumpVo save(HttpServletResponse response, Model model, HttpServletRequest request, Product product)
-			throws Exception {
-		// 当前登录用户
+	public JumpVo save(HttpServletResponse response, Model model, HttpServletRequest request,Product product) throws Exception {
+		//当前登录用户
 		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
 		// 3、生成订单，插入数据库
 		VideoOrder order = new VideoOrder();
@@ -67,12 +66,12 @@ public class VideoOrderServiceImpl implements VideoOrderService {
 		order.setIp(IpUtils.getIpAddr(request));
 		order.setDel(0);
 		order.setVideoImg(userVo.getUser().getLoginCode());
-
+		
 		videoOrderMapper.insertSelective(order);
 
 		// 4、获取codeurl
-		String codeUrl = unifiedOrder(response, model, order);
-		JumpVo vo = new JumpVo();
+		String codeUrl = unifiedOrder(response,model,order);
+		JumpVo vo=new JumpVo();
 		vo.setCodeUrl(codeUrl);
 		vo.setOpenid(openid);
 
@@ -84,9 +83,9 @@ public class VideoOrderServiceImpl implements VideoOrderService {
 	 * 
 	 * @return
 	 */
-	private String unifiedOrder(HttpServletResponse response, Model model, VideoOrder videoOrder) throws Exception {
-
-		// 当前登录用户
+	private String unifiedOrder(HttpServletResponse response, Model model,VideoOrder videoOrder) throws Exception {
+		
+		//当前登录用户
 		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
 		// 4.1、生成签名 按照开发文档需要按字典排序，所以用SortedMap
 		SortedMap<String, String> params = new TreeMap<>();
@@ -95,7 +94,7 @@ public class VideoOrderServiceImpl implements VideoOrderService {
 		params.put("nonce_str", CommonUtils.generateUUID()); // 随机字符串
 		params.put("body", videoOrder.getOutTradeNo()); // 商品描述
 		params.put("out_trade_no", videoOrder.getOpenid());// 商户订单号,商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|* 且在同一个商户号下唯一
-		params.put("total_fee", (int) Math.floor(Double.valueOf(videoOrder.getTotalFee())) + "");// 标价金额 分
+		params.put("total_fee", (int)Math.floor(Double.valueOf(videoOrder.getTotalFee()))+"");// 标价金额 分
 		params.put("spbill_create_ip", videoOrder.getIp());
 		params.put("notify_url", weChatConfig.getPayCallbackUrl()); // 通知地址
 		params.put("trade_type", "NATIVE"); // 交易类型 JSAPI 公众号支付 NATIVE 扫码支付 APP APP支付
@@ -146,9 +145,9 @@ public class VideoOrderServiceImpl implements VideoOrderService {
 	@Override
 	public int updateOrderAndMember(VideoOrder videoOrder, JsSysMember mem) {
 		// TODO Auto-generated method stub
-		int num1 = videoOrderMapper.updateByPrimaryKeySelective(videoOrder);
-		int num2 = jsSysMemberMapper.updateByPrimaryKeySelective(mem);
-		if (num1 == 1 && num2 == 1) {
+		int num1=videoOrderMapper.updateByPrimaryKeySelective(videoOrder);
+		int num2=jsSysMemberMapper.updateByPrimaryKeySelective(mem);
+		if (num1==1&&num2==1) {
 			return 1;
 		}
 		return 0;

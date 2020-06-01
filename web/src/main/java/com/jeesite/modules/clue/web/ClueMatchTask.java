@@ -176,6 +176,7 @@ public class ClueMatchTask {
 										uai.setUpAicreatetime(date);//创建时间
 										uai.setUpUsercode(userCode);//用户编码
 										uai.setUpAitimes(1);//批次
+										uai.setUpPersonstatus("0");//人工外呼状态
 										
 										//更新线索最新匹配时间
 										iUpClueService.updateMatchTime(hm.get("up_aicode").toString(), date);
@@ -253,6 +254,7 @@ public class ClueMatchTask {
 										uai.setUpAicreatetime(date);//创建时间
 										uai.setUpUsercode(userCode);//用户编码
 										uai.setUpAitimes(times+1);//批次
+										uai.setUpPersonstatus("0");//人工外呼状态
 										
 										//更新线索最新匹配时间
 										iUpClueService.updateMatchTime(hm.get("up_aicode").toString(), date);

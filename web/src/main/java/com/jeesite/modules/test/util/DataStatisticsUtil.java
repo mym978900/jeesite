@@ -1,5 +1,6 @@
 package com.jeesite.modules.test.util;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +18,9 @@ public class DataStatisticsUtil {
 	private static CostService costService = SpringUtils.getBean(CostService.class);
 
 	public static List<AitaskBackVo> getDayStatistics() {
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 		List<AitaskVo> aitaskVos = costService.getDateStatistics();
-		List<AitaskBackVo> vo = new ArrayList<AitaskBackVo>();
+		List<AitaskBackVo> vo=new ArrayList<AitaskBackVo>();
 		for (int i = 11; i >= 0; i--) {
 			String dateStr = DailyUtil.getDayAgo(i);
 			Integer timeNum = 0;
@@ -29,17 +31,18 @@ public class DataStatisticsUtil {
 					break;
 				}
 			}
-			AitaskBackVo v = new AitaskBackVo(dateStr, timeNum);
+			AitaskBackVo v=new AitaskBackVo(dateStr, timeNum);
 			vo.add(v);
 		}
 
-		return vo;
+		return vo; 
 	}
 
 	public static List<AitaskBackVo> getMonthStatistics() {
 		// TODO Auto-generated method stub
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM");
 		List<AitaskVo> aitaskVos = costService.getMonthStatistics();
-		List<AitaskBackVo> vo = new ArrayList<AitaskBackVo>();
+		List<AitaskBackVo> vo=new ArrayList<AitaskBackVo>();
 		for (int i = 11; i >= 0; i--) {
 			String dateStr = DailyUtil.getMonthAgo(i);
 			Integer timeNum = 0;
@@ -50,7 +53,7 @@ public class DataStatisticsUtil {
 					break;
 				}
 			}
-			AitaskBackVo v = new AitaskBackVo(dateStr, timeNum);
+			AitaskBackVo v=new AitaskBackVo(dateStr, timeNum);
 			vo.add(v);
 		}
 

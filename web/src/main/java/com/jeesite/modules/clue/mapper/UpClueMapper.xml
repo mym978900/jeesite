@@ -30,13 +30,14 @@
     <result column="up_isEffective" property="upIseffective" jdbcType="CHAR" />
     <result column="up_clue_address_city" property="upClueAddressCity" jdbcType="VARCHAR" />
     <result column="up_clue_address_aera" property="upClueAddressAera" jdbcType="VARCHAR" />
+    <result column="up_clue_personstatus" property="upCluePersonstatus" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     up_clue_code, up_clue_time, up_user_code, up_clue_name, up_clue_tel, up_clue_sex, 
     up_clue_addre, up_clue_status, up_clue_appraise, up_clue_age, up_clue_longitude, 
     up_clue_latitude, up_clue_matchtime, extra1, extra2, extra3, extra4, extra5, up_clue_depttype, 
     up_clue_taskId, up_aiexecutetime, up_aipersontime, up_aipersonendtime, up_aiendtime, 
-    up_talktime, up_isEffective, up_clue_address_city, up_clue_address_aera
+    up_talktime, up_isEffective, up_clue_address_city, up_clue_address_aera, up_clue_personstatus
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -58,7 +59,8 @@
       up_clue_depttype, up_clue_taskId, up_aiexecutetime, 
       up_aipersontime, up_aipersonendtime, 
       up_aiendtime, up_talktime, up_isEffective, 
-      up_clue_address_city, up_clue_address_aera)
+      up_clue_address_city, up_clue_address_aera, up_clue_personstatus
+      )
     values (#{upClueCode,jdbcType=VARCHAR}, #{upClueTime,jdbcType=TIMESTAMP}, #{upUserCode,jdbcType=VARCHAR}, 
       #{upClueName,jdbcType=VARCHAR}, #{upClueTel,jdbcType=VARCHAR}, #{upClueSex,jdbcType=CHAR}, 
       #{upClueAddre,jdbcType=VARCHAR}, #{upClueStatus,jdbcType=CHAR}, #{upClueAppraise,jdbcType=CHAR}, 
@@ -68,7 +70,8 @@
       #{upClueDepttype,jdbcType=VARCHAR}, #{upClueTaskid,jdbcType=VARCHAR}, #{upAiexecutetime,jdbcType=TIMESTAMP}, 
       #{upAipersontime,jdbcType=TIMESTAMP}, #{upAipersonendtime,jdbcType=TIMESTAMP}, 
       #{upAiendtime,jdbcType=TIMESTAMP}, #{upTalktime,jdbcType=INTEGER}, #{upIseffective,jdbcType=CHAR}, 
-      #{upClueAddressCity,jdbcType=VARCHAR}, #{upClueAddressAera,jdbcType=VARCHAR})
+      #{upClueAddressCity,jdbcType=VARCHAR}, #{upClueAddressAera,jdbcType=VARCHAR}, #{upCluePersonstatus,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.jeesite.modules.clue.entity.UpClue" >
     insert into up_clue
@@ -157,6 +160,9 @@
       <if test="upClueAddressAera != null" >
         up_clue_address_aera,
       </if>
+      <if test="upCluePersonstatus != null" >
+        up_clue_personstatus,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="upClueCode != null" >
@@ -242,6 +248,9 @@
       </if>
       <if test="upClueAddressAera != null" >
         #{upClueAddressAera,jdbcType=VARCHAR},
+      </if>
+      <if test="upCluePersonstatus != null" >
+        #{upCluePersonstatus,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -329,6 +338,9 @@
       <if test="upClueAddressAera != null" >
         up_clue_address_aera = #{upClueAddressAera,jdbcType=VARCHAR},
       </if>
+      <if test="upCluePersonstatus != null" >
+        up_clue_personstatus = #{upCluePersonstatus,jdbcType=VARCHAR},
+      </if>
     </set>
     where up_clue_code = #{upClueCode,jdbcType=VARCHAR}
   </update>
@@ -360,7 +372,8 @@
       up_talktime = #{upTalktime,jdbcType=INTEGER},
       up_isEffective = #{upIseffective,jdbcType=CHAR},
       up_clue_address_city = #{upClueAddressCity,jdbcType=VARCHAR},
-      up_clue_address_aera = #{upClueAddressAera,jdbcType=VARCHAR}
+      up_clue_address_aera = #{upClueAddressAera,jdbcType=VARCHAR},
+      up_clue_personstatus = #{upCluePersonstatus,jdbcType=VARCHAR}
     where up_clue_code = #{upClueCode,jdbcType=VARCHAR}
   </update>
   <select id="effectiveClue" resultType="java.lang.Integer" parameterType="java.lang.String" >
@@ -419,14 +432,14 @@
     where  up_clue_longitude is null
     and up_isEffective is null
   </select>
-  <select id="getIntentionClue" resultType="java.util.HashMap" parameterType="com.jeesite.modules.clue.vo.AiTaskVo">
-	select upAiendtime,up_aipersontime,up_aiphone,source from 	
-	  	(select t.up_aiendtime as upAiendtime ,t.up_aipersontime,t.up_clue_tel as up_aiphone,'1' as source
+  <select id="getIntentionClue" resultType="java.util.HashMap" parameterType="com.jeesite.modules.clue.vo.IntentionVo">
+	select upAiendtime,up_aipersontime,upAiphone,source,upPersonstatus from 	
+	  	(select t.up_aiendtime as upAiendtime ,t.up_aipersontime,t.up_clue_tel as upAiphone,'1' as source,t.up_clue_personstatus as upPersonstatus
 	  	from up_clue t where 1=1 
 	  	and t.up_user_code = #{userCode} 
 	  	and t.up_clue_appraise='1' 
 	  	UNION 
-	  	select m.up_aiendtime as upAiendtime,m.up_aipersontime,m.up_aiphone , '2' as source	
+	  	select m.up_aiendtime as upAiendtime,m.up_aipersontime,m.up_aiphone as upAiphone , '2' as source	,m.up_personstatus as upPersonstatus
 	  	from up_aiinfo m 
 	  	where m.up_usercode=#{userCode}
 	  	and m.up_aiappraise='1'
@@ -436,7 +449,7 @@
 			m.up_aipersonendtime
 		) &lt; 14
 		UNION
-		select m.up_aiendtime as upAiendtime,m.up_aipersontime,m.up_aiphone ,'2' as source
+		select m.up_aiendtime as upAiendtime,m.up_aipersontime,m.up_aiphone as upAiphone ,'2' as source,m.up_personstatus as upPersonstatus
 	  	from up_aiinfo m 
 	  	where m.up_usercode=#{userCode}
 	  	and m.up_aiappraise='1'
@@ -449,6 +462,16 @@
    	  <if test="endTime!=null and endTime!=''">
       	and upAiendtime <![CDATA[ <= ]]> #{endTime}
       </if>
+      <if test="upPersonstatus!=null and upPersonstatus!=''">
+      	and upPersonstatus = #{upPersonstatus}
+      </if>
       ORDER BY upAiendtime DESC
+  </select>
+  <select id="getUpClueByPhone" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from up_clue
+    where up_clue_tel = #{upAiphone}
+    and up_user_code = #{usercode}
   </select>
 </mapper>

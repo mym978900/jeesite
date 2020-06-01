@@ -1,8 +1,11 @@
 package com.jeesite.modules.pay.service.impl;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -20,7 +23,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.AlipayResponse;
@@ -52,6 +57,11 @@ import com.jeesite.modules.test.mapper.JsSysMemberMapper;
 import com.jeesite.modules.test.mapper.VideoOrderMapper;
 import com.jeesite.modules.test.util.DailyUtil;
 import com.jeesite.modules.test.vo.GetUserVo;
+import com.jeesite.modules.tr.entity.NeedTime;
+import com.jeesite.modules.tr.entity.TrOrder;
+import com.jeesite.modules.tr.mapper.TrOrderMapper;
+import com.jeesite.modules.tr.service.TrService;
+import com.jeesite.modules.clue.utils.ClueUtils;
 import com.jeesite.modules.pay.config.AliPayConfig;
 import com.jeesite.modules.pay.model.Product;
 import com.jeesite.modules.pay.service.IAliPayService;
@@ -66,6 +76,8 @@ public class AliPayServiceImpl implements IAliPayService {
 	private VideoOrderMapper videoOrderMapper;
 	@Autowired
 	private JsSysMemberMapper jsSysMemberMapper;
+	@Autowired
+	private TrOrderMapper trOrderMapper;
 
 	@Override
 	public String aliPay(Product product) {
@@ -367,21 +379,20 @@ public class AliPayServiceImpl implements IAliPayService {
 	}
 
 	@Override
-	public String aliPayPc(HttpServletResponse response, Model model, HttpServletRequest request, Product product) {
+	public String aliPayPc(HttpServletResponse response, Model model, HttpServletRequest request,Product product) {
 		GetUserVo userVo = DailyUtil.getLoginUser(response, model);
-
+		
 		logger.info("支付宝PC支付下单");
 		AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
-		// String returnUrl = "http://www.aolige.cn/apis/js/a/alipay/frontRcvResponse";
-		String returnUrl = "http://283f836h51.zicp.vip:44674/js/a/alipay/frontRcvResponse";
+//		String returnUrl = "http://www.aolige.cn/apis/js/a/alipay/frontRcvResponse";
+		String returnUrl = "http://28x3836517.goho.co:20895/js/a/alipay/frontRcvResponse";
 		alipayRequest.setReturnUrl(returnUrl);// 前台通知
-		// alipayRequest.setNotifyUrl("http://www.aolige.cn/apis/js/a/alipay/pay");//
-		// 后台回调
-		alipayRequest.setNotifyUrl("http://283f836h51.zicp.vip:44674/js/a/alipay/pay");// 后台回调
+//		alipayRequest.setNotifyUrl("http://www.aolige.cn/apis/js/a/alipay/pay");// 后台回调
+		alipayRequest.setNotifyUrl("http://28x3836517.goho.co:20895/js/a/alipay/pay");// 后台回调
 		JSONObject bizContent = new JSONObject();
 		String outTradeNo = CommonUtils.generateOrder("3", userVo.getUser().getLoginCode());
 		bizContent.put("out_trade_no", outTradeNo);
-		bizContent.put("total_amount", (int) Math.floor(Double.valueOf(product.getTotalFee())) + "");// 订单金额:元
+		bizContent.put("total_amount", Double.valueOf(product.getTotalFee())+"");// 订单金额:元
 		bizContent.put("subject", product.getSubject());// 订单标题
 		bizContent.put("seller_id", Configs.getPid());// 实际收款账号，一般填写商户PID即可
 		bizContent.put("product_code", "FAST_INSTANT_TRADE_PAY");// 电脑网站支付
@@ -391,12 +402,113 @@ public class AliPayServiceImpl implements IAliPayService {
 		 */
 		bizContent.put("qr_pay_mode", "2");
 		// 创建订单
-
-		VideoOrder order = new VideoOrder(outTradeNo, product.getSubject(), 0, new Date(), null, product.getTotalFee(),
-				"支付宝", userVo.getUser().getUserCode(), null, null, userVo.getUser().getLoginCode(), null,
+		
+		VideoOrder order = null;
+		if("0".equals(product.getProductId())) {
+			order = new VideoOrder(outTradeNo, product.getSubject(), 0, new Date(), null,
+				product.getTotalFee(), "支付宝", userVo.getUser().getUserCode(), null, null, userVo.getUser().getLoginCode(), null,
 				IpUtils.getIpAddr(request), 0);
-		int num = videoOrderMapper.insertSelective(order);
-		if (num != 1) {
+		}else if("1".equals(product.getProductId())) {
+			TrOrder to = product.getTrOrder();
+			//需求时间
+			NeedTime[] needTime;
+			//具体需求时间
+			NeedTime nt;
+			//全量日期集合
+			List<Date> alldatelist = new ArrayList<Date>();
+			List<Date> alldatelistasc;
+			List alldatelistasource = new ArrayList();
+			List alldatelistascformat = new ArrayList();
+			//全量时间集合
+			List alltimelist = new ArrayList();
+			Object[] alltimelistasc;
+			List alltimelistascint = new ArrayList();
+			List allimelistasource = new ArrayList();
+			needTime = to.getNeedTime();
+			String[] timearr;
+			double value = 0;
+			double begintime;
+			double endtime;
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			if(needTime!=null && needTime.length>0) {
+				for(int i=0;i<needTime.length;i++) {
+					nt = needTime[i];
+					timearr = nt.getTimeArr();
+					alldatelist.add(nt.getNeedDate());
+					alldatelistasource.add(nt.getNeedDate());
+					allimelistasource.add(timearr[0]);
+					allimelistasource.add(timearr[1]);
+					alltimelist.add(Integer.parseInt(timearr[0].replace(":", "")));
+					alltimelist.add(Integer.parseInt(timearr[1].replace(":", "")));
+//					begintime = Integer.parseInt(timearr[0].split(":")[0])*3600+Integer.parseInt(timearr[0].split(":")[1])*60 + 0.00;
+//					endtime = Integer.parseInt(timearr[1].split(":")[0])*3600+Integer.parseInt(timearr[1].split(":")[1])*60 + 0.00;
+//					value += endtime - begintime; 
+				}
+				//计算时长
+				//利用BigDecimal来实现四舍五入.保留一位小数
+//				double result = new BigDecimal(value/3600.00).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+				//1代表保留1位小数,保留两位小数就是2,依此累推
+		        //BigDecimal.ROUND_HALF_UP 代表使用四舍五入的方式
+//				to.setTrDuration(product.getTrOrder().getTrDuration());
+				System.out.println("alldatelistasource---------------"+alldatelistasource.toString());
+				//原始日期
+				to.setTrNeeddatelist(JSON.toJSONString(alldatelistasource));
+				//日期做升序
+				alldatelistasc = ClueUtils.getd(alldatelist);
+//				for(int i=0;i<alldatelistasc.size();i++) {
+//					alldatelistascformat.add(sdf.format(alldatelistasc.get(i)));
+//				}
+//				System.out.println("alldatelistascformat---------------"+alldatelistascformat.toString());
+//				tns.setTrNeeddatelistasc(JSON.toJSONString(alldatelistasc));
+				//最小需求日期
+				to.setTrNeedbegindate(alldatelistasc.get(0));
+				//最大需求日期
+				if(alldatelist.size()>1) {
+					to.setTrNeedenddate(alldatelistasc.get(alldatelistasc.size()-1));
+				}else {
+					to.setTrNeedenddate(alldatelistasc.get(0));
+				}
+				System.out.println("allimelistasource---------------"+allimelistasource.toString());
+				//原始时间
+				to.setTrNeedtimelist(JSON.toJSONString(allimelistasource));
+				//时间做升序
+				alltimelistasc = ClueUtils.gett(alltimelist.toArray());
+				if(alltimelistasc != null && alltimelistasc.length>0) {
+					for(int i=0;i<alltimelistasc.length;i++) {
+						alltimelistascint.add(Integer.parseInt(alltimelistasc[i].toString()));
+					}
+				}
+				System.out.println("alltimelistasc---------------"+alltimelistascint.toString());
+//				tns.setTrNeedtimelistasc(alltimelistascint.toString());
+				//最小开始时间
+				to.setTrBegintime(Integer.parseInt(alltimelistasc[0].toString()));
+				//最大开始时间
+				if(alltimelistasc.length>1) {
+					to.setTrEndtime(Integer.parseInt(alltimelistasc[alltimelistasc.length-1].toString()));
+				}else {
+					to.setTrEndtime(Integer.parseInt(alltimelistasc[0].toString()));
+				}
+				trOrderMapper.insert(to);
+			}
+			
+			order = new VideoOrder();
+			order.setOpenid(outTradeNo);
+			order.setOutTradeNo(product.getSubject());
+			order.setState(0);
+			order.setCreateTime(new Date());
+			order.setTotalFee(product.getTotalFee());
+			order.setNickname("支付宝");
+			order.setHeadImg(userVo.getUser().getUserCode());
+			order.setVideoImg(userVo.getUser().getLoginCode());
+			order.setIp(IpUtils.getIpAddr(request));
+			order.setTrPaycommodity("1");
+			order.setReserve2(to.getNeedId());
+			order.setReserve3(to.getTrCommonditycode());
+			order.setTrPartbusercode(to.getPartBCode());
+			
+		}
+		int num=videoOrderMapper.insertSelective(order);
+		if (num!=1) {
 			return "服务器异常，订单创建失败";
 		}
 		String biz = bizContent.toString().replaceAll("\"", "'");
@@ -466,7 +578,7 @@ public class AliPayServiceImpl implements IAliPayService {
 	@Override
 	public VideoOrder findOrderByTradeNo(String outtradeno) {
 		// TODO Auto-generated method stub
-
+		
 		return videoOrderMapper.findOrderByTradeNo(outtradeno);
 	}
 

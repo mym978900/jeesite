@@ -1,5 +1,7 @@
 package com.jeesite.modules.pay.model;
 import java.io.Serializable;
+
+import com.jeesite.modules.tr.entity.TrOrder;
 /**
  * 产品订单信息
  * 创建者 科帮网
@@ -7,7 +9,7 @@ import java.io.Serializable;
  */
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private String productId="wx0pi2m4x6we76140w";// 商品ID
+	private String productId="";// 商品ID
 	private String subject;//订单名称 
 	private String body;// 商品描述
 	private String totalFee;// 总金额(单位是分)
@@ -17,7 +19,16 @@ public class Product implements Serializable {
 	private Short payType=2;// 支付类型(1:支付宝 2:微信 3:银联)
 	private Short payWay=2;// 支付方式 (1：PC,平板 2：手机)
 	private String frontUrl;// 前台回调地址  非扫码支付使用
+	private TrOrder trOrder;
 	
+	
+	
+	public TrOrder getTrOrder() {
+		return trOrder;
+	}
+	public void setTrOrder(TrOrder trOrder) {
+		this.trOrder = trOrder;
+	}
 	public Product() {
 		super();
 	}

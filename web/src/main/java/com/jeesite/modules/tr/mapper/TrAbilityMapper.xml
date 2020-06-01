@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeesite.modules.tr.mapper.TrAbilityMapper" >
+  <resultMap id="BaseResultMap" type="com.jeesite.modules.tr.entity.TrAbility" >
+    <id column="tr_id" property="trId" jdbcType="VARCHAR" />
+    <result column="tr_type" property="trType" jdbcType="VARCHAR" />
+    <result column="tr_count" property="trCount" jdbcType="INTEGER" />
+    <result column="tr_unitprice" property="trUnitprice" jdbcType="DOUBLE" />
+    <result column="tr_begindate" property="trBegindate" jdbcType="DATE" />
+    <result column="tr_enddate" property="trEnddate" jdbcType="DATE" />
+    <result column="tr_begintime" property="trBegintime" jdbcType="INTEGER" />
+    <result column="tr_endtime" property="trEndtime" jdbcType="INTEGER" />
+    <result column="tr_address" property="trAddress" jdbcType="VARCHAR" />
+    <result column="tr_longitude" property="trLongitude" jdbcType="DOUBLE" />
+    <result column="tr_latitude" property="trLatitude" jdbcType="DOUBLE" />
+    <result column="tr_isEffective" property="trIseffective" jdbcType="CHAR" />
+    <result column="tr_remark" property="trRemark" jdbcType="VARCHAR" />
+    <result column="tr_usercode" property="trUsercode" jdbcType="VARCHAR" />
+    <result column="tr_cardusername" property="trCardusername" jdbcType="VARCHAR" />
+    <result column="tr_cardnum" property="trCardnum" jdbcType="VARCHAR" />
+    <result column="tr_bankname" property="trBankname" jdbcType="VARCHAR" />
+    <result column="extra1" property="extra1" jdbcType="VARCHAR" />
+    <result column="extra2" property="extra2" jdbcType="VARCHAR" />
+    <result column="extra3" property="extra3" jdbcType="VARCHAR" />
+    <result column="extra4" property="extra4" jdbcType="VARCHAR" />
+    <result column="extra5" property="extra5" jdbcType="VARCHAR" />
+    <result column="tr_orgBriefIntroduction" property="trOrgbriefintroduction" jdbcType="VARCHAR" />
+    <result column="tr_address_city" property="trAddressCity" jdbcType="VARCHAR" />
+    <result column="tr_address_area" property="trAddressArea" jdbcType="VARCHAR" />
+    <result column="tr_createtime" property="trCreatetime" jdbcType="TIMESTAMP" />
+    <result column="tr_updatetime" property="trUpdatetime" jdbcType="TIMESTAMP" />
+    <result column="tr_allbegintime" property="trAllbegintime" jdbcType="TIMESTAMP" />
+    <result column="tr_allendtime" property="trAllendtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    tr_id, tr_type, tr_count, tr_unitprice, tr_begindate, tr_enddate, tr_begintime, tr_endtime, 
+    tr_address, tr_longitude, tr_latitude, tr_isEffective, tr_remark, tr_usercode, tr_cardusername, 
+    tr_cardnum, tr_bankname, extra1, extra2, extra3, extra4, extra5, tr_orgBriefIntroduction, 
+    tr_address_city, tr_address_area, tr_createtime, tr_updatetime, tr_allbegintime, 
+    tr_allendtime	
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,b.organ_name AS orgname
+  	from tr_ability a LEFT JOIN js_sys_member b on a.tr_usercode = b.user_code
+    where tr_id = #{trId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tr_ability
+    where tr_id = #{trId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jeesite.modules.tr.entity.TrAbility" >
+    insert into tr_ability (tr_id, tr_type, tr_count, 
+      tr_unitprice, tr_begindate, tr_enddate, 
+      tr_begintime, tr_endtime, tr_address, 
+      tr_longitude, tr_latitude, tr_isEffective, 
+      tr_remark, tr_usercode, tr_cardusername, 
+      tr_cardnum, tr_bankname, extra1, 
+      extra2, extra3, extra4, 
+      extra5, tr_orgBriefIntroduction, tr_address_city, 
+      tr_address_area, tr_createtime, tr_updatetime, 
+      tr_allbegintime, tr_allendtime)
+    values (#{trId,jdbcType=VARCHAR}, #{trType,jdbcType=VARCHAR}, #{trCount,jdbcType=INTEGER}, 
+      #{trUnitprice,jdbcType=DOUBLE}, #{trBegindate,jdbcType=DATE}, #{trEnddate,jdbcType=DATE}, 
+      #{trBegintime,jdbcType=INTEGER}, #{trEndtime,jdbcType=INTEGER}, #{trAddress,jdbcType=VARCHAR}, 
+      #{trLongitude,jdbcType=DOUBLE}, #{trLatitude,jdbcType=DOUBLE}, #{trIseffective,jdbcType=CHAR}, 
+      #{trRemark,jdbcType=VARCHAR}, #{trUsercode,jdbcType=VARCHAR}, #{trCardusername,jdbcType=VARCHAR}, 
+      #{trCardnum,jdbcType=VARCHAR}, #{trBankname,jdbcType=VARCHAR}, #{extra1,jdbcType=VARCHAR}, 
+      #{extra2,jdbcType=VARCHAR}, #{extra3,jdbcType=VARCHAR}, #{extra4,jdbcType=VARCHAR}, 
+      #{extra5,jdbcType=VARCHAR}, #{trOrgbriefintroduction,jdbcType=VARCHAR}, #{trAddressCity,jdbcType=VARCHAR}, 
+      #{trAddressArea,jdbcType=VARCHAR}, #{trCreatetime,jdbcType=TIMESTAMP}, #{trUpdatetime,jdbcType=TIMESTAMP}, 
+      #{trAllbegintime,jdbcType=TIMESTAMP}, #{trAllendtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jeesite.modules.tr.entity.TrAbility" >
+    insert into tr_ability
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="trId != null" >
+        tr_id,
+      </if>
+      <if test="trType != null" >
+        tr_type,
+      </if>
+      <if test="trCount != null" >
+        tr_count,
+      </if>
+      <if test="trUnitprice != null" >
+        tr_unitprice,
+      </if>
+      <if test="trBegindate != null" >
+        tr_begindate,
+      </if>
+      <if test="trEnddate != null" >
+        tr_enddate,
+      </if>
+      <if test="trBegintime != null" >
+        tr_begintime,
+      </if>
+      <if test="trEndtime != null" >
+        tr_endtime,
+      </if>
+      <if test="trAddress != null" >
+        tr_address,
+      </if>
+      <if test="trLongitude != null" >
+        tr_longitude,
+      </if>
+      <if test="trLatitude != null" >
+        tr_latitude,
+      </if>
+      <if test="trIseffective != null" >
+        tr_isEffective,
+      </if>
+      <if test="trRemark != null" >
+        tr_remark,
+      </if>
+      <if test="trUsercode != null" >
+        tr_usercode,
+      </if>
+      <if test="trCardusername != null" >
+        tr_cardusername,
+      </if>
+      <if test="trCardnum != null" >
+        tr_cardnum,
+      </if>
+      <if test="trBankname != null" >
+        tr_bankname,
+      </if>
+      <if test="extra1 != null" >
+        extra1,
+      </if>
+      <if test="extra2 != null" >
+        extra2,
+      </if>
+      <if test="extra3 != null" >
+        extra3,
+      </if>
+      <if test="extra4 != null" >
+        extra4,
+      </if>
+      <if test="extra5 != null" >
+        extra5,
+      </if>
+      <if test="trOrgbriefintroduction != null" >
+        tr_orgBriefIntroduction,
+      </if>
+      <if test="trAddressCity != null" >
+        tr_address_city,
+      </if>
+      <if test="trAddressArea != null" >
+        tr_address_area,
+      </if>
+      <if test="trCreatetime != null" >
+        tr_createtime,
+      </if>
+      <if test="trUpdatetime != null" >
+        tr_updatetime,
+      </if>
+      <if test="trAllbegintime != null" >
+        tr_allbegintime,
+      </if>
+      <if test="trAllendtime != null" >
+        tr_allendtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="trId != null" >
+        #{trId,jdbcType=VARCHAR},
+      </if>
+      <if test="trType != null" >
+        #{trType,jdbcType=VARCHAR},
+      </if>
+      <if test="trCount != null" >
+        #{trCount,jdbcType=INTEGER},
+      </if>
+      <if test="trUnitprice != null" >
+        #{trUnitprice,jdbcType=DOUBLE},
+      </if>
+      <if test="trBegindate != null" >
+        #{trBegindate,jdbcType=DATE},
+      </if>
+      <if test="trEnddate != null" >
+        #{trEnddate,jdbcType=DATE},
+      </if>
+      <if test="trBegintime != null" >
+        #{trBegintime,jdbcType=INTEGER},
+      </if>
+      <if test="trEndtime != null" >
+        #{trEndtime,jdbcType=INTEGER},
+      </if>
+      <if test="trAddress != null" >
+        #{trAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="trLongitude != null" >
+        #{trLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="trLatitude != null" >
+        #{trLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="trIseffective != null" >
+        #{trIseffective,jdbcType=CHAR},
+      </if>
+      <if test="trRemark != null" >
+        #{trRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="trUsercode != null" >
+        #{trUsercode,jdbcType=VARCHAR},
+      </if>
+      <if test="trCardusername != null" >
+        #{trCardusername,jdbcType=VARCHAR},
+      </if>
+      <if test="trCardnum != null" >
+        #{trCardnum,jdbcType=VARCHAR},
+      </if>
+      <if test="trBankname != null" >
+        #{trBankname,jdbcType=VARCHAR},
+      </if>
+      <if test="extra1 != null" >
+        #{extra1,jdbcType=VARCHAR},
+      </if>
+      <if test="extra2 != null" >
+        #{extra2,jdbcType=VARCHAR},
+      </if>
+      <if test="extra3 != null" >
+        #{extra3,jdbcType=VARCHAR},
+      </if>
+      <if test="extra4 != null" >
+        #{extra4,jdbcType=VARCHAR},
+      </if>
+      <if test="extra5 != null" >
+        #{extra5,jdbcType=VARCHAR},
+      </if>
+      <if test="trOrgbriefintroduction != null" >
+        #{trOrgbriefintroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="trAddressCity != null" >
+        #{trAddressCity,jdbcType=VARCHAR},
+      </if>
+      <if test="trAddressArea != null" >
+        #{trAddressArea,jdbcType=VARCHAR},
+      </if>
+      <if test="trCreatetime != null" >
+        #{trCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trUpdatetime != null" >
+        #{trUpdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trAllbegintime != null" >
+        #{trAllbegintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trAllendtime != null" >
+        #{trAllendtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeesite.modules.tr.entity.TrAbility" >
+    update tr_ability
+    <set >
+      <if test="trType != null" >
+        tr_type = #{trType,jdbcType=VARCHAR},
+      </if>
+      <if test="trCount != null" >
+        tr_count = #{trCount,jdbcType=INTEGER},
+      </if>
+      <if test="trUnitprice != null" >
+        tr_unitprice = #{trUnitprice,jdbcType=DOUBLE},
+      </if>
+      <if test="trBegindate != null" >
+        tr_begindate = #{trBegindate,jdbcType=DATE},
+      </if>
+      <if test="trEnddate != null" >
+        tr_enddate = #{trEnddate,jdbcType=DATE},
+      </if>
+      <if test="trBegintime != null" >
+        tr_begintime = #{trBegintime,jdbcType=INTEGER},
+      </if>
+      <if test="trEndtime != null" >
+        tr_endtime = #{trEndtime,jdbcType=INTEGER},
+      </if>
+      <if test="trAddress != null" >
+        tr_address = #{trAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="trLongitude != null" >
+        tr_longitude = #{trLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="trLatitude != null" >
+        tr_latitude = #{trLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="trIseffective != null" >
+        tr_isEffective = #{trIseffective,jdbcType=CHAR},
+      </if>
+      <if test="trRemark != null" >
+        tr_remark = #{trRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="trUsercode != null" >
+        tr_usercode = #{trUsercode,jdbcType=VARCHAR},
+      </if>
+      <if test="trCardusername != null" >
+        tr_cardusername = #{trCardusername,jdbcType=VARCHAR},
+      </if>
+      <if test="trCardnum != null" >
+        tr_cardnum = #{trCardnum,jdbcType=VARCHAR},
+      </if>
+      <if test="trBankname != null" >
+        tr_bankname = #{trBankname,jdbcType=VARCHAR},
+      </if>
+      <if test="extra1 != null" >
+        extra1 = #{extra1,jdbcType=VARCHAR},
+      </if>
+      <if test="extra2 != null" >
+        extra2 = #{extra2,jdbcType=VARCHAR},
+      </if>
+      <if test="extra3 != null" >
+        extra3 = #{extra3,jdbcType=VARCHAR},
+      </if>
+      <if test="extra4 != null" >
+        extra4 = #{extra4,jdbcType=VARCHAR},
+      </if>
+      <if test="extra5 != null" >
+        extra5 = #{extra5,jdbcType=VARCHAR},
+      </if>
+      <if test="trOrgbriefintroduction != null" >
+        tr_orgBriefIntroduction = #{trOrgbriefintroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="trAddressCity != null" >
+        tr_address_city = #{trAddressCity,jdbcType=VARCHAR},
+      </if>
+      <if test="trAddressArea != null" >
+        tr_address_area = #{trAddressArea,jdbcType=VARCHAR},
+      </if>
+      <if test="trCreatetime != null" >
+        tr_createtime = #{trCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trUpdatetime != null" >
+        tr_updatetime = #{trUpdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trAllbegintime != null" >
+        tr_allbegintime = #{trAllbegintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trAllendtime != null" >
+        tr_allendtime = #{trAllendtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where tr_id = #{trId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeesite.modules.tr.entity.TrAbility" >
+    update tr_ability
+    set tr_type = #{trType,jdbcType=VARCHAR},
+      tr_count = #{trCount,jdbcType=INTEGER},
+      tr_unitprice = #{trUnitprice,jdbcType=DOUBLE},
+      tr_begindate = #{trBegindate,jdbcType=DATE},
+      tr_enddate = #{trEnddate,jdbcType=DATE},
+      tr_begintime = #{trBegintime,jdbcType=INTEGER},
+      tr_endtime = #{trEndtime,jdbcType=INTEGER},
+      tr_address = #{trAddress,jdbcType=VARCHAR},
+      tr_longitude = #{trLongitude,jdbcType=DOUBLE},
+      tr_latitude = #{trLatitude,jdbcType=DOUBLE},
+      tr_isEffective = #{trIseffective,jdbcType=CHAR},
+      tr_remark = #{trRemark,jdbcType=VARCHAR},
+      tr_usercode = #{trUsercode,jdbcType=VARCHAR},
+      tr_cardusername = #{trCardusername,jdbcType=VARCHAR},
+      tr_cardnum = #{trCardnum,jdbcType=VARCHAR},
+      tr_bankname = #{trBankname,jdbcType=VARCHAR},
+      extra1 = #{extra1,jdbcType=VARCHAR},
+      extra2 = #{extra2,jdbcType=VARCHAR},
+      extra3 = #{extra3,jdbcType=VARCHAR},
+      extra4 = #{extra4,jdbcType=VARCHAR},
+      extra5 = #{extra5,jdbcType=VARCHAR},
+      tr_orgBriefIntroduction = #{trOrgbriefintroduction,jdbcType=VARCHAR},
+      tr_address_city = #{trAddressCity,jdbcType=VARCHAR},
+      tr_address_area = #{trAddressArea,jdbcType=VARCHAR},
+      tr_createtime = #{trCreatetime,jdbcType=TIMESTAMP},
+      tr_updatetime = #{trUpdatetime,jdbcType=TIMESTAMP},
+      tr_allbegintime = #{trAllbegintime,jdbcType=TIMESTAMP},
+      tr_allendtime = #{trAllendtime,jdbcType=TIMESTAMP}
+    where tr_id = #{trId,jdbcType=VARCHAR}
+  </update>
+  <select id="getTrAbility" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from tr_ability
+    where tr_usercode = #{trUsercode,jdbcType=VARCHAR}
+  </select>
+  <select id="matchTrAbilityForNeed" parameterType="com.jeesite.modules.tr.vo.TrNeedVo" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	,b.organ_name AS orgname
+  	from tr_ability a LEFT JOIN js_sys_member b on a.tr_usercode = b.user_code
+  	where 1 = 1
+  	<if test="trType != null" >
+      and tr_type = #{trType}
+    </if>
+    <if test="trNeedbegindate != null" >
+      and tr_begindate &lt;= #{trNeedbegindate}
+    </if>
+    <if test="trNeedenddate != null" >
+      and tr_enddate &gt;= #{trNeedenddate}
+    </if>
+    <if test="trBegintime != null" >
+      and tr_begintime &lt;= #{trBegintime}
+    </if>
+    <if test="trEndtime != null" >
+      and tr_endtime &gt;= #{trEndtime}
+    </if>
+  	<if test="trMinlng != null" >
+      and tr_longitude &gt;= #{trMinlng}
+    </if>
+    <if test="trMaxlng != null" >
+      and tr_longitude &lt;= #{trMaxlng}
+    </if>
+    <if test="trMinlat != null" >
+      and tr_latitude &gt;= #{trMinlat}
+    </if>
+    <if test="trMaxlat != null" >
+      and tr_latitude &lt;= #{trMaxlat}
+    </if>
+    <if test="trUnitprice != null" >
+      and tr_unitprice &lt;= (#{trUnitprice}+100)
+    </if>
+    <if test="trAddressCity != null" >
+      and tr_address_city = #{trAddressCity}
+    </if>
+    <if test="trUsercode != null" >
+      and tr_usercode &lt;&gt; #{trUsercode}
+    </if>
+    order by tr_createtime desc
+  </select>
+</mapper>

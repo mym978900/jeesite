@@ -50,5 +50,8 @@ public interface UpClueMapper extends BaseMapper<UpClue>{
 
 	
 	List getIntentionClue(IntentionVo itv);
+
+
+	UpClue getUpClueByPhone(String upAiphone,String usercode);
     
 }

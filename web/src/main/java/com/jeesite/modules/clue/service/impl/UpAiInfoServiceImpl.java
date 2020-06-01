@@ -59,4 +59,10 @@ public class UpAiInfoServiceImpl implements UpAiInfoService {
 		upAiinfoMapper.updateByPrimaryKey(upAiInfo);
 	}
 
+	@Override
+	public UpAiinfo getUpAiinfoByPhone(String upAiphone,String usercode) {
+		UpAiinfo uai = upAiinfoMapper.getUpAiinfoByPhone(upAiphone,usercode);
+		return uai;
+	}
+
 }

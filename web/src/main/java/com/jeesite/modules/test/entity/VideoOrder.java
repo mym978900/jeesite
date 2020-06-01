@@ -2,8 +2,13 @@ package com.jeesite.modules.test.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jeesite.modules.tr.entity.TrAbility;
+import com.jeesite.modules.tr.entity.TrNeed;
+import com.jeesite.modules.tr.entity.TrOrder;
+
 public class VideoOrder {
-	private Integer id;
+    private Integer id;
 
     private String openid;
 
@@ -11,8 +16,10 @@ public class VideoOrder {
 
     private Integer state;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date notifyTime;
 
     private String totalFee;
@@ -32,20 +39,31 @@ public class VideoOrder {
     private String ip;
 
     private Integer del;
-
+    
     private String reserve1;
 
     private String reserve2;
 
     private String reserve3;
+    
     private String trPaycommodity;
 
     private String trPartbusercode;
+    
     private TrOrder trOrder;
+    
     private TrAbility trAbility;
     private TrNeed trNeed;
+    
+    public TrOrder getTrOrder() {
+		return trOrder;
+	}
 
-    public Integer getId() {
+	public void setTrOrder(TrOrder trOrder) {
+		this.trOrder = trOrder;
+	}
+
+	public Integer getId() {
         return id;
     }
 
@@ -164,7 +182,7 @@ public class VideoOrder {
     public void setDel(Integer del) {
         this.del = del;
     }
-
+    
     public String getReserve1() {
         return reserve1;
     }
@@ -188,17 +206,24 @@ public class VideoOrder {
     public void setReserve3(String reserve3) {
         this.reserve3 = reserve3 == null ? null : reserve3.trim();
     }
+    
+    public String getTrPaycommodity() {
+        return trPaycommodity;
+    }
 
+    public void setTrPaycommodity(String trPaycommodity) {
+        this.trPaycommodity = trPaycommodity == null ? null : trPaycommodity.trim();
+    }
 
-	public TrOrder getTrOrder() {
-		return trOrder;
-	}
+    public String getTrPartbusercode() {
+        return trPartbusercode;
+    }
 
-	public void setTrOrder(TrOrder trOrder) {
-		this.trOrder = trOrder;
-	}
-
-	public TrAbility getTrAbility() {
+    public void setTrPartbusercode(String trPartbusercode) {
+        this.trPartbusercode = trPartbusercode == null ? null : trPartbusercode.trim();
+    }
+    
+    public TrAbility getTrAbility() {
 		return trAbility;
 	}
 
@@ -212,22 +237,6 @@ public class VideoOrder {
 
 	public void setTrNeed(TrNeed trNeed) {
 		this.trNeed = trNeed;
-	}
-
-	public String getTrPaycommodity() {
-		return trPaycommodity;
-	}
-
-	public void setTrPaycommodity(String trPaycommodity) {
-		this.trPaycommodity = trPaycommodity;
-	}
-
-	public String getTrPartbusercode() {
-		return trPartbusercode;
-	}
-
-	public void setTrPartbusercode(String trPartbusercode) {
-		this.trPartbusercode = trPartbusercode;
 	}
 
 	public VideoOrder(String openid, String outTradeNo, Integer state, Date createTime, Date notifyTime,

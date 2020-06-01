@@ -45,4 +45,8 @@ public interface VideoOrderMapper {
 	void updateByOpenIdAndState(VideoOrder orders);
 
 	int updateByOpenIdAndStateOne(VideoOrder order);
+	
+	List<VideoOrder> getAllCreatOrder(String headImg);
+
+	List<VideoOrder> getAllAcceptOrder(String trPartbusercode);
 }

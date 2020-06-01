@@ -30,4 +30,6 @@ public interface UpAiInfoService {
 	public UpAiinfo getMatchClueByUserCodeAndClueCode(String upClueCode, String userCode);
 
 	public void updateByPrimaryKey(UpAiinfo upAiInfo);
+
+	public UpAiinfo getUpAiinfoByPhone(String upAiphone, String usercode);
 }

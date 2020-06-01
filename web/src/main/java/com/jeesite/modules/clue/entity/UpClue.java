@@ -65,6 +65,8 @@ public class UpClue {
     private String upClueAddressCity;
 
     private String upClueAddressAera;
+    
+    private String upCluePersonstatus;
 
     public String getUpClueCode() {
         return upClueCode;
@@ -288,5 +290,13 @@ public class UpClue {
 
     public void setUpClueAddressAera(String upClueAddressAera) {
         this.upClueAddressAera = upClueAddressAera == null ? null : upClueAddressAera.trim();
+    }
+    
+    public String getUpCluePersonstatus() {
+        return upCluePersonstatus;
+    }
+
+    public void setUpCluePersonstatus(String upCluePersonstatus) {
+        this.upCluePersonstatus = upCluePersonstatus == null ? null : upCluePersonstatus.trim();
     }
 }
